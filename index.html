@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Екатерина Задорожная</title>
+<link rel="icon" type="image/jpeg" href="images/avatar.jpg">
+<link rel="apple-touch-icon" href="images/avatar.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===================================================================
+   1. Tokens
+   =================================================================== */
+:root {
+  --bg:       #FFFFFF;
+  --ink:      #1C1C21;
+  --ink-2:    #1C1C21;
+  --ink-3:    #1C1C21;
+
+  --serif: "Lora", Georgia, serif;
+  --sans:  "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --t-xs:    12px;
+  --t-sm:    13px;
+  --t-md:    16px;
+  --t-lg:    38px;
+  --t-xl:    54px;
+
+  --lh-body: 1.55;
+  --lh-head: 1.15;
+
+  --left:    clamp(200px, 22vw, 300px);
+  --pad-x:   56px;
+  --pad-y:   56px;
+  --col-gap: clamp(48px, 10vw, 200px);
+  --case-pad: 100px;
+
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* ===================================================================
+   2. Reset + base
+   =================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: var(--t-md);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+::selection { background: #1C1C21; color: #F0F0F2; }
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+}
+
+/* ===================================================================
+   3. Page shell
+   =================================================================== */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: var(--col-gap);
+  min-height: 100vh;
+  padding: 0 var(--pad-x);
+}
+
+/* ===================================================================
+   4. Left fixed column
+   =================================================================== */
+.left {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  padding: var(--pad-y) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: var(--bg);
+}
+
+/* Hover avatar */
+.hover-avatar {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: translate(-50%, -50%) scale(.85);
+  opacity: 0;
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.hover-avatar.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+@media (hover: none) { .hover-avatar { display: none; } }
+#heroText { cursor: none; }
+
+/* Intro group */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.intro__nameblock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Name */
+.intro__name {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--ink);
+  cursor: default;
+  display: none;
+}
+.intro__name:hover { cursor: none; }
+
+/* Role */
+.intro__role {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+/* Bio */
+.intro__list {
+  padding-left: 12px;
+}
+.intro__bio {
+  font-family: var(--sans);
+  font-size: 22px;
+  line-height: var(--lh-body);
+  font-weight: 400;
+  color: var(--ink);
+  max-width: 400px;
+  margin: 0;
+}
+
+
+/* Links */
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding-bottom: 4px;
+}
+.links a {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--ink);
+  width: fit-content;
+  position: relative;
+  text-decoration: none;
+}
+.links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.links a:hover::after {
+  animation: link-underline 0.45s var(--ease) forwards;
+}
+@keyframes link-underline {
+  0%   { transform: scaleX(1); transform-origin: right center; }
+  49%  { transform: scaleX(0); transform-origin: right center; }
+  50%  { transform: scaleX(0); transform-origin: left center; }
+  100% { transform: scaleX(1); transform-origin: left center; }
+}
+
+/* ===================================================================
+   5. Right scroll column
+   =================================================================== */
+.right { min-width: 0; padding: var(--pad-y) 0 var(--case-pad); grid-column: span 2; }
+.cases {
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+  padding-top: 0;
+}
+
+.case {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 42%;
+  align-self: flex-start;
+  will-change: width;
+  cursor: pointer;
+}
+
+/* RealDeal — white UI needs subtle border on dark bg */
+.case[data-variant="1"] .case__image {
+  box-shadow: 0 0 0 1px rgba(28,28,33,0.08);
+}
+
+/* Cursor bubble */
+.cursor-bubble {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-sm);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(18px, 18px) scale(.96);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.cursor-bubble.is-visible {
+  opacity: 1;
+  transform: translate(18px, 18px) scale(1);
+}
+@media (hover: none) { .cursor-bubble { display: none; } }
+
+/* Tags — above title */
+.case__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.case__tags span {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background: rgba(28, 28, 33, 0.05);
+  border-radius: 4px;
+  color: #1C1C21;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* Title */
+.case__title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: var(--lh-head);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 32px;
+}
+
+/* Image */
+.case__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #d8d8db;
+  isolation: isolate;
+  margin-bottom: 28px;
+  transition: transform 0.4s var(--ease);
+}
+.case:hover .case__image {
+  transform: translateY(-3px);
+}
+.case__cover {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+.case[data-variant="1"] .case__image,
+.case[data-variant="3"] .case__image {
+  aspect-ratio: unset;
+  background: transparent;
+}
+.case[data-variant="1"] .case__cover,
+.case[data-variant="3"] .case__cover {
+  height: auto;
+  object-fit: unset;
+}
+.case[data-variant="4"] .case__image {
+  background: transparent;
+  border-radius: 4px;
+}
+
+/* Divider above metrics */
+.case__divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(28, 28, 33, 0.3);
+  margin-bottom: 24px;
+}
+
+/* Metrics — values on row 1, labels on row 2, columns per metric */
+.case__metrics {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  grid-auto-columns: auto;
+  column-gap: 48px;
+  row-gap: 20px;
+  align-items: baseline;
+  justify-content: start;
+}
+.metric {
+  display: contents;
+}
+.metric__value {
+  font-family: var(--serif);
+  font-size: var(--t-xl);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.metric__label {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ===================================================================
+   6. Reveal animation
+   =================================================================== */
+.r {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+}
+.r.is-in {
+  opacity: 1;
+  transform: none;
+}
+.r-1 { transition-delay: .05s; }
+.r-2 { transition-delay: .15s; }
+.r-3 { transition-delay: .25s; }
+.r-4 { transition-delay: .35s; }
+
+/* ===================================================================
+   7. Responsive
+   =================================================================== */
+@media (max-width: 1080px) {
+  :root { --pad-x: 40px; }
+}
+@media (max-width: 880px) {
+  :root { --pad-x: 32px; }
+}
+@media (max-width: 760px) {
+  :root {
+    --pad-x: 24px;
+    --pad-y: 32px;
+    --t-md: 15px;
+    --t-lg: 28px;
+    --t-xl: 44px;
+    --case-pad: 64px;
+  }
+  .page { grid-template-columns: 1fr; column-gap: 0; }
+  .right { grid-column: span 1; }
+  .left {
+    position: static;
+    height: auto;
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+  .case { width: 100%; }
+  .case__title, .case__tags, .case__metrics { opacity: 1; transform: none; }
+}
+@media (max-width: 420px) {
+  :root { --pad-x: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============================================================== -->
+  <!-- LEFT — fixed column                                             -->
+  <!-- ============================================================== -->
+  <aside class="left" data-screen-label="Sidebar">
+    <div class="intro">
+<p class="intro__bio r r-2" id="heroText">Привет, я Екатерина,<br>продуктовый дизайнер.</p>
+      <p class="intro__bio r r-2" style="margin-top: 8px;">8 лет в&nbsp;B2B SaaS и&nbsp;B2C. Помогла привлечь $7.5M инвестиций и&nbsp;вырастить аудиторию на&nbsp;100%&nbsp;YoY.</p>
+      <nav class="links r r-3" aria-label="Contacts">
+        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://drive.google.com/file/d/1jVFotUKC70tylrGPcXgy_c2tKR6egIef/view" target="_blank" rel="noopener">CV</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ============================================================== -->
+  <!-- RIGHT — scroll-driven cases                                     -->
+  <!-- ============================================================== -->
+  <main class="right">
+    <div class="cases" id="cases">
+
+      <!-- CASE 1 -->
+      <article class="case" data-variant="1"
+        data-href="https://zadorozhnaya.notion.site/CRE-7-5M-32770177884d80399a57d3542512223d?source=copy_link"
+        data-screen-label="Case 01 — RealDeal">
+<div class="case__tags"><span class="case__tag">B2B SaaS</span><span class="case__tag">PropTech</span></div>
+        <h2 class="case__title">Первая в ОАЭ платформа<br>CRE-сделок без агентов</h2>
+        <div class="case__image">
+          <img class="case__cover" src="images/rd-cover.png" alt="RealDeal interface" loading="lazy">
+        </div>
+        <div class="case__divider"></div>
+        <div class="case__metrics">
+          <div class="metric">
+            <div class="metric__value">$7.5M</div>
+            <div class="metric__label">инвестиций</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">№1</div>
+            <div class="metric__label">онлайн-сделка CRE в ОАЭ</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">12–18</div>
+            <div class="metric__label">дней срок сделки (×3 быстрее)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CASE 2 -->
+      <article class="case" data-variant="2"
+        data-href="https://zadorozhnaya.notion.site/95-1-7-34370177884d80479a0fd57f18fbf850?source=copy_link"
+        data-screen-label="Case 02 — Триколор Кино и ТВ">
+<div class="case__tags"><span class="case__tag">B2C</span><span class="case__tag">Streaming TV</span></div>
+        <h2 class="case__title">95% не доходили до подписки.<br>Редизайн, который сломал барьер</h2>
+        <div class="case__image">
+          <img class="case__cover" src="images/cinema-cover.png" alt="Триколор Кино и ТВ interface" loading="lazy">
+        </div>
+        <div class="case__divider"></div>
+        <div class="case__metrics">
+          <div class="metric">
+            <div class="metric__value">1.7M</div>
+            <div class="metric__label">пользователей</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">+100%</div>
+            <div class="metric__label">YoY роста аудитории</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">14%</div>
+            <div class="metric__label">абонентов в стриминг</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CASE 3 -->
+      <article class="case" data-variant="3"
+        data-href="https://zadorozhnaya.notion.site/10-33470177884d80abb5a5c7e3c7186f77?source=copy_link"
+        data-screen-label="Case 03 — DREAMPlatform">
+<div class="case__tags"><span class="case__tag">B2B SaaS</span><span class="case__tag">Design System</span></div>
+        <h2 class="case__title">Дизайн-система,<br>вычистившая 10 лет легаси</h2>
+        <div class="case__image">
+          <img class="case__cover" src="images/ds-cover.png" alt="DREAMPlatform components" loading="lazy">
+        </div>
+        <div class="case__divider"></div>
+        <div class="case__metrics">
+          <div class="metric">
+            <div class="metric__value">×2</div>
+            <div class="metric__label">ускорила релизы</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">40+</div>
+            <div class="metric__label">компонентов</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">6</div>
+            <div class="metric__label">сервисов покрыто</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CASE 4 -->
+      <article class="case" data-variant="4"
+        data-href="https://zadorozhnaya.notion.site/MVP-4-12-33870177884d8037bd23d44f4b642690?source=copy_link"
+        data-screen-label="Case 04 — Триколор Второй экран">
+<div class="case__tags"><span class="case__tag">B2C</span><span class="case__tag">TV & Media</span></div>
+        <h2 class="case__title">MVP за 4 месяца:<br>цена скорости и чужого видения</h2>
+        <div class="case__image">
+          <img class="case__cover" src="images/ss-cover.png" alt="Триколор Второй экран screen" loading="lazy">
+        </div>
+        <div class="case__divider"></div>
+        <div class="case__metrics">
+          <div class="metric">
+            <div class="metric__value">330K</div>
+            <div class="metric__label">пользователей</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">188K</div>
+            <div class="metric__label">подписчиков</div>
+          </div>
+          <div class="metric">
+            <div class="metric__value">→ ТВ</div>
+            <div class="metric__label">лёг в основу ТВ приложения</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+(() => {
+  // ---- Intro reveal ----
+  const reveals = document.querySelectorAll('.r');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => obs.observe(el));
+
+  // ---- Scroll-driven width ----
+  const cases = [...document.querySelectorAll('.case')];
+  const MIN_W = 42;
+  const MAX_W = 78;
+  const RANGE = 0.65;
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const ease  = (t) => t * t * (3 - 2 * t);
+
+  const update = () => {
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      cases.forEach(c => { c.style.width = ''; c.style.transition = ''; });
+      return;
+    }
+    const vh = window.innerHeight;
+    const target = vh * 0.5;
+    const scrollY = window.scrollY;
+    const firstBoost = Math.max(0, 1 - scrollY / Math.max(200, vh * 0.35));
+
+    cases.forEach((c, i) => {
+      const img = c.querySelector('.case__image');
+      const r = img.getBoundingClientRect();
+      const center = r.top + r.height / 2;
+      const dist = Math.abs(center - target);
+      let proximity = clamp(1 - dist / (vh * RANGE), 0, 1);
+      if (i === 0) proximity = Math.max(proximity, firstBoost);
+      const eased = ease(proximity);
+      c.style.width = (MIN_W + eased * (MAX_W - MIN_W)) + '%';
+      c.style.transition = 'width 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+  };
+
+  let raf = null;
+  const onScroll = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => { raf = null; update(); });
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+  setTimeout(update, 50);
+
+  // ---- Cursor bubble ----
+  const bubble = document.createElement('div');
+  bubble.className = 'cursor-bubble';
+  bubble.textContent = 'смотреть кейс →';
+  document.body.appendChild(bubble);
+
+  document.addEventListener('mousemove', (e) => {
+    bubble.style.left = e.clientX + 'px';
+    bubble.style.top  = e.clientY + 'px';
+  }, { passive: true });
+
+  cases.forEach(c => {
+    c.addEventListener('mouseenter', () => bubble.classList.add('is-visible'));
+    c.addEventListener('mouseleave', () => bubble.classList.remove('is-visible'));
+    c.addEventListener('click', () => {
+      const href = c.dataset.href;
+      if (href) window.open(href, '_blank', 'noopener');
+    });
+  });
+
+  // ---- Hero avatar ----
+  const heroText = document.getElementById('heroText');
+  if (heroText) {
+    const avatar = document.createElement('img');
+    avatar.className = 'hover-avatar';
+    avatar.src = 'images/avatar.jpg';
+    avatar.alt = '';
+    document.body.appendChild(avatar);
+
+    document.addEventListener('mousemove', (e) => {
+      avatar.style.left = e.clientX + 'px';
+      avatar.style.top  = e.clientY + 'px';
+    }, { passive: true });
+
+    heroText.addEventListener('mouseenter', () => avatar.classList.add('is-visible'));
+    heroText.addEventListener('mouseleave', () => avatar.classList.remove('is-visible'));
+  }
+})();
+</script>
+
+</body>
+</html>
