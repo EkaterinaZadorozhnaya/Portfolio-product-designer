@@ -412,6 +412,16 @@ body::before {
   }
   .case { width: 100%; }
   .case__title, .case__tags, .case__metrics { opacity: 1; transform: none; }
+  .case__metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+  }
+  .metric {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 }
 @media (max-width: 420px) {
   :root { --pad-x: 18px; }
@@ -460,11 +470,11 @@ body::before {
           </div>
           <div class="metric">
             <div class="metric__value">№1</div>
-            <div class="metric__label">онлайн-сделка CRE в ОАЭ</div>
+            <div class="metric__label">онлайн-сделка</div>
           </div>
           <div class="metric">
-            <div class="metric__value">12–18</div>
-            <div class="metric__label">дней срок сделки (×3 быстрее)</div>
+            <div class="metric__value">до 18</div>
+            <div class="metric__label">дней сделка (быстрее ×3)</div>
           </div>
         </div>
       </article>
