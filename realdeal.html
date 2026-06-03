@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RealDeal — Екатерина Задорожная</title>
+<link rel="icon" type="image/jpeg" href="images/avatar.jpg">
+<link rel="apple-touch-icon" href="images/avatar.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a href="index.html" class="cs-close">Закрыть</a>
+
+<div class="page">
+
+  <!-- LEFT — case nav -->
+  <aside class="left">
+    <div class="cs-left">
+      <div class="cs-left__identity">
+        <div class="cs-left__name">Задорожная Екатерина</div>
+        <div class="cs-left__role">Senior Product Designer</div>
+      </div>
+      <nav class="cs-left__nav" aria-label="Разделы">
+        <a href="#problem" class="cs-nav__link">Проблема и контекст</a>
+        <a href="#contribution" class="cs-nav__link">Мой вклад</a>
+        <a href="#result" class="cs-nav__link">Результат и рефлексия</a>
+      </nav>
+      <nav class="links" aria-label="Contacts">
+        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://drive.google.com/file/d/1jVFotUKC70tylrGPcXgy_c2tKR6egIef/view" target="_blank" rel="noopener">CV</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- RIGHT — case study -->
+  <main class="right">
+
+    <!-- Title, tags, intro — max 800px -->
+    <div class="cs-content">
+      <h1 class="cs-title">Первая в ОАЭ<br>платформа CRE-<br>сделок без агентов</h1>
+
+      <div class="cs-tags">
+        <span class="cs-tag--dark">Lead Product Designer</span>
+        <span>PropTech</span>
+        <span>B2B SaaS</span>
+        <span>Data-Heavy</span>
+        <span>С нуля до MVP</span>
+      </div>
+
+      <p class="cs-intro">Спроектировала с нуля веб-платформу для инвестиций в коммерческую недвижимость ОАЭ. От аналитического демо до коммерческого MVP: интерактивная карта, каталог, первый в ОАЭ флоу онлайн-сделок на UAE PASS, подписка.</p>
+    </div>
+
+    <!-- Metrics — wider than 800px -->
+    <div class="cs-metrics">
+      <div class="cs-metric">
+        <div class="cs-metric__value">+$7.5M</div>
+        <div class="cs-metric__label">привлечённых<br>инвестиций</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric__value">№1</div>
+        <div class="cs-metric__label">CRE-платформа<br>онлайн-сделка в ОАЭ</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric__value"><del>60</del>&thinsp;18</div>
+        <div class="cs-metric__label">дней, срок<br>закрытия сделки</div>
+      </div>
+    </div>
+
+    <!-- Cover image — wider than 800px -->
+    <div class="cs-imgs">
+      <img src="images/realdeal/hero.webp" alt="RealDeal — интерфейс платформы">
+    </div>
+
+    <!-- Sections — max 800px -->
+    <div class="cs-content">
+
+      <!-- ПРОБЛЕМА И КОНТЕКСТ -->
+      <section id="problem" class="cs-section">
+        <div class="cs-section__label">Проблема и контекст</div>
+        <h2 class="cs-section__heading">Рынок CRE в ОАЭ: непрозрачный, завязанный на агентов</h2>
+        <div class="cs-body">
+          <p>Рынок коммерческой недвижимости в ОАЭ непрозрачен. Весь завязан на агентов. Инвесторы и их управляющие менеджеры принимают решения без единой аналитики и тратят недели на проверку объектов.</p>
+          <ul>
+            <li>задержки сделок (в среднем 45–60 дней);</li>
+            <li>высокая зависимость от агентов, которым не доверяют;</li>
+            <li>решения «на ощущениях», а не на данных.</li>
+          </ul>
+
+          <h3>Задача</h3>
+          <p>Взять массив рыночных данных и превратить его в инструмент принятия инвестиционных решений. И доказать, что платформа на аналитике и фактах работает лучше, чем агентская модель.</p>
+          <p>Провела 11 глубинных интервью с инвесторами и управляющими менеджерами. Оттуда вылезли все ключевые боли при работе с агентами и существующими сервисами. Это легло в основу продуктовых гипотез. Валидацию получили позже: сначала через реакцию на демо, потом через фидбэк закрытой беты.</p>
+
+          <h3>Источник данных</h3>
+          <p>На старте работали с открытыми данными рынка Дубая. После успешного демо получили доступ к закрытым госданным Dubai Land Department (DLD) через партнёрство с семьёй шейха. Это стало ключевым конкурентным активом.</p>
+
+          <h3>Конкуренты</h3>
+          <p>Локальные порталы Property Finder и Bayut сфокусированы на жилой недвижимости. Международные платформы, такие как LoopNet и CREXI, не имеют локализации под ОАЭ. RealDeal остаётся единственной платформой с полным циклом CRE-сделок и прямой интеграцией с DLD.</p>
+
+          <div class="cs-two-col">
+            <div>
+              <h4>ЦА</h4>
+              <ul>
+                <li>Инвестор — принимает финансовые решения, оценивает доходность, проводит сделки</li>
+                <li>Управляющий менеджер — ищет объекты, анализирует рынок, готовит варианты для инвестора</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Ключевые задачи</h4>
+              <ul>
+                <li>Понять, где выгодно инвестировать</li>
+                <li>Оценить доходность конкретного объекта</li>
+                <li>Сузить выбор под свой бюджет и стратегию</li>
+                <li>Совершить сделку онлайн, без агентов</li>
+                <li>Управлять объектом и сдавать в аренду в том же сервисе</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Исследование -->
+      <section class="cs-section cs-section--no-label">
+        <h2 class="cs-section__heading">11 интервью: три барьера, три решения</h2>
+        <div class="cs-body">
+          <p><strong>1. Данные разрознены по источникам</strong>, нет единого инструмента анализа. Решение: аналитическая карта с данными DLD.</p>
+          <p><strong>2. Решения принимаются «на глаз»</strong>, нет инструмента оценки объекта на месте. Решение: ROI-калькулятор в карточке.</p>
+          <p><strong>3. Путь от анализа до сделки разорван</strong>, менеджеры работают без единого инструмента. Решение: сквозной сценарий от карты до онлайн-сделки.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Цитата — шире 800px -->
+    <blockquote class="cs-quote">
+      <p class="cs-quote__text">«Хочу видеть доходность сразу, прямо на объекте, без Excel и агента»</p>
+      <cite class="cs-quote__cite">Управляющий менеджер</cite>
+    </blockquote>
+
+    <!-- Путь пользователя + МОЙ ВКЛАД -->
+    <div class="cs-content">
+
+      <section class="cs-section">
+        <h3 class="cs-subheading">Путь пользователя</h3>
+        <div class="cs-body">
+          <p>Анализ рынка → поиск объекта → оценка ROI → онлайн-сделка → управление объектом</p>
+        </div>
+      </section>
+
+      <section id="contribution" class="cs-section">
+        <div class="cs-section__label">Мой вклад</div>
+        <h2 class="cs-section__heading">Ключевые решения из десятков принятых за год</h2>
+        <div class="cs-body">
+          <p>За год было принято множество продуктовых решений. Вот четыре, которые лучше всего показывают мой подход:</p>
+        </div>
+      </section>
+
+      <!-- 1. Стратегия — текст -->
+      <section class="cs-section cs-section--has-img cs-section--gap-sm">
+        <h3 class="cs-decision-num">1. Стратегия</h3>
+        <h2 class="cs-section__heading">Аналитика вместо широты фич, и два раунда инвестиций</h2>
+        <div class="cs-body">
+          <p><span class="cs-label-ctx">Контекст.</span> Руководство хотело запустить всё сразу. Я настояла на другом: цель демо не полнота продукта, а доказательство ценности данных. Аналитика — это наш уникальный дифференциатор, и фокусироваться нужно было на ней. Это сократило путь к валидации с 9–12 до 4–5 месяцев.</p>
+          <p><span class="cs-label-ctx">Решение.</span> Сфокусировала демо исключительно на аналитической карте, без каталога, без сделок, без лишних фич.</p>
+          <p><span class="cs-label-res">Результат.</span> $2.5M после демо. Потом MVP с полным сценарием, $5M на раунде A.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 1. Стратегия — изображение -->
+    <div class="cs-imgs">
+      <img src="images/realdeal/dashboard-analytic.webp" alt="Аналитическая карта — демо">
+      <p class="cs-caption">Аналитика в виде графиков (дашборд)</p>
+    </div>
+
+    <!-- 2. Карта — текст -->
+    <div class="cs-content">
+      <section class="cs-section cs-section--has-img cs-section--gap-sm">
+        <h3 class="cs-decision-num">2. Карта</h3>
+        <h2 class="cs-section__heading">От визуального хаоса к зональной аналитике</h2>
+        <div class="cs-body">
+          <p><span class="cs-label-ctx">Контекст.</span> Руководство хотело показать максимум данных: большое количество слоёв, некоторые сгруппированы в папки, все для вау-эффекта. Проблема была двойная: визуальный хаос от количества и UX-ловушка: включив внутри группы слой и выйдя назад пользователь не видел, что именно включено. Я предложила другой вариант и протестировать их оба с инвесторами.</p>
+          <p><span class="cs-label-ctx">Решение.</span> Убрала группы, каждый слой стал самодостаточным со своими фильтрами и аналитикой. Максимум 5 слоёв одновременно. Пользователь собирает нужный набор и сохраняет как пресет. Инструменты зон — радиус, контур, изохрона — показывают данные именно по выделенной территории. Выбрала URBI API: 3D с этажностью, режимы карты.</p>
+          <p><span class="cs-label-res">Результат.</span> 3D-карта стала главным аргументом на демо. Инвесторы быстрее переходили от анализа к выбору объекта. Зональная аналитика стала ключевым отличием от конкурентов.</p>
+          <div class="cs-callout">
+            <div class="cs-callout__label">Осознанный компромисс</div>
+            <p>Хотели синхронизировать карту с дашбордами. Из-за технических ограничений и дедлайна отказались. Лучше сильная карта, чем слабая синхронизация.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 2. Карта — изображения (before/after) -->
+    <div class="cs-imgs cs-imgs--col">
+      <div>
+        <div class="cs-before-after">
+          <img class="cs-ba__before" src="images/realdeal/map-before.webp" alt="ДЕМО">
+          <img class="cs-ba__after" src="images/realdeal/map-after.webp" alt="MVP">
+          <div class="cs-ba__handle"><div class="cs-ba__handle-line"></div><div class="cs-ba__handle-btn"></div></div>
+          <span class="cs-ba__label cs-ba__label--before">ДЕМО</span>
+          <span class="cs-ba__label cs-ba__label--after">MVP</span>
+        </div>
+        <p class="cs-caption">Много слоёв → 3D с пресетами</p>
+      </div>
+      <div>
+        <div class="cs-before-after">
+          <img class="cs-ba__before" src="images/realdeal/map2-before.webp" alt="ДЕМО">
+          <img class="cs-ba__after" src="images/realdeal/map2-after.webp" alt="MVP">
+          <div class="cs-ba__handle"><div class="cs-ba__handle-line"></div><div class="cs-ba__handle-btn"></div></div>
+          <span class="cs-ba__label cs-ba__label--before">ДЕМО</span>
+          <span class="cs-ba__label cs-ba__label--after">MVP</span>
+        </div>
+        <p class="cs-caption">Группа слоёв → Фильтрация и аналитика</p>
+      </div>
+    </div>
+
+    <!-- 3. Онлайн-сделки — текст -->
+    <div class="cs-content">
+      <section class="cs-section cs-section--has-img cs-section--gap-sm">
+        <h3 class="cs-decision-num">3. Онлайн-сделки</h3>
+        <h2 class="cs-section__heading">Первая в ОАЭ удалённая CRE-сделка без агента</h2>
+        <div class="cs-body">
+          <p><span class="cs-label-ctx">Контекст.</span> Ни одна платформа в ОАЭ не позволяла провести CRE-сделку полностью онлайн. Главный барьер — это электронная подпись, без неё любой документ требовал физического присутствия сторон.</p>
+          <p><span class="cs-label-ctx">Решение.</span> Компания получила доступ к UAE PASS (государственная система цифровой идентификации ОАЭ). Это открыло возможность для юридически значимой электронной подписи. Я спроектировала флоу с нуля: документы и договора формируются на платформе, управление видимостью документов, встроенный чат между сторонами сделки. Инвестор покупает или арендует объект в Дубае из любой точки мира.</p>
+          <p><span class="cs-label-res">Результат.</span> Решили ключевое ограничение рынка, которое блокировало онлайн-сделки во всём регионе. UAE PASS стал юридическим фундаментом всего флоу сделок.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- 3. Онлайн-сделки — изображения -->
+    <div class="cs-imgs cs-imgs--col">
+      <div>
+        <img src="images/realdeal/deal-request.webp" alt="Запрос на сделку">
+        <p class="cs-caption">Запрос на сделку: инвестор инициирует из карточки объекта</p>
+      </div>
+      <div>
+        <img src="images/realdeal/deal-process.webp" alt="Процесс сделки">
+        <p class="cs-caption">Процесс сделки: документы, встроенный чат</p>
+      </div>
+      <div>
+        <img src="images/realdeal/deal-dashboard.webp" alt="Мои сделки">
+        <p class="cs-caption">Мои сделки: дашборд со статусами и управлением</p>
+      </div>
+    </div>
+
+    <!-- 4. Доверие — текст -->
+    <div class="cs-content">
+      <section class="cs-section cs-section--has-img cs-section--gap-sm">
+        <h3 class="cs-decision-num">4. Доверие</h3>
+        <h2 class="cs-section__heading">Система верификации объектов</h2>
+        <div class="cs-body">
+          <p><span class="cs-label-ctx">Контекст.</span> Без механизма проверки каталог воспринимался бы как ещё один непроверенный источник.</p>
+          <p><span class="cs-label-ctx">Решение.</span> Владелец загружает документы, платформа сопоставляет их с данными объекта. Чем больше соответствий, тем выше процент верификации, видимый покупателю.</p>
+          <p><span class="cs-label-res">Результат.</span> Решила проблему доверия без ручной модерации.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- 4. Доверие — изображение -->
+    <div class="cs-imgs">
+      <img src="images/realdeal/listing.webp" alt="Карточка объекта: верификация + ROI-калькулятор">
+      <p class="cs-caption">Карточка объекта: верификация + ROI-калькулятор</p>
+    </div>
+
+    <!-- Как Lead Product Designer -->
+    <div class="cs-content">
+      <section class="cs-section cs-section--no-label">
+        <h2 class="cs-section__heading">Как Lead Product Designer: что делала сверх дизайна</h2>
+        <div class="cs-body">
+          <p><strong>Влияние на стратегию:</strong> активно участвовала в определении приоритетов MVP. Настояла на фокусе демо вопреки команде, и это напрямую повлияло на привлечение инвестиций. Участвовала в формировании roadmap.</p>
+          <p><strong>Работа с C-level:</strong> работала с CTO, PM и стейкхолдерами. Регулярно защищала продуктовые решения на внутренних ревью. Готовила материалы для раундов (20+ презентаций инвесторам на конференциях и закрытых встречах в Дубае).</p>
+          <p><strong>Команда и процессы:</strong> пересобрала команду, заменила джунов на сильных специалистов. Через месяц работали самостоятельно. Дизайн-система с нуля: 25+ компонентов, токены, стандарты с первого спринта.</p>
+        </div>
+      </section>
+    </div>
+    <!-- Результат и рефлексия — max 800px -->
+    <div class="cs-content">
+
+      <section id="result" class="cs-section">
+        <div class="cs-section__label">Результат и рефлексия</div>
+        <h2 class="cs-section__heading">Два раунда, два дизайн-решения</h2>
+        <div class="cs-rtable">
+          <div class="cs-rtable__row">
+            <div class="cs-rtable__stage">Демо</div>
+            <div class="cs-rtable__body">
+              <div class="cs-rtable__title">Аналитический фокус $2.5M</div>
+              <p>Фокус на аналитике = инвесторы увидели уникальную ценность данных. Партнёрство с шейхом, доступ к DLD.</p>
+            </div>
+          </div>
+          <div class="cs-rtable__row">
+            <div class="cs-rtable__stage">Раунд A</div>
+            <div class="cs-rtable__body">
+              <div class="cs-rtable__title">Полный MVP $5M</div>
+              <p>Каталог + онлайн-сделки + верификация + подписка. После закрытой беты с 15 инвесторами: продукт готовится к открытому запуску. Первая платформа CRE-сделок без посредников в ОАЭ.</p>
+            </div>
+          </div>
+          <div class="cs-rtable__row">
+            <div class="cs-rtable__stage">Сейчас</div>
+            <div class="cs-rtable__body">
+              <div class="cs-rtable__title">Масштабирование</div>
+              <p>Дашборд, центр ежедневной работы пользователя: сделки, шортлист, портфель, аналитика. AI-ассистент встроен как следующий слой: автоматизация анализа и подбор объектов под стратегию инвестора.</p>
+              <p>Экспансия: Абу-Даби, Саудовская Аравия.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Дашборд — шире 800px -->
+    <div class="cs-imgs">
+      <div class="cs-scroll-img">
+        <img src="images/realdeal/dashboard.webp" alt="Дашборд: сделки, шортлист, портфель, аналитика, AI-ассистент">
+      </div>
+      <p class="cs-caption">Дашборд: сделки, шортлист, портфель, аналитика, AI-ассистент</p>
+    </div>
+
+    <!-- Сравнительные метрики — шире 800px -->
+    <div class="cs-compare">
+      <div class="cs-compare__item">
+        <div class="cs-compare__before"><del>45–60 дней</del></div>
+        <div class="cs-compare__after">12–18 дней</div>
+        <div class="cs-compare__label">срок закрытия<br>сделки</div>
+      </div>
+      <div class="cs-compare__item">
+        <div class="cs-compare__before"><del>8.33%</del></div>
+        <div class="cs-compare__after">4%</div>
+        <div class="cs-compare__label">комиссия<br>за аренду</div>
+      </div>
+      <div class="cs-compare__item">
+        <div class="cs-compare__before"><del>2%</del></div>
+        <div class="cs-compare__after">1%</div>
+        <div class="cs-compare__label">комиссия<br>за продажу</div>
+      </div>
+      <div class="cs-compare__item">
+        <div class="cs-compare__before"><del>12+ шагов</del></div>
+        <div class="cs-compare__after">0</div>
+        <div class="cs-compare__label">физических<br>шагов</div>
+      </div>
+    </div>
+
+    <!-- Рефлексия — max 800px -->
+    <div class="cs-content">
+
+      <section class="cs-section cs-section--no-label">
+        <h2 class="cs-section__heading">Что бы я сделала иначе</h2>
+        <div class="cs-body">
+          <p>Решения, которые сейчас вижу как ошибочные или недоведённые:</p>
+          <ul>
+            <li>Довела бы синхронизацию карты и дашбордов. Идея потеряна из-за дедлайна.</li>
+            <li>Сразу пересобрала бы команду. Первые 6 месяцев теряли скорость.</li>
+            <li>С первого дня работала бы напрямую со стейкхолдерами, а не через посредников.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Следующий кейс -->
+    <a href="https://zadorozhnaya.notion.site/95-1-7-34370177884d80479a0fd57f18fbf850?source=copy_link"
+       target="_blank" rel="noopener" class="cs-next-case">
+      <div class="cs-next-case__cover">
+        <img src="images/cinema-cover.png" alt="Триколор Кино и ТВ">
+      </div>
+      <div class="cs-next-case__body">
+        <div class="cs-tags">
+          <span>B2C</span>
+          <span>Streaming TV</span>
+        </div>
+        <h2 class="cs-next-case__title">95% не доходили<br>до подписки. Редизайн,<br>который сломал барьер</h2>
+      </div>
+    </a>
+
+  </main>
+
+</div>
+
+<script>
+(() => {
+  // Active anchor nav
+  const navLinks = document.querySelectorAll('.cs-nav__link');
+  if (navLinks.length) {
+    const sections = ['problem', 'contribution', 'result']
+      .map(id => document.getElementById(id)).filter(Boolean);
+
+    // Click: section heading appears at 35% from viewport top (consistent for all sections)
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.getElementById(link.getAttribute('href').slice(1));
+        if (target) {
+          const y = target.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.35;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Scroll: activate when section heading crosses 65% from viewport top (entering from bottom)
+    const setActive = () => {
+      const trigger = window.innerHeight * 0.65;
+      let active = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top < trigger) active = s;
+      }
+      navLinks.forEach(l => l.classList.remove('is-active'));
+      const link = document.querySelector(`.cs-nav__link[href="#${active.id}"]`);
+      if (link) link.classList.add('is-active');
+    };
+
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+  }
+
+  // Manual-scroll images
+  document.querySelectorAll('.cs-scroll-img').forEach(wrap => {
+    const img = wrap.querySelector('img');
+    let y = 0;
+    wrap.addEventListener('wheel', e => {
+      const max = img.offsetHeight - wrap.offsetHeight;
+      if (max <= 0) return;
+      e.preventDefault();
+      y = Math.max(-max, Math.min(0, y - e.deltaY));
+      img.style.transform = `translateY(${y}px)`;
+    }, { passive: false });
+  });
+
+  // Cursor bubble on next-case hover
+  const nextCase = document.querySelector('.cs-next-case');
+  if (nextCase) {
+    const bubble = document.createElement('div');
+    bubble.className = 'cursor-bubble';
+    bubble.textContent = 'ПОДРОБНЕЕ';
+    document.body.appendChild(bubble);
+    document.addEventListener('mousemove', e => {
+      bubble.style.left = e.clientX + 'px';
+      bubble.style.top  = e.clientY + 'px';
+    }, { passive: true });
+    nextCase.addEventListener('mouseenter', () => bubble.classList.add('is-visible'));
+    nextCase.addEventListener('mouseleave', () => bubble.classList.remove('is-visible'));
+  }
+
+  // Reveal animation
+  const reveals = document.querySelectorAll('.r');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => obs.observe(el));
+
+  // Hero avatar on name hover
+  const heroText = document.getElementById('heroText');
+  if (heroText) {
+    const avatar = document.createElement('img');
+    avatar.className = 'hover-avatar';
+    avatar.src = 'images/avatar.jpg';
+    avatar.alt = '';
+    document.body.appendChild(avatar);
+
+    document.addEventListener('mousemove', (e) => {
+      avatar.style.left = e.clientX + 'px';
+      avatar.style.top  = e.clientY + 'px';
+    }, { passive: true });
+
+    heroText.addEventListener('mouseenter', () => avatar.classList.add('is-visible'));
+    heroText.addEventListener('mouseleave', () => avatar.classList.remove('is-visible'));
+  }
+
+  // Before/after sliders
+  document.querySelectorAll('.cs-before-after').forEach(el => {
+    const after  = el.querySelector('.cs-ba__after');
+    const handle = el.querySelector('.cs-ba__handle');
+    let dragging = false;
+    let current  = 50;
+    let target   = 50;
+    let rafId    = null;
+
+    const render = () => {
+      rafId = null;
+      current += (target - current) * 0.22;
+      if (Math.abs(target - current) > 0.05) rafId = requestAnimationFrame(render);
+      else current = target;
+      after.style.clipPath = `inset(0 0 0 ${current}%)`;
+      handle.style.left    = current + '%';
+    };
+
+    const moveTo = (pct) => {
+      target = Math.max(1, Math.min(99, pct));
+      if (!rafId) rafId = requestAnimationFrame(render);
+    };
+
+    const getPct = (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      return ((x - rect.left) / rect.width) * 100;
+    };
+
+    handle.style.pointerEvents = 'auto';
+    handle.style.cursor = 'ew-resize';
+
+    handle.addEventListener('mousedown',  (e) => { e.preventDefault(); dragging = true; });
+    handle.addEventListener('touchstart', ()  => { dragging = true; }, { passive: true });
+    window.addEventListener('mousemove',  (e) => { if (dragging) moveTo(getPct(e)); });
+    window.addEventListener('touchmove',  (e) => { if (dragging) moveTo(getPct(e)); }, { passive: true });
+    window.addEventListener('mouseup',  () => { dragging = false; });
+    window.addEventListener('touchend', () => { dragging = false; });
+  });
+})();
+</script>
+
+</body>
+</html>
