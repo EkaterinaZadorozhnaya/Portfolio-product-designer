@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Второй экран — Екатерина Задорожная</title>
+<link rel="icon" type="image/jpeg" href="images/avatar.jpg">
+<link rel="apple-touch-icon" href="images/avatar.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .cs-metric { flex: 1 1 0; min-width: 0; }
+  @media (max-width: 760px) {
+    .cs-metric { flex: 1 1 calc(50% - 8px); min-width: calc(50% - 8px); }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="cs-close">Закрыть</a>
+
+<div class="page">
+
+  <!-- LEFT — case nav -->
+  <aside class="left">
+    <div class="cs-left">
+      <div class="cs-left__identity">
+        <div class="cs-left__name">Задорожная Екатерина</div>
+        <div class="cs-left__role">Senior Product Designer</div>
+      </div>
+      <nav class="cs-left__nav" aria-label="Разделы">
+        <a href="#problem" class="cs-nav__link">Проблема и&nbsp;контекст</a>
+        <a href="#contribution" class="cs-nav__link">Мой вклад</a>
+        <a href="#result" class="cs-nav__link">Результат и&nbsp;рефлексия</a>
+      </nav>
+      <nav class="links" aria-label="Contacts">
+        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://drive.google.com/file/d/1jVFotUKC70tylrGPcXgy_c2tKR6egIef/view" target="_blank" rel="noopener">CV</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- RIGHT — case study -->
+  <main class="right">
+
+    <!-- Title, tags, intro — max 800px -->
+    <div class="cs-content">
+      <h1 class="cs-title">MVP за&nbsp;4 месяца:<br>цена скорости<br>и&nbsp;чужого видения</h1>
+
+      <div class="cs-tags">
+        <span class="cs-tag--dark">Senior Product Designer</span>
+        <span>B2C</span>
+        <span>Mobile iOS&nbsp;+&nbsp;Android</span>
+        <span>GS Labs</span>
+        <span>Цифровое ТВ</span>
+        <span>с&nbsp;нуля до&nbsp;MVP</span>
+      </div>
+
+      <p class="cs-intro">Триколор, один из&nbsp;крупнейших спутниковых операторов России (12,3 млн абонентов), заказал у&nbsp;GS Labs мобильное приложение <a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&hl=ru" target="_blank" rel="noopener" class="cs-intro__link">«Второй экран»</a>: персональное управление ТВ с&nbsp;телефона. Я&nbsp;спроектировала продукт с&nbsp;нуля: расписание передач, трансляцию спутникового ТВ на&nbsp;телефон, запись, напоминания, голосовое управление, офлайн-режим.</p>
+    </div>
+
+    <!-- Metrics — wider than 800px -->
+    <div class="cs-metrics">
+      <div class="cs-metric">
+        <div class="cs-metric__value">330K+</div>
+        <div class="cs-metric__label">активных<br>пользователей</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric__value">4 мес.</div>
+        <div class="cs-metric__label">Android MVP<br>в&nbsp;сторе</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric__value">~1 год</div>
+        <div class="cs-metric__label">от&nbsp;идеи до&nbsp;второго<br>релиза</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric__value">TV</div>
+        <div class="cs-metric__label">мобайл лёг<br>в&nbsp;основу ТВ-приложения</div>
+      </div>
+    </div>
+
+    <!-- Cover image — wider than 800px -->
+    <div class="cs-imgs">
+      <img src="images/ss-cover.webp" alt="Второй экран — мобильное приложение Триколор">
+    </div>
+
+    <!-- ПРОБЛЕМА И КОНТЕКСТ -->
+    <div class="cs-content">
+
+      <section id="problem" class="cs-section">
+        <div class="cs-section__label">Проблема и&nbsp;контекст</div>
+        <h2 class="cs-section__heading">У&nbsp;абонентов была приставка, но&nbsp;не&nbsp;было способа управлять ТВ&nbsp;с&nbsp;телефона</h2>
+        <div class="cs-body">
+          <p>В&nbsp;2022 году у&nbsp;НТВ-Плюс, МТС и&nbsp;Телекарты уже были мобильные приложения для&nbsp;управления ТВ. У&nbsp;Триколора с&nbsp;12,3 млн абонентами — нет. Телефон не&nbsp;был связан с&nbsp;приставкой, персонализация не&nbsp;работала на&nbsp;общем телевизоре, абоненты пропускали нужные передачи. Триколор проигрывал конкурентам и&nbsp;терял точку контакта между сеансами у&nbsp;телевизора.</p>
+          <p>Триколор провёл исследование аудитории, изучил поведение пользователей существующих ТВ-приложений. Данные говорили сами за&nbsp;себя:</p>
+          <ul>
+            <li>63% регулярно проверяют расписание на&nbsp;телефоне,</li>
+            <li>51% не&nbsp;хватало удобного поиска по&nbsp;программе передач,</li>
+            <li>44% хотели составлять списки и&nbsp;ставить напоминания,</li>
+            <li>40% ждали персональных рекомендаций. На&nbsp;общем телевизоре персонализации нет.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- МОЙ ВКЛАД — заголовок + решение 1 -->
+    <div class="cs-content">
+
+      <section id="contribution" class="cs-section">
+        <div class="cs-section__label">Мой вклад</div>
+        <h2 class="cs-section__heading">Ключевые решения из&nbsp;десятков принятых за&nbsp;год</h2>
+      </section>
+
+      <!-- 1. MVP -->
+      <section class="cs-section cs-section--has-img cs-section--gap-sm">
+        <h3 class="cs-decision-num">1. MVP (замена исследования)</h3>
+        <h2 class="cs-section__heading">Когда полевых тестов нет, чем закрывать дыру</h2>
+        <div class="cs-body">
+          <p><span class="cs-label-ctx">Контекст.</span> Триколор передал данные исследования, мы знали что болит. Но&nbsp;как пользователи ведут себя в&nbsp;интерфейсе, не&nbsp;знали: полевых интервью не&nbsp;было. Нужно было выйти в&nbsp;стор за&nbsp;4 месяца. Аудитория возрастная, часто вне&nbsp;крупных городов, с&nbsp;низкой вовлечённостью в&nbsp;онлайн-видеосервисы.</p>
+          <p><span class="cs-label-ctx">Решение.</span> Рассматривала вариант провести экспресс-интервью с&nbsp;5–7 пользователями за&nbsp;2 недели: отвергла, не&nbsp;помещалось в&nbsp;таймлайн. Дополнила данные заказчика своим конкурентным анализом: изучила приложения НТВ-Плюс, МТС, открытые отзывы пользователей похожих продуктов.</p>
+          <p>Каждый сценарий и&nbsp;флоу согласовывала с&nbsp;заказчиком до&nbsp;детального дизайна. Это заменяло итеративный тест с&nbsp;реальными пользователями. Для&nbsp;возрастной аудитории намеренно убирала лишние шаги: короткий онбординг, персонализация ленты с&nbsp;первого экрана.</p>
+          <p><span class="cs-label-res">Результат.</span> Android MVP появился в&nbsp;Google Play через 4 месяца, следом iOS. В&nbsp;обеих платформах светлая и&nbsp;тёмная темы. Но&nbsp;скорость обошлась дорого: жалобы на&nbsp;подключение к&nbsp;приёмнику, рост нагрузки на&nbsp;техподдержку. Продукт работал и&nbsp;требовал доработки.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 1. MVP — ключевые экраны Android -->
+    <div class="cs-imgs">
+      <img src="images/ss/telegid-efir-mvp.webp" alt="Телегид и «В эфире». MVP (Android)">
+      <p class="cs-caption">Телегид и «В&nbsp;эфире». MVP (Android)</p>
+    </div>
+
+    <!-- 2. Второй релиз — текст -->
+    <div class="cs-content">
+
+      <section class="cs-section cs-section--has-img cs-section--gap-sm">
+        <h3 class="cs-decision-num">2. Второй релиз (редизайн)</h3>
+        <h2 class="cs-section__heading">Новый функционал и&nbsp;редизайн, который пришлось принять</h2>
+        <div class="cs-body">
+          <p><span class="cs-label-ctx">Контекст.</span> После первого релиза заказчик поставил задачу: редизайн на&nbsp;неоморфизм. MVP был в&nbsp;плоском дизайне, заказчику показалось слишком просто, захотелось визуально выделиться. Параллельно пора было наращивать функционал: MVP закрывал базовые сценарии, но&nbsp;половины возможностей в&nbsp;нём ещё не&nbsp;было.</p>
+          <p><span class="cs-label-ctx">Решение. Редизайн.</span> На&nbsp;неоморфизм я&nbsp;аргументировала против: аудитория возрастная, контрастность критична, стиль выбивался из&nbsp;экосистемы Триколора. Заказчик настоял. Спорить дальше смысла не&nbsp;было, поэтому сосредоточилась на&nbsp;том, что могла контролировать. Предложила поэтапное внедрение, от&nbsp;базовых элементов к&nbsp;сложным: так риски в&nbsp;разработке оставались управляемыми, а&nbsp;сроки реальными.</p>
+          <p><span class="cs-label-ctx">Решение. Функционал.</span> Спроектировала с&nbsp;нуля видеоплеер — в&nbsp;MVP контент вообще нельзя было смотреть на&nbsp;телефоне, приложение оставалось только программой передач. Добавила голосовой ассистент, пульт для&nbsp;управления приставкой, трансляцию контента на&nbsp;ТВ, офлайн-режим.</p>
+          <p>В&nbsp;телегиде переработала навигацию по&nbsp;обратной связи от&nbsp;первого релиза. Главное правило, которое держала: не&nbsp;сломать привычные пути. Аудитория возрастная, для&nbsp;неё каждая новая фича — это риск растеряться.</p>
+          <p><span class="cs-label-res">Результат.</span> Второй релиз вышел в&nbsp;срок. Новые сценарии, то, чего в&nbsp;MVP не&nbsp;было вообще: теперь телефон стал полноценным пультом и&nbsp;экраном, а&nbsp;не&nbsp;просто программой передач.</p>
+          <p>По&nbsp;неоморфизму — в&nbsp;процессе разработки выяснилось, что реализация теней на&nbsp;Android значительно сложнее, чем на&nbsp;iOS, что замедлило команду. Читаемость на&nbsp;возрастной аудитории пострадала. Оба риска проявились уже после того, как решение было принято.</p>
+          <div class="cs-callout">
+            <div class="cs-callout__label">Осознанный компромисс</div>
+            <p>С&nbsp;неоморфизмом ограничились тем, что могли контролировать: процессом, не&nbsp;решением. Словесный аргумент проигрывает данным. Сейчас бы настояла на&nbsp;показе прототипа с&nbsp;тестом контрастности абонентам до&nbsp;принятия решения.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 2. Редизайн — до / после (Android) -->
+    <div class="cs-imgs">
+      <img src="images/ss/redesign-before-after.webp" alt="До и после: плоский дизайн → неоморфизм (Android)">
+      <p class="cs-caption">До&nbsp;→&nbsp;После: плоский дизайн&nbsp;→&nbsp;неоморфизм (Android)</p>
+    </div>
+
+    <!-- Новый функционал — телегид + EPG -->
+    <div class="cs-imgs">
+      <img src="images/ss/telegid-epg-v2.webp" alt="Телегид и текущее событие EPG. Второй релиз (Android)">
+      <p class="cs-caption">Телегид и&nbsp;текущее событие EPG. Второй релиз (Android)</p>
+    </div>
+
+    <!-- Новый функционал — пульт + голосовой -->
+    <div class="cs-imgs">
+      <img src="images/ss/remote-voice.webp" alt="Пульт и голосовой ассистент. Второй релиз (Android)">
+      <p class="cs-caption">Пульт и&nbsp;голосовой ассистент. Второй релиз (Android)</p>
+    </div>
+
+    <!-- Новый функционал — видеоплеер -->
+    <div class="cs-imgs">
+      <img src="images/ss/player.webp" alt="Видеоплеер. Второй релиз (Android)">
+      <p class="cs-caption">Видеоплеер. Второй релиз (Android)</p>
+    </div>
+
+    <!-- Как Senior Product Designer -->
+    <div class="cs-content">
+
+      <section class="cs-section cs-section--no-label">
+        <h2 class="cs-section__heading">Как Senior Product Designer на&nbsp;проекте</h2>
+        <div class="cs-body">
+          <ul>
+            <li>Команда из&nbsp;3 дизайнеров: 2 сеньора и&nbsp;1 джуниор. UI Kit, весь iOS и&nbsp;тёмная тема — это моя работа. Второй сеньор закрывал параллельно свою часть задач.</li>
+            <li>На&nbsp;каждом этапе одновременно прорабатывала сценарии, флоу, архитектуру навигации и&nbsp;подбирала цветовую палитру, тени, скругления, форму элементов. Это помогало согласовывать с&nbsp;заказчиком цельный продукт и&nbsp;не&nbsp;возвращаться назад на&nbsp;поздних этапах.</li>
+            <li>На&nbsp;втором релизе выстроила работу с&nbsp;джуниор-дизайнером: она адаптировала мои iOS-экраны под&nbsp;Android и&nbsp;собирала Android UI Kit. Первые месяцы работали вплотную, к&nbsp;концу третьего она закрывала задачи самостоятельно.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- iOS тёмная тема -->
+    <div class="cs-imgs cs-imgs--col">
+      <div>
+        <img src="images/ss/ios-dark-actor-foryou.webp" alt="Карточка актёра и раздел «Для вас». Тёмная тема (iOS)">
+        <p class="cs-caption">Карточка актёра и&nbsp;раздел «Для вас». Тёмная тема (iOS)</p>
+      </div>
+      <div>
+        <img src="images/ss/ios-dark-services.webp" alt="Сервисы. Тёмная тема (iOS)">
+        <p class="cs-caption">Сервисы. Тёмная тема (iOS)</p>
+      </div>
+    </div>
+
+    <!-- РЕЗУЛЬТАТ И РЕФЛЕКСИЯ -->
+    <div class="cs-content">
+
+      <section id="result" class="cs-section">
+        <div class="cs-section__label">Результат и&nbsp;рефлексия</div>
+        <h2 class="cs-section__heading">Два релиза и&nbsp;запрос на&nbsp;TV-приложение</h2>
+        <div class="cs-rtable">
+          <div class="cs-rtable__row">
+            <div class="cs-rtable__stage">Осень 2022<br>Релиз&nbsp;1</div>
+            <div class="cs-rtable__body">
+              <p><strong>MVP: Android&nbsp;+&nbsp;iOS&nbsp;+&nbsp;тёмная тема</strong></p>
+              <p>Телегид, трансляция ТВ на&nbsp;телефон, запись передач, напоминания, персонализация ленты.</p>
+            </div>
+          </div>
+          <div class="cs-rtable__row">
+            <div class="cs-rtable__stage">Зима 2023<br>Релиз&nbsp;2</div>
+            <div class="cs-rtable__body">
+              <p><strong>Редизайн&nbsp;+&nbsp;новый функционал</strong></p>
+              <p>Полноценный видеоплеер, голосовой поиск, дистанционное управление ТВ-приставкой, офлайн-режим просмотра.</p>
+              <p>330K активных пользователей, 188K подписчиков.</p>
+            </div>
+          </div>
+          <div class="cs-rtable__row">
+            <div class="cs-rtable__stage">Сейчас</div>
+            <div class="cs-rtable__body">
+              <p>Триколор инициировал разработку ТВ-приложения на&nbsp;базе мобильного. Для&nbsp;меня это подтверждение: продукт закрыл реальную потребность и&nbsp;заслужил доверие для&nbsp;следующего шага.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Что бы я сделала иначе -->
+      <section class="cs-section cs-section--no-label">
+        <h2 class="cs-section__heading">Что я&nbsp;бы сделала иначе</h2>
+        <div class="cs-body">
+          <ul>
+            <li>Вопрос о&nbsp;формате продукта стоило поднять на&nbsp;старте. Часть фич можно было интегрировать в&nbsp;существующий продукт Триколора. Команда это понимала, но&nbsp;никто не&nbsp;вынес на&nbsp;обсуждение. Сейчас бы сделала это сама.</li>
+            <li>Данные исследования показывали что болит, но&nbsp;не&nbsp;как пользователи ведут себя в&nbsp;интерфейсе. Юзабилити-тест до&nbsp;редизайна дал бы конкретные факты вместо мнения. Именно поэтому аргументы по&nbsp;неоморфизму не&nbsp;убедили.</li>
+            <li>Скорость выхода стоила качества технической реализации. Жалобы на&nbsp;подключение к&nbsp;приёмнику были предсказуемы, но&nbsp;никто не&nbsp;поднял этот риск заранее. Сейчас бы настояла на&nbsp;техническом буфере перед&nbsp;релизом.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Ссылки на продукт -->
+    <div class="cs-content">
+      <p class="cs-product-link">
+        Смотреть продукт:
+        <a href="https://apps.apple.com/ru/app/%D1%82%D1%80%D0%B8%D0%BA%D0%BE%D0%BB%D0%BE%D1%80-%D0%B2%D1%82%D0%BE%D1%80%D0%BE%D0%B9-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD/id6444063415" target="_blank" rel="noopener">App Store</a><span class="cs-product-link__sep">|</span><a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&hl=ru" target="_blank" rel="noopener">Google Play</a><span class="cs-product-link__sep">|</span><a href="https://www.rustore.ru/catalog/app/com.gsgroup.secondscreen" target="_blank" rel="noopener">RuStore</a>
+      </p>
+    </div>
+
+    <!-- Следующий кейс — RealDeal -->
+    <a href="realdeal.html" class="cs-next-case">
+      <div class="cs-next-case__cover">
+        <img src="images/rd-cover.webp" alt="RealDeal">
+      </div>
+      <div class="cs-next-case__body">
+        <div class="cs-tags">
+          <span>B2B SaaS</span>
+          <span>PropTech</span>
+        </div>
+        <h2 class="cs-next-case__title">Первая в&nbsp;ОАЭ платформа<br>CRE-сделок без&nbsp;агентов</h2>
+      </div>
+    </a>
+
+  </main>
+
+</div>
+
+<script>
+(() => {
+  // Active anchor nav
+  const navLinks = document.querySelectorAll('.cs-nav__link');
+  if (navLinks.length) {
+    const sections = ['problem', 'contribution', 'result']
+      .map(id => document.getElementById(id)).filter(Boolean);
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.getElementById(link.getAttribute('href').slice(1));
+        if (target) {
+          const y = target.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.35;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      });
+    });
+
+    const setActive = () => {
+      const trigger = window.innerHeight * 0.65;
+      let active = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top < trigger) active = s;
+      }
+      navLinks.forEach(l => l.classList.remove('is-active'));
+      const link = document.querySelector(`.cs-nav__link[href="#${active.id}"]`);
+      if (link) link.classList.add('is-active');
+    };
+
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+  }
+
+  // Cursor bubble on next-case hover
+  const nextCase = document.querySelector('.cs-next-case');
+  if (nextCase) {
+    const bubble = document.createElement('div');
+    bubble.className = 'cursor-bubble';
+    bubble.textContent = 'Подробнее';
+    document.body.appendChild(bubble);
+    document.addEventListener('mousemove', e => {
+      bubble.style.left = e.clientX + 'px';
+      bubble.style.top  = e.clientY + 'px';
+    }, { passive: true });
+    nextCase.addEventListener('mouseenter', () => bubble.classList.add('is-visible'));
+    nextCase.addEventListener('mouseleave', () => bubble.classList.remove('is-visible'));
+  }
+
+  // Reveal animation
+  const reveals = document.querySelectorAll('.r');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => obs.observe(el));
+})();
+</script>
+
+</body>
+</html>

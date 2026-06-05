@@ -205,14 +205,13 @@ body::before {
   top: 0; left: 0;
   z-index: 9999;
   pointer-events: none;
-  color: #1C1C21;
+  color: #F8F9F8;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
-  text-transform: uppercase;
   white-space: nowrap;
   padding: 4px 12px;
-  background: rgba(28, 28, 33, 0.05);
+  background: #1C1C21;
   border-radius: 16px;
   opacity: 0;
   transform: translate(18px, 18px) scale(.96);
@@ -286,19 +285,14 @@ body::before {
   border: 1px solid rgba(28, 28, 33, 0.08);
 }
 .case[data-variant="4"] .case__image {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: unset;
   background: transparent;
   border: none;
   border-radius: 0;
   overflow: visible;
 }
 .case[data-variant="4"] .case__cover {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: auto;
-  height: 100%;
+  height: auto;
   object-fit: unset;
   border-radius: 10px;
   border: 1px solid rgba(28, 28, 33, 0.08);
@@ -811,6 +805,28 @@ body::before {
 .cs-rtable__body p { font-size: 16px; line-height: 24px; color: #1C1C21; margin: 0 0 8px; }
 .cs-rtable__body p:last-child { margin-bottom: 0; }
 
+/* Before/after diff table (two-column, До редизайна / После редизайна) */
+.cs-diff-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  border-top: 1px solid rgba(28, 28, 33, 0.1);
+  padding-top: 20px;
+  margin-top: 16px;
+}
+.cs-diff-table__col { display: flex; flex-direction: column; gap: 10px; }
+.cs-diff-table__head {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(28, 28, 33, 0.45);
+  margin-bottom: 4px;
+}
+.cs-diff-table__col p { font-size: 16px; line-height: 24px; color: #1C1C21; margin: 0; }
+.cs-diff-table__col strong { color: #B8860B; }
+
 /* Comparison metrics (before → after) */
 .cs-compare {
   display: flex;
@@ -855,6 +871,31 @@ body::before {
   will-change: transform;
   transition: transform 0.12s ease-out;
 }
+
+/* Inline link in intro */
+.cs-intro__link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s var(--ease);
+}
+.cs-intro__link:hover { opacity: 0.6; }
+
+/* Product link — тонкое подчёркивание всегда */
+.cs-product-link { margin: 0; }
+.cs-product-link a {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #1C1C21;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s var(--ease);
+}
+.cs-product-link a:hover { opacity: 0.6; }
+.cs-product-link__sep { color: rgba(28, 28, 33, 0.3); margin: 0 8px; }
 
 /* Next case */
 .cs-next-case {
@@ -918,6 +959,7 @@ body::before {
   .cs-imgs.cs-three-col { grid-template-columns: 1fr; }
   .cs-rtable__row { grid-template-columns: 1fr; gap: 4px; }
   .cs-rtable__stage { color: rgba(28, 28, 33, 0.45); font-weight: 600; }
+  .cs-diff-table { grid-template-columns: 1fr; gap: 24px; }
   .cs-quote__text { font-size: 20px; }
   /* Сравнительные метрики: уменьшаем на мобайле */
   .cs-compare { flex-wrap: wrap; }
