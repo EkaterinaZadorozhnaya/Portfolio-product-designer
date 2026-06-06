@@ -20,20 +20,22 @@
   <!-- LEFT — case nav -->
   <aside class="left">
     <div class="cs-left">
-      <div class="cs-left__identity">
+      <a href="index.html" class="cs-left__identity" id="heroText">
         <div class="cs-left__name">Задорожная Екатерина</div>
         <div class="cs-left__role">Senior Product Designer</div>
-      </div>
+      </a>
       <nav class="cs-left__nav" aria-label="Разделы">
         <a href="#problem" class="cs-nav__link">Проблема и контекст</a>
         <a href="#contribution" class="cs-nav__link">Мой вклад</a>
         <a href="#result" class="cs-nav__link">Результат и рефлексия</a>
       </nav>
-      <nav class="links" aria-label="Contacts">
-        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
-        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://drive.google.com/file/d/1jVFotUKC70tylrGPcXgy_c2tKR6egIef/view" target="_blank" rel="noopener">CV</a>
-      </nav>
+      <div class="intro__social">
+        <span class="intro__social-label">Связаться</span>
+        <div class="intro__social-btns">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener" class="btn-icon" aria-label="Telegram"><img src="images/icons/telegram.svg" width="24" height="24" alt=""></a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener" class="btn-icon" aria-label="LinkedIn"><img src="images/icons/linkedin.svg" width="24" height="24" alt=""></a>
+        </div>
+      </div>
     </div>
   </aside>
 
@@ -363,11 +365,16 @@
 
     <!-- Ссылка на продукт -->
     <div class="cs-content">
-      <p class="cs-product-link"><a href="https://real-deal.ae/" target="_blank" rel="noopener">Смотреть продукт</a></p>
+      <div class="cs-product-btns">
+        <a href="https://real-deal.ae/" target="_blank" rel="noopener" class="btn-cv">Смотреть продукт<img src="images/icons/arrow-right-up.svg" width="24" height="24" alt="">
+        </a>
+      </div>
     </div>
 
     <!-- Следующий кейс -->
-    <a href="kino-i-tv.html" class="cs-next-case">
+    <div class="cs-next-case-section">
+      <div class="cs-next-case-label">Следующий кейс</div>
+      <a href="kino-i-tv.html" class="cs-next-case">
       <div class="cs-next-case__cover">
         <img src="images/cinema-cover.webp" alt="Триколор Кино и ТВ">
       </div>
@@ -379,6 +386,7 @@
         <h2 class="cs-next-case__title">95% не доходили<br>до подписки. Редизайн,<br>удвоивший аудиторию<br>до 1,7&nbsp;млн</h2>
       </div>
     </a>
+    </div>
 
   </main>
 
@@ -456,6 +464,20 @@
     });
   }, { threshold: 0.12 });
   reveals.forEach(el => obs.observe(el));
+
+
+  // Scroll to top button
+  const scrollBtn = document.createElement('button');
+  scrollBtn.className = 'btn-scroll-top';
+  scrollBtn.setAttribute('aria-label', 'Наверх');
+  scrollBtn.innerHTML = '<img src="images/icons/arrow-up.svg" width="24" height="24" alt="">';
+  document.body.appendChild(scrollBtn);
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  const scrollTrigger = document.getElementById('contribution');
+  window.addEventListener('scroll', () => {
+    const triggered = scrollTrigger && scrollTrigger.getBoundingClientRect().top < window.innerHeight * 0.8;
+    scrollBtn.classList.toggle('is-visible', triggered);
+  }, { passive: true });
 
   // Hero avatar on name hover
   const heroText = document.getElementById('heroText');

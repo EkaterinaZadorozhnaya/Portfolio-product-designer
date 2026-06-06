@@ -11,9 +11,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-  .cs-metric { flex: 1 1 0; min-width: 0; }
+  .cs-metric {
+    flex: 1 1 calc(50% - 8px);
+    min-width: calc(50% - 8px);
+    max-width: calc(50% - 8px);
+  }
+  @media (min-width: 1601px) {
+    .cs-metric {
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: none;
+    }
+  }
   @media (max-width: 760px) {
-    .cs-metric { flex: 1 1 calc(50% - 8px); min-width: calc(50% - 8px); }
+    .cs-metric {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
   }
 </style>
 </head>
@@ -26,20 +41,22 @@
   <!-- LEFT — case nav -->
   <aside class="left">
     <div class="cs-left">
-      <div class="cs-left__identity">
+      <a href="index.html" class="cs-left__identity" id="heroText">
         <div class="cs-left__name">Задорожная Екатерина</div>
         <div class="cs-left__role">Senior Product Designer</div>
-      </div>
+      </a>
       <nav class="cs-left__nav" aria-label="Разделы">
         <a href="#problem" class="cs-nav__link">Проблема и&nbsp;контекст</a>
         <a href="#contribution" class="cs-nav__link">Мой вклад</a>
         <a href="#result" class="cs-nav__link">Результат и&nbsp;рефлексия</a>
       </nav>
-      <nav class="links" aria-label="Contacts">
-        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
-        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://drive.google.com/file/d/1jVFotUKC70tylrGPcXgy_c2tKR6egIef/view" target="_blank" rel="noopener">CV</a>
-      </nav>
+      <div class="intro__social">
+        <span class="intro__social-label">Связаться</span>
+        <div class="intro__social-btns">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener" class="btn-icon" aria-label="Telegram"><img src="images/icons/telegram.svg" width="24" height="24" alt=""></a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener" class="btn-icon" aria-label="LinkedIn"><img src="images/icons/linkedin.svg" width="24" height="24" alt=""></a>
+        </div>
+      </div>
     </div>
   </aside>
 
@@ -54,7 +71,6 @@
         <span class="cs-tag--dark">Senior Product Designer</span>
         <span>B2C</span>
         <span>Mobile iOS&nbsp;+&nbsp;Android</span>
-        <span>GS Labs</span>
         <span>Цифровое ТВ</span>
         <span>с&nbsp;нуля до&nbsp;MVP</span>
       </div>
@@ -256,14 +272,20 @@
 
     <!-- Ссылки на продукт -->
     <div class="cs-content">
-      <p class="cs-product-link">
-        Смотреть продукт:
-        <a href="https://apps.apple.com/ru/app/%D1%82%D1%80%D0%B8%D0%BA%D0%BE%D0%BB%D0%BE%D1%80-%D0%B2%D1%82%D0%BE%D1%80%D0%BE%D0%B9-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD/id6444063415" target="_blank" rel="noopener">App Store</a><span class="cs-product-link__sep">|</span><a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&hl=ru" target="_blank" rel="noopener">Google Play</a><span class="cs-product-link__sep">|</span><a href="https://www.rustore.ru/catalog/app/com.gsgroup.secondscreen" target="_blank" rel="noopener">RuStore</a>
-      </p>
+      <div class="cs-product-btns">
+        <a href="https://apps.apple.com/ru/app/%D1%82%D1%80%D0%B8%D0%BA%D0%BE%D0%BB%D0%BE%D1%80-%D0%B2%D1%82%D0%BE%D1%80%D0%BE%D0%B9-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD/id6444063415" target="_blank" rel="noopener" class="btn-cv">App Store<img src="images/icons/arrow-right-up.svg" width="24" height="24" alt="">
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&hl=ru" target="_blank" rel="noopener" class="btn-cv">Google Play<img src="images/icons/arrow-right-up.svg" width="24" height="24" alt="">
+        </a>
+        <a href="https://www.rustore.ru/catalog/app/com.gsgroup.secondscreen" target="_blank" rel="noopener" class="btn-cv">RuStore<img src="images/icons/arrow-right-up.svg" width="24" height="24" alt="">
+        </a>
+      </div>
     </div>
 
     <!-- Следующий кейс — RealDeal -->
-    <a href="realdeal.html" class="cs-next-case">
+    <div class="cs-next-case-section">
+      <div class="cs-next-case-label">Следующий кейс</div>
+      <a href="realdeal.html" class="cs-next-case">
       <div class="cs-next-case__cover">
         <img src="images/rd-cover.webp" alt="RealDeal">
       </div>
@@ -275,6 +297,7 @@
         <h2 class="cs-next-case__title">Первая в&nbsp;ОАЭ платформа<br>CRE-сделок без&nbsp;агентов</h2>
       </div>
     </a>
+    </div>
 
   </main>
 
@@ -337,6 +360,36 @@
     });
   }, { threshold: 0.12 });
   reveals.forEach(el => obs.observe(el));
+
+
+  // Scroll to top button
+  const scrollBtn = document.createElement('button');
+  scrollBtn.className = 'btn-scroll-top';
+  scrollBtn.setAttribute('aria-label', 'Наверх');
+  scrollBtn.innerHTML = '<img src="images/icons/arrow-up.svg" width="24" height="24" alt="">';
+  document.body.appendChild(scrollBtn);
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  const scrollTrigger = document.getElementById('contribution');
+  window.addEventListener('scroll', () => {
+    const triggered = scrollTrigger && scrollTrigger.getBoundingClientRect().top < window.innerHeight * 0.8;
+    scrollBtn.classList.toggle('is-visible', triggered);
+  }, { passive: true });
+
+  // Hero avatar on name hover
+  const heroText = document.getElementById('heroText');
+  if (heroText) {
+    const avatar = document.createElement('img');
+    avatar.className = 'hover-avatar';
+    avatar.src = 'images/avatar.jpg';
+    avatar.alt = '';
+    document.body.appendChild(avatar);
+    document.addEventListener('mousemove', (e) => {
+      avatar.style.left = e.clientX + 'px';
+      avatar.style.top  = e.clientY + 'px';
+    }, { passive: true });
+    heroText.addEventListener('mouseenter', () => avatar.classList.add('is-visible'));
+    heroText.addEventListener('mouseleave', () => avatar.classList.remove('is-visible'));
+  }
 })();
 </script>
 
