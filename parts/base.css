@@ -11,37 +11,37 @@
 :root{
   color-scheme: light;
 
+  /* ИМЕНА: группа = свойство, которое токен задаёт;
+     имя = значение (у примитивов) или роль (у семантики).
+     Совпадают с переменными в Figma один в один — сверка макета
+     с вёрсткой идёт по одному словарю. Подробно: spec-tokens.md. */
+
   /* ШКАЛА НЕЙТРАЛЬНЫХ, названа по воспринимаемой светлоте L*.
-     Шесть ступеней работают в светлой теме, шесть — в тёмной;
-     n6 и n90 общие и меняются ролями. Ступени 12/22/25/63
-     нужны только тёмной теме и пока нигде не используются. */
-  --n6:   #131313;   /* L*  5.9  светлая: текст   · тёмная: фон     */
-  --n12:  #20201E;   /* L* 12.2  тёмная:  лист                      */
-  --n22:  #343433;   /* L* 21.7  тёмная:  заглушка                  */
-  --n25:  #3C3B3A;   /* L* 24.9  тёмная:  линейка                   */
-  --n44:  #696764;   /* L* 43.7  светлая: вторичный                 */
-  --n63:  #999795;   /* L* 62.6  тёмная:  вторичный                 */
-  --n85:  #D5D5D4;   /* L* 85.2  светлая: линейка                   */
-  --n90:  #E1E1E1;   /* L* 89.5  светлая: заглушка · тёмная: текст  */
-  --n95:  #F0F0F0;   /* L* 94.8  светлая: фон                       */
-  --n100: #FFFFFF;   /* L*100.0  светлая: лист                      */
+     Шкала расширяется вставкой без переименования соседей.
+     neutral-6 и neutral-90 работают в обеих темах, меняясь ролями.
+     Тёплая нота R ≥ G ≥ B на 12, 14, 22, 25, 44, 63, 85;
+     чистый серый на 6, 18, 78, 90, 95, 98, 100. */
 
-  --ink: var(--n6);
-  --muted: var(--n44);
-  --surface: var(--n95);
-  --paper: var(--n100);
-  --rule: var(--n85);
-  --fill: var(--n90);
+  /* примитивы светлой темы */
+  --neutral-6:   #131313;   /* L*  5.9  текст, заливка кнопки          */
+  --neutral-18:  #2C2C2C;   /* L* 18.0  кнопка в наведении             */
+  --neutral-44:  #696764;   /* L* 43.7  вторичный и проза              */
+  --neutral-85:  #D5D5D4;   /* L* 85.2  линейка                        */
+  --neutral-90:  #E1E1E1;   /* L* 89.5  заглушка                       */
+  --neutral-95:  #F0F0F0;   /* L* 94.8  фон                            */
+  --neutral-98:  #FAFAFA;   /* L* 98.3  карточка в наведении           */
+  --neutral-100: #FFFFFF;   /* L*100.0  лист, текст на кнопке          */
 
-  /* ТОКЕНЫ СОСТОЯНИЙ. Литералов в правилах компонентов быть не должно:
-     иначе тёмная тема не включится переключением одного блока.
-     Наведение сдвигает заливку к середине шкалы: кнопка на ~12 пунктов
-     L*, карточка на ~2. */
-  --on-ink: var(--n100);     /* текст на заливке --ink */
-  --ink-hover: #2C2C2C;      /* L* 18.0 — ink +12      */
-  --paper-hover: #FAFAFA;    /* L* 98.3 — paper −2     */
+  /* примитивы тёмной темы — объявлены заранее, чтобы ссылки
+     в закомментированных блоках не висели в пустоту */
+  --neutral-12:  #20201E;   /* L* 12.2  лист                           */
+  --neutral-14:  #242422;   /* L* 14.1  карточка в наведении           */
+  --neutral-22:  #343433;   /* L* 21.7  заглушка                       */
+  --neutral-25:  #3C3B3A;   /* L* 24.9  линейка                        */
+  --neutral-63:  #999795;   /* L* 62.6  вторичный и проза              */
+  --neutral-78:  #C0C0C0;   /* L* 77.7  кнопка в наведении             */
 
-  /* ЛОГОТИПЫ ПРОДУКТОВ — правка совета №4.
+  /* ЦВЕТА ПРОДУКТОВ — правка совета №4.
      Было: тёмно-синий, почти чёрно-синий, зелёный, голубой —
      три оттенка одного цвета из четырёх. При размытии
      различался только зелёный, то есть система работала
@@ -50,36 +50,69 @@
      Стало: четыре разных семейства, разведённые и по тону,
      и по светлоте — чтобы набор читался и в оттенках серого,
      и при дальтонизме, где цвет один не справляется.
-     Светлота специально разная: 31 / 44 / 52 / 58. */
-  --logo-1: #14532D;   /* DREAMPlatform — зелёный,   L31 */
-  --logo-2: #2F5AD9;   /* RealDeal      — синий,     L44 */
-  --logo-3: #B0308C;   /* Кино и ТВ     — маджента,  L52 */
-  --logo-4: #DE5B1C;   /* Второй экран  — оранжевый, L58 */
+     Светлота специально разная: 31 / 44 / 52 / 58.
+
+     Одинаковы в обеих темах: это временные плашки под настоящие
+     логотипы, которые от темы не зависят. В семантический слой
+     не заводить — иначе их потянет развести по режимам. */
+  --brand-realdeal:      #2F5AD9;   /* RealDeal      — синий,     L44 */
+  --brand-kino-i-tv:     #B0308C;   /* Кино и ТВ     — маджента,  L52 */
+  --brand-design-system: #14532D;   /* DREAMPlatform — зелёный,   L31 */
+  --brand-second-screen: #DE5B1C;   /* Второй экран  — оранжевый, L58 */
+
+  /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
+     примитив или литерал в правиле компонента не переключается темой.
+     --text-primary и --bg-inverse сегодня совпадают по значению,
+     но это два независимых решения: цвет текста и заливка кнопки.
+     Наведение сдвигает заливку к середине шкалы: кнопка на 12
+     пунктов L*, карточка на 2. */
+  --text-primary:      var(--neutral-6);    /* заголовки, числа, активный якорь, выделение в прозе */
+  --text-secondary:    var(--neutral-44);   /* проза, подписи, метастроки, шапки таблиц */
+  --text-inverse:      var(--neutral-100);  /* текст на заливке --bg-inverse */
+  --bg-page:           var(--neutral-95);   /* фон страницы */
+  --bg-surface:        var(--neutral-100);  /* лист кейса, карточки кейсов в колонке */
+  --bg-surface-hover:  var(--neutral-98);   /* карточка кейса при наведении */
+  --bg-inverse:        var(--neutral-6);    /* заливка кнопки резюме */
+  --bg-inverse-hover:  var(--neutral-18);   /* кнопка резюме при наведении */
+  --bg-placeholder:    var(--neutral-90);   /* место под макет, аватар, чипы схемы пути */
+  --border-default:    var(--neutral-85);   /* разделители, строки таблиц, рамка ленты */
 
   --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --serif: 'Literata', Georgia, 'Times New Roman', serif;
 
-  --cover: 760px;   /* полоса: обложка, метрики, макеты во всю ширину */
+  /* СКРУГЛЕНИЯ — четыре токена, все кратны четырём.
+     Было восемь литералов (1, 3, 4, 6, 7, 8, 10, 50%): 3 против 4 —
+     одно фокус-кольцо, 6 против 7 — соседние элементы с разницей
+     в пиксель. Следы правок, а не решения.
+     999px, а не 50%: на квадрате даёт круг, на узкой полосе —
+     скруглённые торцы, и его можно хранить числом в Figma. */
+  --radius-4:    4px;     /* марка 12×12, кольца :focus-visible */
+  --radius-8:    8px;     /* кнопка, чип, skip-link, лист, кадры, врезка */
+  --radius-12:   12px;    /* карточка кейса в колонке, логотип 40×40 */
+  --radius-full: 999px;   /* аватар, торцы рельса активного якоря */
+
+  --width-cover: 760px;   /* полоса: обложка, метрики, макеты во всю ширину */
   /* Колонка прозы считается от знаков, а не от пикселей.
      Цель — 68–72 знака в строке. При Literata 16 это 570.
      (При Golos 16 то же правило давало 640 — поэтому при смене
      гарнитуры число пересчитывается, а не переносится.) */
-  --col: 570px;
+  --width-prose: 570px;
+  --width-rail:  360px;   /* левая колонка */
 
-  /* ЛЕСТНИЦА ОТСТУПОВ — четыре ступени, все кратны шагу. */
-  --step:   16px;    /* 1×   между любыми соседними блоками */
-  --step-2: 24px;    /* 1.5× после выноса и цитаты */
-  --step-3: 48px;    /* 3×   внутри обложки и после лида */
-  --break:  64px;    /* 4×   между разделами и между кейсами */
-
-  --side: 360px;
+  /* РИТМ СТРАНИЦЫ — четыре ступени, все кратны 16. Шкала закрыта.
+     Внутренние поля компонентов ей не подчиняются и токенов
+     не получают: токен с одним потребителем бесполезен. */
+  --space-16: 16px;    /* 1×   между любыми соседними блоками */
+  --space-24: 24px;    /* 1.5× после выноса и цитаты */
+  --space-48: 48px;    /* 3×   внутри обложки и после лида */
+  --space-64: 64px;    /* 4×   между разделами и между кейсами */
 
   /* ПОЛЯ СТРАНИЦЫ — плавные, а не ступенчатые.
      Модель снята с rafaelcespedes.com: там ширина контейнера —
      фиксированное число (800px), а всё, что вокруг, выведено
      из него через clamp(мин, доля, макс). Скачок поля с 30 на 16
      на пороге заметен глазом; clamp убирает сам скачок. */
-  --gut: clamp(16px, 2.2vw, 30px);
+  --page-gutter: clamp(16px, 2.2vw, 30px);
 }
 
 /* ═══ ТЁМНАЯ ТЕМА — НЕ АКТИВИРОВАНА ═══
@@ -89,53 +122,65 @@
    она даёт серое на сером. Включать только после того, как встанут
    реальные изображения; тогда раскомментировать оба блока разом,
    иначе ручной переключатель перебьёт системную настройку только
-   в одну сторону. Подробности в spec-color-type.md.
+   в одну сторону. Подробности в spec-tokens.md.
 
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ink: var(--n90);      --muted: var(--n63);
-    --rule: var(--n25);     --fill: var(--n22);
-    --surface: var(--n6);   --paper: var(--n12);
-    --on-ink: var(--n6);
-    --ink-hover: #C0C0C0;   --paper-hover: #242422;
+    --text-primary:     var(--neutral-90);
+    --text-secondary:   var(--neutral-63);
+    --text-inverse:     var(--neutral-6);
+    --bg-page:          var(--neutral-6);
+    --bg-surface:       var(--neutral-12);
+    --bg-surface-hover: var(--neutral-14);
+    --bg-inverse:       var(--neutral-90);
+    --bg-inverse-hover: var(--neutral-78);
+    --bg-placeholder:   var(--neutral-22);
+    --border-default:   var(--neutral-25);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
-  --ink: var(--n90);      --muted: var(--n63);
-  --rule: var(--n25);     --fill: var(--n22);
-  --surface: var(--n6);   --paper: var(--n12);
-  --on-ink: var(--n6);
-  --ink-hover: #C0C0C0;   --paper-hover: #242422;
+  --text-primary:     var(--neutral-90);
+  --text-secondary:   var(--neutral-63);
+  --text-inverse:     var(--neutral-6);
+  --bg-page:          var(--neutral-6);
+  --bg-surface:       var(--neutral-12);
+  --bg-surface-hover: var(--neutral-14);
+  --bg-inverse:       var(--neutral-90);
+  --bg-inverse-hover: var(--neutral-78);
+  --bg-placeholder:   var(--neutral-22);
+  --border-default:   var(--neutral-25);
   color-scheme: dark;
 }
 */
-
 *{ box-sizing: border-box; }
 
 body{
   margin: 0;
-  background: var(--surface);
-  color: var(--ink);
+  background: var(--bg-page);
+  color: var(--text-primary);
   font-family: var(--sans);
   font-size: 14px;
   line-height: 20px;   /* интерфейсная ступень; проза и заголовки задают свой */
-  letter-spacing: -.012em;
+  /* ТРЕКИНГА НА BODY НЕТ НАМЕРЕННО. -.012em здесь вычислялся от 14px
+     в −0.168px и наследовался абсолютным числом: 18 элементов на 12px
+     получали −1.4% там, где по правилу ноль. Трекинг задаётся
+     на каждом элементе своим стилем, по наследству не приходит. */
   -webkit-font-smoothing: antialiased;
 }
 
 .app{
   max-width: 1560px; margin: 0 auto;
-  padding: 24px var(--gut) 80px;
-  display: grid; grid-template-columns: var(--side) minmax(0,1fr); gap: 0 40px;
+  padding: 24px var(--page-gutter) 80px;
+  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr); gap: 0 40px;
   align-items: start;
 }
 
 .skip{
   position: absolute; left: -9999px; top: 0;
-  background: var(--ink); color: var(--on-ink);
-  font-size: 14px; line-height: 16px;
-  padding: 10px 16px; border-radius: 6px; z-index: 9; text-decoration: none;
+  background: var(--bg-inverse); color: var(--text-inverse);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  padding: 10px 16px; border-radius: var(--radius-8); z-index: 9; text-decoration: none;
 }
 .skip:focus{ left: 12px; top: 12px; }
 
@@ -167,26 +212,26 @@ body{
 /* ── кто я ── */
 .me{ display: grid; gap: 12px; }
 .me__ava{
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--fill); overflow: hidden;
+  width: 36px; height: 36px; border-radius: var(--radius-full);
+  background: var(--bg-placeholder); overflow: hidden;
   display: grid; place-items: center;
 }
-.me__ava svg{ width: 36px; height: 36px; display: block; color: var(--rule); }
+.me__ava svg{ width: 36px; height: 36px; display: block; color: var(--border-default); }
 .me__who{
   font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
-  color: var(--ink); margin: 0;
+  color: var(--text-primary); margin: 0;
 }
 .me__who a{ color: inherit; text-decoration: none; display: inline-block; }
 .me__who a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .me__span{
   margin: 0; font-size: 16px; line-height: 18px; font-weight: 400;
-  letter-spacing: -.012em; color: var(--muted);
+  letter-spacing: -.012em; color: var(--text-secondary);
 }
-.me__span b{ font-weight: 400; color: var(--ink); }
+.me__span b{ font-weight: 400; color: var(--text-primary); }
 .me__sum{
-  margin: 0; font-size: 12px; line-height: 16px; color: var(--muted);
+  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary);
 }
-.me__sum b{ font-weight: 400; color: var(--ink); }
+.me__sum b{ font-weight: 400; color: var(--text-primary); }
 
 /* ── действие ──
    Правка совета №3 отменена, и вот почему.
@@ -200,18 +245,20 @@ body{
    остаются единственным местом, где живут адреса. */
 .act{ display: flex; flex-wrap: wrap; gap: 8px; }
 .act a{
-  display: inline-flex; align-items: center; gap: 7px;
+  display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
   font-size: 14px; font-weight: 400; letter-spacing: -.012em; line-height: 16px;
   /* поля 10, а не 8: при интерлиньяже 16 кнопка высотой 8+16+8 = 32px,
      а это ниже минимальной цели нажатия. 10+16+10 = 36. Кегль твой,
      высоту держит поле. */
-  text-decoration: none; border-radius: 7px; padding: 10px 14px; min-height: 36px;
+  text-decoration: none; border-radius: var(--radius-8); padding: 10px 14px; min-height: 36px;
   transition: background .18s ease-out;
 }
-.act__cv{ background: var(--ink); color: var(--on-ink); }
-.act__cv:hover{ background: var(--ink-hover); }
-.act svg{ width: 13px; height: 13px; flex: none; }
-.act a:focus-visible{ outline: 2px solid var(--ink); outline-offset: 3px; }
+.act__cv{ background: var(--bg-inverse); color: var(--text-inverse); }
+.act__cv:hover{ background: var(--bg-inverse-hover); }
+/* 12, а не 13: нечётная иконка в кнопке высотой 36 даёт по 11.5px
+   сверху и снизу — полпикселя при центрировании */
+.act svg{ width: 12px; height: 12px; flex: none; }
+.act a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
 
 /* ── низ: контакты ──
    Строки «Открыта к предложениям» нет: портфолио уходит вместе
@@ -224,13 +271,16 @@ body{
 .hire{ display: grid; gap: 8px; margin-top: 16px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
-  font-size: 14px; line-height: 16px; color: var(--ink); text-decoration: none;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: center; width: fit-content;
   min-height: 26px;
 }
 .hire__links a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.hire__links a:focus-visible{ outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
-.hire__links i{ font-style: normal; font-size: 12px; line-height: 16px; color: var(--muted); }
+.hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+/* стрелка 12px внутри ссылки 14px: трекинг ссылки (−0.168px) иначе
+   наследуется абсолютным числом — здесь Caption, значит ноль явно */
+.hire__links i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
 
 /* ═══ ЛОГОТИП ПРОДУКТА ═══
    РАЗМЕР ИДЁТ ОТ РАБОТЫ, КОТОРУЮ ЗНАК ДЕЛАЕТ В ЭТОМ МЕСТЕ.
@@ -250,22 +300,22 @@ body{
    и того же сообщения — это не система, а повтор. */
 .mark{
   display: inline-flex; align-items: center; gap: 8px;
-  font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; color: var(--ink);
+  font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; color: var(--text-primary);
 }
 .mark::before{
-  content: ''; width: 12px; height: 12px; border-radius: 3px;
-  background: var(--brand, var(--ink)); flex: none;
+  content: ''; width: 12px; height: 12px; border-radius: var(--radius-4);
+  background: var(--brand, var(--bg-inverse)); flex: none;
 }
 /* крупный знак колонки */
 .logo{
-  width: 40px; height: 40px; border-radius: 10px; flex: none;
-  background: var(--brand, var(--ink));
+  width: 40px; height: 40px; border-radius: var(--radius-12); flex: none;
+  background: var(--brand, var(--bg-inverse));
 }
 
-[data-brand="1"]{ --brand: var(--logo-1); }
-[data-brand="2"]{ --brand: var(--logo-2); }
-[data-brand="3"]{ --brand: var(--logo-3); }
-[data-brand="4"]{ --brand: var(--logo-4); }
+[data-brand="1"]{ --brand: var(--brand-design-system); }
+[data-brand="2"]{ --brand: var(--brand-realdeal); }
+[data-brand="3"]{ --brand: var(--brand-kino-i-tv); }
+[data-brand="4"]{ --brand: var(--brand-second-screen); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
@@ -280,13 +330,13 @@ body{
 /* текущий — без подложки */
 .row--open{
   padding: 2px 12px 14px;
-  border-bottom: 1px solid var(--rule); margin-bottom: 6px;
+  border-bottom: 1px solid var(--border-default); margin-bottom: 6px;
 }
 
 /* свёрнутые — карточки */
 .row--flat{
   display: block; text-decoration: none;
-  background: var(--paper); border-radius: 10px; padding: 12px;
+  background: var(--bg-surface); border-radius: var(--radius-12); padding: 12px;
   transition: background .18s ease-out;
 }
 
@@ -297,13 +347,13 @@ body{
 }
 .row__name{
   font-size: 16px; font-weight: 400; line-height: 18px;
-  letter-spacing: -.012em; color: var(--ink);
+  letter-spacing: -.012em; color: var(--text-primary);
 }
-.row--flat:hover{ background: var(--paper-hover); }
-.row--flat:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px; }
+.row--flat:hover{ background: var(--bg-surface-hover); }
+.row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .row em{
   display: block; font-style: normal; font-size: 12px; line-height: 16px;
-  letter-spacing: 0; color: var(--muted);
+  letter-spacing: 0; color: var(--text-secondary);
 }
 
 /* якоря текущего кейса.
@@ -317,19 +367,19 @@ body{
   position: relative; min-height: 30px;
   display: flex; align-items: center;
   font-size: 16px; line-height: 18px; letter-spacing: -.012em;
-  color: var(--muted); text-decoration: none;
+  color: var(--text-secondary); text-decoration: none;
 }
 .toc a::before{
   content: ''; position: absolute; left: -14px; top: 4px; bottom: 4px;
-  width: 2px; border-radius: 1px; background: transparent;
+  width: 2px; border-radius: var(--radius-full); background: transparent;
   transition: background .18s ease-out;
 }
 .toc a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 /* активный якорь метится тоном и рельсом, не весом:
    весов на сайте два, и 500 занят двумя заголовками */
-.toc a[aria-current="true"]{ color: var(--ink); }
-.toc a[aria-current="true"]::before{ background: var(--brand, var(--ink)); }
-.toc a:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 3px; }
+.toc a[aria-current="true"]{ color: var(--text-primary); }
+.toc a[aria-current="true"]::before{ background: var(--brand, var(--bg-inverse)); }
+.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
 
 /* ═══ АНОНС СЛЕДУЮЩЕГО КЕЙСА ═══
    СТРОКА, А НЕ ПУНКТ СПИСКА.
@@ -355,8 +405,8 @@ body{
 @media (max-width: 1140px){
   .end{
     display: block;
-    border-top: 1px solid var(--rule);
-    padding-top: var(--break);
+    border-top: 1px solid var(--border-default);
+    padding-top: var(--space-64);
   }
   .end .hire__links{ display: flex; flex-wrap: wrap; gap: 8px 32px; }
 }
@@ -366,17 +416,17 @@ body{
   display: flex; flex-wrap: wrap; gap: 16px 56px;
   margin: 0; padding: 0; list-style: none;
 }
-.metrics div{ display: grid; gap: 3px; min-width: 0; }
+.metrics div{ display: grid; gap: 4px; min-width: 0; }
 .metrics dt, .metrics .v{
   font-size: 24px; font-weight: 400; line-height: 30px;
-  letter-spacing: -.03em; color: var(--ink);
+  letter-spacing: -.03em; color: var(--text-primary);
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 /* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
    читалась как «60 18» — два числа без отношения между ними. */
-.metrics s{ color: var(--muted); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
+.metrics s{ color: var(--text-secondary); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
 .metrics dd, .metrics .l{
-  margin: 0; font-size: 12px; line-height: 16px; color: var(--muted); letter-spacing: 0;
+  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
 }
 /* зачёркнутое число в текстовом слое читалось слитно:
    стрелка есть для скринридера и для копирования, но не видна */
@@ -387,7 +437,7 @@ body{
 
 /* ═══ МАКЕТЫ — грамматика одна на обе страницы ═══ */
 .frame{
-  background: var(--fill); border-radius: 8px; width: 100%;
+  background: var(--bg-placeholder); border-radius: var(--radius-8); width: 100%;
   aspect-ratio: 16/9;          /* CLS = 0 ещё до загрузки картинки */
   /* width:100% + aspect-ratio внутри fr-колонки даёт круговое
      вычисление ширины, и раскладка 5fr/7fr разносила полосу
@@ -441,7 +491,7 @@ body{
    колонка уже не липкая, и сжимать её зазоры незачем */
 @media (min-width: 1141px) and (max-height: 720px){
   .rail{ gap: 18px; }
-  .row{ padding: 9px 0; }
-  .toc a{ min-height: 27px; }
+  .row{ padding: 8px 0; }
+  .toc a{ min-height: 26px; }
 }
 @media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
