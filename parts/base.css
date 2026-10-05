@@ -312,10 +312,10 @@ body{
   background: var(--brand, var(--bg-inverse));
 }
 
-[data-brand="1"]{ --brand: var(--brand-design-system); }
-[data-brand="2"]{ --brand: var(--brand-realdeal); }
-[data-brand="3"]{ --brand: var(--brand-kino-i-tv); }
-[data-brand="4"]{ --brand: var(--brand-second-screen); }
+[data-brand="design-system"]{ --brand: var(--brand-design-system); }
+[data-brand="realdeal"]{ --brand: var(--brand-realdeal); }
+[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); }
+[data-brand="second-screen"]{ --brand: var(--brand-second-screen); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
