@@ -363,10 +363,10 @@ body{
   background: var(--brand, var(--bg-inverse));
 }
 
-[data-brand="1"]{ --brand: var(--brand-design-system); }
-[data-brand="2"]{ --brand: var(--brand-realdeal); }
-[data-brand="3"]{ --brand: var(--brand-kino-i-tv); }
-[data-brand="4"]{ --brand: var(--brand-second-screen); }
+[data-brand="design-system"]{ --brand: var(--brand-design-system); }
+[data-brand="realdeal"]{ --brand: var(--brand-realdeal); }
+[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); }
+[data-brand="second-screen"]{ --brand: var(--brand-second-screen); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
@@ -1134,23 +1134,18 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 <!-- <</RAIL_HEAD>> -->
 
     <!-- КЕЙСЫ. На главной здесь ничего нет: там лента и есть список. -->
+<!-- <<CASE_TREE>> -->
     <nav class="tree" aria-label="Кейсы">
-      <div class="row row--open" data-brand="2" aria-current="page">
-        <div class="row__id">
-          <span class="logo" aria-hidden="true"></span>
-          <span><span class="row__name">RealDeal</span><em>B2B SaaS · PropTech · CRE</em></span>
-        </div>
-        <span class="toc">
-          <a href="#problem">Проблема</a>
-          <a href="#work">Мой вклад</a>
-          <a href="#result">Результат</a>
-        </span>
+      <div class="row row--open" data-brand="realdeal" aria-current="page">
+        <span class="row__id"><span class="logo" aria-hidden="true"></span>
+        <span><span class="row__name">RealDeal</span><em>B2B SaaS · PropTech · CRE</em></span></span>
+        <span class="toc"><a href="#problem">Проблема</a><a href="#work">Мой вклад</a><a href="#result">Результат</a></span>
       </div>
-
-      <a class="row row--flat" href="/kino-i-tv" data-brand="3"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Триколор Кино и ТВ</span><em>B2C · Streaming TV</em></span></span></a>
-      <a class="row row--flat" href="/design-system" data-brand="1"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS · Design system</em></span></span></a>
-      <a class="row row--flat" href="/second-screen" data-brand="4"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C · TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Триколор Кино и ТВ</span><em>B2C · Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS · Design system</em></span></span></a>
+      <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C · TV &amp; Media</em></span></span></a>
     </nav>
+<!-- <</CASE_TREE>> -->
 
 <!-- <<RAIL_FOOT>> -->
     <div class="rail__spacer"></div>
@@ -1394,14 +1389,16 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <a class="foot__site" href="https://real-deal.ae/" target="_blank" rel="noopener">Сайт продукта <i>↗</i></a>
     </div>
 
+<!-- <<CASE_MORE>> -->
     <nav class="more" aria-label="Другие кейсы">
       <p class="more__t">Другие кейсы</p>
       <div class="tree">
-        <a class="row row--flat" href="/kino-i-tv" data-brand="3"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Триколор Кино и ТВ</span><em>B2C · Streaming TV</em></span></span></a>
-        <a class="row row--flat" href="/design-system" data-brand="1"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS · Design system</em></span></span></a>
-        <a class="row row--flat" href="/second-screen" data-brand="4"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C · TV &amp; Media</em></span></span></a>
+        <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Триколор Кино и ТВ</span><em>B2C · Streaming TV</em></span></span></a>
+        <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS · Design system</em></span></span></a>
+        <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C · TV &amp; Media</em></span></span></a>
       </div>
     </nav>
+<!-- <</CASE_MORE>> -->
 
     <div class="foot foot--hire">
       <p class="foot__ask">Написать мне</p>
