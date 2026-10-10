@@ -21,7 +21,7 @@ HERE = pathlib.Path(__file__).parent
 PARTS = [
     ('HEAD',       'html', 'parts/head.html', True),
     ('BASE',       'css',  'parts/base.css'),
-    ('RAIL_HEAD',  'html', 'parts/rail_head.html'),
+    ('RAIL_HEAD',  'html', 'parts/rail_head.html', True),
     ('RAIL_FOOT',  'html', 'parts/rail_foot.html'),
     ('RAIL_INTRO', 'html', {'index.html': 'parts/rail_intro.html'}),
     # собираются кодом из CASES, файла нет: содержимое зависит от страницы
@@ -45,8 +45,12 @@ ANCHORS = [('#problem', 'Проблема'), ('#work', 'Мой вклад'), ('#
 
 # Шапка у страниц одна, различаются только значения. Копий parts/head_*.html
 # не делаем специально: две копии расходятся — так уже было с левой колонкой.
+# Имя в колонке: на главной это просто текст (ссылка вела бы сама на себя),
+# на внутренней странице — ссылка на главную.
+WHO = 'Задорожная Екатерина —<br>Senior Product Designer.'
 META = {
     'index.html': dict(
+        who=WHO,
         title='Задорожная Екатерина — Senior Product Designer',
         description='Senior Product Designer, 8 лет в B2B SaaS и B2C: PropTech, '
                     'Streaming TV, дизайн-системы. $7.5M инвестиций и рост аудитории '
@@ -58,6 +62,7 @@ META = {
         og_image='og.png',
     ),
     'realdeal.html': dict(
+        who=f'<a href="/">{WHO}</a>',
         title='RealDeal — Екатерина Задорожная',
         description='Кейс RealDeal: первая в ОАЭ платформа онлайн-сделок с коммерческой '
                     'недвижимостью. Роль Lead Product Designer, путь от аналитического '
