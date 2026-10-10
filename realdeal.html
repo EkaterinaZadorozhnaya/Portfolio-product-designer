@@ -19,8 +19,8 @@
 <meta property="og:locale"       content="ru_RU">
 <meta name="twitter:card"        content="summary_large_image">
 
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -293,13 +293,15 @@ body{
 }
 .me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
 /* Имя и сфера — один абзац 24/30, как заголовок кейса (макет 2026-10-10):
-   имя чернилами, сфера приглушённым. Вес 400, акценты 500. */
+   имя чернилами, сфера приглушённым. Имя и акценты «B2B SaaS», «B2C:» —
+   вес 500, остальной текст колонки 400 (правка 2026-10-10). */
 .me__who{
-  font-size: 24px; line-height: 30px; font-weight: 400; letter-spacing: -.03em;
+  font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -.03em;
   color: var(--text-primary); margin: 0;
 }
-.me__who a{ color: inherit; text-decoration: none; display: inline-block; }
-.me__who a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.me__who a{ color: inherit; text-decoration: none; display: inline-block; transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.me__who a:hover{ color: var(--text-secondary); }
 .me__span{
   margin: 0; font-size: 24px; line-height: 30px; font-weight: 400;
   letter-spacing: -.03em; color: var(--text-secondary);
@@ -560,7 +562,7 @@ body{
 .app--case .rail{ gap: 16px; }
 .app--case .me{ grid-template-columns: 40px minmax(0,1fr); gap: 0 16px; align-items: center; }
 .app--case .me__ava{ margin: 0; }
-.app--case .me__who{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; }
+.app--case .me__who{ font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em; }
 .app--case .act{ margin-top: 0; }
 .app--case .rail__spacer{ display: none; }
 .app--case .tree{ margin-block: auto; max-width: 320px; }
@@ -699,7 +701,9 @@ body{
   width: 16px; height: 16px; display: inline-grid; place-items: center;
   background: var(--bg-placeholder); border-radius: var(--radius-4); color: var(--text-primary);
 }
-.top__link:hover{ color: var(--text-primary); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.top__link{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.top__link:hover{ color: var(--text-primary); }
 
 h1.title{
   font-size: 34px; font-weight: 500; letter-spacing: -.03em; line-height: 38px;
@@ -813,7 +817,12 @@ h1.title{
 /* макет кейса 2026-10-10: линия и метрики шапки — на всю ширину листа,
    таблица — 860 по центру */
 .paper .metrics.metrics--top{ max-width: none; }
-.paper .metrics.metrics--out{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+.paper .metrics.metrics--out{
+  max-width: var(--width-wide); margin-left: auto; margin-right: auto;
+  /* линии над итоговыми метриками на макете нет — над ними уже линия
+     последней строки таблицы (макет кейса 2026-10-10) */
+  border-top: 0; padding-top: var(--space-16);
+}
 .paper .tbl{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
 /* ВЫНОС ЖИВЁТ В КОЛОНКЕ ПРОЗЫ, а не в полосе.
    Пробовали полосу 760: там Literata 34 даёт 37 знаков в строке
@@ -859,6 +868,19 @@ h1.title{
 }
 
 .paper .sec > *:last-child{ margin-bottom: 0; }
+
+/* РИТМ ВНУТРИ ЛИСТА — правило автора 2026-10-10:
+   между блоками 32, внутри текста 16. Делается отступом сверху от
+   предыдущего соседа, а не снизу у каждого блока: так не бывает
+   двойных промежутков и не надо помнить исключения.
+   Исключения только два: ярлык «Решение N» и его заголовок — одна
+   пара (6), и заголовок с его текстом — 16, как строки внутри текста. */
+.paper .shot--cover{ margin-bottom: 0; }   /* до первого раздела 32 даёт сам раздел */
+.paper .sec > *{ margin-top: 0; margin-bottom: 0; }
+.paper .sec > * + *{ margin-top: var(--space-32); }
+.paper .sec > .tag + h3{ margin-top: 6px; }
+.paper .sec > h3 + .t, .paper .sec > h3 + ul.list,
+.paper .sec > .t + .t, .paper .sec > .t + ul.list, .paper .sec > ul.list + .t{ margin-top: var(--space-16); }
 
 /* ═══ РАЗДЕЛЫ ═══ */
 .sec{ padding-top: var(--space-32); scroll-margin-top: 24px; }   /* макет 2026-10-10: между разделами 32, было 64 */
@@ -1021,6 +1043,17 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
   max-width: var(--width-prose); margin-left: auto; margin-right: auto;
 }
 .paper .shot--fig .shot__cap{ margin-left: 0; }
+/* схема пути: 860 по центру листа (макет 2026-10-10) */
+.paper .shot--wide{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+.paper .shot--wide .shot__cap{ margin-left: 0; }
+.flow--text{ display: none; }
+.flow span small{
+  display: block; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
+}
+@media (max-width: 620px){
+  .flow-img{ display: none; }
+  .flow--text{ display: flex; }
+}
 /* Подписи несут смысл, а не служебную роль: когда макеты станут
    настоящими, подпись — единственное, что объясняет кадр.
    Кегль 12 — общий для всех служебных строк страницы; отличие
@@ -1182,7 +1215,7 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
    единственный выход со страницы. */
 .foot{
   display: grid;
-  margin-top: var(--space-64); padding-top: var(--space-48);
+  margin-top: var(--space-32); padding-top: var(--space-32);   /* 32 до линии и после (правило ритма 2026-10-10) */
   border-top: 1px solid var(--border-default);
   max-width: var(--width-prose); margin-left: auto; margin-right: auto;
   gap: var(--space-16);
@@ -1193,7 +1226,8 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
   display: inline-flex; gap: 8px; align-items: center;
   min-height: 26px; width: fit-content;
 }
-.foot__site:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.foot__site{ transition: color .18s ease-out; }
+.foot__site:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания, как везде */
 .foot__site i{
   font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
   width: 16px; height: 16px; display: inline-grid; place-items: center;
@@ -1391,14 +1425,14 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
         <footer>управляющий активами</footer>
       </blockquote>
 
-      <!-- РАЗДЕЛИТЕЛЬ «ПРОБЛЕМА → МОЙ ВКЛАД».
-           Место утверждено, содержание нет. Пропорция 21:9 временная:
-           она выбрана под линейную схему; если встанет скриншот —
-           пересчитать на 16:9. Подписи нет намеренно — пока нечего
-           подписывать, а пустая подпись хуже её отсутствия. -->
-      <figure class="shot shot--fig">
-        <div class="flow">
-          <span>Анализ рынка</span><i>→</i><span>Поиск объекта</span><i>→</i><span>Оценка доходности</span><i>→</i><span>Онлайн-сделка</span><i>→</i><span>Управление объектом</span>
+      <!-- СХЕМА ПУТИ — файл Flow.png из макета 2026-10-10: прозрачное поле,
+           плашку #F0F0F0 с радиусом 8 даёт страница; 860 по центру листа.
+           Подпись остаётся по ТЗ. На 620 и ниже текст в схеме мельче 5px,
+           поэтому вместо файла показывается тот же путь чипами. -->
+      <figure class="shot shot--wide">
+        <div class="shot__frame flow-img" style="aspect-ratio: 1720 / 504"><picture><source srcset="/img/realdeal/Flow.webp" type="image/webp"><img src="/img/realdeal/Flow.png" width="1720" height="504" alt="Путь инвестора: анализ рынка (данные разрознены), поиск объекта, оценка доходности (считают «на глаз»), сделка (через агента), управление объектом" loading="lazy" decoding="async"></picture></div>
+        <div class="flow flow--text" aria-hidden="true">
+          <span>Анализ рынка<small>данные разрознены</small></span><i>→</i><span>Поиск объекта</span><i>→</i><span>Оценка доходности<small>считают «на глаз»</small></span><i>→</i><span>Сделка<small>через агента</small></span><i>→</i><span>Управление объектом</span>
         </div>
         <figcaption class="shot__cap">Весь путь инвестора — и три шага, на которых он рвался</figcaption>
       </figure>
