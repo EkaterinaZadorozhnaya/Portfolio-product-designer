@@ -107,7 +107,7 @@
      гарнитуры число пересчитывается, а не переносится.) */
   --width-prose: 640px;   /* было 570; макет кейса 2026-10-10 */
   --width-wide:  860px;   /* таблица и схема пути — по центру листа */
-  --width-rail:  360px;   /* левая колонка */
+  --width-rail:  clamp(248px, 25vw, 360px);   /* левая колонка; резиновая (ТЗ адаптив 2026-10-10), 360 с 1440 */
 
   /* РИТМ СТРАНИЦЫ — четыре ступени, все кратны 16. Шкала закрыта.
      Внутренние поля компонентов ей не подчиняются и токенов
@@ -188,7 +188,7 @@ body{
   max-width: 1680px; margin: 0 auto;
   padding: max(24px, var(--page-gutter)) var(--page-gutter) 80px;
   display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr);
-  gap: 0 clamp(40px, 3.75vw, 60px);
+  gap: 0 clamp(24px, 3.75vw, 60px);
   align-items: start;
 }
 
@@ -223,6 +223,7 @@ body{
 .rail{
   position: sticky; top: max(24px, var(--page-gutter));
   height: calc(100vh - 2 * max(24px, var(--page-gutter)));
+  height: calc(100dvh - 2 * max(24px, var(--page-gutter)));   /* 100vh на мобильных — не высота экрана */
   overflow-y: auto;
   display: flex; flex-direction: column; gap: 24px;
   padding: 6px 0 24px;
@@ -446,7 +447,7 @@ body{
    и появится повторный трафик, анонс можно растить до состояния
    полноценного пункта. */
 .end{ display: none; }
-@media (max-width: 1140px){
+@media (max-width: 800px){
   .end{
     display: block;
     border-top: 1px solid var(--border-default);
@@ -523,21 +524,64 @@ body{
    Колонка фиксирована, контент резиновый — значит порог задаёт
    контент. Ниже 1140 навигация отнимает у текста больше,
    чем отдаёт. */
-@media (max-width: 1140px){
+/* ПОРОГ СХЛОПЫВАНИЯ — 800 (ТЗ адаптив 2026-10-10; прежний 1140 заменён).
+   Колонка резиновая, clamp(248, 25vw, 360), и отдаёт пиксели вместе
+   с листом, поэтому сворачивать её раньше 800 незачем: ниже 800
+   колонка оставляла бы листу меньше, чем он получает без неё.
+   Четыре режима: 1141+ — колонка полная; 801–960 — сжатая;
+   800 и ниже — горизонтальная над контентом, в ней только
+   аватар, имя с ролью и кнопка резюме. */
+@media (min-width: 801px) and (max-width: 960px){
+  :root{ --width-rail: clamp(200px, 22vw, 248px); }
+  .app{ gap: 0 24px; }
+  .rail .row__id em{ display: none; }   /* подзаголовки кейсов не влезают */
+  .me__sum{ display: none; }            /* строка про $7.5M не влезает */
+}
+/* имя в колонке: 24/30 по макету держится, пока колонка ≥ 300
+   (с 1200); уже — 16/18, ступень шкалы, не плавный кегль */
+@media (min-width: 801px) and (max-width: 1199px){
+  .me__who, .me__span{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; }
+}
+@media (max-width: 800px){
   .app{ grid-template-columns: 1fr; gap: 28px; }
   /* горизонтальная колонка не растягивается на всю ширину:
      строка в 1020px нечитаема, а контента в ней на 426 */
-  .rail{ position: static; height: auto; max-height: none; overflow: visible;
+  /* relative, а не static: метка шапки в конце колонки позиционируется от неё */
+  .rail{ position: relative; height: auto; max-height: none; overflow: visible;
          gap: 20px; padding-bottom: 0; max-width: 760px; }
   .rail__spacer{ display: none; }
   .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
   .app--case .rail{ gap: 20px; }
-  .app--case .tree{ margin-block: 0; max-width: none; }
-  .hire{ margin-top: 0; }
-  /* карточки кейсов в ряд, а не в столбик на всю ширину */
-  .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-  .row--open{ grid-column: 1 / -1; }
+  /* уходят: список кейсов с якорями, контакты, строки интро.
+     Якоря работают, пока оглавление липкое; другие кейсы и контакты
+     есть внизу страницы (.more, .end, .foot--hire). */
+  .rail .tree, .rail .hire, .me__span, .me__sum{ display: none; }
 }
+/* ЛИПКАЯ ШАПКА — 768 и ниже. Появляется, когда колонка ушла за верхний
+   край; без гамбургера, кнопки «наверх» и зума (решения автора). */
+.topbar{ display: none; }
+@media (max-width: 768px){
+  .topbar{
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; height: 48px; padding: 0 16px;
+    background: color-mix(in srgb, var(--bg-surface) 86%, transparent);
+    backdrop-filter: saturate(1.5) blur(12px);
+    -webkit-backdrop-filter: saturate(1.5) blur(12px);
+    border-bottom: 1px solid var(--border-default);
+    opacity: 0; transform: translateY(-100%); pointer-events: none; visibility: hidden;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .topbar.is-on{ opacity: 1; transform: none; pointer-events: auto; visibility: visible; }
+  .topbar a{
+    font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+    color: var(--text-primary); text-decoration: none; min-height: 26px;
+    display: inline-flex; align-items: center;
+  }
+  .topbar a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
+  .sec{ scroll-margin-top: 60px; }
+}
+@media (prefers-reduced-motion: reduce){ .topbar{ transition: none; } }
 /* ТЕЛЕФОН — 480.
    Лист идёт во всю ширину экрана: поля страницы съедали 32px
    из 390, то есть десятую часть строки. Замер: с полями проза
@@ -550,15 +594,16 @@ body{
      колонка обязана держать своё поле сама, иначе её карточки
      и контакты упираются в край экрана */
   .rail{ padding-inline: 16px; }
-  .metrics{ gap: 12px 32px; }
+  /* метрики сеткой 2×2: три во flex-wrap ложились «две и одна» (ТЗ адаптив) */
+  .metrics{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
   /* Кегль метрики здесь не трогается: в ленте он изначально 24,
      а в кейсе спустился до 24 ещё на пороге 768. Правило, которое
      стояло на этом месте, ничего не меняло — осталось от прежней
      шкалы, где метрика была 28. */
 }
-/* порог по высоте совпадает с порогом раскладки: ниже 1141
+/* порог по высоте совпадает с порогом раскладки: ниже 801
    колонка уже не липкая, и сжимать её зазоры незачем */
-@media (min-width: 1141px) and (max-height: 720px){
+@media (min-width: 801px) and (max-height: 720px){
   .rail{ gap: 18px; }
   .act{ margin-top: 14px; }   /* 18 + 14 = 32 до кнопки */
   .row{ padding: 8px 0; }
