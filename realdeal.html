@@ -598,7 +598,7 @@ body{
   /* горизонтальная колонка не растягивается на всю ширину:
      строка в 1020px нечитаема, а контента в ней на 426 */
   /* relative, а не static: метка шапки в конце колонки позиционируется от неё */
-  .rail{ position: relative; height: auto; max-height: none; overflow: visible;
+  .rail{ position: relative; top: auto; height: auto; max-height: none; overflow: visible;
          gap: 20px; padding-bottom: 0; max-width: 760px; }
   .rail__spacer{ display: none; }
   .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
@@ -655,7 +655,8 @@ body{
 /* порог по высоте совпадает с порогом раскладки: ниже 801
    колонка уже не липкая, и сжимать её зазоры незачем */
 @media (min-width: 801px) and (max-height: 720px){
-  .rail{ gap: 18px; }
+  .rail{ gap: 18px; padding-bottom: 0; }   /* без запаса снизу колонка помещается в 720, прокрутки внутри нет */
+  .hire{ margin-top: 0; }
   .act{ margin-top: 14px; }   /* 18 + 14 = 32 до кнопки */
   .row{ padding: 8px 0; }
   .toc a{ min-height: 26px; }
@@ -1353,7 +1354,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
            макет кадрируется — срезается только низ (180px), верх виден
            целиком. На главной тот же файл показан целиком в 16:10.
            Чтобы убрать кадрирование, выгрузить файл 16:9 и вернуть fill. -->
-      <div class="shot__frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая на данных DLD: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
+      <div class="shot__frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая на данных DLD: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
     </figure>
 
     <!-- ── ПРОБЛЕМА И КОНТЕКСТ ── -->
@@ -1414,7 +1415,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <p class="res"><b>Результат</b><span>Узкое демо принесло $2.5M и доступ к закрытым данным DLD. Полный MVP принёс ещё $5M на раунде A.</span></p>
 
       <figure class="shot">
-        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4968 / 2796"><picture><source srcset="/img/realdeal/960/analytic.webp 960w, /img/realdeal/analytic.webp 4968w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/analytic.png" width="4968" height="2796" alt="Аналитика в графиках: объём сделок, аренда, динамика цены, демография" loading="lazy" decoding="async"></picture></div>
+        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4968 / 2796"><picture><source srcset="/img/realdeal/960/analytic.webp 960w, /img/realdeal/analytic.webp 4968w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/analytic.png" width="4968" height="2796" alt="Аналитика в графиках: объём сделок, аренда, динамика цены, демография" loading="lazy" decoding="async"></picture></div>
         <figcaption class="shot__cap">Второй формат демо — графики на открытых данных рынка Дубая</figcaption>
       </figure>
 
@@ -1432,22 +1433,22 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
            превращается в пятно. Подписи несут «Демо:» и «MVP:» сами. -->
       <div class="shots2">
         <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before.webp 960w, /img/realdeal/map_before.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before.png" width="2406" height="1800" alt="Демо: несколько слоёв включены разом, поверх панель фильтров" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before.webp 960w, /img/realdeal/map_before.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before.png" width="2406" height="1800" alt="Демо: несколько слоёв включены разом, поверх панель фильтров" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">Демо: слои включены разом — карта перестаёт читаться</figcaption>
           </figure>
         <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before2.webp 960w, /img/realdeal/map_before2.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before2.png" width="2406" height="1800" alt="Демо: слой Ownership раскрыт внутри группы" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before2.webp 960w, /img/realdeal/map_before2.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before2.png" width="2406" height="1800" alt="Демо: слой Ownership раскрыт внутри группы" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">Демо: слой живёт внутри группы — выйдя назад, не видно, что включено</figcaption>
           </figure>
       </div>
 
       <figure class="shot">
-        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after.webp 960w, /img/realdeal/1920/map_after.webp 1920w, /img/realdeal/map_after.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/map_after.png" width="4000" height="2250" alt="MVP: карта в объёмном режиме, панель слоёв с сохранением пресета" loading="lazy" decoding="async"></picture></div>
+        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after.webp 960w, /img/realdeal/1920/map_after.webp 1920w, /img/realdeal/map_after.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/map_after.png" width="4000" height="2250" alt="MVP: карта в объёмном режиме, панель слоёв с сохранением пресета" loading="lazy" decoding="async"></picture></div>
         <figcaption class="shot__cap">MVP: набор слоёв сохраняется пресетом, объёмный режим показывает этажность</figcaption>
       </figure>
 
       <figure class="shot">
-        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after2.webp 960w, /img/realdeal/1920/map_after2.webp 1920w, /img/realdeal/map_after2.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/map_after2.png" width="4000" height="2250" alt="MVP: слой Ownership отдельной панелью — фильтры и аналитика по слою" loading="lazy" decoding="async"></picture></div>
+        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after2.webp 960w, /img/realdeal/1920/map_after2.webp 1920w, /img/realdeal/map_after2.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/map_after2.png" width="4000" height="2250" alt="MVP: слой Ownership отдельной панелью — фильтры и аналитика по слою" loading="lazy" decoding="async"></picture></div>
         <figcaption class="shot__cap">MVP: тот же слой стал самостоятельным — свои фильтры и своя аналитика</figcaption>
       </figure>
 
@@ -1464,11 +1465,11 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <div class="shots2">
         <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/catalog.webp 960w, /img/realdeal/catalog.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/catalog.png" width="2406" height="1800" alt="Каталог: список объектов и карта с ценниками, на точке открыта карточка" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/catalog.webp 960w, /img/realdeal/catalog.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/catalog.png" width="2406" height="1800" alt="Каталог: список объектов и карта с ценниками, на точке открыта карточка" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">От карты к объекту — точка на карте открывает карточку</figcaption>
           </figure>
         <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/object_card.webp 960w, /img/realdeal/object_card.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/object_card.png" width="2406" height="1800" alt="Карточка объекта: проверка, условия, калькулятор доходности" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/object_card.webp 960w, /img/realdeal/object_card.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/object_card.png" width="2406" height="1800" alt="Карточка объекта: проверка, условия, калькулятор доходности" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">Доходность прямо на объекте — без Excel и без агента</figcaption>
           </figure>
       </div>
@@ -1481,16 +1482,16 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <div class="shots-lead">
         <figure class="shot">
-          <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/dealroom.webp 960w, /img/realdeal/1920/dealroom.webp 1920w, /img/realdeal/dealroom.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dealroom.png" width="4000" height="2250" alt="Запрос на сделку: выбор роли, шаг 1 из 3" loading="lazy" decoding="async"></picture></div>
+          <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/dealroom.webp 960w, /img/realdeal/1920/dealroom.webp 1920w, /img/realdeal/dealroom.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/dealroom.png" width="4000" height="2250" alt="Запрос на сделку: выбор роли, шаг 1 из 3" loading="lazy" decoding="async"></picture></div>
           <figcaption class="shot__cap">Вход — запрос уходит из карточки объекта</figcaption>
         </figure>
         <div class="shots-lead__pair">
           <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom2.webp 960w, /img/realdeal/dealroom2.webp 2800w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom2.png" width="2800" height="2094" alt="Deal Room: этапы сделки, due diligence, переписка сторон" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom2.webp 960w, /img/realdeal/dealroom2.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom2.png" width="2800" height="2094" alt="Deal Room: этапы сделки, due diligence, переписка сторон" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">Deal&nbsp;Room — сделка закрывается на платформе: подпись через UAE&nbsp;PASS юридически значима</figcaption>
           </figure>
           <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom3.webp 960w, /img/realdeal/dealroom3.webp 2800w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom3.png" width="2800" height="2094" alt="Мои сделки: таблица с контрагентом, ролью и статусом" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom3.webp 960w, /img/realdeal/dealroom3.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom3.png" width="2800" height="2094" alt="Мои сделки: таблица с контрагентом, ролью и статусом" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">Возврат — статусы сделок возвращаются в дашборд</figcaption>
           </figure>
         </div>
@@ -1503,11 +1504,11 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <div class="shots2">
         <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2958 / 2212"><picture><source srcset="/img/realdeal/add_object.webp 2958w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/add_object.png" width="2958" height="2212" alt="Форма публикации объекта: контакты, паспорт, Emirates ID, Trakheesi permit" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2958 / 2212"><picture><source srcset="/img/realdeal/add_object.webp 2958w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/add_object.png" width="2958" height="2212" alt="Форма публикации объекта: контакты, паспорт, Emirates ID, Trakheesi permit" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">Экран продукта, собранный из компонентов системы</figcaption>
           </figure>
         <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/color.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/color.png" width="2406" height="1800" alt="Палитра дизайн-системы со значениями" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/color.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/color.png" width="2406" height="1800" alt="Палитра дизайн-системы со значениями" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">Палитра: значения, токены и роли</figcaption>
           </figure>
       </div>
@@ -1542,7 +1543,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       </dl>
 
       <figure class="shot">
-        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Дашборд инвестора: AI-ассистент, задачи, объекты, воронка сделок" loading="lazy" decoding="async"></picture></div>
+        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Дашборд инвестора: AI-ассистент, задачи, объекты, воронка сделок" loading="lazy" decoding="async"></picture></div>
         <figcaption class="shot__cap">Дашборд — сделки, задачи, объекты и воронка в одном месте. Спроектирован вместе с AI-ассистентом, в релиз не вышел</figcaption>
       </figure>
 
