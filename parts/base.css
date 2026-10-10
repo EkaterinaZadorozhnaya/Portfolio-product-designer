@@ -60,6 +60,12 @@
   --brand-design-system: #14532D;   /* DREAMPlatform — зелёный,   L31 */
   --brand-second-screen: #DE5B1C;   /* Второй экран  — оранжевый, L58 */
 
+  /* ПОЛЕ КАДРА С КАЛЬКУЛЯТОРОМ на главной — ТЗ вставки макетов, 2026-10-10:
+     Accent/Info #1268EC на 15% поверх белого. Файл макета приходит
+     с прозрачным полем, цвет даёт плашка. Один потребитель
+     (.frame--field), от темы не зависит; в семантику не заводить. */
+  --brand-realdeal-field: #DBE8FC;
+
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
      --text-primary и --bg-inverse сегодня совпадают по значению,
@@ -104,6 +110,7 @@
      не получают: токен с одним потребителем бесполезен. */
   --space-16: 16px;    /* 1×   между любыми соседними блоками */
   --space-24: 24px;    /* 1.5× после выноса и цитаты */
+  --space-32: 32px;    /* 2×   до и после линейки между кейсами в ленте (2026-10-10) */
   --space-48: 48px;    /* 3×   внутри обложки и после лида */
   --space-64: 64px;    /* 4×   между разделами и между кейсами */
 
@@ -112,7 +119,7 @@
      фиксированное число (800px), а всё, что вокруг, выведено
      из него через clamp(мин, доля, макс). Скачок поля с 30 на 16
      на пороге заметен глазом; clamp убирает сам скачок. */
-  --page-gutter: clamp(16px, 2.2vw, 30px);
+  --page-gutter: clamp(16px, 3.75vw, 60px);   /* 60 с 1600 и шире (макет главной 2026-10-10) */
 }
 
 /* ═══ ТЁМНАЯ ТЕМА — НЕ АКТИВИРОВАНА ═══
@@ -170,9 +177,14 @@ body{
 }
 
 .app{
-  max-width: 1560px; margin: 0 auto;
-  padding: 24px var(--page-gutter) 80px;
-  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr); gap: 0 40px;
+  /* Макет главной 2026-10-10 при 1600: поля 60, колонка 360, зазор 60
+     до линейки (x=480), ещё 20 до ленты (x=500). Зазор и верхнее поле
+     плавные, как и поля страницы: на 1141 они сжимаются, и лист кейса
+     по-прежнему вмещает колонку прозы 570. */
+  max-width: 1680px; margin: 0 auto;
+  padding: max(24px, var(--page-gutter)) var(--page-gutter) 80px;
+  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr);
+  gap: 0 clamp(40px, 3.75vw, 60px);
   align-items: start;
 }
 
@@ -200,9 +212,13 @@ body{
    и контактами связи нет — там он становится дырой.
    Стало: высота по контенту, потолок — экран, прокрутка внутри
    только если контент выше экрана. */
+/* КОНТАКТЫ ПРИЖАТЫ К НИЗУ — решение 2026-10-10, макет главной, обе страницы.
+   Прежнее решение «высота по контенту» отменено: колонка занимает
+   высоту экрана за вычетом полей, распорка уводит контакты вниз.
+   Если контент выше экрана — прокрутка внутри колонки, как раньше. */
 .rail{
-  position: sticky; top: 24px;
-  max-height: calc(100vh - 24px);
+  position: sticky; top: max(24px, var(--page-gutter));
+  height: calc(100vh - 2 * max(24px, var(--page-gutter)));
   overflow-y: auto;
   display: flex; flex-direction: column; gap: 24px;
   padding: 6px 0 24px;
@@ -210,28 +226,35 @@ body{
 }
 
 /* ── кто я ── */
-.me{ display: grid; gap: 12px; }
+/* Аватар → имя 16, имя и сфера — один абзац без зазора, строка
+   про инвестиции отбита 16 (макет 2026-10-10). */
+.me{ display: grid; gap: 0; max-width: 320px; }   /* ширина текста колонки по макету: «дизайн-системы» не рвётся */
+.me__ava{ margin-bottom: 16px; }
 .me__ava{
-  width: 36px; height: 36px; border-radius: var(--radius-full);
+  width: 40px; height: 40px; border-radius: var(--radius-full);
   background: var(--bg-placeholder); overflow: hidden;
-  display: grid; place-items: center;
+  display: block;
 }
-.me__ava svg{ width: 36px; height: 36px; display: block; color: var(--border-default); }
+.me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
+/* Имя и сфера — один абзац 24/30, как заголовок кейса (макет 2026-10-10):
+   имя чернилами, сфера приглушённым. Вес 400, акценты 500. */
 .me__who{
-  font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
+  font-size: 24px; line-height: 30px; font-weight: 400; letter-spacing: -.03em;
   color: var(--text-primary); margin: 0;
 }
 .me__who a{ color: inherit; text-decoration: none; display: inline-block; }
 .me__who a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .me__span{
-  margin: 0; font-size: 16px; line-height: 18px; font-weight: 400;
-  letter-spacing: -.012em; color: var(--text-secondary);
+  margin: 0; font-size: 24px; line-height: 30px; font-weight: 400;
+  letter-spacing: -.03em; color: var(--text-secondary);
 }
-.me__span b{ font-weight: 400; color: var(--text-primary); }
+.me__span b{ font-weight: 500; color: var(--text-primary); }
+/* Строка про инвестиции — 16/22 по макету 2026-10-10 (было Caption 12/16). */
 .me__sum{
-  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary);
+  margin: 16px 0 0; font-size: 16px; line-height: 22px; letter-spacing: -.012em;
+  color: var(--text-secondary);
 }
-.me__sum b{ font-weight: 400; color: var(--text-primary); }
+.me__sum b{ font-weight: 500; color: var(--text-primary); }
 
 /* ── действие ──
    Правка совета №3 отменена, и вот почему.
@@ -244,13 +267,17 @@ body{
    Поэтому чёрное пятно снова на резюме, а контакты внизу
    остаются единственным местом, где живут адреса. */
 .act{ display: flex; flex-wrap: wrap; gap: 8px; }
+/* кнопка отбита от блока «кто я» на 32 (макет 2026-10-10):
+   зазор колонки 24 + 8 своих */
+.act{ margin-top: 8px; }
 .act a{
   display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
   font-size: 14px; font-weight: 400; letter-spacing: -.012em; line-height: 16px;
   /* поля 10, а не 8: при интерлиньяже 16 кнопка высотой 8+16+8 = 32px,
      а это ниже минимальной цели нажатия. 10+16+10 = 36. Кегль твой,
      высоту держит поле. */
-  text-decoration: none; border-radius: var(--radius-8); padding: 10px 14px; min-height: 36px;
+  /* 2026-10-10, макет: высота 32 (8+16+8), радиус 4. Прежние 36/8 — отменены. */
+  text-decoration: none; border-radius: var(--radius-4); padding: 8px 14px; min-height: 32px;
   transition: background .18s ease-out;
 }
 .act__cv{ background: var(--bg-inverse); color: var(--text-inverse); }
@@ -267,7 +294,7 @@ body{
 /* Распорки больше нет: контакты идут сразу после кейсов,
    отделённые разрывом в 40 — это последний блок колонки,
    а не её подвал. */
-.rail__spacer{ display: none; }
+.rail__spacer{ flex: 1 1 auto; min-height: 0; }
 .hire{ display: grid; gap: 8px; margin-top: 16px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
@@ -302,20 +329,26 @@ body{
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; color: var(--text-primary);
 }
-.mark::before{
-  content: ''; width: 12px; height: 12px; border-radius: var(--radius-4);
-  background: var(--brand, var(--bg-inverse)); flex: none;
-}
-/* крупный знак колонки */
+/* ЗНАКИ ПРИШЛИ — ТЗ вставки макетов, 2026-10-10. Два вида, не взаимозаменяемы:
+   вордмарк на главной (<img> внутри .mark, имя продукта — в alt,
+   цветной квадрат ::before убран), квадратный знак в колонке (.logo).
+   Высоты — как в макете главной 2026-10-10: RealDeal 14, Триколор 16,
+   DREAMPlatform 24 (у файла поля, видимый знак ≈17), Второй экран 14.
+   Стоят атрибутами на <img>, ширина по пропорции файла. */
+.mark img{ display: block; width: auto; }
+/* неразрывное сочетание в заголовках: «онлайн-сделок» не рвётся по дефису */
+.nw{ white-space: nowrap; }
+/* крупный знак колонки: квадрат из SVG, цвет плашки остаётся запасным,
+   пока файл не загрузился */
 .logo{
   width: 40px; height: 40px; border-radius: var(--radius-12); flex: none;
-  background: var(--brand, var(--bg-inverse));
+  background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
 }
 
-[data-brand="design-system"]{ --brand: var(--brand-design-system); }
-[data-brand="realdeal"]{ --brand: var(--brand-realdeal); }
-[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); }
-[data-brand="second-screen"]{ --brand: var(--brand-second-screen); }
+[data-brand="design-system"]{ --brand: var(--brand-design-system); --sign: url("/img/logo/DRM.svg"); }
+[data-brand="realdeal"]{ --brand: var(--brand-realdeal); --sign: url("/img/logo/RD.svg"); }
+[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); --sign: url("/img/logo/Cinema.svg"); }
+[data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
@@ -447,6 +480,16 @@ body{
 .frame--wide{ aspect-ratio: 21/9; }
 .frame--43{ aspect-ratio: 4/3; }
 .frame--mob{ aspect-ratio: 9/16; }
+/* Поле макета — подложка плашки, которую даёт страница (файл приходит
+   с прозрачным полем). Пропорция плашки — из файла, инлайном на элементе. */
+.frame--field{ background: var(--brand-realdeal-field); }
+/* Макет во всю плашку: ни поля, ни тени, ни своего радиуса, ни кадрирования.
+   fill, а не contain/cover: пропорция плашки уже равна пропорции файла,
+   а contain оставил бы щель в полпикселя по краю. */
+.frame{ overflow: hidden; }
+/* WebP с запасным PNG: <picture> заполняет плашку, как сам <img> */
+.frame picture{ display: block; width: 100%; height: 100%; }
+.frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
 
 /* ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
    ширина полосы = экран − 60 (поля) − 360 (колонка) − 40 (зазор)
@@ -462,8 +505,10 @@ body{
   .app{ grid-template-columns: 1fr; gap: 28px; }
   /* горизонтальная колонка не растягивается на всю ширину:
      строка в 1020px нечитаема, а контента в ней на 426 */
-  .rail{ position: static; max-height: none; overflow: visible;
+  .rail{ position: static; height: auto; max-height: none; overflow: visible;
          gap: 20px; padding-bottom: 0; max-width: 760px; }
+  .rail__spacer{ display: none; }
+  .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
   .hire{ margin-top: 0; }
   /* карточки кейсов в ряд, а не в столбик на всю ширину */
   .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
@@ -491,6 +536,7 @@ body{
    колонка уже не липкая, и сжимать её зазоры незачем */
 @media (min-width: 1141px) and (max-height: 720px){
   .rail{ gap: 18px; }
+  .act{ margin-top: 14px; }   /* 18 + 14 = 32 до кнопки */
   .row{ padding: 8px 0; }
   .toc a{ min-height: 26px; }
 }
