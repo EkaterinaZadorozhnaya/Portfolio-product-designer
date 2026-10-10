@@ -578,7 +578,7 @@ body{
   /* горизонтальная колонка не растягивается на всю ширину:
      строка в 1020px нечитаема, а контента в ней на 426 */
   /* relative, а не static: метка шапки в конце колонки позиционируется от неё */
-  .rail{ position: relative; height: auto; max-height: none; overflow: visible;
+  .rail{ position: relative; top: auto; height: auto; max-height: none; overflow: visible;
          gap: 20px; padding-bottom: 0; max-width: 760px; }
   .rail__spacer{ display: none; }
   .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
@@ -635,7 +635,8 @@ body{
 /* порог по высоте совпадает с порогом раскладки: ниже 801
    колонка уже не липкая, и сжимать её зазоры незачем */
 @media (min-width: 801px) and (max-height: 720px){
-  .rail{ gap: 18px; }
+  .rail{ gap: 18px; padding-bottom: 0; }   /* без запаса снизу колонка помещается в 720, прокрутки внутри нет */
+  .hire{ margin-top: 0; }
   .act{ margin-top: 14px; }   /* 18 + 14 = 32 до кнопки */
   .row{ padding: 8px 0; }
   .toc a{ min-height: 26px; }
@@ -792,10 +793,10 @@ body{
            Кадр с картой — одним файлом с обложкой кейса. Поля у карты и
            карточки нет; у калькулятора поле прозрачное, цвет даёт .frame--field. -->
       <div class="shots">
-        <div class="frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
+        <div class="frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
         <div class="shots__pair">
-          <div class="frame frame--field" style="aspect-ratio: 1604 / 1200"><picture><source srcset="/img/home/rd_hero_ROI.webp 1604w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_ROI.png" width="1604" height="1200" alt="Калькулятор доходности в карточке объекта" loading="lazy" decoding="async"></picture></div>
-          <div class="frame" style="aspect-ratio: 1200 / 898"><picture><source srcset="/img/home/960/rd_hero_card.webp 960w, /img/home/rd_hero_card.webp 1200w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_card.png" width="1200" height="898" alt="Карточка объекта в каталоге на фоне панорамы города" loading="lazy" decoding="async"></picture></div>
+          <div class="frame frame--field" style="aspect-ratio: 1604 / 1200"><picture><source srcset="/img/home/rd_hero_ROI.webp 1604w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_ROI.png" width="1604" height="1200" alt="Калькулятор доходности в карточке объекта" loading="lazy" decoding="async"></picture></div>
+          <div class="frame" style="aspect-ratio: 1200 / 898"><picture><source srcset="/img/home/960/rd_hero_card.webp 960w, /img/home/rd_hero_card.webp 1200w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_card.png" width="1200" height="898" alt="Карточка объекта в каталоге на фоне панорамы города" loading="lazy" decoding="async"></picture></div>
         </div>
       </div>
     </article>
