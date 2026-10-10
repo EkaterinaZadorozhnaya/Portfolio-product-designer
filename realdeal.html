@@ -111,6 +111,12 @@
   --brand-design-system: #14532D;   /* DREAMPlatform — зелёный,   L31 */
   --brand-second-screen: #DE5B1C;   /* Второй экран  — оранжевый, L58 */
 
+  /* ПОЛЕ КАДРА С КАЛЬКУЛЯТОРОМ на главной — ТЗ вставки макетов, 2026-10-10:
+     Accent/Info #1268EC на 15% поверх белого. Файл макета приходит
+     с прозрачным полем, цвет даёт плашка. Один потребитель
+     (.frame--field), от темы не зависит; в семантику не заводить. */
+  --brand-realdeal-field: #DBE8FC;
+
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
      --text-primary и --bg-inverse сегодня совпадают по значению,
@@ -155,6 +161,7 @@
      не получают: токен с одним потребителем бесполезен. */
   --space-16: 16px;    /* 1×   между любыми соседними блоками */
   --space-24: 24px;    /* 1.5× после выноса и цитаты */
+  --space-32: 32px;    /* 2×   до и после линейки между кейсами в ленте (2026-10-10) */
   --space-48: 48px;    /* 3×   внутри обложки и после лида */
   --space-64: 64px;    /* 4×   между разделами и между кейсами */
 
@@ -163,7 +170,7 @@
      фиксированное число (800px), а всё, что вокруг, выведено
      из него через clamp(мин, доля, макс). Скачок поля с 30 на 16
      на пороге заметен глазом; clamp убирает сам скачок. */
-  --page-gutter: clamp(16px, 2.2vw, 30px);
+  --page-gutter: clamp(16px, 3.75vw, 60px);   /* 60 с 1600 и шире (макет главной 2026-10-10) */
 }
 
 /* ═══ ТЁМНАЯ ТЕМА — НЕ АКТИВИРОВАНА ═══
@@ -221,9 +228,14 @@ body{
 }
 
 .app{
-  max-width: 1560px; margin: 0 auto;
-  padding: 24px var(--page-gutter) 80px;
-  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr); gap: 0 40px;
+  /* Макет главной 2026-10-10 при 1600: поля 60, колонка 360, зазор 60
+     до линейки (x=480), ещё 20 до ленты (x=500). Зазор и верхнее поле
+     плавные, как и поля страницы: на 1141 они сжимаются, и лист кейса
+     по-прежнему вмещает колонку прозы 570. */
+  max-width: 1680px; margin: 0 auto;
+  padding: max(24px, var(--page-gutter)) var(--page-gutter) 80px;
+  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr);
+  gap: 0 clamp(40px, 3.75vw, 60px);
   align-items: start;
 }
 
@@ -251,9 +263,13 @@ body{
    и контактами связи нет — там он становится дырой.
    Стало: высота по контенту, потолок — экран, прокрутка внутри
    только если контент выше экрана. */
+/* КОНТАКТЫ ПРИЖАТЫ К НИЗУ — решение 2026-10-10, макет главной, обе страницы.
+   Прежнее решение «высота по контенту» отменено: колонка занимает
+   высоту экрана за вычетом полей, распорка уводит контакты вниз.
+   Если контент выше экрана — прокрутка внутри колонки, как раньше. */
 .rail{
-  position: sticky; top: 24px;
-  max-height: calc(100vh - 24px);
+  position: sticky; top: max(24px, var(--page-gutter));
+  height: calc(100vh - 2 * max(24px, var(--page-gutter)));
   overflow-y: auto;
   display: flex; flex-direction: column; gap: 24px;
   padding: 6px 0 24px;
@@ -261,28 +277,35 @@ body{
 }
 
 /* ── кто я ── */
-.me{ display: grid; gap: 12px; }
+/* Аватар → имя 16, имя и сфера — один абзац без зазора, строка
+   про инвестиции отбита 16 (макет 2026-10-10). */
+.me{ display: grid; gap: 0; max-width: 320px; }   /* ширина текста колонки по макету: «дизайн-системы» не рвётся */
+.me__ava{ margin-bottom: 16px; }
 .me__ava{
-  width: 36px; height: 36px; border-radius: var(--radius-full);
+  width: 40px; height: 40px; border-radius: var(--radius-full);
   background: var(--bg-placeholder); overflow: hidden;
-  display: grid; place-items: center;
+  display: block;
 }
-.me__ava svg{ width: 36px; height: 36px; display: block; color: var(--border-default); }
+.me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
+/* Имя и сфера — один абзац 24/30, как заголовок кейса (макет 2026-10-10):
+   имя чернилами, сфера приглушённым. Вес 400, акценты 500. */
 .me__who{
-  font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
+  font-size: 24px; line-height: 30px; font-weight: 400; letter-spacing: -.03em;
   color: var(--text-primary); margin: 0;
 }
 .me__who a{ color: inherit; text-decoration: none; display: inline-block; }
 .me__who a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .me__span{
-  margin: 0; font-size: 16px; line-height: 18px; font-weight: 400;
-  letter-spacing: -.012em; color: var(--text-secondary);
+  margin: 0; font-size: 24px; line-height: 30px; font-weight: 400;
+  letter-spacing: -.03em; color: var(--text-secondary);
 }
-.me__span b{ font-weight: 400; color: var(--text-primary); }
+.me__span b{ font-weight: 500; color: var(--text-primary); }
+/* Строка про инвестиции — 16/22 по макету 2026-10-10 (было Caption 12/16). */
 .me__sum{
-  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary);
+  margin: 16px 0 0; font-size: 16px; line-height: 22px; letter-spacing: -.012em;
+  color: var(--text-secondary);
 }
-.me__sum b{ font-weight: 400; color: var(--text-primary); }
+.me__sum b{ font-weight: 500; color: var(--text-primary); }
 
 /* ── действие ──
    Правка совета №3 отменена, и вот почему.
@@ -295,13 +318,17 @@ body{
    Поэтому чёрное пятно снова на резюме, а контакты внизу
    остаются единственным местом, где живут адреса. */
 .act{ display: flex; flex-wrap: wrap; gap: 8px; }
+/* кнопка отбита от блока «кто я» на 32 (макет 2026-10-10):
+   зазор колонки 24 + 8 своих */
+.act{ margin-top: 8px; }
 .act a{
   display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
   font-size: 14px; font-weight: 400; letter-spacing: -.012em; line-height: 16px;
   /* поля 10, а не 8: при интерлиньяже 16 кнопка высотой 8+16+8 = 32px,
      а это ниже минимальной цели нажатия. 10+16+10 = 36. Кегль твой,
      высоту держит поле. */
-  text-decoration: none; border-radius: var(--radius-8); padding: 10px 14px; min-height: 36px;
+  /* 2026-10-10, макет: высота 32 (8+16+8), радиус 4. Прежние 36/8 — отменены. */
+  text-decoration: none; border-radius: var(--radius-4); padding: 8px 14px; min-height: 32px;
   transition: background .18s ease-out;
 }
 .act__cv{ background: var(--bg-inverse); color: var(--text-inverse); }
@@ -318,7 +345,7 @@ body{
 /* Распорки больше нет: контакты идут сразу после кейсов,
    отделённые разрывом в 40 — это последний блок колонки,
    а не её подвал. */
-.rail__spacer{ display: none; }
+.rail__spacer{ flex: 1 1 auto; min-height: 0; }
 .hire{ display: grid; gap: 8px; margin-top: 16px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
@@ -353,20 +380,26 @@ body{
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; color: var(--text-primary);
 }
-.mark::before{
-  content: ''; width: 12px; height: 12px; border-radius: var(--radius-4);
-  background: var(--brand, var(--bg-inverse)); flex: none;
-}
-/* крупный знак колонки */
+/* ЗНАКИ ПРИШЛИ — ТЗ вставки макетов, 2026-10-10. Два вида, не взаимозаменяемы:
+   вордмарк на главной (<img> внутри .mark, имя продукта — в alt,
+   цветной квадрат ::before убран), квадратный знак в колонке (.logo).
+   Высоты — как в макете главной 2026-10-10: RealDeal 14, Триколор 16,
+   DREAMPlatform 24 (у файла поля, видимый знак ≈17), Второй экран 14.
+   Стоят атрибутами на <img>, ширина по пропорции файла. */
+.mark img{ display: block; width: auto; }
+/* неразрывное сочетание в заголовках: «онлайн-сделок» не рвётся по дефису */
+.nw{ white-space: nowrap; }
+/* крупный знак колонки: квадрат из SVG, цвет плашки остаётся запасным,
+   пока файл не загрузился */
 .logo{
   width: 40px; height: 40px; border-radius: var(--radius-12); flex: none;
-  background: var(--brand, var(--bg-inverse));
+  background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
 }
 
-[data-brand="design-system"]{ --brand: var(--brand-design-system); }
-[data-brand="realdeal"]{ --brand: var(--brand-realdeal); }
-[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); }
-[data-brand="second-screen"]{ --brand: var(--brand-second-screen); }
+[data-brand="design-system"]{ --brand: var(--brand-design-system); --sign: url("/img/logo/DRM.svg"); }
+[data-brand="realdeal"]{ --brand: var(--brand-realdeal); --sign: url("/img/logo/RD.svg"); }
+[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); --sign: url("/img/logo/Cinema.svg"); }
+[data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
@@ -498,6 +531,16 @@ body{
 .frame--wide{ aspect-ratio: 21/9; }
 .frame--43{ aspect-ratio: 4/3; }
 .frame--mob{ aspect-ratio: 9/16; }
+/* Поле макета — подложка плашки, которую даёт страница (файл приходит
+   с прозрачным полем). Пропорция плашки — из файла, инлайном на элементе. */
+.frame--field{ background: var(--brand-realdeal-field); }
+/* Макет во всю плашку: ни поля, ни тени, ни своего радиуса, ни кадрирования.
+   fill, а не contain/cover: пропорция плашки уже равна пропорции файла,
+   а contain оставил бы щель в полпикселя по краю. */
+.frame{ overflow: hidden; }
+/* WebP с запасным PNG: <picture> заполняет плашку, как сам <img> */
+.frame picture{ display: block; width: 100%; height: 100%; }
+.frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
 
 /* ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
    ширина полосы = экран − 60 (поля) − 360 (колонка) − 40 (зазор)
@@ -513,8 +556,10 @@ body{
   .app{ grid-template-columns: 1fr; gap: 28px; }
   /* горизонтальная колонка не растягивается на всю ширину:
      строка в 1020px нечитаема, а контента в ней на 426 */
-  .rail{ position: static; max-height: none; overflow: visible;
+  .rail{ position: static; height: auto; max-height: none; overflow: visible;
          gap: 20px; padding-bottom: 0; max-width: 760px; }
+  .rail__spacer{ display: none; }
+  .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
   .hire{ margin-top: 0; }
   /* карточки кейсов в ряд, а не в столбик на всю ширину */
   .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
@@ -542,6 +587,7 @@ body{
    колонка уже не липкая, и сжимать её зазоры незачем */
 @media (min-width: 1141px) and (max-height: 720px){
   .rail{ gap: 18px; }
+  .act{ margin-top: 14px; }   /* 18 + 14 = 32 до кнопки */
   .row{ padding: 8px 0; }
   .toc a{ min-height: 26px; }
 }
@@ -864,7 +910,16 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
      а место под картинку должно читаться как занятое. */
   background: var(--bg-placeholder); border-radius: var(--radius-8); aspect-ratio: 16/9;
   width: 100%;
+  /* МАКЕТЫ ПОСТАВЛЕНЫ (ТЗ вставки, 2026-10-10). Файл приходит с прозрачным
+     полем нужной пропорции, и цвет поля даёт плашка: --bg-page = #F0F0F0.
+     Поэтому состояние загрузки теперь тот же тон, что поле готового
+     кадра — вспышки другого серого при загрузке нет. Пропорция —
+     из файла, инлайном на элементе; класс-модификаторы остались
+     запасными. Ни поля страницы, ни тени, ни кадрирования. */
+  background: var(--bg-page); overflow: hidden;
 }
+.shot__frame picture{ display: block; width: 100%; height: 100%; }
+.shot__frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
 .shot__frame--wide{ aspect-ratio: 21/9; }
 .shot__frame--43{ aspect-ratio: 4/3; }
 
@@ -1116,9 +1171,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 <!-- <<RAIL_HEAD>> -->
     <!-- КТО Я — одинаково на главной и внутренней -->
     <div class="me">
-      <span class="me__ava" aria-hidden="true">
-        <svg viewBox="0 0 36 36" fill="currentColor"><circle cx="18" cy="14" r="5.6"/><path d="M5.6 33c0-6.9 5.6-10.6 12.4-10.6S30.4 26.1 30.4 33z"/></svg>
-      </span>
+      <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
       <p class="me__who"><a href="/">Задорожная Екатерина —<br>Senior Product Designer.</a></p>
 <!-- <<RAIL_INTRO>> -->
 <!-- <</RAIL_INTRO>> -->
@@ -1170,7 +1223,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <a class="top__link" href="https://real-deal.ae/" target="_blank" rel="noopener">Сайт продукта <i>↗</i></a>
     </div>
 
-    <h1 class="title">Первая в ОАЭ платформа онлайн-сделок с коммерческой недвижимостью</h1>
+    <h1 class="title">Первая в ОАЭ платформа <span class="nw">онлайн-сделок</span> с&nbsp;коммерческой недвижимостью</h1>
 
     <p class="lede">В роли лида спроектировала <a href="https://real-deal.ae/" target="_blank" rel="noopener">RealDeal</a> с нуля — веб-сервис для инвестиций в коммерческую недвижимость ОАЭ. Довела продукт от аналитического демо до коммерческого MVP: интерактивная карта, каталог, первый в ОАЭ флоу онлайн-сделок на UAE&nbsp;PASS, подписка.</p>
 
@@ -1187,7 +1240,11 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
          читатель ещё не может оценить: про данные DLD он узнает
          только через полторы тысячи пикселей. -->
     <figure class="shot shot--cover">
-      <div class="shot__frame" role="img" aria-label="Аналитическая карта Дубая на данных DLD"></div>
+      <!-- Обложка 16:9, файл 16:10 (2880×1800): единственное место, где
+           макет кадрируется — срезается только низ (180px), верх виден
+           целиком. На главной тот же файл показан целиком в 16:10.
+           Чтобы убрать кадрирование, выгрузить файл 16:9 и вернуть fill. -->
+      <div class="shot__frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая на данных DLD: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
     </figure>
 
     <!-- ── ПРОБЛЕМА И КОНТЕКСТ ── -->
@@ -1219,6 +1276,11 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
         </div>
       </div>
 
+      <blockquote class="quote">
+        «Хочу видеть доходность сразу, прямо на объекте, без Excel и агента»
+        <footer>управляющий активами</footer>
+      </blockquote>
+
       <!-- РАЗДЕЛИТЕЛЬ «ПРОБЛЕМА → МОЙ ВКЛАД».
            Место утверждено, содержание нет. Пропорция 21:9 временная:
            она выбрана под линейную схему; если встанет скриншот —
@@ -1228,13 +1290,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
         <div class="flow">
           <span>Анализ рынка</span><i>→</i><span>Поиск объекта</span><i>→</i><span>Оценка доходности</span><i>→</i><span>Онлайн-сделка</span><i>→</i><span>Управление объектом</span>
         </div>
-        <figcaption class="shot__cap">Сквозной путь пользователя — от анализа рынка до управления объектом</figcaption>
+        <figcaption class="shot__cap">Весь путь инвестора — и три шага, на которых он рвался</figcaption>
       </figure>
-
-      <blockquote class="quote">
-        «Хочу видеть доходность сразу, прямо на объекте, без Excel и агента»
-        <footer>управляющий активами</footer>
-      </blockquote>
     </section>
 
     <!-- ── МОЙ ВКЛАД ── -->
@@ -1248,46 +1305,42 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <p class="res"><b>Результат</b><span>Узкое демо принесло $2.5M и доступ к закрытым данным DLD. Полный MVP принёс ещё $5M на раунде A.</span></p>
 
       <figure class="shot">
-        <div class="shot__frame" role="img" aria-label="Аналитика в виде графиков"></div>
-        <figcaption class="shot__cap">Аналитика в графиках — второй формат демо, рядом с картой</figcaption>
+        <div class="shot__frame" style="aspect-ratio: 4968 / 2796"><picture><source srcset="/img/realdeal/960/analytic.webp 960w, /img/realdeal/analytic.webp 4968w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/analytic.png" width="4968" height="2796" alt="Аналитика в графиках: объём сделок, аренда, динамика цены, демография" loading="lazy" decoding="async"></picture></div>
+        <figcaption class="shot__cap">Второй формат демо — графики на открытых данных рынка Дубая</figcaption>
       </figure>
 
       <p class="tag">Карта</p>
       <h3>От визуального хаоса к зональной аналитике</h3>
       <p class="t"><b>Контекст.</b> На демо от карты ждали вау-эффекта: максимум слоёв, часть сгруппирована в папки. Я видела две проблемы — визуальный хаос от количества и ловушку: включив слой внутри группы и выйдя назад, пользователь не видел, что включено. Предложила обратное и настояла на тесте обоих вариантов с инвесторами.</p>
-      <p class="t"><b>Решение.</b> Мой вариант не прошёл: слоёв оставили максимум, аналитика считалась только по готовым зонам — весь Дубай, комьюнити, сектор. В MVP к нему вернулись: убрала группы, свела карту к пяти слоям, набор сохраняется пресетом, добавила свои зоны — радиус, контур, изохрона, — таких не было ни у одного конкурента. Выбрала URBI&nbsp;API: 3D с этажностью, режимы карты.</p>
+      <p class="t"><b>Решение.</b> Мой вариант не прошёл: слоёв оставили максимум, аналитика считалась только по готовым зонам — весь Дубай, комьюнити, сектор. В MVP к нему вернулись. Каталог слоёв я не сокращала — ограничила пятью одновременно включёнными и убрала группы: каждый слой стал самостоятельным, со своими фильтрами и аналитикой, набор сохраняется пресетом. Добавила свои зоны — радиус, контур, изохрона, — таких не было ни у одного конкурента. Выбрала URBI&nbsp;API: 3D с этажностью, режимы карты.</p>
       <p class="res"><b>Результат</b><span>Карта стала главным аргументом на демо: инвесторы быстрее шли от анализа к выбору.</span></p>
       <p class="t"><b>Осознанный компромисс.</b> Отказалась от синхронизации карты с аналитикой в графиках — технические ограничения и дедлайн. Лучше сильная карта, чем слабая синхронизация.</p>
 
-      <!-- ДВЕ ПАРЫ, КАК В ОРИГИНАЛЕ. В разделе два решения:
-           модель слоёв и зональная аналитика на 3D. Одна пара
-           показывает одно, значит нужны две — иначе второе
-           решение остаётся только на словах. -->
-      <div class="ba">
-        <div class="ba__col">
-          <span class="ba__tag">Демо</span>
-          <div class="ba__frame" role="img" aria-label="Демо: слои сгруппированы в папки"></div>
-          <span class="ba__cap">Слоёв столько, что карта нечитаема</span>
-        </div>
-        <div class="ba__col">
-          <span class="ba__tag">MVP</span>
-          <div class="ba__frame" role="img" aria-label="MVP: каждый слой самодостаточен, набор сохраняется пресетом"></div>
-          <span class="ba__cap">Максимум 5 слоёв, набор сохраняется пресетом · 3D с этажностью</span>
-        </div>
+      <!-- РАСКЛАДКА ПО ТЗ ВСТАВКИ МАКЕТОВ: пара «демо» — слои включены
+           разом и слой внутри группы; затем две полосы одна под другой —
+           объёмная карта с пресетом и слой Ownership отдельной панелью.
+           Две полосы, не пара: на половине колонки панель фильтров
+           превращается в пятно. Подписи несут «Демо:» и «MVP:» сами. -->
+      <div class="shots2">
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before.webp 960w, /img/realdeal/map_before.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before.png" width="2406" height="1800" alt="Демо: несколько слоёв включены разом, поверх панель фильтров" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">Демо: слои включены разом — карта перестаёт читаться</figcaption>
+          </figure>
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before2.webp 960w, /img/realdeal/map_before2.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before2.png" width="2406" height="1800" alt="Демо: слой Ownership раскрыт внутри группы" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">Демо: слой живёт внутри группы — выйдя назад, не видно, что включено</figcaption>
+          </figure>
       </div>
 
-      <div class="ba">
-        <div class="ba__col">
-          <span class="ba__tag">Демо</span>
-          <div class="ba__frame" role="img" aria-label="Демо: плоская карта без зональной аналитики"></div>
-          <span class="ba__cap">Слой спрятан в папке — на выходе не видно, что включено</span>
-        </div>
-        <div class="ba__col">
-          <span class="ba__tag">MVP</span>
-          <div class="ba__frame" role="img" aria-label="MVP: 3D с этажностью и аналитика по выделенной зоне"></div>
-          <span class="ba__cap">Каждый слой сам по себе: свои фильтры и аналитика</span>
-        </div>
-      </div>
+      <figure class="shot">
+        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after.webp 960w, /img/realdeal/1920/map_after.webp 1920w, /img/realdeal/map_after.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/map_after.png" width="4000" height="2250" alt="MVP: карта в объёмном режиме, панель слоёв с сохранением пресета" loading="lazy" decoding="async"></picture></div>
+        <figcaption class="shot__cap">MVP: набор слоёв сохраняется пресетом, объёмный режим показывает этажность</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after2.webp 960w, /img/realdeal/1920/map_after2.webp 1920w, /img/realdeal/map_after2.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/map_after2.png" width="4000" height="2250" alt="MVP: слой Ownership отдельной панелью — фильтры и аналитика по слою" loading="lazy" decoding="async"></picture></div>
+        <figcaption class="shot__cap">MVP: тот же слой стал самостоятельным — свои фильтры и своя аналитика</figcaption>
+      </figure>
 
       <p class="tag">Карточка объекта</p>
       <h3>Доверие и доходность в одном экране</h3>
@@ -1300,15 +1353,16 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <p class="t"><b>Решение.</b> Собрала обе задачи в карточке. ROI-калькулятор считает доходность прямо на объекте — без Excel и без агента. Верификация: владелец прикладывает документы при публикации, они остаются скрытыми. Платформа сверяет их с заполненными полями объекта — чем больше совпадений, тем выше процент, который видит покупатель.</p>
       <p class="res"><b>Результат</b><span>Покупатель проверяет объект и считает доходность до покупки — без модератора, без Excel, без агента.</span></p>
 
-      <figure class="shot">
-        <div class="shot__frame" role="img" aria-label="Карта с объектами: выбран один, открывается его карточка"></div>
-        <figcaption class="shot__cap">От карты к объекту — выбор точки на карте открывает карточку</figcaption>
-      </figure>
-
-      <figure class="shot shot--fig">
-        <div class="shot__frame shot__frame--43" role="img" aria-label="Карточка объекта: верификация и ROI-калькулятор"></div>
-        <figcaption class="shot__cap">Карточка объекта — ROI-калькулятор и процент соответствия документов</figcaption>
-      </figure>
+      <div class="shots2">
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/catalog.webp 960w, /img/realdeal/catalog.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/catalog.png" width="2406" height="1800" alt="Каталог: список объектов и карта с ценниками, на точке открыта карточка" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">От карты к объекту — точка на карте открывает карточку</figcaption>
+          </figure>
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/object_card.webp 960w, /img/realdeal/object_card.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/object_card.png" width="2406" height="1800" alt="Карточка объекта: проверка, условия, калькулятор доходности" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">Доходность прямо на объекте — без Excel и без агента</figcaption>
+          </figure>
+      </div>
 
       <p class="tag">Онлайн-сделка</p>
       <h3>От запроса до подписи, не выходя из платформы</h3>
@@ -1318,17 +1372,17 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <div class="shots-lead">
         <figure class="shot">
-          <div class="shot__frame" role="img" aria-label="Процесс сделки: документы и чат"></div>
-          <figcaption class="shot__cap">Deal&nbsp;Room — договоры формируются на платформе, стороны видят только свои документы и общаются во встроенном чате</figcaption>
+          <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/dealroom.webp 960w, /img/realdeal/1920/dealroom.webp 1920w, /img/realdeal/dealroom.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dealroom.png" width="4000" height="2250" alt="Запрос на сделку: выбор роли, шаг 1 из 3" loading="lazy" decoding="async"></picture></div>
+          <figcaption class="shot__cap">Вход — запрос уходит из карточки объекта</figcaption>
         </figure>
         <div class="shots-lead__pair">
           <figure class="shot">
-            <div class="shot__frame" role="img" aria-label="Запрос на сделку из карточки объекта"></div>
-            <figcaption class="shot__cap">Вход — инвестор отправляет запрос из карточки объекта</figcaption>
+            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom2.webp 960w, /img/realdeal/dealroom2.webp 2800w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom2.png" width="2800" height="2094" alt="Deal Room: этапы сделки, due diligence, переписка сторон" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">Deal&nbsp;Room — сделка закрывается на платформе: подпись через UAE&nbsp;PASS юридически значима</figcaption>
           </figure>
           <figure class="shot">
-            <div class="shot__frame" role="img" aria-label="Дашборд «мои сделки» со статусами"></div>
-            <figcaption class="shot__cap">Возврат — все сделки и статусы в дашборде</figcaption>
+            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom3.webp 960w, /img/realdeal/dealroom3.webp 2800w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom3.png" width="2800" height="2094" alt="Мои сделки: таблица с контрагентом, ролью и статусом" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">Возврат — статусы сделок возвращаются в дашборд</figcaption>
           </figure>
         </div>
       </div>
@@ -1338,10 +1392,16 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <p class="t"><b>Работа с C-level.</b> Защищала продуктовые решения на ревью и готовила материалы для раундов — 20+ презентаций инвесторам на конференциях и закрытых встречах в Дубае.</p>
       <p class="t"><b>Команда и процессы.</b> Пересобрала команду, заменила джунов на сильных специалистов — <span class="hl">через месяц команда работала самостоятельно</span>. Дизайн-система с нуля: 25+ компонентов, токены, стандарты с первого спринта.</p>
 
-      <figure class="shot">
-        <div class="shot__frame" role="img" aria-label="Дизайн-система: компоненты и токены"></div>
-        <figcaption class="shot__cap">Дизайн-система — 25+ компонентов и стандарты с первого спринта</figcaption>
-      </figure>
+      <div class="shots2">
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2958 / 2212"><picture><source srcset="/img/realdeal/add_object.webp 2958w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/add_object.png" width="2958" height="2212" alt="Форма публикации объекта: контакты, паспорт, Emirates ID, Trakheesi permit" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">Экран продукта, собранный из компонентов системы</figcaption>
+          </figure>
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/color.webp 2406w" sizes="(min-width: 1141px) 500px, (min-width: 481px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/color.png" width="2406" height="1800" alt="Палитра дизайн-системы со значениями" loading="lazy" decoding="async"></picture></div>
+            <figcaption class="shot__cap">Палитра: значения, токены и роли</figcaption>
+          </figure>
+      </div>
     </section>
 
     <!-- ── РЕЗУЛЬТАТ И РЕФЛЕКСИЯ ── -->
@@ -1360,8 +1420,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
           <p>Каталог, онлайн-сделки, верификация, подписка. После закрытой беты с 15 инвесторами продукт готовился к открытому запуску.</p>
         </div>
         <div>
-          <span class="k">Задел</span><span class="v">Спроектировано</span>
-          <p>Дашборд как центр ежедневной работы: сделки, шортлист, портфель, аналитика. AI-ассистент следующим слоем — автоматизация анализа и подбор объектов под стратегию инвестора.</p>
+          <span class="k">Задел</span><span class="v">В макетах</span>
+          <p>Дашборд как центр ежедневной работы: сделки, задачи, объекты и воронка, аналитика. AI-ассистент следующим слоем — автоматизация анализа и подбор объектов под стратегию инвестора.</p>
         </div>
       </div>
 
@@ -1373,8 +1433,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       </dl>
 
       <figure class="shot">
-        <div class="shot__frame" role="img" aria-label="Дашборд инвестора"></div>
-        <figcaption class="shot__cap">Дашборд — центр ежедневной работы. AI-ассистент спроектирован, в релиз пока не вышел</figcaption>
+        <div class="shot__frame" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Дашборд инвестора: AI-ассистент, задачи, объекты, воронка сделок" loading="lazy" decoding="async"></picture></div>
+        <figcaption class="shot__cap">Дашборд — сделки, задачи, объекты и воронка в одном месте. Спроектирован вместе с AI-ассистентом, в релиз не вышел</figcaption>
       </figure>
 
       <h3>Что бы я сделала иначе</h3>
