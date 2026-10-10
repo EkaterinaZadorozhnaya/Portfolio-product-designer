@@ -242,13 +242,15 @@ body{
 }
 .me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
 /* Имя и сфера — один абзац 24/30, как заголовок кейса (макет 2026-10-10):
-   имя чернилами, сфера приглушённым. Вес 400, акценты 500. */
+   имя чернилами, сфера приглушённым. Имя и акценты «B2B SaaS», «B2C:» —
+   вес 500, остальной текст колонки 400 (правка 2026-10-10). */
 .me__who{
-  font-size: 24px; line-height: 30px; font-weight: 400; letter-spacing: -.03em;
+  font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -.03em;
   color: var(--text-primary); margin: 0;
 }
-.me__who a{ color: inherit; text-decoration: none; display: inline-block; }
-.me__who a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.me__who a{ color: inherit; text-decoration: none; display: inline-block; transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.me__who a:hover{ color: var(--text-secondary); }
 .me__span{
   margin: 0; font-size: 24px; line-height: 30px; font-weight: 400;
   letter-spacing: -.03em; color: var(--text-secondary);
@@ -509,7 +511,7 @@ body{
 .app--case .rail{ gap: 16px; }
 .app--case .me{ grid-template-columns: 40px minmax(0,1fr); gap: 0 16px; align-items: center; }
 .app--case .me__ava{ margin: 0; }
-.app--case .me__who{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; }
+.app--case .me__who{ font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em; }
 .app--case .act{ margin-top: 0; }
 .app--case .rail__spacer{ display: none; }
 .app--case .tree{ margin-block: auto; max-width: 320px; }

@@ -19,8 +19,8 @@
 <meta property="og:locale"       content="ru_RU">
 <meta name="twitter:card"        content="summary_large_image">
 
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -273,13 +273,15 @@ body{
 }
 .me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
 /* Имя и сфера — один абзац 24/30, как заголовок кейса (макет 2026-10-10):
-   имя чернилами, сфера приглушённым. Вес 400, акценты 500. */
+   имя чернилами, сфера приглушённым. Имя и акценты «B2B SaaS», «B2C:» —
+   вес 500, остальной текст колонки 400 (правка 2026-10-10). */
 .me__who{
-  font-size: 24px; line-height: 30px; font-weight: 400; letter-spacing: -.03em;
+  font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -.03em;
   color: var(--text-primary); margin: 0;
 }
-.me__who a{ color: inherit; text-decoration: none; display: inline-block; }
-.me__who a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.me__who a{ color: inherit; text-decoration: none; display: inline-block; transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.me__who a:hover{ color: var(--text-secondary); }
 .me__span{
   margin: 0; font-size: 24px; line-height: 30px; font-weight: 400;
   letter-spacing: -.03em; color: var(--text-secondary);
@@ -540,7 +542,7 @@ body{
 .app--case .rail{ gap: 16px; }
 .app--case .me{ grid-template-columns: 40px minmax(0,1fr); gap: 0 16px; align-items: center; }
 .app--case .me__ava{ margin: 0; }
-.app--case .me__who{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; }
+.app--case .me__who{ font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em; }
 .app--case .act{ margin-top: 0; }
 .app--case .rail__spacer{ display: none; }
 .app--case .tree{ margin-block: auto; max-width: 320px; }
@@ -694,8 +696,27 @@ body{
   font-size: 24px; font-weight: 500; line-height: 30px;
   letter-spacing: -.03em; text-wrap: balance;
 }
-.case__title a{ color: var(--text-primary); text-decoration: none; }
-.case__title a:hover{ text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1.5px; }
+.case__title a{ color: var(--text-primary); text-decoration: none; transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10): чернила → приглушённый тон.
+   То же при наведении на макеты кейса: они ведут туда же, куда заголовок. */
+.case__title a:hover{ color: var(--text-secondary); }
+.case:has(.case__shots:hover) .case__title a{ color: var(--text-secondary); }
+.case__shots{ display: block; color: inherit; text-decoration: none; }
+/* Вся карточка кейса — ссылка (2026-10-10): ссылка заголовка растянута
+   на карточку. Рука — от самой ссылки, облачко «Читать кейс» ведёт
+   скрипт ниже и только там, где есть наведение (мышь, тачпад). */
+.case{ position: relative; }
+.case__title a::after{ content: ''; position: absolute; inset: 0; }
+.tip{
+  position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
+  opacity: 0; transform: translate3d(-200px, -200px, 0);
+  padding: 6px 10px; border-radius: var(--radius-8);
+  background: var(--bg-surface); color: var(--text-primary);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em; white-space: nowrap;
+  transition: opacity .12s ease-out;
+}
+.tip.is-on{ opacity: 1; }
+@media (hover: none){ .tip{ display: none; } }
 .case__title a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 4px; border-radius: var(--radius-4); }
 
 /* ПОДПИСЬ МЕТРИКИ ПЕРЕНОСИТСЯ, А НЕ РАСТЯГИВАЕТ РЯД.
@@ -749,7 +770,7 @@ body{
       <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
       <p class="me__who"><a href="/">Задорожная Екатерина —<br>Senior Product Designer.</a></p>
 <!-- <<RAIL_INTRO>> -->
-      <p class="me__span">8 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C</b>: PropTech, Streaming&nbsp;TV, дизайн-системы.</p>
+      <p class="me__span">8 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C:</b> PropTech, Streaming&nbsp;TV, дизайн-системы.</p>
       <p class="me__sum"><b>$7.5M</b> инвестиций и рост аудитории <b>100% YoY</b> — на продуктах, которые я вела.</p>
 <!-- <</RAIL_INTRO>> -->
     </div>
@@ -792,6 +813,7 @@ body{
            из файла (aspect-ratio инлайном, width/height у <img> — те же числа).
            Кадр с картой — одним файлом с обложкой кейса. Поля у карты и
            карточки нет; у калькулятора поле прозрачное, цвет даёт .frame--field. -->
+      <a class="case__shots" href="/realdeal" aria-hidden="true" tabindex="-1">
       <div class="shots">
         <div class="frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
         <div class="shots__pair">
@@ -799,6 +821,7 @@ body{
           <div class="frame" style="aspect-ratio: 1200 / 898"><picture><source srcset="/img/home/960/rd_hero_card.webp 960w, /img/home/rd_hero_card.webp 1200w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_card.png" width="1200" height="898" alt="Карточка объекта в каталоге на фоне панорамы города" loading="lazy" decoding="async"></picture></div>
         </div>
       </div>
+      </a>
     </article>
 
     <article class="case">
@@ -812,10 +835,12 @@ body{
         <div><dt>+100%</dt><dd>YoY роста аудитории</dd></div>
         <div><dt>14%</dt><dd>абонентов в стриминг</dd></div>
       </dl>
+      <a class="case__shots" href="/kino-i-tv" aria-hidden="true" tabindex="-1">
       <div class="shots">
         <div class="frame"></div>
         <div class="shots__pair"><div class="frame frame--43"></div><div class="frame frame--43"></div></div>
       </div>
+      </a>
     </article>
 
     <article class="case">
@@ -829,10 +854,12 @@ body{
         <div><dt>6</dt><dd>сервисов покрыто</dd></div>
         <div><dt>40+</dt><dd>компонентов</dd></div>
       </dl>
+      <a class="case__shots" href="/design-system" aria-hidden="true" tabindex="-1">
       <div class="shots">
         <div class="shots__pair shots__pair--uneven"><div class="frame frame--43"></div><div class="frame frame--43"></div></div>
         <div class="frame"></div>
       </div>
+      </a>
     </article>
 
     <article class="case">
@@ -846,12 +873,14 @@ body{
         <div><dt>188K</dt><dd>подписчиков</dd></div>
         <div><dt>ТВ</dt><dd>MVP лёг в основу приложения</dd></div>
       </dl>
+      <a class="case__shots" href="/second-screen" aria-hidden="true" tabindex="-1">
       <div class="shots__mob">
         <div class="frame frame--mob"></div>
         <div class="frame frame--mob"></div>
         <div class="frame frame--mob"></div>
         <div class="frame frame--mob"></div>
       </div>
+      </a>
     </article>
 
     <!-- КОНЕЦ ЛЕНТЫ — только там, где колонка не липкая.
@@ -872,6 +901,24 @@ body{
   </main>
 </div>
 
+<div class="tip" aria-hidden="true">Читать кейс</div>
+<script>
+/* Облачко «Читать кейс» ходит за курсором над карточкой кейса. */
+(function(){
+  var tip = document.querySelector('.tip');
+  if (!tip || !window.matchMedia('(hover: hover)').matches) return;
+  var x = 0, y = 0, queued = false;
+  function draw(){ queued = false; tip.style.transform = 'translate3d(' + (x + 16) + 'px,' + (y + 18) + 'px,0)'; }
+  document.addEventListener('mousemove', function(e){
+    var on = !!(e.target.closest && e.target.closest('.case'));
+    tip.classList.toggle('is-on', on);
+    if (!on) return;
+    x = e.clientX; y = e.clientY;
+    if (!queued){ queued = true; requestAnimationFrame(draw); }
+  });
+  document.documentElement.addEventListener('mouseleave', function(){ tip.classList.remove('is-on'); });
+})();
+</script>
 <script>
 /* Шапка включается, когда колонка ушла за верхний край. Метка в конце
    колонки, а не сама колонка: наблюдение за колонкой включало бы
