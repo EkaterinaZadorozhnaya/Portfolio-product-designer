@@ -65,6 +65,9 @@
      с прозрачным полем, цвет даёт плашка. Один потребитель
      (.frame--field), от темы не зависит; в семантику не заводить. */
   --brand-realdeal-field: #DBE8FC;
+  /* Сплошная подложка кадра с графиками на странице кейса — макет
+     2026-10-10: Accent/Info #1268EC. Один потребитель (.shot__frame--accent). */
+  --brand-realdeal-accent: #1268EC;
 
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
@@ -102,7 +105,8 @@
      Цель — 68–72 знака в строке. При Literata 16 это 570.
      (При Golos 16 то же правило давало 640 — поэтому при смене
      гарнитуры число пересчитывается, а не переносится.) */
-  --width-prose: 570px;
+  --width-prose: 640px;   /* было 570; макет кейса 2026-10-10 */
+  --width-wide:  860px;   /* таблица и схема пути — по центру листа */
   --width-rail:  360px;   /* левая колонка */
 
   /* РИТМ СТРАНИЦЫ — четыре ступени, все кратны 16. Шкала закрыта.
@@ -341,7 +345,7 @@ body{
 /* крупный знак колонки: квадрат из SVG, цвет плашки остаётся запасным,
    пока файл не загрузился */
 .logo{
-  width: 40px; height: 40px; border-radius: var(--radius-12); flex: none;
+  width: 40px; height: 40px; border-radius: var(--radius-4); flex: none;   /* радиус 4 — макет 2026-10-10, было 12 */
   background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
 }
 
@@ -349,6 +353,7 @@ body{
 [data-brand="realdeal"]{ --brand: var(--brand-realdeal); --sign: url("/img/logo/RD.svg"); }
 [data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); --sign: url("/img/logo/Cinema.svg"); }
 [data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
+[data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
@@ -358,20 +363,26 @@ body{
    Подложки у него нет, и именно её отсутствие отличает
    «где я сейчас» от «куда я могу уйти» — без цвета, без веса,
    без метки слева. Отсюда и разная форма у этих двух вещей. */
-.tree{ display: grid; gap: 6px; }
+.tree{ display: grid; gap: 8px; }
 
 /* текущий — без подложки */
 .row--open{
-  padding: 2px 12px 14px;
+  padding: 2px 8px 14px;
   border-bottom: 1px solid var(--border-default); margin-bottom: 6px;
 }
 
 /* свёрнутые — карточки */
 .row--flat{
   display: block; text-decoration: none;
-  background: var(--bg-surface); border-radius: var(--radius-12); padding: 12px;
+  background: var(--bg-surface); border-radius: var(--radius-4); padding: 8px;   /* макет 2026-10-10: радиус 4, карточка 56 */
   transition: background .18s ease-out;
 }
+/* Четвёртый кейс «Умный дом» — в работе: та же карточка без ссылки,
+   весь блок на 30% (макет 2026-10-10). Нажимать не на что. */
+.row--soon{ opacity: .3; cursor: default; }
+.row--soon:hover{ background: var(--bg-surface); }
+/* разделитель в строках «роль · сфера» — шире пробела, как на макете */
+.sep{ margin: 0 5px; }
 
 /* шапка строки: знак 40 слева, имя и сфера столбиком справа */
 .row__id{
@@ -411,7 +422,7 @@ body{
 /* активный якорь метится тоном и рельсом, не весом:
    весов на сайте два, и 500 занят двумя заголовками */
 .toc a[aria-current="true"]{ color: var(--text-primary); }
-.toc a[aria-current="true"]::before{ background: var(--brand, var(--bg-inverse)); }
+.toc a[aria-current="true"]::before{ background: var(--text-primary); }   /* макет 2026-10-10: рельс чернилами, не цветом продукта */
 .toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
 
 /* ═══ АНОНС СЛЕДУЮЩЕГО КЕЙСА ═══
@@ -491,6 +502,17 @@ body{
 .frame picture{ display: block; width: 100%; height: 100%; }
 .frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
 
+/* ВНУТРЕННЯЯ СТРАНИЦА (макет кейса 2026-10-10): шапка колонки компактная —
+   аватар слева, имя справа 16/18; кнопка сразу под ней; список кейсов
+   стоит по центру между кнопкой и контактами, карточки 320. */
+.app--case .rail{ gap: 16px; }
+.app--case .me{ grid-template-columns: 40px minmax(0,1fr); gap: 0 16px; align-items: center; }
+.app--case .me__ava{ margin: 0; }
+.app--case .me__who{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; }
+.app--case .act{ margin-top: 0; }
+.app--case .rail__spacer{ display: none; }
+.app--case .tree{ margin-block: auto; max-width: 320px; }
+
 /* ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
    ширина полосы = экран − 60 (поля) − 360 (колонка) − 40 (зазор)
                         − 80 (поля листа).
@@ -509,6 +531,8 @@ body{
          gap: 20px; padding-bottom: 0; max-width: 760px; }
   .rail__spacer{ display: none; }
   .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
+  .app--case .rail{ gap: 20px; }
+  .app--case .tree{ margin-block: 0; max-width: none; }
   .hire{ margin-top: 0; }
   /* карточки кейсов в ряд, а не в столбик на всю ширину */
   .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
