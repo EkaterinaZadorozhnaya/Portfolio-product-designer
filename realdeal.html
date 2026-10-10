@@ -116,6 +116,9 @@
      с прозрачным полем, цвет даёт плашка. Один потребитель
      (.frame--field), от темы не зависит; в семантику не заводить. */
   --brand-realdeal-field: #DBE8FC;
+  /* Сплошная подложка кадра с графиками на странице кейса — макет
+     2026-10-10: Accent/Info #1268EC. Один потребитель (.shot__frame--accent). */
+  --brand-realdeal-accent: #1268EC;
 
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
@@ -153,7 +156,8 @@
      Цель — 68–72 знака в строке. При Literata 16 это 570.
      (При Golos 16 то же правило давало 640 — поэтому при смене
      гарнитуры число пересчитывается, а не переносится.) */
-  --width-prose: 570px;
+  --width-prose: 640px;   /* было 570; макет кейса 2026-10-10 */
+  --width-wide:  860px;   /* таблица и схема пути — по центру листа */
   --width-rail:  360px;   /* левая колонка */
 
   /* РИТМ СТРАНИЦЫ — четыре ступени, все кратны 16. Шкала закрыта.
@@ -392,7 +396,7 @@ body{
 /* крупный знак колонки: квадрат из SVG, цвет плашки остаётся запасным,
    пока файл не загрузился */
 .logo{
-  width: 40px; height: 40px; border-radius: var(--radius-12); flex: none;
+  width: 40px; height: 40px; border-radius: var(--radius-4); flex: none;   /* радиус 4 — макет 2026-10-10, было 12 */
   background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
 }
 
@@ -400,6 +404,7 @@ body{
 [data-brand="realdeal"]{ --brand: var(--brand-realdeal); --sign: url("/img/logo/RD.svg"); }
 [data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); --sign: url("/img/logo/Cinema.svg"); }
 [data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
+[data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
@@ -409,20 +414,26 @@ body{
    Подложки у него нет, и именно её отсутствие отличает
    «где я сейчас» от «куда я могу уйти» — без цвета, без веса,
    без метки слева. Отсюда и разная форма у этих двух вещей. */
-.tree{ display: grid; gap: 6px; }
+.tree{ display: grid; gap: 8px; }
 
 /* текущий — без подложки */
 .row--open{
-  padding: 2px 12px 14px;
+  padding: 2px 8px 14px;
   border-bottom: 1px solid var(--border-default); margin-bottom: 6px;
 }
 
 /* свёрнутые — карточки */
 .row--flat{
   display: block; text-decoration: none;
-  background: var(--bg-surface); border-radius: var(--radius-12); padding: 12px;
+  background: var(--bg-surface); border-radius: var(--radius-4); padding: 8px;   /* макет 2026-10-10: радиус 4, карточка 56 */
   transition: background .18s ease-out;
 }
+/* Четвёртый кейс «Умный дом» — в работе: та же карточка без ссылки,
+   весь блок на 30% (макет 2026-10-10). Нажимать не на что. */
+.row--soon{ opacity: .3; cursor: default; }
+.row--soon:hover{ background: var(--bg-surface); }
+/* разделитель в строках «роль · сфера» — шире пробела, как на макете */
+.sep{ margin: 0 5px; }
 
 /* шапка строки: знак 40 слева, имя и сфера столбиком справа */
 .row__id{
@@ -462,7 +473,7 @@ body{
 /* активный якорь метится тоном и рельсом, не весом:
    весов на сайте два, и 500 занят двумя заголовками */
 .toc a[aria-current="true"]{ color: var(--text-primary); }
-.toc a[aria-current="true"]::before{ background: var(--brand, var(--bg-inverse)); }
+.toc a[aria-current="true"]::before{ background: var(--text-primary); }   /* макет 2026-10-10: рельс чернилами, не цветом продукта */
 .toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
 
 /* ═══ АНОНС СЛЕДУЮЩЕГО КЕЙСА ═══
@@ -542,6 +553,17 @@ body{
 .frame picture{ display: block; width: 100%; height: 100%; }
 .frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
 
+/* ВНУТРЕННЯЯ СТРАНИЦА (макет кейса 2026-10-10): шапка колонки компактная —
+   аватар слева, имя справа 16/18; кнопка сразу под ней; список кейсов
+   стоит по центру между кнопкой и контактами, карточки 320. */
+.app--case .rail{ gap: 16px; }
+.app--case .me{ grid-template-columns: 40px minmax(0,1fr); gap: 0 16px; align-items: center; }
+.app--case .me__ava{ margin: 0; }
+.app--case .me__who{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; }
+.app--case .act{ margin-top: 0; }
+.app--case .rail__spacer{ display: none; }
+.app--case .tree{ margin-block: auto; max-width: 320px; }
+
 /* ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
    ширина полосы = экран − 60 (поля) − 360 (колонка) − 40 (зазор)
                         − 80 (поля листа).
@@ -560,6 +582,8 @@ body{
          gap: 20px; padding-bottom: 0; max-width: 760px; }
   .rail__spacer{ display: none; }
   .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
+  .app--case .rail{ gap: 20px; }
+  .app--case .tree{ margin-block: 0; max-width: none; }
   .hire{ margin-top: 0; }
   /* карточки кейсов в ряд, а не в столбик на всю ширину */
   .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
@@ -597,12 +621,13 @@ body{
 .paper{
   background: var(--bg-surface); border-radius: var(--radius-8);
   /* поля листа выведены из ширины экрана так же, как поля страницы */
-  padding: 30px clamp(20px, 2.8vw, 40px) 56px;
+  /* макет кейса 2026-10-10: поля листа 20 (было до 40), кадры во всю ширину */
+  padding: 20px 20px 56px;
 }
 
 /* метастрока — самая верхняя строка листа */
 .meta{
-  margin: 0 0 var(--space-48); font-size: 12px; line-height: 16px;
+  margin: 0 0 var(--space-32); font-size: 12px; line-height: 16px;
   letter-spacing: 0; color: var(--text-secondary);
 }
 
@@ -610,22 +635,29 @@ body{
    ПРАВКА СОВЕТА №6: до этого в шапке стоял только текст «RealDeal»,
    и переход по цветному квадрату приводил на страницу без цвета. */
 .top{
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
-  margin: 0 0 var(--space-16);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px;
+  margin: 0 0 var(--space-32);
 }
+/* вордмарк продукта вместо набранного имени (макет 2026-10-10) */
+.top__logo{ display: block; height: 16px; width: auto; }
 .top__name{
   font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -.03em; color: var(--text-primary);
 }
 .top__link{
-  font-size: 12px; line-height: 16px; color: var(--text-secondary); text-decoration: none;
-  display: inline-flex; align-items: center; gap: 6px; min-height: 26px;   /* зазор знака и слова */
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em; color: var(--text-secondary); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 26px;
 }
-.top__link i{ font-style: normal; font-size: 12px; }
+/* стрелка — в сером квадрате 16×16, как на макете */
+.top__link i{
+  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0;
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4); color: var(--text-primary);
+}
 .top__link:hover{ color: var(--text-primary); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 
 h1.title{
   font-size: 34px; font-weight: 500; letter-spacing: -.03em; line-height: 38px;
-  color: var(--text-primary); margin: 0 0 var(--space-16); max-width: 620px; text-wrap: balance;
+  color: var(--text-primary); margin: 0 0 var(--space-32); max-width: 620px; text-wrap: balance;
 }
 
 /* ЛИД — АНТИКВА. Засечки в шапке ставятся сюда, а не в заголовок:
@@ -661,11 +693,11 @@ h1.title{
 .lede{
   font-family: var(--serif); font-size: 24px; font-weight: 400;
   line-height: 30px; letter-spacing: -.01em; color: var(--text-primary);
-  margin: 0 0 var(--space-48); text-wrap: pretty;
+  margin: 0 0 var(--space-32); text-wrap: pretty;
 }
 
 .paper .metrics{
-  margin: 0 0 var(--space-48); padding: var(--space-24) 0 0;
+  margin: 0 0 var(--space-32); padding: var(--space-32) 0 0;
   border-top: 1px solid var(--border-default);
 }
 /* РАЗДЕЛЕНИЕ МЕТРИК ПО ТОМУ, НУЖЕН ЛИ ИМ КОНТЕКСТ.
@@ -682,16 +714,17 @@ h1.title{
    онлайн-сделка с коммерческой недвижимостью в ОАЭ» занимала три
    строки против двух у соседей, и ряд был рваным по низу. */
 .metrics--top{
-  display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 20px 28px;
+  /* макет 2026-10-10: колонки по содержимому, зазор 84, подпись уже числа */
+  display: flex; flex-wrap: wrap; gap: 20px 84px;
 }
 .metrics--top dt{ white-space: nowrap; }
+.metrics--top dd{ max-width: 112px; }
 /* Внутри кейса число крупнее, чем в ленте: на главной метрика стоит
    в списке из четырёх, здесь — одна. Тот же принцип, по которому
    заголовок кейса в ленте 24, а на своей странице 34. */
 .paper .metrics dt, .paper .metrics .v{ font-size: 34px; line-height: 38px; }
 
-.shot--cover{ margin: 0 0 var(--space-64); }
+.paper .shot--cover{ margin: 0; }   /* 32 до следующего раздела даёт сам раздел */
 
 /* ИТОГОВЫЕ МЕТРИКИ — тот же компонент, что в шапке.
    Кейс открывается результатом и закрывается результатом:
@@ -701,11 +734,14 @@ h1.title{
    Два в ряд, а не четыре: «45–60 → 12–18» на 26 кегле
    в четверти полосы разрывается по строкам. */
 .metrics--out{
-  display: grid; grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 28px 56px;
+  /* макет кейса 2026-10-10: четыре в ряд на 860, колонки по содержимому */
+  display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between;
+  gap: 28px 32px;
   padding: var(--space-24) 0 0; border-top: 1px solid var(--border-default);
 }
-.metrics--out dt{ white-space: normal; }
+.metrics--out dt{ white-space: nowrap; }   /* четыре в ряд: число не рвётся (макет 2026-10-10) */
+.metrics--out dd{ max-width: 150px; }
+.metrics--out div:first-child dd{ max-width: none; }
 
 /* ═══ РАСКЛАДКА КОНТЕНТА (мерка снята с oimachi/posts) ═══
    Два класса блоков, без третьего:
@@ -725,9 +761,14 @@ h1.title{
    Две оси на странице не случайность: верх — это витрина,
    её читают сканируя слева; всё, что ниже кадра, читают
    подряд — и там включается центрированная колонка. */
-.paper .top, .paper .meta, .paper .metrics, .paper .metrics--top, .paper .metrics--out, .paper .title, .paper .tbl{
+.paper .top, .paper .meta, .paper .metrics, .paper .metrics--top, .paper .metrics--out, .paper .title{
   max-width: var(--width-cover); margin-left: 0; margin-right: 0;
 }
+/* макет кейса 2026-10-10: линия и метрики шапки — на всю ширину листа,
+   таблица — 860 по центру */
+.paper .metrics.metrics--top{ max-width: none; }
+.paper .metrics.metrics--out{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+.paper .tbl{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
 /* ВЫНОС ЖИВЁТ В КОЛОНКЕ ПРОЗЫ, а не в полосе.
    Пробовали полосу 760: там Literata 34 даёт 37 знаков в строке
    против 28 в колонке. Но вынос при этом заводил третий левый
@@ -737,7 +778,7 @@ h1.title{
 /* лид держит ширину полосы: на 24 кегле Literata это 56 знаков
    в строке — внутри нормы для крупного кегля. Отдельного числа
    под лид нет, ширин на странице три, а не четыре. */
-.paper .lede{ max-width: var(--width-cover); margin-left: 0; margin-right: 0; }
+.paper .lede{ max-width: 800px; margin-left: 0; margin-right: 0; }   /* 800 по макету 2026-10-10 */
 .paper .sub{ margin-left: 0; margin-right: 0; }
 .paper .lede{ margin-left: 0; margin-right: 0; }
 .paper .top{ max-width: none; }
@@ -774,7 +815,7 @@ h1.title{
 .paper .sec > *:last-child{ margin-bottom: 0; }
 
 /* ═══ РАЗДЕЛЫ ═══ */
-.sec{ padding-top: var(--space-64); scroll-margin-top: 24px; }
+.sec{ padding-top: var(--space-32); scroll-margin-top: 24px; }   /* макет 2026-10-10: между разделами 32, было 64 */
 .sec__label{
   font-size: 12px; font-weight: 400; letter-spacing: 0; line-height: 16px;
   color: var(--text-secondary); margin: 0 auto var(--space-16);
@@ -921,6 +962,9 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
 .shot__frame picture{ display: block; width: 100%; height: 100%; }
 .shot__frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
 .shot__frame--wide{ aspect-ratio: 21/9; }
+/* сплошная подложка кадров-полос с графиками, запросом на сделку и
+   дашбордом — #1268EC по макету кейса 2026-10-10; карты и пары — серые */
+.shot__frame--accent{ background: var(--brand-realdeal-accent); }
 .shot__frame--43{ aspect-ratio: 4/3; }
 
 /* ПРАВИЛО ШИРИНЫ МЕДИА
@@ -1024,16 +1068,20 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
   display: grid; grid-template-columns: 116px 84px minmax(0,1fr); gap: 20px;
   padding: 14px 0; border-bottom: 1px solid var(--border-default); align-items: baseline;
 }
-.tbl__head{ color: var(--text-secondary); font-size: 12px; line-height: 16px; letter-spacing: 0;
-            padding-bottom: 8px !important; border-bottom-color: var(--text-primary) !important; }
-.tbl .k{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; color: var(--text-primary); }
-.tbl .v{ font-size: 16px; line-height: 18px; letter-spacing: -.01em; color: var(--text-primary);
+.tbl__head{ color: var(--text-secondary); font-size: 16px; line-height: 18px; letter-spacing: -.012em;
+            padding-bottom: 12px !important; }   /* макет 2026-10-10: линия под шапкой — обычная, шапка 16 */
+.tbl{ border-top: 0; }
+.tbl .k{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary); }
+.tbl .v{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary);
          font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* таблица результата: 860 = 140+20+220+20+460, макет кейса 2026-10-10 */
+.tbl:not(.tbl--find) > div{ grid-template-columns: 140px 220px minmax(0,1fr); }
 .tbl p{ font-family: var(--serif); font-size: 16px; line-height: 24px;
         letter-spacing: 0; color: var(--text-secondary); margin: 0; }
 /* Находки: три шага пути, что мешает, что я сделала.
    Две колонки прозы равны — барьер и ответ читаются парой. */
-.tbl--find > div{ grid-template-columns: 72px minmax(0,1fr) minmax(0,1fr); }
+.tbl--find{ border-top: 0; }
+.tbl--find > div{ grid-template-columns: 150px minmax(0,1fr) 300px; }   /* 860 = 150+20+370+20+300, макет 2026-10-10 */
 .tbl--find p + p{ color: var(--text-primary); }
 @media (max-width: 620px){
   .tbl > div{ grid-template-columns: minmax(0,1fr) auto; gap: 4px 16px; }
@@ -1094,13 +1142,17 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
   gap: var(--space-16);
 }
 .foot__site{
-  font-size: 14px; line-height: 16px; font-weight: 400; letter-spacing: -.012em;
+  font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
   color: var(--text-primary); text-decoration: none;
-  display: inline-flex; gap: 6px; align-items: baseline;   /* зазор знака и слова */
+  display: inline-flex; gap: 8px; align-items: center;
   min-height: 26px; width: fit-content;
 }
 .foot__site:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.foot__site i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
+.foot__site i{
+  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4);   /* как в шапке, макет 2026-10-10 */
+}
 .foot--hire{ display: none; margin-top: var(--space-48); }
 /* порог см. ниже: 1140 */
 .foot__ask{ margin: 0; font-size: 24px; font-weight: 500; line-height: 30px;
@@ -1164,7 +1216,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
 <a class="skip" href="#case">К тексту кейса</a>
 
-<div class="app">
+<div class="app app--case">
 
   <!-- ═══ ЛИПКАЯ КОЛОНКА ═══ -->
   <aside class="rail">
@@ -1191,12 +1243,13 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <nav class="tree" aria-label="Кейсы">
       <div class="row row--open" data-brand="realdeal" aria-current="page">
         <span class="row__id"><span class="logo" aria-hidden="true"></span>
-        <span><span class="row__name">RealDeal</span><em>B2B SaaS · PropTech · CRE</em></span></span>
+        <span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span>
         <span class="toc"><a href="#problem">Проблема</a><a href="#work">Мой вклад</a><a href="#result">Результат</a></span>
       </div>
-      <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Триколор Кино и ТВ</span><em>B2C · Streaming TV</em></span></span></a>
-      <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS · Design system</em></span></span></a>
-      <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C · TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+      <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
     </nav>
 <!-- <</CASE_TREE>> -->
 
@@ -1216,10 +1269,10 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
   <!-- ═══ ПОВЕРХНОСТЬ КЕЙСА ═══ -->
   <main class="paper" id="case" tabindex="-1">
 
-    <p class="meta">Lead Product Designer · B2B SaaS · PropTech · CRE · Data-Heavy · с нуля до MVP</p>
+    <p class="meta">Lead Product Designer <span class="sep">·</span> B2B SaaS <span class="sep">·</span> PropTech <span class="sep">·</span> CRE <span class="sep">·</span> Data-Heavy <span class="sep">·</span> С нуля до MVP</p>
 
     <div class="top">
-      <span class="top__name">RealDeal</span>
+      <img class="top__logo" src="/img/logo/RD%202.svg" alt="RealDeal" width="100" height="16">
       <a class="top__link" href="https://real-deal.ae/" target="_blank" rel="noopener">Сайт продукта <i>↗</i></a>
     </div>
 
@@ -1228,7 +1281,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <p class="lede">В роли лида спроектировала <a href="https://real-deal.ae/" target="_blank" rel="noopener">RealDeal</a> с нуля — веб-сервис для инвестиций в коммерческую недвижимость ОАЭ. Довела продукт от аналитического демо до коммерческого MVP: интерактивная карта, каталог, первый в ОАЭ флоу онлайн-сделок на UAE&nbsp;PASS, подписка.</p>
 
     <dl class="metrics metrics--top">
-      <div><dt>+$7.5M</dt><dd>привлечено инвестиций</dd></div>
+      <div><dt>+$7.5M</dt><dd>привлеченных инвестиций</dd></div>
       <div><dt>№1 в ОАЭ</dt><dd>CRE-платформа онлайн-сделок</dd></div>
       <div><dt>×3</dt><dd>быстрее закрытие сделки</dd></div>
     </dl>
@@ -1251,27 +1304,27 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <section class="sec" id="problem">
       <h2 class="sec__label">Проблема</h2>
 
-      <p class="t">Рынок коммерческой недвижимости ОАЭ непрозрачен и завязан на агентов: инвесторы и управляющие их активами решают «на ощущениях», сделка идёт 45–60 дней. Полного цикла CRE-сделки не давал никто: Property&nbsp;Finder и Bayut работают с жильём в ОАЭ, LoopNet и CREXI — с коммерческой недвижимостью, но не здесь.</p>
+      <p class="t">Рынок коммерческой недвижимости ОАЭ непрозрачен и завязан на агентов: инвесторы и управляющие их активами решают <b>«на ощущениях»</b>, тратят <b>недели на проверку</b> объектов, сделка идёт <b>45–60 дней</b>. Полного цикла CRE-сделки не давал никто: Property&nbsp;Finder и Bayut работают с жильём в ОАЭ, LoopNet и CREXI — с коммерческой недвижимостью, но не в ОАЭ.</p>
 
-      <p class="t"><b>Задача.</b> Превратить массив рыночных данных в инструмент инвестиционных решений и довести путь до сделки онлайн. Доказать, что платформа на аналитике и фактах работает быстрее и дешевле агентской модели.</p>
+      <p class="t"><b>Задача.</b> Превратить массив рыночных данных в <b>инструмент инвестиционных решений</b> и довести путь до <b>сделки онлайн</b>. Доказать, что платформа на аналитике и фактах работает <b>быстрее и дешевле</b> агентской модели.</p>
 
-      <p class="t">Провела <b>11 интервью</b> с инвесторами и управляющими активами. Путь ломался в трёх местах — на каждое своя гипотеза.</p>
+      <p class="t">Провела 11 интервью с инвесторами и управляющими активами. Путь инвестора ломался в трёх местах — на каждое своя гипотеза.</p>
 
       <div class="tbl tbl--find">
         <div class="tbl__head"><span>Шаг</span><span>Боль</span><span>Гипотеза</span></div>
         <div>
           <span class="k">Анализ</span>
-          <p>Данные разрознены по источникам — нет инструмента анализа</p>
-          <p>Одна аналитическая карта на данных DLD — земельного департамента Дубая</p>
+          <p>Данные разрознены по источникам, нет единого инструмента анализа</p>
+          <p>Одна аналитическая карта на данных DLD (земельного департамента Дубая)</p>
         </div>
         <div>
           <span class="k">Оценка</span>
-          <p>Доходность считают на глаз — нет инструмента оценки на объекте</p>
+          <p>Доходность считают «на глаз», нет инструмента оценки объекта</p>
           <p>ROI-калькулятор в карточке</p>
         </div>
         <div>
           <span class="k">Сделка</span>
-          <p>Путь от анализа до сделки разорван — дальше агент, бумаги, личная встреча</p>
+          <p>Путь от анализа до сделки разорван: агент, бумаги, личная встреча</p>
           <p>Сквозной сценарий от карты до онлайн-сделки</p>
         </div>
       </div>
@@ -1298,18 +1351,18 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <section class="sec" id="work">
       <h2 class="sec__label">Мой вклад — четыре решения за год работы</h2>
 
-      <p class="tag">Стратегия</p>
+      <p class="tag">Решение 1. Стратегия</p>
       <h3>Аналитика вместо широты фич. Два раунда инвестиций</h3>
       <p class="t"><b>Контекст.</b> Руководство хотело запустить всё сразу. Я настояла на другом: цель демо — не полнота продукта, а доказательство ценности данных. Полный продукт — вторым шагом, если доказательство сработает.</p>
       <p class="t"><b>Решение.</b> Сфокусировала демо на аналитике в двух форматах — интерактивная карта и графики на открытых данных рынка Дубая. Без каталога, без сделок, без лишних фич. После раунда развернула продукт в полный сценарий: каталог, сделка, подписка.</p>
       <p class="res"><b>Результат</b><span>Узкое демо принесло $2.5M и доступ к закрытым данным DLD. Полный MVP принёс ещё $5M на раунде A.</span></p>
 
       <figure class="shot">
-        <div class="shot__frame" style="aspect-ratio: 4968 / 2796"><picture><source srcset="/img/realdeal/960/analytic.webp 960w, /img/realdeal/analytic.webp 4968w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/analytic.png" width="4968" height="2796" alt="Аналитика в графиках: объём сделок, аренда, динамика цены, демография" loading="lazy" decoding="async"></picture></div>
+        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4968 / 2796"><picture><source srcset="/img/realdeal/960/analytic.webp 960w, /img/realdeal/analytic.webp 4968w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/analytic.png" width="4968" height="2796" alt="Аналитика в графиках: объём сделок, аренда, динамика цены, демография" loading="lazy" decoding="async"></picture></div>
         <figcaption class="shot__cap">Второй формат демо — графики на открытых данных рынка Дубая</figcaption>
       </figure>
 
-      <p class="tag">Карта</p>
+      <p class="tag">Решение 2. Карта</p>
       <h3>От визуального хаоса к зональной аналитике</h3>
       <p class="t"><b>Контекст.</b> На демо от карты ждали вау-эффекта: максимум слоёв, часть сгруппирована в папки. Я видела две проблемы — визуальный хаос от количества и ловушку: включив слой внутри группы и выйдя назад, пользователь не видел, что включено. Предложила обратное и настояла на тесте обоих вариантов с инвесторами.</p>
       <p class="t"><b>Решение.</b> Мой вариант не прошёл: слоёв оставили максимум, аналитика считалась только по готовым зонам — весь Дубай, комьюнити, сектор. В MVP к нему вернулись. Каталог слоёв я не сокращала — ограничила пятью одновременно включёнными и убрала группы: каждый слой стал самостоятельным, со своими фильтрами и аналитикой, набор сохраняется пресетом. Добавила свои зоны — радиус, контур, изохрона, — таких не было ни у одного конкурента. Выбрала URBI&nbsp;API: 3D с этажностью, режимы карты.</p>
@@ -1342,7 +1395,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
         <figcaption class="shot__cap">MVP: тот же слой стал самостоятельным — свои фильтры и своя аналитика</figcaption>
       </figure>
 
-      <p class="tag">Карточка объекта</p>
+      <p class="tag">Решение 3. Карточка объекта</p>
       <h3>Доверие и доходность в одном экране</h3>
 
       <!-- СВЯЗКА МЕЖДУ РАЗДЕЛАМИ. Кейс заявляет сквозной сценарий
@@ -1364,7 +1417,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
           </figure>
       </div>
 
-      <p class="tag">Онлайн-сделка</p>
+      <p class="tag">Решение 4. Онлайн-сделка</p>
       <h3>От запроса до подписи, не выходя из платформы</h3>
       <p class="t"><b>Контекст.</b> Ни одна платформа в ОАЭ не проводила CRE-сделку полностью онлайн. Барьер — электронная подпись: без неё документ требовал физического присутствия сторон.</p>
       <p class="t"><b>Решение.</b> Компания получила доступ к UAE&nbsp;PASS — государственной системе цифровой идентификации. Подпись стала юридически значимой. Сделку встроила в существующий путь, а не вынесла отдельным разделом: запрос уходит из карточки объекта в Deal&nbsp;Room, статусы возвращаются в дашборд. Deal&nbsp;Room детально проектировал дизайнер моей команды, сквозной сценарий вела я.</p>
@@ -1372,7 +1425,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <div class="shots-lead">
         <figure class="shot">
-          <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/dealroom.webp 960w, /img/realdeal/1920/dealroom.webp 1920w, /img/realdeal/dealroom.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dealroom.png" width="4000" height="2250" alt="Запрос на сделку: выбор роли, шаг 1 из 3" loading="lazy" decoding="async"></picture></div>
+          <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/dealroom.webp 960w, /img/realdeal/1920/dealroom.webp 1920w, /img/realdeal/dealroom.webp 4000w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dealroom.png" width="4000" height="2250" alt="Запрос на сделку: выбор роли, шаг 1 из 3" loading="lazy" decoding="async"></picture></div>
           <figcaption class="shot__cap">Вход — запрос уходит из карточки объекта</figcaption>
         </figure>
         <div class="shots-lead__pair">
@@ -1388,8 +1441,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       </div>
 
       <h3>Роль Lead Product Designer: стратегия, C-level, команда</h3>
-      <p class="t"><b>Влияние на стратегию.</b> Что входит в релиз, а что ждёт, решали втроём с CTO и PM — roadmap вела я.</p>
-      <p class="t"><b>Работа с C-level.</b> Защищала продуктовые решения на ревью и готовила материалы для раундов — 20+ презентаций инвесторам на конференциях и закрытых встречах в Дубае.</p>
+      <p class="t"><b>Влияние на стратегию.</b> Приоритеты MVP и roadmap определяла вместе с CTO и PM: что входит в релиз, а что ждёт, решали втроём.</p>
+      <p class="t"><b>Работа с C-level.</b> Защищала продуктовые решения на ревью с CTO, PM и стейкхолдерами. Готовила материалы для раундов — 20+ презентаций инвесторам на конференциях и закрытых встречах в Дубае.</p>
       <p class="t"><b>Команда и процессы.</b> Пересобрала команду, заменила джунов на сильных специалистов — <span class="hl">через месяц команда работала самостоятельно</span>. Дизайн-система с нуля: 25+ компонентов, токены, стандарты с первого спринта.</p>
 
       <div class="shots2">
@@ -1420,8 +1473,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
           <p>Каталог, онлайн-сделки, верификация, подписка. После закрытой беты с 15 инвесторами продукт готовился к открытому запуску.</p>
         </div>
         <div>
-          <span class="k">Задел</span><span class="v">В макетах</span>
-          <p>Дашборд как центр ежедневной работы: сделки, задачи, объекты и воронка, аналитика. AI-ассистент следующим слоем — автоматизация анализа и подбор объектов под стратегию инвестора.</p>
+          <span class="k">Задел</span><span class="v">Спроектировано</span>
+          <p>Дашборд как центр ежедневной работы: сделки, шортлист, портфель, аналитика. AI-ассистент следующим слоем — автоматизация анализа и подбор объектов под стратегию инвестора.</p>
         </div>
       </div>
 
@@ -1433,7 +1486,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       </dl>
 
       <figure class="shot">
-        <div class="shot__frame" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Дашборд инвестора: AI-ассистент, задачи, объекты, воронка сделок" loading="lazy" decoding="async"></picture></div>
+        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1141px) 1000px, 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Дашборд инвестора: AI-ассистент, задачи, объекты, воронка сделок" loading="lazy" decoding="async"></picture></div>
         <figcaption class="shot__cap">Дашборд — сделки, задачи, объекты и воронка в одном месте. Спроектирован вместе с AI-ассистентом, в релиз не вышел</figcaption>
       </figure>
 
@@ -1453,9 +1506,10 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <nav class="more" aria-label="Другие кейсы">
       <p class="more__t">Другие кейсы</p>
       <div class="tree">
-        <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Триколор Кино и ТВ</span><em>B2C · Streaming TV</em></span></span></a>
-        <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS · Design system</em></span></span></a>
-        <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C · TV &amp; Media</em></span></span></a>
+        <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+        <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+        <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+        <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
       </div>
     </nav>
 <!-- <</CASE_MORE>> -->

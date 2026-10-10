@@ -34,10 +34,12 @@ PAGES = ['index.html', 'realdeal.html']
 # brand: значение атрибута data-brand, по нему CSS берёт цвет продукта.
 # anchors: якоря разделов кейса; у всех внутренних страниц они одинаковы.
 CASES = [
-    dict(slug='realdeal',      name='RealDeal',           domain='B2B SaaS · PropTech · CRE',  brand='realdeal'),
-    dict(slug='kino-i-tv',     name='Триколор Кино и ТВ', domain='B2C · Streaming TV',         brand='kino-i-tv'),
+    dict(slug='realdeal',      name='RealDeal',           domain='B2B SaaS · PropTech',        brand='realdeal'),
+    dict(slug='kino-i-tv',     name='Кино и ТВ',          domain='B2C · Streaming TV',         brand='kino-i-tv'),
     dict(slug='design-system', name='DREAMPlatform',      domain='B2B SaaS · Design system',   brand='design-system'),
     dict(slug='second-screen', name='Второй экран',       domain='B2C · TV &amp; Media',       brand='second-screen'),
+    # в работе: карточка без ссылки на 30% (soon=True), страницы нет
+    dict(slug='smart-home',    name='Умный дом',          domain='B2C · TV',                   brand='smart-home', soon=True),
 ]
 ANCHORS = [('#problem', 'Проблема'), ('#work', 'Мой вклад'), ('#result', 'Результат')]
 
@@ -70,12 +72,21 @@ META = {
 }
 
 
+def dom(s):
+    """Разделитель «роль · сфера» — своим элементом, чтобы CSS дал ему воздух."""
+    return s.replace(' · ', ' <span class="sep">·</span> ')
+
+
 def row(c):
-    """Свёрнутый кейс — ссылка-карточка. Одна разметка на все места."""
-    return (f'<a class="row row--flat" href="/{c["slug"]}" data-brand="{c["brand"]}">'
-            f'<span class="row__id"><span class="logo" aria-hidden="true"></span>'
-            f'<span><span class="row__name">{c["name"]}</span><em>{c["domain"]}</em></span>'
-            f'</span></a>')
+    """Свёрнутый кейс — ссылка-карточка. Одна разметка на все места.
+    Кейс «в работе» (soon) — та же карточка, но блоком без ссылки."""
+    inner = (f'<span class="row__id"><span class="logo" aria-hidden="true"></span>'
+             f'<span><span class="row__name">{c["name"]}</span><em>{dom(c["domain"])}</em></span>'
+             f'</span>')
+    if c.get('soon'):
+        return (f'<div class="row row--flat row--soon" data-brand="{c["brand"]}" '
+                f'aria-disabled="true">{inner}</div>')
+    return f'<a class="row row--flat" href="/{c["slug"]}" data-brand="{c["brand"]}">{inner}</a>'
 
 
 def case_tree(page):
@@ -88,7 +99,7 @@ def case_tree(page):
             toc = ''.join(f'<a href="{h}">{t}</a>' for h, t in ANCHORS)
             out += [f'      <div class="row row--open" data-brand="{c["brand"]}" aria-current="page">',
                     '        <span class="row__id"><span class="logo" aria-hidden="true"></span>',
-                    f'        <span><span class="row__name">{c["name"]}</span><em>{c["domain"]}</em></span></span>',
+                    f'        <span><span class="row__name">{c["name"]}</span><em>{dom(c["domain"])}</em></span></span>',
                     f'        <span class="toc">{toc}</span>',
                     '      </div>']
         else:
