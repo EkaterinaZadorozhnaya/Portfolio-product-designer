@@ -66,7 +66,6 @@
   /* примитивы тёмной темы — объявлены заранее, чтобы ссылки
      в закомментированных блоках не висели в пустоту */
   --neutral-12:  #20201E;   /* L* 12.2  лист                           */
-  --neutral-14:  #242422;   /* L* 14.1  карточка в наведении           */
   --neutral-22:  #343433;   /* L* 21.7  заглушка                       */
   --neutral-25:  #3C3B3A;   /* L* 24.9  линейка                        */
   --neutral-63:  #999795;   /* L* 62.6  вторичный и проза              */
@@ -111,7 +110,6 @@
   --text-inverse:      var(--neutral-100);  /* текст на заливке --bg-inverse */
   --bg-page:           var(--neutral-95);   /* фон страницы */
   --bg-surface:        var(--neutral-100);  /* лист кейса, карточки кейсов в колонке */
-  --bg-surface-hover:  var(--neutral-98);   /* карточка кейса при наведении */
   --bg-inverse:        var(--neutral-6);    /* заливка кнопки резюме */
   --bg-inverse-hover:  var(--neutral-18);   /* кнопка резюме при наведении */
   --bg-placeholder:    var(--neutral-90);   /* место под макет, аватар, чипы схемы пути */
@@ -128,7 +126,6 @@
      скруглённые торцы, и его можно хранить числом в Figma. */
   --radius-4:    4px;     /* марка 12×12, кольца :focus-visible */
   --radius-8:    8px;     /* кнопка, чип, skip-link, лист, кадры, врезка */
-  --radius-12:   12px;    /* карточка кейса в колонке, логотип 40×40 */
   --radius-full: 999px;   /* аватар, торцы рельса активного якоря */
 
   --width-cover: 760px;   /* полоса: обложка, метрики, макеты во всю ширину */
@@ -173,7 +170,6 @@
     --text-inverse:     var(--neutral-6);
     --bg-page:          var(--neutral-6);
     --bg-surface:       var(--neutral-12);
-    --bg-surface-hover: var(--neutral-14);
     --bg-inverse:       var(--neutral-90);
     --bg-inverse-hover: var(--neutral-78);
     --bg-placeholder:   var(--neutral-22);
@@ -187,7 +183,6 @@
   --text-inverse:     var(--neutral-6);
   --bg-page:          var(--neutral-6);
   --bg-surface:       var(--neutral-12);
-  --bg-surface-hover: var(--neutral-14);
   --bg-inverse:       var(--neutral-90);
   --bg-inverse-hover: var(--neutral-78);
   --bg-placeholder:   var(--neutral-22);
@@ -237,7 +232,9 @@ body{
             →  [кейсы, только внутри]      →  статус и контакты
    Действие всегда стоит сразу после блока «кто я»:
    это и есть одно положение, о котором говорил совет. */
-/* ВЫСОТА КОЛОНКИ — ПО СОДЕРЖИМОМУ, А НЕ ПО ЭКРАНУ.
+/* [ОТМЕНЕНО 2026-10-10: колонка снова во всю высоту экрана, контакты прижаты
+   к низу — см. комментарий у .rail ниже. Историю решения не стираем.]
+   ВЫСОТА КОЛОНКИ — ПО СОДЕРЖИМОМУ, А НЕ ПО ЭКРАНУ.
    Было: height 100vh и распорка, прижимавшая контакты к низу
    экрана. На главной это давало 470px пустоты посреди колонки —
    больше, чем занимал весь её контент (382px). Колонка при этом
@@ -361,7 +358,8 @@ body{
    32 кеглем, и работу различения делает он; знак только
    отвечает на вопрос «что за продукт».
 
-   На странице кейса его нет вовсе. Кейс открыт один, различать
+   [Устарело 2026-10-10: в колонке кейса стоит квадратный знак 40×40,
+   на главной — вордмарк.] На странице кейса его нет вовсе. Кейс открыт один, различать
    нечего, а цвет продукта на этой странице уже звучит — им
    подсвечен активный якорь в колонке. Третий носитель одного
    и того же сообщения — это не система, а повтор. */
@@ -417,7 +415,6 @@ body{
 /* Четвёртый кейс «Умный дом» — в работе: та же карточка без ссылки,
    весь блок на 30% (макет 2026-10-10). Нажимать не на что. */
 .row--soon{ opacity: .3; cursor: default; }
-.row--soon:hover{ background: var(--bg-surface); }
 /* разделитель в строках «роль · сфера» — шире пробела, как на макете */
 .sep{ margin: 0 5px; }
 
@@ -506,7 +503,7 @@ body{
   margin: 0; padding: 0; list-style: none;
 }
 .metrics div{ display: grid; gap: 4px; min-width: 0; }
-.metrics dt, .metrics .v{
+.metrics dt{
   font-size: 24px; font-weight: 400; line-height: 30px;
   letter-spacing: -.03em; color: var(--text-primary);
   font-variant-numeric: tabular-nums; white-space: nowrap;
@@ -557,7 +554,8 @@ body{
 .app--case .rail__spacer{ display: none; }
 .app--case .tree{ margin-block: auto; max-width: 320px; }
 
-/* ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
+/* [ЗАМЕНЕНО 2026-10-10: порог 800, колонка резиновая — см. блок ниже.]
+   ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
    ширина полосы = экран − 60 (поля) − 360 (колонка) − 40 (зазор)
                         − 80 (поля листа).
    При 1140 это 600 — колонка прозы 570 ещё помещается.
@@ -706,17 +704,12 @@ body{
   font-size: 24px; font-weight: 500; line-height: 30px;
   letter-spacing: -.03em; text-wrap: balance;
 }
-.case__title a{ color: var(--text-primary); text-decoration: none; transition: color .18s ease-out; }
-/* наведение — цвет, без подчёркивания (2026-10-10): чернила → приглушённый тон.
-   То же при наведении на макеты кейса: они ведут туда же, куда заголовок. */
-.case__title a:hover{ color: var(--text-secondary); }
-.case:has(.case__shots:hover) .case__title a{ color: var(--text-secondary); }
+.case__title a{ color: var(--text-primary); text-decoration: none; }
 .case__shots{ display: block; color: inherit; text-decoration: none; }
-/* Вся карточка кейса — ссылка (2026-10-10): ссылка заголовка растянута
-   на карточку. Рука — от самой ссылки, облачко «Читать кейс» ведёт
-   скрипт ниже и только там, где есть наведение (мышь, тачпад). */
-.case{ position: relative; }
-.case__title a::after{ content: ''; position: absolute; inset: 0; }
+/* Наведение на заголовок или макеты кейса (2026-10-11): цвет заголовка не
+   меняется, вместо этого у курсора облачко «Подробнее о …» — текст берётся
+   из data-tip ссылки. Рука — от самой ссылки. Облачко ведёт скрипт ниже
+   и только там, где есть наведение (мышь, тачпад). */
 .tip{
   position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
   opacity: 0; transform: translate3d(-200px, -200px, 0);
@@ -767,8 +760,8 @@ body{
 <a class="skip" href="#feed">К кейсам</a>
 
 <header class="topbar">
-  <a class="topbar__name" href="#feed">Задорожная Екатерина</a>
-  <a class="topbar__cv" href="/CV.pdf" download>Резюме ↓</a>
+  <a href="#feed">Задорожная Екатерина</a>
+  <a href="/CV.pdf" download>Резюме ↓</a>
 </header>
 
 <div class="app">
@@ -813,7 +806,7 @@ body{
         <p class="case__role">B2B SaaS <span class="sep">·</span> PropTech</p>
         <span class="mark" data-brand="realdeal"><img src="/img/logo/RD%202.svg" alt="RealDeal" width="88" height="14"></span>
       </div>
-      <h2 class="case__title"><a href="/realdeal">Первая в ОАЭ платформа <span class="nw">онлайн-сделок</span> с&nbsp;коммерческой недвижимостью</a></h2>
+      <h2 class="case__title"><a href="/realdeal" data-tip="Подробнее о RealDeal">Первая в ОАЭ платформа <span class="nw">онлайн-сделок</span> с&nbsp;коммерческой недвижимостью</a></h2>
       <dl class="metrics">
         <div><dt>+$7.5M</dt><dd>инвестиций</dd></div>
         <div><dt>№1 в ОАЭ</dt><dd>CRE-платформа онлайн-сделок</dd></div>
@@ -823,7 +816,7 @@ body{
            из файла (aspect-ratio инлайном, width/height у <img> — те же числа).
            Кадр с картой — одним файлом с обложкой кейса. Поля у карты и
            карточки нет; у калькулятора поле прозрачное, цвет даёт .frame--field. -->
-      <a class="case__shots" href="/realdeal" aria-hidden="true" tabindex="-1">
+      <a class="case__shots" href="/realdeal" data-tip="Подробнее о RealDeal" aria-hidden="true" tabindex="-1">
       <div class="shots">
         <div class="frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
         <div class="shots__pair">
@@ -839,13 +832,13 @@ body{
         <p class="case__role">B2C <span class="sep">·</span> Streaming TV</p>
         <span class="mark" data-brand="kino-i-tv"><img src="/img/logo/Cinema%202.svg" alt="Триколор Кино и ТВ" width="86" height="22"></span>
       </div>
-      <h2 class="case__title"><a href="/kino-i-tv">95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн</a></h2>
+      <h2 class="case__title"><a href="/kino-i-tv" data-tip="Подробнее о Кино и ТВ">95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн</a></h2>
       <dl class="metrics">
         <div><dt>1.7M</dt><dd>пользователей</dd></div>
         <div><dt>+100%</dt><dd>YoY роста аудитории</dd></div>
         <div><dt>14%</dt><dd>абонентов в стриминг</dd></div>
       </dl>
-      <a class="case__shots" href="/kino-i-tv" aria-hidden="true" tabindex="-1">
+      <a class="case__shots" href="/kino-i-tv" data-tip="Подробнее о Кино и ТВ" aria-hidden="true" tabindex="-1">
       <div class="shots">
         <div class="frame"></div>
         <div class="shots__pair"><div class="frame frame--43"></div><div class="frame frame--43"></div></div>
@@ -858,13 +851,13 @@ body{
         <p class="case__role">B2B SaaS <span class="sep">·</span> Design system</p>
         <span class="mark" data-brand="design-system"><img src="/img/logo/DRM%202.svg" alt="DREAMPlatform" width="142" height="24"></span>
       </div>
-      <h2 class="case__title"><a href="/design-system">Дизайн-система, вычистившая 10 лет легаси</a></h2>
+      <h2 class="case__title"><a href="/design-system" data-tip="Подробнее о Дизайн-системе">Дизайн-система, вычистившая 10 лет легаси</a></h2>
       <dl class="metrics">
         <div><dt>×2</dt><dd>ускорила релизы</dd></div>
         <div><dt>6</dt><dd>сервисов покрыто</dd></div>
         <div><dt>40+</dt><dd>компонентов</dd></div>
       </dl>
-      <a class="case__shots" href="/design-system" aria-hidden="true" tabindex="-1">
+      <a class="case__shots" href="/design-system" data-tip="Подробнее о Дизайн-системе" aria-hidden="true" tabindex="-1">
       <div class="shots">
         <div class="shots__pair shots__pair--uneven"><div class="frame frame--43"></div><div class="frame frame--43"></div></div>
         <div class="frame"></div>
@@ -877,13 +870,13 @@ body{
         <p class="case__role">B2C <span class="sep">·</span> TV &amp; Media</p>
         <span class="mark" data-brand="second-screen"><img src="/img/logo/SS%202.svg" alt="Второй экран" width="124" height="14"></span>
       </div>
-      <h2 class="case__title"><a href="/second-screen">MVP за 4 месяца: цена скорости и чужого видения</a></h2>
+      <h2 class="case__title"><a href="/second-screen" data-tip="Подробнее о Втором экране">MVP за 4 месяца: цена скорости и чужого видения</a></h2>
       <dl class="metrics">
         <div><dt>330K</dt><dd>пользователей</dd></div>
         <div><dt>188K</dt><dd>подписчиков</dd></div>
         <div><dt>ТВ</dt><dd>MVP лёг в основу приложения</dd></div>
       </dl>
-      <a class="case__shots" href="/second-screen" aria-hidden="true" tabindex="-1">
+      <a class="case__shots" href="/second-screen" data-tip="Подробнее о Втором экране" aria-hidden="true" tabindex="-1">
       <div class="shots__mob">
         <div class="frame frame--mob"></div>
         <div class="frame frame--mob"></div>
@@ -911,18 +904,19 @@ body{
   </main>
 </div>
 
-<div class="tip" aria-hidden="true">Читать кейс</div>
+<div class="tip" aria-hidden="true"></div>
 <script>
-/* Облачко «Читать кейс» ходит за курсором над карточкой кейса. */
+/* Облачко «Подробнее о …» ходит за курсором над заголовком и макетами кейса. */
 (function(){
   var tip = document.querySelector('.tip');
   if (!tip || !window.matchMedia('(hover: hover)').matches) return;
   var x = 0, y = 0, queued = false;
   function draw(){ queued = false; tip.style.transform = 'translate3d(' + (x + 16) + 'px,' + (y + 18) + 'px,0)'; }
   document.addEventListener('mousemove', function(e){
-    var on = !!(e.target.closest && e.target.closest('.case'));
-    tip.classList.toggle('is-on', on);
-    if (!on) return;
+    var el = e.target.closest && e.target.closest('[data-tip]');
+    tip.classList.toggle('is-on', !!el);
+    if (!el) return;
+    if (tip.textContent !== el.getAttribute('data-tip')) tip.textContent = el.getAttribute('data-tip');
     x = e.clientX; y = e.clientY;
     if (!queued){ queued = true; requestAnimationFrame(draw); }
   });
