@@ -19,8 +19,8 @@
 <meta property="og:locale"       content="ru_RU">
 <meta name="twitter:card"        content="summary_large_image">
 
-<link rel="icon" href="/favicon.ico?v=2" sizes="any">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -356,12 +356,14 @@ body{
 .hire{ display: grid; gap: 8px; margin-top: 16px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
-  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: center; width: fit-content;
   min-height: 26px;
 }
-.hire__links a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.hire__links a{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-11): чернила → приглушённый тон */
+.hire__links a:hover{ color: var(--text-secondary); }
 .hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 /* стрелка 12px внутри ссылки 14px: трекинг ссылки (−0.168px) иначе
    наследуется абсолютным числом — здесь Caption, значит ноль явно */
@@ -421,8 +423,9 @@ body{
 
 /* текущий — без подложки */
 .row--open{
-  padding: 2px 8px 14px;
-  border-bottom: 1px solid var(--border-default); margin-bottom: 6px;
+  /* линии под якорями нет (макет кейса, 2026-10-11); отступ до следующей
+     карточки ≈ 20 от текста последнего якоря, как на макете */
+  padding: 2px 8px 6px;
 }
 
 /* свёрнутые — карточки */
@@ -447,7 +450,12 @@ body{
   font-size: 16px; font-weight: 400; line-height: 18px;
   letter-spacing: -.012em; color: var(--text-primary);
 }
-.row--flat:hover{ background: var(--bg-surface-hover); }
+.row--flat{ color: var(--text-primary); }
+.row__name{ transition: color .18s ease-out; }
+/* наведение на карточку — имя кейса серым (2026-10-11), без смены подложки:
+   один сигнал, как у заголовков и контактов */
+.row--flat:hover .row__name{ color: var(--text-secondary); }
+.row--soon:hover .row__name{ color: var(--text-primary); }   /* «в работе» не нажимается */
 .row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .row em{
   display: block; font-style: normal; font-size: 12px; line-height: 16px;
@@ -472,10 +480,13 @@ body{
   width: 2px; border-radius: var(--radius-full); background: transparent;
   transition: background .18s ease-out;
 }
-.toc a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.toc a{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-11): серый якорь темнеет */
+.toc a:hover{ color: var(--text-primary); }
 /* активный якорь метится тоном и рельсом, не весом:
    весов на сайте два, и 500 занят двумя заголовками */
 .toc a[aria-current="true"]{ color: var(--text-primary); }
+.toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
 .toc a[aria-current="true"]::before{ background: var(--text-primary); }   /* макет 2026-10-10: рельс чернилами, не цветом продукта */
 .toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
 
@@ -523,7 +534,7 @@ body{
 /* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
    читалась как «60 18» — два числа без отношения между ними. */
 .metrics s{ color: var(--text-secondary); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
-.metrics dd, .metrics .l{
+.metrics dd{
   margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
 }
 /* зачёркнутое число в текстовом слое читалось слитно:
@@ -542,7 +553,6 @@ body{
      за край экрана. min-width:0 разрывает цикл. */
   min-width: 0;
 }
-.frame--wide{ aspect-ratio: 21/9; }
 .frame--43{ aspect-ratio: 4/3; }
 .frame--mob{ aspect-ratio: 9/16; }
 /* Поле макета — подложка плашки, которую даёт страница (файл приходит
@@ -688,9 +698,6 @@ body{
 }
 /* вордмарк продукта вместо набранного имени (макет 2026-10-10) */
 .top__logo{ display: block; height: 16px; width: auto; }
-.top__name{
-  font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -.03em; color: var(--text-primary);
-}
 .top__link{
   font-size: 14px; line-height: 16px; letter-spacing: -.012em; color: var(--text-secondary); text-decoration: none;
   display: inline-flex; align-items: center; gap: 8px; min-height: 26px;
@@ -799,10 +806,7 @@ h1.title{
      медиа — во всю ширину полосы.
    Центрирование, а не прижатие влево: тогда кадр и текст
    делят одну ось, а не два разных правых края. */
-.paper h2, .paper h3, .paper h4,
-.paper .t, .paper ul.list, .paper ol.list,
-.paper .pairs, .paper .delta, .paper .note,
-.paper .quote, .paper .pull, .paper .flow, .paper .sec__label, .paper .tag, .paper .res{
+.paper h2, .paper h3, .paper h4, .paper .t, .paper ul.list, .paper ol.list, .paper .quote, .paper .flow, .paper .sec__label, .paper .tag, .paper .res{
   max-width: var(--width-prose);
   margin-left: auto; margin-right: auto;
 }
@@ -833,24 +837,17 @@ h1.title{
 /* лид держит ширину полосы: на 24 кегле Literata это 56 знаков
    в строке — внутри нормы для крупного кегля. Отдельного числа
    под лид нет, ширин на странице три, а не четыре. */
-.paper .lede{ max-width: 800px; margin-left: 0; margin-right: 0; }   /* 800 по макету 2026-10-10 */
-.paper .sub{ margin-left: 0; margin-right: 0; }
-.paper .lede{ margin-left: 0; margin-right: 0; }
+.paper .lede{ max-width: 800px; margin-left: 0; margin-right: 0; }   .paper .lede{ margin-left: 0; margin-right: 0; }
 .paper .top{ max-width: none; }
 
 /* единый ритм: один и тот же промежуток между всеми блоками.
    Над заголовком не больше, чем под ним — иерархию держат
    кегль, вес и цвет, а не пустота. */
-.paper h2, .paper h3, .paper h4,
-.paper .t, .paper ul.list, .paper ol.list,
-.paper .pairs, .paper .delta, .paper .note,
-.paper .quote, .paper .pull, .paper .flow, .paper .res,
-.paper .shot, .paper .shots2, .paper .shots3, .paper .shots-lead,
-.paper .ba, .paper .stages, .paper .tbl{
+.paper h2, .paper h3, .paper h4, .paper .t, .paper ul.list, .paper ol.list, .paper .quote, .paper .flow, .paper .res, .paper .shot, .paper .shots2, .paper .shots-lead, .paper .tbl{
   margin-top: 0; margin-bottom: var(--space-16);
 }
 /* 1.5r после выноса — единственное исключение в ритме */
-.paper .quote, .paper .pull, .paper .res{ margin-bottom: var(--space-24); }
+.paper .quote, .paper .res{ margin-bottom: var(--space-24); }
 
 /* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
    Замер oimachi: 54 блока, антиквой набраны 7 — 13%.
@@ -858,14 +855,6 @@ h1.title{
    крупная антиква посреди антиквы остаётся той же фактурой.
    Здесь вынос несёт суждение — фразу, где принято решение;
    результаты уже стоят в заголовках. */
-/* ВЫНОС внутри антиквенного тела: та же гарнитура, но 34 против 16
-   и чернила против приглушённого. В книге это работает именно так —
-   акцент даёт кегль и тон, а не смена гарнитуры. */
-.pull{
-  font-family: var(--serif); font-size: 34px; font-weight: 400;
-  line-height: 38px; letter-spacing: -.01em; color: var(--text-primary);
-  margin: 0; padding: 8px 0; text-wrap: pretty;
-}
 
 .paper .sec > *:last-child{ margin-bottom: 0; }
 
@@ -956,16 +945,6 @@ ul.list li, ol.list li{ margin-bottom: 4px; }
 ul.list li::marker{ color: var(--text-secondary); }
 ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font-size: 14px; }
 
-/* пара «роль — что делает» */
-.pairs{ display: grid; gap: 0; border-top: 1px solid var(--border-default); }
-.pairs div{
-  display: grid; grid-template-columns: 170px minmax(0,1fr); gap: 16px;
-  padding: 10px 0; border-bottom: 1px solid var(--border-default); align-items: baseline;
-}
-.pairs dt, .pairs .k{ font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em; }
-.pairs dd, .pairs .v{
-  margin: 0; font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
-}
 
 /* цитата */
 /* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
@@ -1027,22 +1006,14 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
      запасными. Ни поля страницы, ни тени, ни кадрирования. */
   background: var(--bg-page); overflow: hidden;
 }
+/* Подпись «Демо» / «MVP» стоит НАД кадром (2026-10-11), не под ним. */
+.shot__cap.shot__cap--top{ margin: 0 0 8px; }   /* 8, как от схемы до её подписи; .shot__cap объявлен ниже — поэтому двойной класс */
 .shot__frame picture{ display: block; width: 100%; height: 100%; }
 .shot__frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
-.shot__frame--wide{ aspect-ratio: 21/9; }
 /* сплошная подложка кадров-полос с графиками, запросом на сделку и
    дашбордом — #1268EC по макету кейса 2026-10-10; карты и пары — серые */
 .shot__frame--accent{ background: var(--brand-realdeal-accent); }
-.shot__frame--43{ aspect-ratio: 4/3; }
 
-/* ПРАВИЛО ШИРИНЫ МЕДИА
-   Во всю полосу — только скриншоты продукта: их смотрят.
-   Схемы и диаграммы живут в колонке прозы: их читают
-   вместе с текстом, и на 900px они только растягивают страницу. */
-.paper .shot--fig{
-  max-width: var(--width-prose); margin-left: auto; margin-right: auto;
-}
-.paper .shot--fig .shot__cap{ margin-left: 0; }
 /* схема пути: 860 по центру листа (макет 2026-10-10) */
 .paper .shot--wide{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
 .paper .shot--wide .shot__cap{ margin-left: 0; }
@@ -1068,7 +1039,6 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
   color: var(--text-primary); font-weight: 400;
 }
 .shots2{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.shots3{ display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
 
 /* ТРИ ЭКРАНА В РЯД — по 293px на штуку: десктопный интерфейс
    в таком размере превращается в пятно. Стало: главный экран
@@ -1079,16 +1049,8 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
 .shots-lead > .shot .shot__frame{ aspect-ratio: 16/9; }
 .shots-lead__pair .shot__frame{ aspect-ratio: 4/3; }
 
-.shots2 .shot__frame, .shots3 .shot__frame{ aspect-ratio: 4/3; }
+.shots2 .shot__frame{ aspect-ratio: 4/3; }
 
-/* было → стало */
-.ba{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.ba__col{ display: grid; gap: 8px; }
-.ba__tag{
-  font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
-}
-.ba__frame{ background: var(--bg-placeholder); border-radius: var(--radius-8); aspect-ratio: 4/3; }
-.ba__cap{ font-size: 12px; line-height: 16px; color: var(--text-secondary); }
 
 /* ВЫНОС НЕСЁТ РЕЗУЛЬТАТ
    Прежде крупной антиквой был набран трейдофф. Теперь — результат
@@ -1124,17 +1086,6 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
    но не видна глазу. */
 /* .sr объявлен в общей основе — здесь не повторяется */
 
-/* компромисс */
-.note{
-  padding: var(--space-16) 20px; background: var(--bg-page); border-radius: var(--radius-8);
-}
-.note__label{
-  font-size: 12px; font-weight: 400; line-height: 16px; color: var(--text-secondary);
-  letter-spacing: 0; margin: 0 0 6px;
-}
-.note p{
-  font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; margin: 0; color: var(--text-secondary);
-}
 
 /* ═══ ТАБЛИЦА ЭТАПОВ ═══
    Три колонки в строку, как в оригинале на codedesign.ru.
@@ -1170,29 +1121,7 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
   .tbl--find p + p::before{ content: '→ '; color: var(--text-secondary); }
 }
 
-/* этапы */
-.stages{ display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-.stage{
-  background: var(--bg-page); border-radius: var(--radius-8); padding: var(--space-16);
-  display: grid; gap: 8px; align-content: start;
-}
-.stage__top{ display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.stage__name{ font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em; }
-.stage__sum{ font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-.stage p{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; margin: 0; color: var(--text-secondary); }
 
-/* таблица было → стало */
-.delta{ display: grid; gap: 0; border-top: 1px solid var(--border-default); }
-.delta div{
-  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 20px;
-  padding: 12px 0; border-bottom: 1px solid var(--border-default); align-items: baseline;
-}
-.delta .k{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; color: var(--text-secondary); }
-.delta .v{
-  font-size: 16px; line-height: 18px; font-weight: 400; font-variant-numeric: tabular-nums;
-  letter-spacing: -.01em; white-space: nowrap;
-}
-.delta .v s{ color: var(--text-secondary); text-decoration-thickness: 1.5px; margin-right: 6px; font-weight: 400; }
 
 /* низ */
 /* ═══ КОНЕЦ КЕЙСА ═══
@@ -1222,12 +1151,12 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
 }
 .foot__site{
   font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
-  color: var(--text-primary); text-decoration: none;
+  color: var(--text-secondary); text-decoration: none;   /* в покое серая, как в шапке: так велела автор 2026-10-11 (на макете была чёрной) */
   display: inline-flex; gap: 8px; align-items: center;
   min-height: 26px; width: fit-content;
 }
 .foot__site{ transition: color .18s ease-out; }
-.foot__site:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания, как везде */
+.foot__site:hover{ color: var(--text-primary); }   /* серый → чёрный, как «Сайт продукта» в шапке (2026-10-11) */
 .foot__site i{
   font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
   width: 16px; height: 16px; display: inline-grid; place-items: center;
@@ -1239,11 +1168,12 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
             letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
 .foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
 .foot__row a{
-  font-size: 14px; line-height: 16px; font-weight: 400; letter-spacing: -.012em;
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;   /* контакты 16/22, как в колонке */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
 }
-.foot__row a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.foot__row a{ transition: color .18s ease-out; }
+.foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
 .foot__row i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
 .foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
 
@@ -1266,7 +1196,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
    спускается на 24 — следующую ступень той же шкалы. Новых чисел нет. */
 @media (max-width: 768px){
   h1.title{ font-size: 24px; line-height: 30px; }
-  .quote, .pull, .res span{ font-size: 24px; line-height: 30px; }
+  .quote, .res span{ font-size: 24px; line-height: 30px; }
   .paper .metrics dt, .paper .metrics .v{ font-size: 24px; line-height: 30px; }
   .metrics--top{ grid-template-columns: repeat(2, minmax(0,1fr)); }
   .sec{ scroll-margin-top: 60px; }   /* ниже 768 сверху липкая шапка 48 — якорь не уезжает под неё */
@@ -1285,13 +1215,11 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
   h1.title, .case__title{ text-wrap: pretty; }
   /* метрики 2×2 (ТЗ адаптив): три во flex-wrap ложились «две и одна» */
   .metrics--top, .metrics--out{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
-  .pairs div{ grid-template-columns: 1fr; gap: 2px; }
-  .stages{ grid-template-columns: 1fr; }
-}
+    }
 
 /* Пары кадров — в столбец с 620 (ТЗ адаптив 2026-10-10); полосы остаются полосами. */
 @media (max-width: 620px){
-  .shots2, .shots3, .ba, .shots-lead__pair{ grid-template-columns: 1fr; }
+  .shots2, .shots-lead__pair{ grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
@@ -1450,7 +1378,6 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <figure class="shot">
         <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4968 / 2796"><picture><source srcset="/img/realdeal/960/analytic.webp 960w, /img/realdeal/analytic.webp 4968w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/analytic.png" width="4968" height="2796" alt="Аналитика в графиках: объём сделок, аренда, динамика цены, демография" loading="lazy" decoding="async"></picture></div>
-        <figcaption class="shot__cap">Второй формат демо — графики на открытых данных рынка Дубая</figcaption>
       </figure>
 
       <p class="tag">Решение 2. Карта</p>
@@ -1467,23 +1394,23 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
            превращается в пятно. Подписи несут «Демо:» и «MVP:» сами. -->
       <div class="shots2">
         <figure class="shot">
+            <figcaption class="shot__cap shot__cap--top">Демо</figcaption>
             <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before.webp 960w, /img/realdeal/map_before.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before.png" width="2406" height="1800" alt="Демо: несколько слоёв включены разом, поверх панель фильтров" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">Демо: слои включены разом — карта перестаёт читаться</figcaption>
           </figure>
         <figure class="shot">
+            <figcaption class="shot__cap shot__cap--top">Демо</figcaption>
             <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before2.webp 960w, /img/realdeal/map_before2.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before2.png" width="2406" height="1800" alt="Демо: слой Ownership раскрыт внутри группы" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">Демо: слой живёт внутри группы — выйдя назад, не видно, что включено</figcaption>
           </figure>
       </div>
 
       <figure class="shot">
+        <figcaption class="shot__cap shot__cap--top">MVP</figcaption>
         <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after.webp 960w, /img/realdeal/1920/map_after.webp 1920w, /img/realdeal/map_after.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/map_after.png" width="4000" height="2250" alt="MVP: карта в объёмном режиме, панель слоёв с сохранением пресета" loading="lazy" decoding="async"></picture></div>
-        <figcaption class="shot__cap">MVP: набор слоёв сохраняется пресетом, объёмный режим показывает этажность</figcaption>
       </figure>
 
       <figure class="shot">
+        <figcaption class="shot__cap shot__cap--top">MVP</figcaption>
         <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after2.webp 960w, /img/realdeal/1920/map_after2.webp 1920w, /img/realdeal/map_after2.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/map_after2.png" width="4000" height="2250" alt="MVP: слой Ownership отдельной панелью — фильтры и аналитика по слою" loading="lazy" decoding="async"></picture></div>
-        <figcaption class="shot__cap">MVP: тот же слой стал самостоятельным — свои фильтры и своя аналитика</figcaption>
       </figure>
 
       <p class="tag">Решение 3. Карточка объекта</p>
@@ -1500,11 +1427,9 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <div class="shots2">
         <figure class="shot">
             <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/catalog.webp 960w, /img/realdeal/catalog.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/catalog.png" width="2406" height="1800" alt="Каталог: список объектов и карта с ценниками, на точке открыта карточка" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">От карты к объекту — точка на карте открывает карточку</figcaption>
           </figure>
         <figure class="shot">
             <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/object_card.webp 960w, /img/realdeal/object_card.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/object_card.png" width="2406" height="1800" alt="Карточка объекта: проверка, условия, калькулятор доходности" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">Доходность прямо на объекте — без Excel и без агента</figcaption>
           </figure>
       </div>
 
@@ -1517,16 +1442,13 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <div class="shots-lead">
         <figure class="shot">
           <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/dealroom.webp 960w, /img/realdeal/1920/dealroom.webp 1920w, /img/realdeal/dealroom.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/dealroom.png" width="4000" height="2250" alt="Запрос на сделку: выбор роли, шаг 1 из 3" loading="lazy" decoding="async"></picture></div>
-          <figcaption class="shot__cap">Вход — запрос уходит из карточки объекта</figcaption>
         </figure>
         <div class="shots-lead__pair">
           <figure class="shot">
             <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom2.webp 960w, /img/realdeal/dealroom2.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom2.png" width="2800" height="2094" alt="Deal Room: этапы сделки, due diligence, переписка сторон" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">Deal&nbsp;Room — сделка закрывается на платформе: подпись через UAE&nbsp;PASS юридически значима</figcaption>
           </figure>
           <figure class="shot">
             <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom3.webp 960w, /img/realdeal/dealroom3.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom3.png" width="2800" height="2094" alt="Мои сделки: таблица с контрагентом, ролью и статусом" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">Возврат — статусы сделок возвращаются в дашборд</figcaption>
           </figure>
         </div>
       </div>
@@ -1539,11 +1461,9 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <div class="shots2">
         <figure class="shot">
             <div class="shot__frame" style="aspect-ratio: 2958 / 2212"><picture><source srcset="/img/realdeal/add_object.webp 2958w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/add_object.png" width="2958" height="2212" alt="Форма публикации объекта: контакты, паспорт, Emirates ID, Trakheesi permit" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">Экран продукта, собранный из компонентов системы</figcaption>
           </figure>
         <figure class="shot">
             <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/color.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/color.png" width="2406" height="1800" alt="Палитра дизайн-системы со значениями" loading="lazy" decoding="async"></picture></div>
-            <figcaption class="shot__cap">Палитра: значения, токены и роли</figcaption>
           </figure>
       </div>
     </section>
@@ -1578,7 +1498,6 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <figure class="shot">
         <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Дашборд инвестора: AI-ассистент, задачи, объекты, воронка сделок" loading="lazy" decoding="async"></picture></div>
-        <figcaption class="shot__cap">Дашборд — сделки, задачи, объекты и воронка в одном месте. Спроектирован вместе с AI-ассистентом, в релиз не вышел</figcaption>
       </figure>
 
       <h3>Что бы я сделала иначе</h3>
