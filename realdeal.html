@@ -86,7 +86,6 @@
   /* примитивы тёмной темы — объявлены заранее, чтобы ссылки
      в закомментированных блоках не висели в пустоту */
   --neutral-12:  #20201E;   /* L* 12.2  лист                           */
-  --neutral-14:  #242422;   /* L* 14.1  карточка в наведении           */
   --neutral-22:  #343433;   /* L* 21.7  заглушка                       */
   --neutral-25:  #3C3B3A;   /* L* 24.9  линейка                        */
   --neutral-63:  #999795;   /* L* 62.6  вторичный и проза              */
@@ -131,7 +130,6 @@
   --text-inverse:      var(--neutral-100);  /* текст на заливке --bg-inverse */
   --bg-page:           var(--neutral-95);   /* фон страницы */
   --bg-surface:        var(--neutral-100);  /* лист кейса, карточки кейсов в колонке */
-  --bg-surface-hover:  var(--neutral-98);   /* карточка кейса при наведении */
   --bg-inverse:        var(--neutral-6);    /* заливка кнопки резюме */
   --bg-inverse-hover:  var(--neutral-18);   /* кнопка резюме при наведении */
   --bg-placeholder:    var(--neutral-90);   /* место под макет, аватар, чипы схемы пути */
@@ -148,7 +146,6 @@
      скруглённые торцы, и его можно хранить числом в Figma. */
   --radius-4:    4px;     /* марка 12×12, кольца :focus-visible */
   --radius-8:    8px;     /* кнопка, чип, skip-link, лист, кадры, врезка */
-  --radius-12:   12px;    /* карточка кейса в колонке, логотип 40×40 */
   --radius-full: 999px;   /* аватар, торцы рельса активного якоря */
 
   --width-cover: 760px;   /* полоса: обложка, метрики, макеты во всю ширину */
@@ -193,7 +190,6 @@
     --text-inverse:     var(--neutral-6);
     --bg-page:          var(--neutral-6);
     --bg-surface:       var(--neutral-12);
-    --bg-surface-hover: var(--neutral-14);
     --bg-inverse:       var(--neutral-90);
     --bg-inverse-hover: var(--neutral-78);
     --bg-placeholder:   var(--neutral-22);
@@ -207,7 +203,6 @@
   --text-inverse:     var(--neutral-6);
   --bg-page:          var(--neutral-6);
   --bg-surface:       var(--neutral-12);
-  --bg-surface-hover: var(--neutral-14);
   --bg-inverse:       var(--neutral-90);
   --bg-inverse-hover: var(--neutral-78);
   --bg-placeholder:   var(--neutral-22);
@@ -257,7 +252,9 @@ body{
             →  [кейсы, только внутри]      →  статус и контакты
    Действие всегда стоит сразу после блока «кто я»:
    это и есть одно положение, о котором говорил совет. */
-/* ВЫСОТА КОЛОНКИ — ПО СОДЕРЖИМОМУ, А НЕ ПО ЭКРАНУ.
+/* [ОТМЕНЕНО 2026-10-10: колонка снова во всю высоту экрана, контакты прижаты
+   к низу — см. комментарий у .rail ниже. Историю решения не стираем.]
+   ВЫСОТА КОЛОНКИ — ПО СОДЕРЖИМОМУ, А НЕ ПО ЭКРАНУ.
    Было: height 100vh и распорка, прижимавшая контакты к низу
    экрана. На главной это давало 470px пустоты посреди колонки —
    больше, чем занимал весь её контент (382px). Колонка при этом
@@ -381,7 +378,8 @@ body{
    32 кеглем, и работу различения делает он; знак только
    отвечает на вопрос «что за продукт».
 
-   На странице кейса его нет вовсе. Кейс открыт один, различать
+   [Устарело 2026-10-10: в колонке кейса стоит квадратный знак 40×40,
+   на главной — вордмарк.] На странице кейса его нет вовсе. Кейс открыт один, различать
    нечего, а цвет продукта на этой странице уже звучит — им
    подсвечен активный якорь в колонке. Третий носитель одного
    и того же сообщения — это не система, а повтор. */
@@ -437,7 +435,6 @@ body{
 /* Четвёртый кейс «Умный дом» — в работе: та же карточка без ссылки,
    весь блок на 30% (макет 2026-10-10). Нажимать не на что. */
 .row--soon{ opacity: .3; cursor: default; }
-.row--soon:hover{ background: var(--bg-surface); }
 /* разделитель в строках «роль · сфера» — шире пробела, как на макете */
 .sep{ margin: 0 5px; }
 
@@ -526,7 +523,7 @@ body{
   margin: 0; padding: 0; list-style: none;
 }
 .metrics div{ display: grid; gap: 4px; min-width: 0; }
-.metrics dt, .metrics .v{
+.metrics dt{
   font-size: 24px; font-weight: 400; line-height: 30px;
   letter-spacing: -.03em; color: var(--text-primary);
   font-variant-numeric: tabular-nums; white-space: nowrap;
@@ -577,7 +574,8 @@ body{
 .app--case .rail__spacer{ display: none; }
 .app--case .tree{ margin-block: auto; max-width: 320px; }
 
-/* ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
+/* [ЗАМЕНЕНО 2026-10-10: порог 800, колонка резиновая — см. блок ниже.]
+   ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
    ширина полосы = экран − 60 (поля) − 360 (колонка) − 40 (зазор)
                         − 80 (поля листа).
    При 1140 это 600 — колонка прозы 570 ещё помещается.
@@ -779,7 +777,7 @@ h1.title{
 /* Внутри кейса число крупнее, чем в ленте: на главной метрика стоит
    в списке из четырёх, здесь — одна. Тот же принцип, по которому
    заголовок кейса в ленте 24, а на своей странице 34. */
-.paper .metrics dt, .paper .metrics .v{ font-size: 34px; line-height: 38px; }
+.paper .metrics dt{ font-size: 34px; line-height: 38px; }
 
 .paper .shot--cover{ margin: 0; }   /* 32 до следующего раздела даёт сам раздел */
 
@@ -806,7 +804,7 @@ h1.title{
      медиа — во всю ширину полосы.
    Центрирование, а не прижатие влево: тогда кадр и текст
    делят одну ось, а не два разных правых края. */
-.paper h2, .paper h3, .paper h4, .paper .t, .paper ul.list, .paper ol.list, .paper .quote, .paper .flow, .paper .sec__label, .paper .tag, .paper .res{
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .sec__label, .paper .tag, .paper .res{
   max-width: var(--width-prose);
   margin-left: auto; margin-right: auto;
 }
@@ -843,7 +841,7 @@ h1.title{
 /* единый ритм: один и тот же промежуток между всеми блоками.
    Над заголовком не больше, чем под ним — иерархию держат
    кегль, вес и цвет, а не пустота. */
-.paper h2, .paper h3, .paper h4, .paper .t, .paper ul.list, .paper ol.list, .paper .quote, .paper .flow, .paper .res, .paper .shot, .paper .shots2, .paper .shots-lead, .paper .tbl{
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .res, .paper .shot, .paper .shots2, .paper .shots-lead, .paper .tbl{
   margin-top: 0; margin-bottom: var(--space-16);
 }
 /* 1.5r после выноса — единственное исключение в ритме */
@@ -868,8 +866,7 @@ h1.title{
 .paper .sec > *{ margin-top: 0; margin-bottom: 0; }
 .paper .sec > * + *{ margin-top: var(--space-32); }
 .paper .sec > .tag + h3{ margin-top: 6px; }
-.paper .sec > h3 + .t, .paper .sec > h3 + ul.list,
-.paper .sec > .t + .t, .paper .sec > .t + ul.list, .paper .sec > ul.list + .t{ margin-top: var(--space-16); }
+.paper .sec > h3 + .t, .paper .sec > h3 + ul.list, .paper .sec > .t + .t{ margin-top: var(--space-16); }
 
 /* ═══ РАЗДЕЛЫ ═══ */
 .sec{ padding-top: var(--space-32); scroll-margin-top: 24px; }   /* макет 2026-10-10: между разделами 32, было 64 */
@@ -884,7 +881,6 @@ h1.title{
   font-size: 12px; line-height: 16px; font-weight: 400;
   letter-spacing: 0; color: var(--text-secondary); text-wrap: wrap;
 }
-.sec__label b{ color: var(--text-primary); font-weight: 400; }
 
 /* Ярлык решения — та же ступень, что метка раздела, но без линейки:
    четыре слова дают структуру раздела с одного взгляда.
@@ -904,10 +900,6 @@ h3{
      заголовки решений стоят на 24 — ступень выше тела */
   font-family: var(--sans); font-size: 24px; font-weight: 500;
   letter-spacing: -.03em; line-height: 30px; color: var(--text-primary);
-}
-h4{
-  font-family: var(--sans); font-size: 16px; font-weight: 400;
-  letter-spacing: -.012em; line-height: 18px;
 }
 
 .t{
@@ -933,17 +925,16 @@ h4{
 /* выделение внутри антиквенной прозы — той же гарнитурой:
    гротеск в 15 кегле посреди антиквы читался как вставка из
    другого документа, а это просто ударное слово. */
-.t b, .list b{
+.t b{
   font-family: var(--serif); font-weight: 400; color: var(--text-primary);
 }
 
-ul.list, ol.list{
+ul.list{
   font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
   padding-left: 22px;
 }
-ul.list li, ol.list li{ margin-bottom: 4px; }
+ul.list li{ margin-bottom: 4px; }
 ul.list li::marker{ color: var(--text-secondary); }
-ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font-size: 14px; }
 
 
 /* цитата */
@@ -996,7 +987,7 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
      Заливка без рамки: два сигнала одной границы — грязь.
      Тон 90, а не 95: на белом листе 95 читается как пустота,
      а место под картинку должно читаться как занятое. */
-  background: var(--bg-placeholder); border-radius: var(--radius-8); aspect-ratio: 16/9;
+  border-radius: var(--radius-8); aspect-ratio: 16/9;
   width: 100%;
   /* МАКЕТЫ ПОСТАВЛЕНЫ (ТЗ вставки, 2026-10-10). Файл приходит с прозрачным
      полем нужной пропорции, и цвет поля даёт плашка: --bg-page = #F0F0F0.
@@ -1032,11 +1023,6 @@ ol.list li::marker{ color: var(--text-secondary); font-family: var(--sans); font
 .shot__cap{
   font-size: 12px; font-weight: 400; line-height: 16px; color: var(--text-secondary);
   margin: 8px 0 0; letter-spacing: 0;
-}
-.shot__cap b{
-  /* что это — чернилами, что внутри — приглушённым:
-     подпись сканируется так же, как абзац */
-  color: var(--text-primary); font-weight: 400;
 }
 .shots2{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
@@ -1197,7 +1183,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 @media (max-width: 768px){
   h1.title{ font-size: 24px; line-height: 30px; }
   .quote, .res span{ font-size: 24px; line-height: 30px; }
-  .paper .metrics dt, .paper .metrics .v{ font-size: 24px; line-height: 30px; }
+  .paper .metrics dt{ font-size: 24px; line-height: 30px; }
   .metrics--top{ grid-template-columns: repeat(2, minmax(0,1fr)); }
   .sec{ scroll-margin-top: 60px; }   /* ниже 768 сверху липкая шапка 48 — якорь не уезжает под неё */
 }
@@ -1231,8 +1217,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 <a class="skip" href="#case">К тексту кейса</a>
 
 <header class="topbar">
-  <a class="topbar__name" href="/">Задорожная Екатерина</a>
-  <a class="topbar__cv" href="/CV.pdf" download>Резюме ↓</a>
+  <a href="/">Задорожная Екатерина</a>
+  <a href="/CV.pdf" download>Резюме ↓</a>
 </header>
 
 <div class="app app--case">
