@@ -19,8 +19,8 @@
 <meta property="og:locale"       content="ru_RU">
 <meta name="twitter:card"        content="summary_large_image">
 
-<link rel="icon" href="/favicon.ico?v=2" sizes="any">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -336,12 +336,14 @@ body{
 .hire{ display: grid; gap: 8px; margin-top: 16px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
-  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: center; width: fit-content;
   min-height: 26px;
 }
-.hire__links a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.hire__links a{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-11): чернила → приглушённый тон */
+.hire__links a:hover{ color: var(--text-secondary); }
 .hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 /* стрелка 12px внутри ссылки 14px: трекинг ссылки (−0.168px) иначе
    наследуется абсолютным числом — здесь Caption, значит ноль явно */
@@ -401,8 +403,9 @@ body{
 
 /* текущий — без подложки */
 .row--open{
-  padding: 2px 8px 14px;
-  border-bottom: 1px solid var(--border-default); margin-bottom: 6px;
+  /* линии под якорями нет (макет кейса, 2026-10-11); отступ до следующей
+     карточки ≈ 20 от текста последнего якоря, как на макете */
+  padding: 2px 8px 6px;
 }
 
 /* свёрнутые — карточки */
@@ -427,7 +430,12 @@ body{
   font-size: 16px; font-weight: 400; line-height: 18px;
   letter-spacing: -.012em; color: var(--text-primary);
 }
-.row--flat:hover{ background: var(--bg-surface-hover); }
+.row--flat{ color: var(--text-primary); }
+.row__name{ transition: color .18s ease-out; }
+/* наведение на карточку — имя кейса серым (2026-10-11), без смены подложки:
+   один сигнал, как у заголовков и контактов */
+.row--flat:hover .row__name{ color: var(--text-secondary); }
+.row--soon:hover .row__name{ color: var(--text-primary); }   /* «в работе» не нажимается */
 .row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .row em{
   display: block; font-style: normal; font-size: 12px; line-height: 16px;
@@ -452,10 +460,13 @@ body{
   width: 2px; border-radius: var(--radius-full); background: transparent;
   transition: background .18s ease-out;
 }
-.toc a:hover{ text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.toc a{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-11): серый якорь темнеет */
+.toc a:hover{ color: var(--text-primary); }
 /* активный якорь метится тоном и рельсом, не весом:
    весов на сайте два, и 500 занят двумя заголовками */
 .toc a[aria-current="true"]{ color: var(--text-primary); }
+.toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
 .toc a[aria-current="true"]::before{ background: var(--text-primary); }   /* макет 2026-10-10: рельс чернилами, не цветом продукта */
 .toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
 
@@ -503,7 +514,7 @@ body{
 /* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
    читалась как «60 18» — два числа без отношения между ними. */
 .metrics s{ color: var(--text-secondary); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
-.metrics dd, .metrics .l{
+.metrics dd{
   margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
 }
 /* зачёркнутое число в текстовом слое читалось слитно:
@@ -522,7 +533,6 @@ body{
      за край экрана. min-width:0 разрывает цикл. */
   min-width: 0;
 }
-.frame--wide{ aspect-ratio: 21/9; }
 .frame--43{ aspect-ratio: 4/3; }
 .frame--mob{ aspect-ratio: 9/16; }
 /* Поле макета — подложка плашки, которую даёт страница (файл приходит
@@ -827,7 +837,7 @@ body{
     <article class="case">
       <div class="case__head">
         <p class="case__role">B2C <span class="sep">·</span> Streaming TV</p>
-        <span class="mark" data-brand="kino-i-tv"><img src="/img/logo/Cinema%202.svg" alt="Триколор Кино и ТВ" width="63" height="16"></span>
+        <span class="mark" data-brand="kino-i-tv"><img src="/img/logo/Cinema%202.svg" alt="Триколор Кино и ТВ" width="86" height="22"></span>
       </div>
       <h2 class="case__title"><a href="/kino-i-tv">95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн</a></h2>
       <dl class="metrics">
