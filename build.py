@@ -7,6 +7,9 @@
 без аватара, внутри — аватар и серый чип. Никто этого не решал,
 расхождение накопилось за двадцать версий.
 
+С 2026-10-12 колонка одна на обеих страницах (макеты «Главная-v2», «Кейс-v2»):
+«кто я» с интро, список кейсов по центру, внизу резюме и контакты.
+
 Часть может быть общей (одна строка-путь) или разной по страницам
 (словарь: страница → путь; страницы без записи получают пустоту).
 
@@ -16,14 +19,12 @@ import pathlib
 
 HERE = pathlib.Path(__file__).parent
 
-# порядок важен: RAIL_INTRO лежит ВНУТРИ RAIL_HEAD и вклеивается после него
 # fmt=True — в части есть {поля}, они подставляются из META[страница]
 PARTS = [
     ('HEAD',       'html', 'parts/head.html', True),
     ('BASE',       'css',  'parts/base.css'),
     ('RAIL_HEAD',  'html', 'parts/rail_head.html', True),
     ('RAIL_FOOT',  'html', 'parts/rail_foot.html'),
-    ('RAIL_INTRO', 'html', {'index.html': 'parts/rail_intro.html'}),
     # собираются кодом из CASES, файла нет: содержимое зависит от страницы
     ('CASE_TREE',  'html', None),
     ('CASE_MORE',  'html', None),
@@ -94,11 +95,22 @@ def row(c):
     return f'<a class="row row--flat" href="/{c["slug"]}" data-brand="{c["brand"]}">{inner}</a>'
 
 
+ALL_ICON = ('<svg viewBox="0 0 12 12" aria-hidden="true" fill="currentColor">'
+            + ''.join(f'<circle cx="{x}" cy="{y}" r="1.1"/>' for y in (1.5, 6, 10.5) for x in (1.5, 6, 10.5))
+            + '</svg>')
+
+
 def case_tree(page):
-    """Список кейсов в левой колонке внутренней страницы.
-    Текущий — без подложки и с якорями разделов, остальные — карточками."""
+    """Список кейсов в левой колонке — на обеих страницах.
+    Первый пункт «Все»: на главной текущий (без плашки), на странице кейса —
+    белая ссылка на главную. Текущий кейс — без подложки и с якорями разделов,
+    остальные — карточками."""
     cur = page.replace('.html', '')
     out = ['    <nav class="tree" aria-label="Кейсы">']
+    if cur == 'index':
+        out.append(f'      <span class="all" aria-current="page">{ALL_ICON}Все</span>')
+    else:
+        out.append(f'      <a class="all" href="/">{ALL_ICON}Все</a>')
     for c in CASES:
         if c['slug'] == cur:
             toc = ''.join(f'<a href="{h}">{t}</a>' for h, t in ANCHORS)
@@ -116,6 +128,8 @@ def case_tree(page):
 def case_more(page):
     """«Другие кейсы» в конце внутренней страницы — только ниже 1140."""
     cur = page.replace('.html', '')
+    if cur == 'index':
+        return ''
     rows = '\n'.join('        ' + row(c) for c in CASES if c['slug'] != cur)
     return ('    <nav class="more" aria-label="Другие кейсы">\n'
             '      <p class="more__t">Другие кейсы</p>\n'
@@ -148,7 +162,7 @@ def main():
         for name, kind, src, *rest in PARTS:
             fmt = bool(rest and rest[0])
             if name in GENERATED:
-                body = GENERATED[name](page) if page != 'index.html' else ''
+                body = GENERATED[name](page)
             else:
                 path = src.get(page) if isinstance(src, dict) else src
                 body = (HERE / path).read_text(encoding='utf8') if path else ''
