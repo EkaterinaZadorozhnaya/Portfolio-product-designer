@@ -1,0 +1,590 @@
+/* ═══════════════════════════════════════════════════════════════
+   ТОЛЬКО СТРАНИЦА КЕЙСА — якоря в колонке и зачёркнутые метрики
+   Общее лежит в BASE.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ТЕКУЩИЙ КЕЙС В СПИСКЕ — карточка в тоне страницы (--bg-page), как при
+   наведении на соседние, и с якорями разделов под именем (решение автора
+   2026-10-12). Сверху 8: от плашки «Все» до знака 16; снизу 5 — до следующей
+   карточки ≈ 20 от текста последнего якоря (макет 2026-10-12). */
+.row--open{ padding: 8px 8px 5px; background: var(--bg-page); border-radius: var(--radius-4); }
+
+/* ЯКОРИ ТЕКУЩЕГО КЕЙСА.
+   ПРАВКА СОВЕТА №1: порядок 01 → 02 → 03 — как на странице. На макете
+   2026-10-12 «Мой вклад» стоит первым; оставлен порядок страницы
+   (решение автора). */
+.toc{
+  margin-top: 11px; padding-left: 52px;   /* 40 знак + 12 отбивка = по имени */
+  display: grid; gap: 0;
+}
+.toc a{
+  position: relative; min-height: 22px;   /* шаг 22 по макету 2026-10-12 */
+  display: flex; align-items: center;
+  font-size: 16px; line-height: 22px; letter-spacing: -.012em;
+  color: var(--text-secondary); text-decoration: none;
+  transition: color .18s ease-out;
+}
+/* область нажатия 26, а шаг строк 22: невидимое поле по 2 сверху и снизу */
+.toc a::after{ content: ''; position: absolute; inset: -2px -8px; }
+/* наведение — цвет, без подчёркивания (2026-10-11): серый якорь темнеет */
+.toc a:hover{ color: var(--text-primary); }
+/* активный якорь метится тоном, не весом: весов на сайте два, и 500 занят
+   двумя заголовками. Рельса слева нет (макеты 2026-10-12): активный —
+   чернила, остальные серые. */
+.toc a[aria-current="true"]{ color: var(--text-primary); }
+.toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
+.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
+
+/* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
+   читалась как «60 18» — два числа без отношения между ними. */
+.metrics s{ color: var(--text-secondary); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
+/* зачёркнутое число в текстовом слое читалось слитно:
+   стрелка есть для скринридера и для копирования, но не видна */
+.sr{
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ═══ ПОВЕРХНОСТЬ КЕЙСА ═══ */
+.paper{
+  background: var(--bg-surface); border-radius: var(--radius-8);
+  /* поля листа выведены из ширины экрана так же, как поля страницы */
+  /* макет кейса 2026-10-10: поля листа 20 (было до 40), кадры во всю ширину */
+  padding: 20px 20px 56px;
+}
+
+/* метастрока — самая верхняя строка листа */
+.meta{
+  margin: 0 0 var(--space-32); font-size: 12px; line-height: 16px;
+  letter-spacing: 0; color: var(--text-secondary);
+}
+
+/* логотип продукта и выход к нему.
+   ПРАВКА СОВЕТА №6: до этого в шапке стоял только текст «RealDeal»,
+   и переход по цветному квадрату приводил на страницу без цвета. */
+.top{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px;
+  margin: 0 0 var(--space-32);
+}
+/* вордмарк продукта вместо набранного имени (макет 2026-10-10) */
+.top__logo{ display: block; height: 16px; width: auto; }
+.top__link{
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em; color: var(--text-secondary); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 26px;
+}
+/* стрелка — в сером квадрате 16×16, как на макете */
+.top__link i{
+  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0;
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4); color: var(--text-primary);
+}
+.top__link{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.top__link:hover{ color: var(--text-primary); }
+
+h1.title{
+  font-size: 34px; font-weight: 500; letter-spacing: -.03em; line-height: 38px;
+  color: var(--text-primary); margin: 0 0 var(--space-32); max-width: 620px; text-wrap: balance;
+}
+
+/* ЛИД — АНТИКВА. Засечки в шапке ставятся сюда, а не в заголовок:
+   заголовок обязан совпадать с заголовком того же кейса на главной,
+   иначе один объект получает два лица. Лид в паре с ним свободен
+   и по референсу именно он несёт первую засечку страницы.
+   24 кегль, а не 30: он стоит под заголовком и не должен его перекричать. */
+/* ═══ ВЫДЕЛЕНИЕ В ПРОЗЕ ═══
+   ЧЕРНИЛА, а не цвет продукта. В своде записано: два тона текста и
+   ни одного третьего — чернила для того, что должно выскочить,
+   приглушённый для прозы. Синий был бы третьим тоном и сломал бы
+   правило, которое держит всю страницу.
+
+   У цвета продукта уже есть работа: он метит сам продукт — знак
+   в колонке и подсветку активного якоря. Если тем же цветом метить
+   ещё и результаты, один цвет получает два значения.
+
+   Выделяется только РЕЗУЛЬТАТ — то, что изменилось благодаря решению.
+   Не объём работы (11 интервью, 20+ презентаций, 25+ компонентов),
+   не параметры системы (5 слоёв, 3D, 15 инвесторов) и не «было»
+   (45–60 дней). Иначе выделение перестаёт что-либо значить.
+
+   Жирного нет: вес держит структуру (заголовки, ключи), тон держит
+   смысл. Подчёркивание остаётся признаком ссылки — поэтому выделение
+   никогда не подчёркнуто. */
+.hl{ color: var(--text-primary); }
+
+.lede a{
+  color: inherit; text-decoration: underline; text-decoration-thickness: 1px;
+  text-underline-offset: 5px; text-decoration-color: var(--border-default);
+}
+.lede a:hover{ text-decoration-color: currentColor; }
+.lede{
+  font-family: var(--serif); font-size: 24px; font-weight: 400;
+  line-height: 30px; letter-spacing: -.01em; color: var(--text-primary);
+  margin: 0 0 var(--space-32); text-wrap: pretty;
+}
+
+.paper .metrics{
+  margin: 0 0 var(--space-32); padding: var(--space-32) 0 0;
+  border-top: 1px solid var(--border-default);
+}
+/* РАЗДЕЛЕНИЕ МЕТРИК ПО ТОМУ, НУЖЕН ЛИ ИМ КОНТЕКСТ.
+   Наверху — то, что понятно без чтения: сумма раунда и «первая
+   в стране». Внизу — то, что понятно только после кейса: срок,
+   комиссии, физические шаги. «12+ → 0 шагов» в шапке занимала
+   четверть самого дорогого места и ничего не сообщала.
+
+   Срок повторяется намеренно: наверху сжат до «×3», внизу
+   развёрнут в «45–60 → 12–18». Наверху обещание, внизу откуда оно.
+   ×3 защищается при любой паре: 45→12 это ×3,75, 60→18 это ×3,33.
+
+   Три колонки по 240, а не четыре по 172: на 172 подпись «первая
+   онлайн-сделка с коммерческой недвижимостью в ОАЭ» занимала три
+   строки против двух у соседей, и ряд был рваным по низу. */
+.metrics--top{
+  /* макет 2026-10-10: колонки по содержимому, зазор 84, подпись уже числа */
+  display: flex; flex-wrap: wrap; gap: 20px 84px;
+}
+/* Число и подпись — столбик от верхней линии. Ячейка метрики растягивается
+   на высоту ряда, и без align-content строки сетки делили лишнюю высоту
+   поровну: однострочная подпись уезжала ниже двухстрочных соседей. */
+.paper .metrics > div{ align-content: start; }
+.metrics--top dt{ white-space: nowrap; }
+.metrics--top dd{ max-width: 112px; }
+/* Внутри кейса число крупнее, чем в ленте: на главной метрика стоит
+   в списке из четырёх, здесь — одна. Тот же принцип, по которому
+   заголовок кейса в ленте 24, а на своей странице 34. */
+.paper .metrics dt{ font-size: 34px; line-height: 38px; }
+
+.paper .shot--cover{ margin: 0; }   /* 32 до следующего раздела даёт сам раздел */
+
+/* ИТОГОВЫЕ МЕТРИКИ — тот же компонент, что в шапке.
+   Кейс открывается результатом и закрывается результатом:
+   наверху — чем всё кончилось для бизнеса, внизу — что
+   изменилось в самой сделке. Пересечение одно (срок),
+   и внизу оно дано полным диапазоном.
+   Два в ряд, а не четыре: «45–60 → 12–18» на 26 кегле
+   в четверти полосы разрывается по строкам. */
+.metrics--out{
+  /* макет кейса 2026-10-10: четыре в ряд на 860, колонки по содержимому */
+  display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between;
+  gap: 28px 32px;
+  padding: var(--space-24) 0 0; border-top: 1px solid var(--border-default);
+}
+.metrics--out dt{ white-space: nowrap; }   /* четыре в ряд: число не рвётся (макет 2026-10-10) */
+.metrics--out dd{ max-width: 150px; }
+.metrics--out div:first-child dd{ max-width: none; }
+
+/* ═══ РАСКЛАДКА КОНТЕНТА (мерка снята с oimachi/posts) ═══
+   Два класса блоков, без третьего:
+     проза — колонка 570, выровнена по центру полосы;
+     медиа — во всю ширину полосы.
+   Центрирование, а не прижатие влево: тогда кадр и текст
+   делят одну ось, а не два разных правых края. */
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .sec__label, .paper .tag, .paper .res{
+  max-width: var(--width-prose);
+  margin-left: auto; margin-right: auto;
+}
+
+/* ОБЛОЖКА — по левому краю и шире колонки.
+   Две оси на странице не случайность: верх — это витрина,
+   её читают сканируя слева; всё, что ниже кадра, читают
+   подряд — и там включается центрированная колонка. */
+.paper .top, .paper .meta, .paper .metrics, .paper .metrics--top, .paper .metrics--out, .paper .title{
+  max-width: var(--width-cover); margin-left: 0; margin-right: 0;
+}
+/* макет кейса 2026-10-10: линия и метрики шапки — на всю ширину листа,
+   таблица — 860 по центру */
+.paper .metrics.metrics--top{ max-width: none; }
+.paper .metrics.metrics--out{
+  max-width: var(--width-wide); margin-left: auto; margin-right: auto;
+  /* линии над итоговыми метриками на макете нет — над ними уже линия
+     последней строки таблицы (макет кейса 2026-10-10) */
+  border-top: 0; padding-top: var(--space-16);
+}
+.paper .tbl{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+/* ВЫНОС ЖИВЁТ В КОЛОНКЕ ПРОЗЫ, а не в полосе.
+   Пробовали полосу 760: там Literata 34 даёт 37 знаков в строке
+   против 28 в колонке. Но вынос при этом заводил третий левый
+   край на странице и вопрос «почему этот блок шире соседних».
+   Решение: вынос — тот же текст, набранный крупнее, а не другой
+   блок. Одна ширина с прозой, отличие несёт только кегль. */
+/* лид держит ширину полосы: на 24 кегле Literata это 56 знаков
+   в строке — внутри нормы для крупного кегля. Отдельного числа
+   под лид нет, ширин на странице три, а не четыре. */
+.paper .lede{ max-width: 800px; margin-left: 0; margin-right: 0; }   .paper .lede{ margin-left: 0; margin-right: 0; }
+.paper .top{ max-width: none; }
+
+/* единый ритм: один и тот же промежуток между всеми блоками.
+   Над заголовком не больше, чем под ним — иерархию держат
+   кегль, вес и цвет, а не пустота. */
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .res, .paper .shot, .paper .shots2, .paper .shots-lead, .paper .tbl{
+  margin-top: 0; margin-bottom: var(--space-16);
+}
+/* 1.5r после выноса — единственное исключение в ритме */
+.paper .quote, .paper .res{ margin-bottom: var(--space-24); }
+
+/* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
+   Замер oimachi: 54 блока, антиквой набраны 7 — 13%.
+   Акцент работает потому, что это чужая гарнитура среди своей:
+   крупная антиква посреди антиквы остаётся той же фактурой.
+   Здесь вынос несёт суждение — фразу, где принято решение;
+   результаты уже стоят в заголовках. */
+
+.paper .sec > *:last-child{ margin-bottom: 0; }
+
+/* РИТМ ВНУТРИ ЛИСТА — правило автора 2026-10-10:
+   между блоками 32, внутри текста 16. Делается отступом сверху от
+   предыдущего соседа, а не снизу у каждого блока: так не бывает
+   двойных промежутков и не надо помнить исключения.
+   Исключения только два: ярлык «Решение N» и его заголовок — одна
+   пара (6), и заголовок с его текстом — 16, как строки внутри текста. */
+.paper .shot--cover{ margin-bottom: 0; }   /* до первого раздела 32 даёт сам раздел */
+.paper .sec > *{ margin-top: 0; margin-bottom: 0; }
+.paper .sec > * + *{ margin-top: var(--space-32); }
+.paper .sec > .tag + h3{ margin-top: 6px; }
+.paper .sec > h3 + .t, .paper .sec > h3 + ul.list, .paper .sec > .t + .t{ margin-top: var(--space-16); }
+
+/* ═══ РАЗДЕЛЫ ═══ */
+.sec{ padding-top: var(--space-32); scroll-margin-top: 24px; }   /* макет 2026-10-10: между разделами 32, было 64 */
+.sec__label{
+  font-size: 12px; font-weight: 400; letter-spacing: 0; line-height: 16px;
+  color: var(--text-secondary); margin: 0 auto var(--space-16);
+  padding-bottom: 10px; border-bottom: 1px solid var(--border-default);
+}
+/* Метка раздела — теперь <h2>: структура документа должна
+   совпадать с тем, что видит глаз. Общий стиль h2 перебиваем. */
+.paper h2.sec__label{
+  font-size: 12px; line-height: 16px; font-weight: 400;
+  letter-spacing: 0; color: var(--text-secondary); text-wrap: wrap;
+}
+
+/* Ярлык решения — та же ступень, что метка раздела, но без линейки:
+   четыре слова дают структуру раздела с одного взгляда.
+   В оригинале это была нумерация «1. Стратегия», и она работала. */
+.paper .tag{ margin-bottom: 6px; }
+.tag{
+  font-size: 12px; font-weight: 400; letter-spacing: 0; line-height: 16px;
+  color: var(--text-secondary); margin: 0 auto 6px;
+}
+
+h2{
+  font-size: 24px; font-weight: 500; letter-spacing: -.03em; line-height: 30px;
+  text-wrap: balance;
+}
+h3{
+  /* вес и тон на одном кегле с прозой не держат разницу:
+     заголовки решений стоят на 24 — ступень выше тела */
+  font-family: var(--sans); font-size: 24px; font-weight: 500;
+  letter-spacing: -.03em; line-height: 30px; color: var(--text-primary);
+}
+
+.t{
+  /* ТЕЛО — АНТИКВА. Замер rafaelcespedes.com/Nucleus:
+     тело модалки Newsreader 15.12/19.66 вес 300, сто процентов
+     блоков антиквой; гротеск живёт только на главной.
+     То есть у него не «антиква как акцент», а два регистра:
+     главная сканируется гротеском, кейс читается антиквой.
+
+     Здесь взят тот же принцип, но проза и структура разведены:
+     всё, на что падает глаз при сканировании — заголовки, метки,
+     метрики, подписи, трейдоффы — осталось гротеском. Антиквой
+     набрано только то, что читают подряд. Рекрутер сканирует
+     гротеск, дизайн-лид читает антикву, и им не мешает друг другу. */
+  font-family: var(--serif); font-size: 16px; font-weight: 400;
+  line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
+}
+.t:last-child{ margin-bottom: 0; }
+/* «Контекст.», «Решение.», «Результат.» и выводы в списках —
+   это структура внутри прозы, а не сама проза. Поэтому гротеск
+   и вес 500, а не заливка: маркер поверх строки резал верхние
+   выносные и читался как след маркера на бумаге. */
+/* выделение внутри антиквенной прозы — той же гарнитурой:
+   гротеск в 15 кегле посреди антиквы читался как вставка из
+   другого документа, а это просто ударное слово. */
+.t b{
+  font-family: var(--serif); font-weight: 400; color: var(--text-primary);
+}
+
+ul.list{
+  font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
+  padding-left: 22px;
+}
+ul.list li{ margin-bottom: 4px; }
+ul.list li::marker{ color: var(--text-secondary); }
+
+
+/* цитата */
+/* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
+   У oimachi крупная антиква — не один лид, а приём, который
+   возвращается по тексту. Здесь он несёт суждение — фразу,
+   где принято решение. Результаты уже стоят в заголовках,
+   поэтому вынос не дублирует их, а добавляет то, что может
+   сказать только автор. */
+.quote{
+  font-family: var(--serif); font-size: 34px; font-style: normal; line-height: 38px;
+  letter-spacing: -.01em; color: var(--text-primary); padding: 8px 0; border: 0; text-wrap: pretty;
+}
+.quote footer{
+  font-family: var(--sans); font-style: normal; font-size: 12px; line-height: 16px;
+  color: var(--text-secondary); margin-top: 12px; letter-spacing: 0;
+}
+
+/* путь пользователя */
+.flow{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+}
+.flow span{
+  /* чип 8+16+8 = 32: ровно 4× и 25% к --radius-8. Поле по горизонтали
+     12, а не 16: пять чипов со стрелками держатся в колонке 570 одной
+     строкой, 16 добавляет 40px и ломает строку */
+  padding: 8px 12px; background: var(--bg-placeholder); border-radius: var(--radius-8); white-space: nowrap;
+}
+.flow i{ font-style: normal; color: var(--text-secondary); font-size: 12px; line-height: 16px; letter-spacing: 0; }
+
+/* ДРУГИЕ КЕЙСЫ В КОНЦЕ — только там, где колонка не липкая.
+   Ниже 800 список кейсов уезжает на самый верх страницы (и из колонки
+   убирается совсем): дочитавший до рефлексии оказывается в 11 000
+   пикселей от него. Пока колонка сбоку, блок не нужен. */
+.more{ display: none; }
+@media (max-width: 800px){
+  .more{ display: block; margin-top: var(--space-64); }
+  .more__t{
+    margin: 0 0 12px; font-size: 12px; line-height: 16px;
+    letter-spacing: 0; color: var(--text-secondary);
+  }
+  .more .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+}
+
+/* ═══ МАКЕТЫ ═══ */
+.shot{ margin: 0; }
+.shot__frame{
+  /* СОСТОЯНИЕ ЗАГРУЗКИ — полноценное состояние, его видит каждый.
+     Заливка без рамки: два сигнала одной границы — грязь.
+     Тон 90, а не 95: на белом листе 95 читается как пустота,
+     а место под картинку должно читаться как занятое. */
+  border-radius: var(--radius-8); aspect-ratio: 16/9;
+  width: 100%;
+  /* МАКЕТЫ ПОСТАВЛЕНЫ (ТЗ вставки, 2026-10-10). Файл приходит с прозрачным
+     полем нужной пропорции, и цвет поля даёт плашка: --bg-page = #F0F0F0.
+     Поэтому состояние загрузки теперь тот же тон, что поле готового
+     кадра — вспышки другого серого при загрузке нет. Пропорция —
+     из файла, инлайном на элементе; класс-модификаторы остались
+     запасными. Ни поля страницы, ни тени, ни кадрирования. */
+  background: var(--bg-page); overflow: hidden;
+}
+/* Подпись «Демо» / «MVP» стоит НАД кадром (2026-10-11), не под ним. */
+.shot__cap.shot__cap--top{ margin: 0 0 8px; }   /* 8, как от схемы до её подписи; .shot__cap объявлен ниже — поэтому двойной класс */
+.shot__frame picture{ display: block; width: 100%; height: 100%; }
+.shot__frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
+/* сплошная подложка кадров-полос с графиками, запросом на сделку и
+   дашбордом — #1268EC по макету кейса 2026-10-10; карты и пары — серые */
+.shot__frame--accent{ background: var(--brand-realdeal-accent); }
+
+/* схема пути: 860 по центру листа (макет 2026-10-10) */
+.paper .shot--wide{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+.paper .shot--wide .shot__cap{ margin-left: 0; }
+.flow--text{ display: none; }
+.flow span small{
+  display: block; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
+}
+@media (max-width: 620px){
+  .flow-img{ display: none; }
+  .flow--text{ display: flex; }
+}
+/* Подписи несут смысл, а не служебную роль: когда макеты станут
+   настоящими, подпись — единственное, что объясняет кадр.
+   Кегль 12 — общий для всех служебных строк страницы; отличие
+   подписи несут отбивка 8px и положение под кадром, а не свой размер. */
+.shot__cap{
+  font-size: 12px; font-weight: 400; line-height: 16px; color: var(--text-secondary);
+  margin: 8px 0 0; letter-spacing: 0;
+}
+.shots2{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ТРИ ЭКРАНА В РЯД — по 293px на штуку: десктопный интерфейс
+   в таком размере превращается в пятно. Стало: главный экран
+   во всю полосу, два сопутствующих парой под ним. */
+.shots-lead{ display: grid; gap: 10px; }
+.shots-lead__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.shots-lead .shot{ margin: 0; }
+.shots-lead > .shot .shot__frame{ aspect-ratio: 16/9; }
+.shots-lead__pair .shot__frame{ aspect-ratio: 4/3; }
+
+.shots2 .shot__frame{ aspect-ratio: 4/3; }
+
+
+/* ВЫНОС НЕСЁТ РЕЗУЛЬТАТ
+   Прежде крупной антиквой был набран трейдофф. Теперь — результат
+   решения, и это смена адресата: трейдофф читает дизайн-лид,
+   результат читают оба. Самое крупное в прозе достаётся тому,
+   что должно дойти и до того, кто не дочитает.
+
+   Трейдофф при этом не исчез — он стал рядовым абзацем
+   с чернильным ярлыком. Это честно: он остаётся в тексте
+   для того, кто читает подряд, и не отнимает внимания у того,
+   кто сканирует.
+
+   Ярлык набран как метка раздела: структура гротеском,
+   высказывание антиквой. Кавычек нет — они признак цитаты. */
+.res{
+  display: grid; grid-template-columns: minmax(0,1fr); gap: 8px;
+  align-items: start; padding: 0; border: 0;
+}
+.res b{
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
+  text-transform: none; white-space: normal;
+}
+.res span{
+  font-family: var(--serif); font-size: 34px; font-weight: 400;
+  line-height: 38px; letter-spacing: -.01em; color: var(--text-primary);
+  text-wrap: pretty;
+}
+
+/* Зачёркивание — визуальный слой. В текстовом слое метрика
+   читалась как «6018»: так её получал скринридер, поисковик
+   и любой, кто копирует цифру в письмо. Стрелка живёт рядом,
+   но не видна глазу. */
+/* .sr объявлен в общей основе — здесь не повторяется */
+
+
+/* ═══ ТАБЛИЦА ЭТАПОВ ═══
+   Три колонки в строку, как в оригинале на codedesign.ru.
+   Карточками было хуже: три равных прямоугольника читаются как
+   три равнозначных блока, а здесь есть порядок — демо, раунд A,
+   сейчас. Строка задаёт последовательность, карточка нет.
+   Живёт в полосе 760: три колонки в 570 не помещаются. */
+.tbl{ display: grid; gap: 0; border-top: 1px solid var(--border-default); }
+.tbl > div{
+  display: grid; grid-template-columns: 116px 84px minmax(0,1fr); gap: 20px;
+  padding: 14px 0; border-bottom: 1px solid var(--border-default); align-items: baseline;
+}
+.tbl__head{ color: var(--text-secondary); font-size: 16px; line-height: 18px; letter-spacing: -.012em;
+            padding-bottom: 12px !important; }   /* макет 2026-10-10: линия под шапкой — обычная, шапка 16 */
+.tbl{ border-top: 0; }
+.tbl .k{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary); }
+.tbl .v{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary);
+         font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* таблица результата: 860 = 140+20+220+20+460, макет кейса 2026-10-10.
+   Колонки в долях, а не в пикселях (2026-10-12): с зазорами 20 доли 140:220:460
+   дают ровно эти числа на 860, а на узком листе сжимаются все три вместе —
+   раньше сжималась одна «резиновая», фиксированные стояли как были. */
+.tbl:not(.tbl--find) > div{ grid-template-columns: minmax(0,140fr) minmax(136px,220fr) minmax(0,460fr); }   /* 136 — ширина «Спроектировано» (nowrap): общий пол одинаков во всех строках, колонки не расходятся */
+.tbl p{ font-family: var(--serif); font-size: 16px; line-height: 24px;
+        letter-spacing: 0; color: var(--text-secondary); margin: 0; }
+/* Находки: три шага пути, что мешает, что я сделала.
+   Две колонки прозы равны — барьер и ответ читаются парой. */
+.tbl--find{ border-top: 0; }
+.tbl--find > div{ grid-template-columns: minmax(0,150fr) minmax(0,370fr) minmax(0,300fr); }   /* 860 = 150+20+370+20+300, макет 2026-10-10; доли — см. выше */
+.tbl--find p + p{ color: var(--text-primary); }
+@media (max-width: 620px){
+  .tbl > div, .tbl:not(.tbl--find) > div{ grid-template-columns: minmax(0,1fr) auto; gap: 4px 16px; }
+  .tbl p{ grid-column: 1 / -1; }
+  .tbl > .tbl__head{ display: none; }
+  .tbl--find > div{ grid-template-columns: minmax(0,1fr); }
+  .tbl--find p + p::before{ content: '→ '; color: var(--text-secondary); }
+}
+
+
+
+/* низ */
+/* ═══ КОНЕЦ КЕЙСА ═══
+   ПОКАЗЫВАЕТСЯ ТОЛЬКО ТАМ, ГДЕ КОЛОНКА НЕ ЛИПКАЯ.
+   На широком экране Telegram и LinkedIn видны в левой колонке
+   ровно в тот момент, когда человек дочитал, — блок внизу был
+   бы их точной копией. На узком колонка статична и давно уехала
+   вверх, и тогда это единственный выход со страницы.
+   Один и тот же блок бывает дубликатом и единственным выходом —
+   зависит не от него, а от того, виден ли сейчас сайдбар.
+
+   ССЫЛКА НА ПРОДУКТ видна всегда: кто дочитал до конца, не должен
+   возвращаться за ней в шапку. Это не дубликат, а второй вход
+   в один продукт с разных концов текста.
+
+   КОНТАКТЫ показываются только там, где колонка не липкая.
+   На широком экране Telegram и LinkedIn видны слева ровно в тот
+   момент, когда человек дочитал, — блок внизу был бы их копией.
+   На узком колонка статична и давно уехала вверх, и тогда это
+   единственный выход со страницы. */
+.foot{
+  display: grid;
+  margin-top: var(--space-32); padding-top: var(--space-32);   /* 32 до линии и после (правило ритма 2026-10-10) */
+  border-top: 1px solid var(--border-default);
+  max-width: var(--width-prose); margin-left: auto; margin-right: auto;
+  gap: var(--space-16);
+}
+.foot__site{
+  font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-secondary); text-decoration: none;   /* в покое серая, как в шапке: так велела автор 2026-10-11 (на макете была чёрной) */
+  display: inline-flex; gap: 8px; align-items: center;
+  min-height: 26px; width: fit-content;
+}
+.foot__site{ transition: color .18s ease-out; }
+.foot__site:hover{ color: var(--text-primary); }   /* серый → чёрный, как «Сайт продукта» в шапке (2026-10-11) */
+.foot__site i{
+  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4);   /* как в шапке, макет 2026-10-10 */
+}
+.foot--hire{ display: none; margin-top: var(--space-48); }
+/* порог см. ниже: 1140 */
+.foot__ask{ margin: 0; font-size: 24px; font-weight: 500; line-height: 30px;
+            letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
+.foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
+.foot__row a{
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;   /* контакты 16/22, как в колонке */
+  color: var(--text-primary); text-decoration: none;
+  display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
+}
+.foot__row a{ transition: color .18s ease-out; }
+.foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
+.foot__row i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
+.foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
+
+a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* С клавиатуры до текста кейса было десять табов по сайдбару */
+
+
+/* Контакты внизу появляются ровно там, где колонка перестаёт
+   быть липкой, — на 1140, а не на 1080. Прежний разрыв в 60px
+   оставлял полосу, где сайдбар уже уехал вверх, а выхода
+   со страницы внизу ещё не было. */
+@media (max-width: 800px){
+  .foot--hire{ display: grid; }
+}
+/* ═══ УЗКИЙ ЭКРАН — 768 ═══
+   Здесь меняются кегли, а не раскладка. На узкой полосе заголовок
+   на 34 кегле занимает три строки, а вынос даёт рваные 19–24 знака
+   в строке. Одно правило на весь порог: всё, что набрано 34,
+   спускается на 24 — следующую ступень той же шкалы. Новых чисел нет. */
+@media (max-width: 768px){
+  h1.title{ font-size: 24px; line-height: 30px; }
+  .quote, .res span{ font-size: 24px; line-height: 30px; }
+  .paper .metrics dt{ font-size: 24px; line-height: 30px; }
+  .metrics--top{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .sec{ scroll-margin-top: 60px; }   /* ниже 768 сверху липкая шапка 48 — якорь не уезжает под неё */
+}
+
+/* ═══ ТЕЛЕФОН — 480 ═══
+   Здесь меняется раскладка: всё, что стояло в два и три столбца,
+   встаёт в один. Лист теряет поля страницы и радиус: на 390
+   рамка вокруг листа съедала десятую часть строки и ничего
+   не сообщала. */
+@media (max-width: 480px){
+  .paper{ border-radius: 0; padding: 24px 16px 40px; }
+  /* balance выравнивает строки по длине и на узком экране растягивает
+     заголовок с трёх строк до четырёх по 16 знаков. Здесь важнее
+     набить строки, чем выровнять их. */
+  h1.title{ text-wrap: pretty; }
+  /* метрики 2×2 (ТЗ адаптив): три во flex-wrap ложились «две и одна» */
+  .metrics--top, .metrics--out{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
+    }
+
+/* Пары кадров — в столбец с 620 (ТЗ адаптив 2026-10-10); полосы остаются полосами. */
+@media (max-width: 620px){
+  .shots2, .shots-lead__pair{ grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }

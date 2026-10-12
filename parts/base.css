@@ -67,6 +67,15 @@
   /* Сплошная подложка кадра с графиками на странице кейса — макет
      2026-10-10: Accent/Info #1268EC. Один потребитель (.shot__frame--accent). */
   --brand-realdeal-accent: #1268EC;
+  /* Подложка кадров 16:9 на странице «Кино и ТВ» — тёмно-синий #0C2653,
+     тон самого интерфейса ТВ-приложения (запрос автора 2026-10-12): поля
+     вокруг кадров и шторок сливаются с экраном. Два потребителя
+     (.shot__frame--navy, .cmpx), от темы не зависит; в семантику не заводить. */
+  --brand-kino-i-tv-field: #0C2653;
+  /* Подложка кадра «ленты» (kino_hero_lines) в карточке на главной — тот же
+     синий, но темнее: #0C1B35 (запрос автора 2026-10-12). Один потребитель
+     (.frame--navy-dark). */
+  --brand-kino-i-tv-field-dark: #0C1B35;
 
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
@@ -301,26 +310,23 @@ body{
 [data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (обе страницы) ═══
-   ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
-   Свёрнутые кейсы — ссылки: по ним нажимают, и у них есть
-   поверхность, которую видно и можно взять курсором.
-   Текущий кейс никуда не ведёт: это заголовок открытой страницы.
-   Подложки у него нет, и именно её отсутствие отличает
-   «где я сейчас» от «куда я могу уйти». То же у пункта «Все»:
-   на главной он текущий и без плашки, на кейсе — белая плашка-ссылка. */
+   ОДНО СОСТОЯНИЕ — ОДНА ПОДЛОЖКА (решение автора 2026-10-12).
+   Карточки кейса и плашка «Все» в покое белые (--bg-surface). При наведении
+   и у текущего пункта подложка — тон страницы (--bg-page, #F0F0F0): карточка
+   «уходит» в фон. Цвет текста не меняется. Так «где я сейчас» и «куда
+   нажму» читаются одним сигналом — подложкой, а не цветом строки. */
 .tree{ display: grid; gap: 8px; }
-/* «Все» — первый пункт списка (макеты 2026-10-12). На главной это текущая
-   страница: без подложки, как текущий кейс. На странице кейса — белая
-   плашка-ссылка на главную, как карточки соседних кейсов. */
+/* «Все» — первый пункт списка (макеты 2026-10-12). Белая плашка; при наведении
+   и на главной, где это текущая страница, — тон страницы. Как карточки кейсов. */
 .all{
   display: inline-flex; align-items: center; gap: 10px; width: fit-content;
   min-height: 32px; padding: 0 9px 0 10px; border-radius: var(--radius-4);
   font-size: 14px; line-height: 16px; letter-spacing: -.012em;
   color: var(--text-primary); text-decoration: none;
-  transition: color .18s ease-out;
+  background: var(--bg-surface);
+  transition: background .18s ease-out;
 }
-a.all{ background: var(--bg-surface); }
-a.all:hover{ color: var(--text-secondary); }
+a.all:hover, .all[aria-current="page"]{ background: var(--bg-page); }
 a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .all svg{ width: 12px; height: 12px; flex: none; }
 
@@ -346,11 +352,10 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
   letter-spacing: -.012em; color: var(--text-primary);
 }
 .row--flat{ color: var(--text-primary); }
-.row__name{ transition: color .18s ease-out; }
-/* наведение на карточку — имя кейса серым (2026-10-11), без смены подложки:
-   один сигнал, как у заголовков и контактов */
-.row--flat:hover .row__name{ color: var(--text-secondary); }
-.row--soon:hover .row__name{ color: var(--text-primary); }   /* «в работе» не нажимается */
+/* наведение на карточку — подложка в тон страницы (2026-10-12), текст не
+   меняется. «В работе» не нажимается — подложка остаётся белой. */
+.row--flat:hover{ background: var(--bg-page); }
+.row--soon:hover{ background: var(--bg-surface); }
 .row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .row em{
   display: block; font-style: normal; font-size: 12px; line-height: 16px;

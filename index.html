@@ -98,6 +98,15 @@
   /* Сплошная подложка кадра с графиками на странице кейса — макет
      2026-10-10: Accent/Info #1268EC. Один потребитель (.shot__frame--accent). */
   --brand-realdeal-accent: #1268EC;
+  /* Подложка кадров 16:9 на странице «Кино и ТВ» — тёмно-синий #0C2653,
+     тон самого интерфейса ТВ-приложения (запрос автора 2026-10-12): поля
+     вокруг кадров и шторок сливаются с экраном. Два потребителя
+     (.shot__frame--navy, .cmpx), от темы не зависит; в семантику не заводить. */
+  --brand-kino-i-tv-field: #0C2653;
+  /* Подложка кадра «ленты» (kino_hero_lines) в карточке на главной — тот же
+     синий, но темнее: #0C1B35 (запрос автора 2026-10-12). Один потребитель
+     (.frame--navy-dark). */
+  --brand-kino-i-tv-field-dark: #0C1B35;
 
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
@@ -332,26 +341,23 @@ body{
 [data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
 
 /* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (обе страницы) ═══
-   ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
-   Свёрнутые кейсы — ссылки: по ним нажимают, и у них есть
-   поверхность, которую видно и можно взять курсором.
-   Текущий кейс никуда не ведёт: это заголовок открытой страницы.
-   Подложки у него нет, и именно её отсутствие отличает
-   «где я сейчас» от «куда я могу уйти». То же у пункта «Все»:
-   на главной он текущий и без плашки, на кейсе — белая плашка-ссылка. */
+   ОДНО СОСТОЯНИЕ — ОДНА ПОДЛОЖКА (решение автора 2026-10-12).
+   Карточки кейса и плашка «Все» в покое белые (--bg-surface). При наведении
+   и у текущего пункта подложка — тон страницы (--bg-page, #F0F0F0): карточка
+   «уходит» в фон. Цвет текста не меняется. Так «где я сейчас» и «куда
+   нажму» читаются одним сигналом — подложкой, а не цветом строки. */
 .tree{ display: grid; gap: 8px; }
-/* «Все» — первый пункт списка (макеты 2026-10-12). На главной это текущая
-   страница: без подложки, как текущий кейс. На странице кейса — белая
-   плашка-ссылка на главную, как карточки соседних кейсов. */
+/* «Все» — первый пункт списка (макеты 2026-10-12). Белая плашка; при наведении
+   и на главной, где это текущая страница, — тон страницы. Как карточки кейсов. */
 .all{
   display: inline-flex; align-items: center; gap: 10px; width: fit-content;
   min-height: 32px; padding: 0 9px 0 10px; border-radius: var(--radius-4);
   font-size: 14px; line-height: 16px; letter-spacing: -.012em;
   color: var(--text-primary); text-decoration: none;
-  transition: color .18s ease-out;
+  background: var(--bg-surface);
+  transition: background .18s ease-out;
 }
-a.all{ background: var(--bg-surface); }
-a.all:hover{ color: var(--text-secondary); }
+a.all:hover, .all[aria-current="page"]{ background: var(--bg-page); }
 a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .all svg{ width: 12px; height: 12px; flex: none; }
 
@@ -377,11 +383,10 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
   letter-spacing: -.012em; color: var(--text-primary);
 }
 .row--flat{ color: var(--text-primary); }
-.row__name{ transition: color .18s ease-out; }
-/* наведение на карточку — имя кейса серым (2026-10-11), без смены подложки:
-   один сигнал, как у заголовков и контактов */
-.row--flat:hover .row__name{ color: var(--text-secondary); }
-.row--soon:hover .row__name{ color: var(--text-primary); }   /* «в работе» не нажимается */
+/* наведение на карточку — подложка в тон страницы (2026-10-12), текст не
+   меняется. «В работе» не нажимается — подложка остаётся белой. */
+.row--flat:hover{ background: var(--bg-page); }
+.row--soon:hover{ background: var(--bg-surface); }
 .row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
 .row em{
   display: block; font-style: normal; font-size: 12px; line-height: 16px;
@@ -523,6 +528,9 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
 /* Поле макета — подложка плашки, которую даёт страница (файл приходит
    с прозрачным полем). */
 .frame--field{ background: var(--brand-realdeal-field); }
+/* подложка кадров Кино и ТВ — тёмно-синяя, как на макете главной 2026-10-12 и у кадров 16:9 на странице кейса */
+.frame--navy{ background: var(--brand-kino-i-tv-field); }
+.frame--navy-dark{ background: var(--brand-kino-i-tv-field-dark); }   /* кадр с лентами: #0C1B35 */
 /* Макет во всю плашку: ни поля, ни тени, ни своего радиуса, ни кадрирования.
    fill, а не contain/cover: пропорция плашки уже равна пропорции файла,
    а contain оставил бы щель в полпикселя по краю.
@@ -585,6 +593,10 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
 /* У файла DREAMPlatform поля по 3–4 сверху и снизу (видимый знак ≈ 17 при 24):
    без этого строка метастроки выше макета на 8 (макет 2026-10-12). */
 .mark[data-brand="design-system"] img{ margin-block: -4px; }
+/* Знак Триколора двустрочный (слово + «КИНО И ТВ»), поэтому при ширине
+   86 — как у вордмарка RealDeal (87) — он выше строки на 6: те же
+   3 сверху и снизу уходят в отрицательный отступ, строка остаётся 16. */
+.mark[data-brand="kino-i-tv"] img{ margin-block: -3px; }
 
 .case__title{
   margin: 0 0 var(--space-24); max-width: 520px;   /* 2026-10-10: ширина заголовка по макету главной */
@@ -726,7 +738,7 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
     <article class="case">
       <div class="case__head">
         <p class="case__role">B2C <span class="sep">·</span> Streaming TV</p>
-        <span class="mark" data-brand="kino-i-tv"><img src="/img/logo/Cinema%203.svg" alt="Триколор" width="63" height="16"></span>
+        <span class="mark" data-brand="kino-i-tv"><img src="/img/logo/Cinema%202.svg" alt="Триколор Кино и ТВ" width="86" height="22"></span>
       </div>
       <h2 class="case__title"><a href="/kino-i-tv" data-tip="Подробнее о Кино и ТВ">95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн</a></h2>
       <dl class="metrics">
@@ -736,8 +748,8 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
       </dl>
       <a class="case__shots" href="/kino-i-tv" data-tip="Подробнее о Кино и ТВ" aria-hidden="true" tabindex="-1">
       <div class="shots__pair">
-        <div class="frame" style="aspect-ratio: 498 / 269"></div>
-        <div class="frame" style="aspect-ratio: 498 / 269"></div>
+        <div class="frame frame--navy-dark" style="aspect-ratio: 2888 / 2160"><picture><source srcset="/img/home/960/kino_hero_lines.webp 960w, /img/home/1920/kino_hero_lines.webp 1920w, /img/home/kino_hero_lines.webp 2888w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/kino_hero_lines.png" width="2888" height="2160" alt="Раздел «Кино» в приложении: ленты «Продолжить просмотр» и «Передачи»" loading="lazy" decoding="async"></picture></div>
+        <div class="frame frame--navy" style="aspect-ratio: 3444 / 2576"><picture><source srcset="/img/home/960/kino_hero_vod.webp 960w, /img/home/kino_hero_vod.webp 3444w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/kino_hero_vod.png" width="3444" height="2576" alt="Плеер телеканала «Кинопоказ HD-1»: программа передачи и кнопки управления" loading="lazy" decoding="async"></picture></div>
       </div>
       </a>
     </article>
