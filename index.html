@@ -34,9 +34,10 @@
    Вклеивается в index.html и realdeal.html скриптом build.py.
    Править её внутри самих страниц нельзя — перезапишется.
 
-   Раскладка взята с макетов: колонка слева, лента кейсов справа,
-   логотип продукта цветным квадратом. Правки совета внесены
-   поверх, каждая помечена в комментарии.
+   Раскладка — с макетов 2026-10-12: колонка слева, белый лист справа
+   (лента на главной, текст на странице кейса). Правки совета внесены
+   поверх, каждая помечена в комментарии. Здесь только то, чем пользуются
+   обе страницы; правила одной страницы лежат в её <style>.
    ═══════════════════════════════════════════════════════════════ */
 
 :root{
@@ -60,7 +61,6 @@
   --neutral-85:  #D5D5D4;   /* L* 85.2  линейка                        */
   --neutral-90:  #E1E1E1;   /* L* 89.5  заглушка                       */
   --neutral-95:  #F0F0F0;   /* L* 94.8  фон                            */
-  --neutral-98:  #FAFAFA;   /* L* 98.3  карточка в наведении           */
   --neutral-100: #FFFFFF;   /* L*100.0  лист, текст на кнопке          */
 
   /* примитивы тёмной темы — объявлены заранее, чтобы ссылки
@@ -207,10 +207,9 @@ body{
 }
 
 .app{
-  /* Макет главной 2026-10-10 при 1600: поля 60, колонка 360, зазор 60
-     до линейки (x=480), ещё 20 до ленты (x=500). Зазор и верхнее поле
-     плавные, как и поля страницы: на 1141 они сжимаются, и лист кейса
-     по-прежнему вмещает колонку прозы 570. */
+  /* Макет 2026-10-12 при 1600: поля 60, колонка 360, зазор 60, лист
+     начинается с x=480. Зазор и верхнее поле плавные, как и поля
+     страницы. */
   max-width: 1680px; margin: 0 auto;
   padding: max(24px, var(--page-gutter)) var(--page-gutter) 80px;
   display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr);
@@ -227,71 +226,52 @@ body{
 .skip:focus{ left: 12px; top: 12px; }
 
 /* ═══════════════════ ЛЕВАЯ КОЛОНКА ═══════════════════
-   Порядок один на обеих страницах:
-     кто я  →  [интро, только на главной]  →  действие
-            →  [кейсы, только внутри]      →  статус и контакты
-   Действие всегда стоит сразу после блока «кто я»:
-   это и есть одно положение, о котором говорил совет. */
-/* [ОТМЕНЕНО 2026-10-10: колонка снова во всю высоту экрана, контакты прижаты
-   к низу — см. комментарий у .rail ниже. Историю решения не стираем.]
-   ВЫСОТА КОЛОНКИ — ПО СОДЕРЖИМОМУ, А НЕ ПО ЭКРАНУ.
-   Было: height 100vh и распорка, прижимавшая контакты к низу
-   экрана. На главной это давало 470px пустоты посреди колонки —
-   больше, чем занимал весь её контент (382px). Колонка при этом
-   читалась не как «воздушная», а как слишком широкая: глаз
-   считает пустоту шириной, когда ей нечего держать.
-   Воздух работает между вещами, которые связаны. Между интро
-   и контактами связи нет — там он становится дырой.
-   Стало: высота по контенту, потолок — экран, прокрутка внутри
-   только если контент выше экрана. */
-/* КОНТАКТЫ ПРИЖАТЫ К НИЗУ — решение 2026-10-10, макет главной, обе страницы.
-   Прежнее решение «высота по контенту» отменено: колонка занимает
-   высоту экрана за вычетом полей, распорка уводит контакты вниз.
-   Если контент выше экрана — прокрутка внутри колонки, как раньше. */
+   Порядок один на обеих страницах (макеты 2026-10-12):
+     кто я  →  список кейсов (по центру)  →  резюме и контакты.
+   Колонка липкая, занимает высоту экрана за вычетом полей; резюме
+   и контакты прижаты к нижнему полю. Если контент выше экрана —
+   прокрутка внутри колонки (см. сжатие по высоте в конце файла). */
 .rail{
   position: sticky; top: max(24px, var(--page-gutter));
   height: calc(100vh - 2 * max(24px, var(--page-gutter)));
   height: calc(100dvh - 2 * max(24px, var(--page-gutter)));   /* 100vh на мобильных — не высота экрана */
   overflow-y: auto;
   display: flex; flex-direction: column; gap: 24px;
-  padding: 6px 0 24px;
+  padding: 0;   /* макеты 2026-10-12: аватар на верхнем поле страницы, контакты на нижнем */
   scrollbar-width: thin;
 }
 
 /* ── кто я ── */
-/* Аватар → имя 16, имя и сфера — один абзац без зазора, строка
-   про инвестиции отбита 16 (макет 2026-10-10). */
-.me{ display: grid; gap: 0; max-width: 320px; }   /* ширина текста колонки по макету: «дизайн-системы» не рвётся */
-.me__ava{ margin-bottom: 16px; }
+/* Макеты 2026-10-12: на обеих страницах колонка одинакова — аватар слева,
+   имя и роль справа 16/22 (вес 400), ниже серой строкой сфера и строка
+   про инвестиции. Прежний вариант главной (аватар над именем 24/30) заменён. */
+.me{
+  display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 0 16px;
+  align-items: center; max-width: 320px;   /* ширина текста колонки по макету */
+}
 .me__ava{
   width: 40px; height: 40px; border-radius: var(--radius-full);
   background: var(--bg-placeholder); overflow: hidden;
   display: block;
 }
 .me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
-/* Имя и сфера — один абзац 24/30, как заголовок кейса (макет 2026-10-10):
-   имя чернилами, сфера приглушённым. Имя и акценты «B2B SaaS», «B2C:» —
-   вес 500, остальной текст колонки 400 (правка 2026-10-10). */
 .me__who{
-  font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -.03em;
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
   color: var(--text-primary); margin: 0;
 }
 .me__who a{ color: inherit; text-decoration: none; display: inline-block; transition: color .18s ease-out; }
 /* наведение — цвет, без подчёркивания (2026-10-10) */
 .me__who a:hover{ color: var(--text-secondary); }
-.me__span{
-  margin: 0; font-size: 24px; line-height: 30px; font-weight: 400;
-  letter-spacing: -.03em; color: var(--text-secondary);
-}
-.me__span b{ font-weight: 500; color: var(--text-primary); }
-/* Строка про инвестиции — 16/22 по макету 2026-10-10 (было Caption 12/16). */
-.me__sum{
-  margin: 16px 0 0; font-size: 16px; line-height: 22px; letter-spacing: -.012em;
+/* Сфера и строка про инвестиции — 16/22, серым; акценты «B2B SaaS», «B2C:»,
+   «$7.5M», «100% YoY» — вес 500 и чернила (правка 2026-10-10). */
+.me__span, .me__sum{
+  grid-column: 1 / -1; margin: 16px 0 0;
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
   color: var(--text-secondary);
 }
-.me__sum b{ font-weight: 500; color: var(--text-primary); }
+.me__span b, .me__sum b{ font-weight: 500; color: var(--text-primary); }
 
-/* ── действие ──
+/* ── действие (резюме) ──
    Правка совета №3 отменена, и вот почему.
    Совет исходил из холодного трафика: человек пришёл из поиска,
    у него нет твоих контактов, поэтому чёрное пятно обязано вести
@@ -302,35 +282,27 @@ body{
    Поэтому чёрное пятно снова на резюме, а контакты внизу
    остаются единственным местом, где живут адреса. */
 .act{ display: flex; flex-wrap: wrap; gap: 8px; }
-/* кнопка отбита от блока «кто я» на 32 (макет 2026-10-10):
-   зазор колонки 24 + 8 своих */
-.act{ margin-top: 8px; }
+/* кнопка стоит внизу колонки над контактами (макет 2026-10-12) */
 .act a{
   display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
   font-size: 14px; font-weight: 400; letter-spacing: -.012em; line-height: 16px;
-  /* поля 10, а не 8: при интерлиньяже 16 кнопка высотой 8+16+8 = 32px,
-     а это ниже минимальной цели нажатия. 10+16+10 = 36. Кегль твой,
-     высоту держит поле. */
-  /* 2026-10-10, макет: высота 32 (8+16+8), радиус 4. Прежние 36/8 — отменены. */
-  text-decoration: none; border-radius: var(--radius-4); padding: 8px 14px; min-height: 32px;
+  /* макет: высота 32 (8+16+8), радиус 4, поля по бокам 12, без значка */
+  text-decoration: none; border-radius: var(--radius-4); padding: 8px 12px; min-height: 32px;
   transition: background .18s ease-out;
 }
 .act__cv{ background: var(--bg-inverse); color: var(--text-inverse); }
 .act__cv:hover{ background: var(--bg-inverse-hover); }
-/* 12, а не 13: нечётная иконка в кнопке высотой 36 даёт по 11.5px
-   сверху и снизу — полпикселя при центрировании */
-.act svg{ width: 12px; height: 12px; flex: none; }
 .act a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
 
 /* ── низ: контакты ──
    Строки «Открыта к предложениям» нет: портфолио уходит вместе
    с откликом, и адресату это уже известно. Статус нужен сайту,
    который ищут сами; этот — приносят. */
-/* Распорки больше нет: контакты идут сразу после кейсов,
-   отделённые разрывом в 40 — это последний блок колонки,
-   а не её подвал. */
-.rail__spacer{ flex: 1 1 auto; min-height: 0; }
-.hire{ display: grid; gap: 8px; margin-top: 16px; }
+/* Низ колонки (макеты 2026-10-12): кнопка резюме и контакты одной группой,
+   прижатой к нижнему полю; список кейсов между «кто я» и этой группой
+   стоит по центру (.rail .tree). */
+.rail__foot{ display: grid; gap: 20px; }
+.hire{ display: grid; gap: 8px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
   font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
@@ -342,42 +314,12 @@ body{
 /* наведение — цвет, без подчёркивания (2026-10-11): чернила → приглушённый тон */
 .hire__links a:hover{ color: var(--text-secondary); }
 .hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
-/* стрелка 12px внутри ссылки 14px: трекинг ссылки (−0.168px) иначе
-   наследуется абсолютным числом — здесь Caption, значит ноль явно */
-.hire__links i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
 
-/* ═══ ЛОГОТИП ПРОДУКТА ═══
-   РАЗМЕР ИДЁТ ОТ РАБОТЫ, КОТОРУЮ ЗНАК ДЕЛАЕТ В ЭТОМ МЕСТЕ.
-
-   В колонке он крупный. Там список из четырёх, и различить их
-   нужно до чтения — знак несёт основную нагрузку, текст рядом
-   идёт вторым. Плюс он задаёт карточке структуру «знак | имя»,
-   а такая раскладка списка сканируется быстрее двух строк текста.
-
-   На главной он мелкий. Там рядом стоит заголовок-результат
-   32 кеглем, и работу различения делает он; знак только
-   отвечает на вопрос «что за продукт».
-
-   [Устарело 2026-10-10: в колонке кейса стоит квадратный знак 40×40,
-   на главной — вордмарк.] На странице кейса его нет вовсе. Кейс открыт один, различать
-   нечего, а цвет продукта на этой странице уже звучит — им
-   подсвечен активный якорь в колонке. Третий носитель одного
-   и того же сообщения — это не система, а повтор. */
-.mark{
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; color: var(--text-primary);
-}
-/* ЗНАКИ ПРИШЛИ — ТЗ вставки макетов, 2026-10-10. Два вида, не взаимозаменяемы:
-   вордмарк на главной (<img> внутри .mark, имя продукта — в alt,
-   цветной квадрат ::before убран), квадратный знак в колонке (.logo).
-   Высоты — как в макете главной 2026-10-10: RealDeal 14, Триколор 16,
-   DREAMPlatform 24 (у файла поля, видимый знак ≈17), Второй экран 14.
-   Стоят атрибутами на <img>, ширина по пропорции файла. */
-.mark img{ display: block; width: auto; }
 /* неразрывное сочетание в заголовках: «онлайн-сделок» не рвётся по дефису */
 .nw{ white-space: nowrap; }
-/* крупный знак колонки: квадрат из SVG, цвет плашки остаётся запасным,
-   пока файл не загрузился */
+/* ЗНАК КЕЙСА В КОЛОНКЕ — квадрат из SVG (в колонке различить четыре кейса
+   нужно до чтения, поэтому он крупный); цвет плашки остаётся запасным,
+   пока файл не загрузился. Вордмарк на главной — `.mark` в index.html. */
 .logo{
   width: 40px; height: 40px; border-radius: var(--radius-4); flex: none;   /* радиус 4 — макет 2026-10-10, было 12 */
   background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
@@ -389,22 +331,29 @@ body{
 [data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
 [data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
 
-/* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (внутренняя страница) ═══
+/* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (обе страницы) ═══
    ФОРМА ИДЁТ ОТ ПОВЕДЕНИЯ, а не от единообразия.
-   Три свёрнутых кейса — ссылки: по ним нажимают, и у них есть
+   Свёрнутые кейсы — ссылки: по ним нажимают, и у них есть
    поверхность, которую видно и можно взять курсором.
    Текущий кейс никуда не ведёт: это заголовок открытой страницы.
    Подложки у него нет, и именно её отсутствие отличает
-   «где я сейчас» от «куда я могу уйти» — без цвета, без веса,
-   без метки слева. Отсюда и разная форма у этих двух вещей. */
+   «где я сейчас» от «куда я могу уйти». То же у пункта «Все»:
+   на главной он текущий и без плашки, на кейсе — белая плашка-ссылка. */
 .tree{ display: grid; gap: 8px; }
-
-/* текущий — без подложки */
-.row--open{
-  /* линии под якорями нет (макет кейса, 2026-10-11); отступ до следующей
-     карточки ≈ 20 от текста последнего якоря, как на макете */
-  padding: 2px 8px 6px;
+/* «Все» — первый пункт списка (макеты 2026-10-12). На главной это текущая
+   страница: без подложки, как текущий кейс. На странице кейса — белая
+   плашка-ссылка на главную, как карточки соседних кейсов. */
+.all{
+  display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+  min-height: 32px; padding: 0 9px 0 10px; border-radius: var(--radius-4);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none;
+  transition: color .18s ease-out;
 }
+a.all{ background: var(--bg-surface); }
+a.all:hover{ color: var(--text-secondary); }
+a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
+.all svg{ width: 12px; height: 12px; flex: none; }
 
 /* свёрнутые — карточки */
 .row--flat{
@@ -439,64 +388,6 @@ body{
   letter-spacing: 0; color: var(--text-secondary);
 }
 
-/* якоря текущего кейса.
-   ПРАВКА СОВЕТА №1: порядок 01 → 02 → 03. В макете третий
-   стоял вторым — в навигации это не стилистика, а поломка. */
-.toc{
-  margin-top: 10px; padding-left: 52px;   /* 40 знак + 12 отбивка = по имени */
-  display: grid; gap: 0;
-}
-.toc a{
-  position: relative; min-height: 30px;
-  display: flex; align-items: center;
-  font-size: 16px; line-height: 18px; letter-spacing: -.012em;
-  color: var(--text-secondary); text-decoration: none;
-}
-.toc a::before{
-  content: ''; position: absolute; left: -14px; top: 4px; bottom: 4px;
-  width: 2px; border-radius: var(--radius-full); background: transparent;
-  transition: background .18s ease-out;
-}
-.toc a{ transition: color .18s ease-out; }
-/* наведение — цвет, без подчёркивания (2026-10-11): серый якорь темнеет */
-.toc a:hover{ color: var(--text-primary); }
-/* активный якорь метится тоном и рельсом, не весом:
-   весов на сайте два, и 500 занят двумя заголовками */
-.toc a[aria-current="true"]{ color: var(--text-primary); }
-.toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
-.toc a[aria-current="true"]::before{ background: var(--text-primary); }   /* макет 2026-10-10: рельс чернилами, не цветом продукта */
-.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
-
-/* ═══ АНОНС СЛЕДУЮЩЕГО КЕЙСА ═══
-   СТРОКА, А НЕ ПУНКТ СПИСКА.
-
-   Пятый кейс в работе, и сказать об этом стоит. Но неактивная
-   карточка в списке из четырёх — единственное место на сайте,
-   где нажатие не срабатывает, а список кейсов это компонент,
-   у которого сто процентов задачи — навигация.
-
-   Подписи «скоро» по наведению не существует на телефоне,
-   а телефон — заметная доля просмотров портфолио. Поэтому метка
-   видима всегда, а нажимать не на что: нечему не сработать.
-
-   Формы карточки нет намеренно — по тому же правилу, по которому
-   её нет у текущего кейса: подложка означает «сюда нажимают».
-
-   Условие, при котором правило верно: портфолио уходит вместе
-   с откликом и читается один раз. «Скоро» как причина вернуться
-   работает там, куда возвращаются — если ссылка уйдёт в LinkedIn
-   и появится повторный трафик, анонс можно растить до состояния
-   полноценного пункта. */
-.end{ display: none; }
-@media (max-width: 800px){
-  .end{
-    display: block;
-    border-top: 1px solid var(--border-default);
-    padding-top: var(--space-64);
-  }
-  .end .hire__links{ display: flex; flex-wrap: wrap; gap: 8px 32px; }
-}
-
 /* ═══ МЕТРИКИ — один компонент на обе страницы ═══ */
 .metrics{
   display: flex; flex-wrap: wrap; gap: 16px 56px;
@@ -508,63 +399,14 @@ body{
   letter-spacing: -.03em; color: var(--text-primary);
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
-/* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
-   читалась как «60 18» — два числа без отношения между ними. */
-.metrics s{ color: var(--text-secondary); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
 .metrics dd{
   margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
 }
-/* зачёркнутое число в текстовом слое читалось слитно:
-   стрелка есть для скринридера и для копирования, но не видна */
-.sr{
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
-}
 
-/* ═══ МАКЕТЫ — грамматика одна на обе страницы ═══ */
-.frame{
-  background: var(--bg-placeholder); border-radius: var(--radius-8); width: 100%;
-  aspect-ratio: 16/9;          /* CLS = 0 ещё до загрузки картинки */
-  /* width:100% + aspect-ratio внутри fr-колонки даёт круговое
-     вычисление ширины, и раскладка 5fr/7fr разносила полосу
-     за край экрана. min-width:0 разрывает цикл. */
-  min-width: 0;
-}
-.frame--43{ aspect-ratio: 4/3; }
-.frame--mob{ aspect-ratio: 9/16; }
-/* Поле макета — подложка плашки, которую даёт страница (файл приходит
-   с прозрачным полем). Пропорция плашки — из файла, инлайном на элементе. */
-.frame--field{ background: var(--brand-realdeal-field); }
-/* Макет во всю плашку: ни поля, ни тени, ни своего радиуса, ни кадрирования.
-   fill, а не contain/cover: пропорция плашки уже равна пропорции файла,
-   а contain оставил бы щель в полпикселя по краю. */
-.frame{ overflow: hidden; }
-/* WebP с запасным PNG: <picture> заполняет плашку, как сам <img> */
-.frame picture{ display: block; width: 100%; height: 100%; }
-.frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
+/* СПИСОК КЕЙСОВ — по центру между «кто я» и низом колонки, карточки до 320
+   (на обеих страницах, макеты 2026-10-12). */
+.rail .tree{ margin-block: auto; max-width: 320px; }
 
-/* ВНУТРЕННЯЯ СТРАНИЦА (макет кейса 2026-10-10): шапка колонки компактная —
-   аватар слева, имя справа 16/18; кнопка сразу под ней; список кейсов
-   стоит по центру между кнопкой и контактами, карточки 320. */
-.app--case .rail{ gap: 16px; }
-.app--case .me{ grid-template-columns: 40px minmax(0,1fr); gap: 0 16px; align-items: center; }
-.app--case .me__ava{ margin: 0; }
-.app--case .me__who{ font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em; }
-.app--case .act{ margin-top: 0; }
-.app--case .rail__spacer{ display: none; }
-.app--case .tree{ margin-block: auto; max-width: 320px; }
-
-/* [ЗАМЕНЕНО 2026-10-10: порог 800, колонка резиновая — см. блок ниже.]
-   ПОРОГ СХЛОПЫВАНИЯ — 1140, А НЕ 1080. ЗАМЕР:
-   ширина полосы = экран − 60 (поля) − 360 (колонка) − 40 (зазор)
-                        − 80 (поля листа).
-   При 1140 это 600 — колонка прозы 570 ещё помещается.
-   При 1100 остаётся 560, и проза сжимается до 541: правило
-   «55–75 знаков» держится, но заявленная ширина перестаёт
-   выполняться, а заголовок уезжает на третью строку.
-   Колонка фиксирована, контент резиновый — значит порог задаёт
-   контент. Ниже 1140 навигация отнимает у текста больше,
-   чем отдаёт. */
 /* ПОРОГ СХЛОПЫВАНИЯ — 800 (ТЗ адаптив 2026-10-10; прежний 1140 заменён).
    Колонка резиновая, clamp(248, 25vw, 360), и отдаёт пиксели вместе
    с листом, поэтому сворачивать её раньше 800 незачем: ниже 800
@@ -578,24 +420,16 @@ body{
   .rail .row__id em{ display: none; }   /* подзаголовки кейсов не влезают */
   .me__sum{ display: none; }            /* строка про $7.5M не влезает */
 }
-/* имя в колонке: 24/30 по макету держится, пока колонка ≥ 300
-   (с 1200); уже — 16/18, ступень шкалы, не плавный кегль */
-@media (min-width: 801px) and (max-width: 1199px){
-  .me__who, .me__span{ font-size: 16px; line-height: 18px; letter-spacing: -.012em; }
-}
 @media (max-width: 800px){
   .app{ grid-template-columns: 1fr; gap: 28px; }
   /* горизонтальная колонка не растягивается на всю ширину:
      строка в 1020px нечитаема, а контента в ней на 426 */
   /* relative, а не static: метка шапки в конце колонки позиционируется от неё */
   .rail{ position: relative; top: auto; height: auto; max-height: none; overflow: visible;
-         gap: 20px; padding-bottom: 0; max-width: 760px; }
-  .rail__spacer{ display: none; }
-  .act{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки по-прежнему 32 */
-  .app--case .rail{ gap: 20px; }
-  /* уходят: список кейсов с якорями, контакты, строки интро.
-     Якоря работают, пока оглавление липкое; другие кейсы и контакты
-     есть внизу страницы (.more, .end, .foot--hire). */
+         gap: 20px; max-width: 760px; }
+  .rail__foot{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки 32 */
+  /* уходят: список кейсов с якорями, контакты, строки интро. Другие кейсы
+     и контакты есть внизу страницы (.more, .end, .foot--hire). */
   .rail .tree, .rail .hire, .me__span, .me__sum{ display: none; }
 }
 /* ЛИПКАЯ ШАПКА — 768 и ниже. Появляется, когда колонка ушла за верхний
@@ -620,7 +454,6 @@ body{
     display: inline-flex; align-items: center;
   }
   .topbar a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
-  .sec{ scroll-margin-top: 60px; }
 }
 @media (prefers-reduced-motion: reduce){ .topbar{ transition: none; } }
 /* ТЕЛЕФОН — 480.
@@ -642,17 +475,73 @@ body{
      стояло на этом месте, ничего не меняло — осталось от прежней
      шкалы, где метрика была 28. */
 }
-/* порог по высоте совпадает с порогом раскладки: ниже 801
-   колонка уже не липкая, и сжимать её зазоры незачем */
+/* КОЛОНКА ПО ВЫСОТЕ ЭКРАНА (2026-10-12). Макет рассчитан на экран ≈1084:
+   «кто я» с интро, список кейсов (на странице кейса с якорями) и резюме
+   с контактами занимают 680–760. Ниже колонка не помещается, и резюме
+   с контактами уезжают за край — это главное действие, его не прячем.
+   Поэтому сначала уходит строка про инвестиции, потом сфера; замер:
+   главная помещается с 805, кейс — с 880 (со строкой сферы). */
+@media (min-width: 801px) and (max-height: 880px){
+  .me__sum{ display: none; }
+}
+@media (min-width: 801px) and (max-height: 800px){
+  .me__span{ display: none; }
+}
+/* порог по высоте — только с 801: ниже колонка уже не липкая */
 @media (min-width: 801px) and (max-height: 720px){
-  .rail{ gap: 18px; padding-bottom: 0; }   /* без запаса снизу колонка помещается в 720, прокрутки внутри нет */
-  .hire{ margin-top: 0; }
-  .act{ margin-top: 14px; }   /* 18 + 14 = 32 до кнопки */
-  .row{ padding: 8px 0; }
-  .toc a{ min-height: 26px; }
+  .rail{ gap: 18px; }   /* колонка плотнее: прокрутка внутри нужна реже */
+  .rail__foot{ gap: 16px; }
+  .row--flat{ padding-block: 4px; }   /* карточка 48 вместо 56 */
 }
 @media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
 /* <</BASE>> */
+
+/* ═══════════════════════════════════════════════════════════════
+   ТОЛЬКО ГЛАВНАЯ — то, чего нет на странице кейса
+   Вордмарк продукта, плашки макетов, конец ленты. Общее лежит в BASE.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ВОРДМАРК ПРОДУКТА в метастроке кейса. Размер идёт от работы знака:
+   рядом стоит заголовок-результат, различение делает он, а знак только
+   отвечает на вопрос «что за продукт», поэтому мелкий. <img> внутри .mark,
+   имя продукта — в alt; ширина по пропорции файла, высота — атрибутом.
+   Высоты как в макете 2026-10-12: RealDeal 14, Триколор 16, DREAMPlatform 24
+   (у файла поля, видимый знак ≈17), Второй экран 14. */
+.mark{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; color: var(--text-primary);
+}
+.mark img{ display: block; width: auto; }
+
+/* ПЛАШКИ МАКЕТОВ. Пропорция плашки — из файла, инлайном на элементе. */
+.frame{
+  background: var(--bg-placeholder); border-radius: var(--radius-8); width: 100%;
+  aspect-ratio: 16/9;          /* CLS = 0 ещё до загрузки картинки */
+  min-width: 0;                /* width:100% + aspect-ratio внутри fr-колонки иначе даёт круговое вычисление ширины */
+  overflow: hidden;
+}
+/* Поле макета — подложка плашки, которую даёт страница (файл приходит
+   с прозрачным полем). */
+.frame--field{ background: var(--brand-realdeal-field); }
+/* Макет во всю плашку: ни поля, ни тени, ни своего радиуса, ни кадрирования.
+   fill, а не contain/cover: пропорция плашки уже равна пропорции файла,
+   а contain оставил бы щель в полпикселя по краю.
+   WebP с запасным PNG: <picture> заполняет плашку, как сам <img>. */
+.frame picture{ display: block; width: 100%; height: 100%; }
+.frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
+
+/* КОНЕЦ ЛЕНТЫ — контакты, только там, где колонка не липкая (≤800).
+   На десктопе контакты всё время на экране, и повтор был бы шумом. */
+.end{ display: none; }
+@media (max-width: 800px){
+  .end{
+    display: block;
+    border-top: 1px solid var(--border-default);
+    padding-top: var(--space-64);
+  }
+  .end .hire__links{ display: flex; flex-wrap: wrap; gap: 8px 32px; }
+}
+
 
 /* ═══════════════════════════════════════════════════════════════
    ГЛАВНАЯ — раскладка с макета
@@ -662,15 +551,14 @@ body{
    Дальше заголовок-результат, три метрики, макеты.
    ═══════════════════════════════════════════════════════════════ */
 
-/* Линейка между колонкой и лентой. На внутренней странице край
-   даёт белый лист кейса; здесь листа нет, и без линии колонка
-   и лента висели в одном поле без границы. */
+/* ЛИСТ ЛЕНТЫ (макет 2026-10-12): лента лежит на белом листе, как текст
+   кейса на внутренней странице, — поля 20. Линейки между колонкой
+   и лентой больше нет: край даёт сам лист. Нижнее поле — 20 листа
+   плюс 32 последнего кейса. */
 .feed{
   display: grid; gap: 0;
-  border-left: 1px solid var(--border-default); padding-left: 20px;
-}
-@media (max-width: 800px){
-  .feed{ border-left: 0; padding-left: 0; }
+  background: var(--bg-surface); border-radius: var(--radius-8);
+  padding: 20px;
 }
 /* ТЕЛЕФОН. Ниже 480 страница снимает поля ради ширины строки —
    это правило писалось для листа кейса, где идёт проза. В ленте
@@ -678,7 +566,7 @@ body{
    упирались в край экрана, пока колонка своё поле себе вернула.
    Лента возвращает его тем же числом. */
 @media (max-width: 480px){
-  .feed{ padding-inline: 16px; }
+  .feed{ border-radius: 0; padding: 24px 16px 40px; }
 }
 /* лента кончается тем же разделителем, что делит кейсы */
 .case{ padding: 0 0 var(--space-32); }
@@ -689,11 +577,14 @@ body{
    а логотип остаётся прижатым к правому краю. */
 .case__head{
   display: grid; grid-template-columns: minmax(0,1fr) auto;
-  align-items: baseline; gap: 6px 16px; margin: 0 0 var(--space-16);
+  align-items: center; gap: 6px 16px; margin: 0 0 var(--space-16);   /* center, а не baseline: знак по центру строки, как на макете 2026-10-12 */
 }
 .case__role{
   margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
 }
+/* У файла DREAMPlatform поля по 3–4 сверху и снизу (видимый знак ≈ 17 при 24):
+   без этого строка метастроки выше макета на 8 (макет 2026-10-12). */
+.mark[data-brand="design-system"] img{ margin-block: -4px; }
 
 .case__title{
   margin: 0 0 var(--space-24); max-width: 520px;   /* 2026-10-10: ширина заголовка по макету главной */
@@ -730,12 +621,10 @@ body{
 .case .metrics{ margin-bottom: var(--space-24); }
 .case .metrics div{ max-width: 240px; }
 
-/* макеты: три раскладки под разные продукты */
-.shots{ display: grid; grid-template-columns: minmax(0,1fr); gap: 20px; }
+/* макеты: пара или четыре кадра, зазор 24 (макет 2026-10-12; было 20) */
 .feed > *{ min-width: 0; }
-.shots__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.shots__pair--uneven{ grid-template-columns: 5fr 7fr; }
-.shots__mob{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.shots__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.shots__mob{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 
 /* заголовок ленты и метрика уже на 24 — спускать нечего,
    на пороге меняется только плотность блока */
@@ -745,12 +634,14 @@ body{
 @media (max-width: 480px){
   .shots__mob{ grid-template-columns: repeat(2, 1fr); }
 }
-/* В ленте на 620 и ниже пара скрывается — остаётся одна обложка на кейс
-   (ТЗ адаптив 2026-10-10). ДОЛЖНО СТОЯТЬ ПОСЛЕДНИМ в таблице стилей:
+/* [ИЗМЕНЕНО 2026-10-12] В ленте на 620 и ниже пара скрывалась — оставалась
+   одна обложка на кейс (ТЗ адаптив 2026-10-10). Обложки в ленте больше нет,
+   пара — единственное, что показывает кейс, поэтому теперь она встаёт
+   в один столбец. ДОЛЖНО СТОЯТЬ ПОСЛЕДНИМ в таблице стилей:
    .shots__pair объявлен с display:grid выше, и медиазапрос, поставленный
    до него, проиграл бы по порядку каскада. */
 @media (max-width: 620px){
-  .shots__pair{ display: none; }
+  .shots__pair{ grid-template-columns: minmax(0,1fr); gap: 16px; }
 }
 </style>
 </head>
@@ -768,32 +659,39 @@ body{
 
   <aside class="rail">
 <!-- <<RAIL_HEAD>> -->
-    <!-- КТО Я — одинаково на главной и внутренней -->
+    <!-- КТО Я — одинаково на главной и внутренней (макеты 2026-10-12) -->
     <div class="me">
       <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
       <p class="me__who">Задорожная Екатерина —<br>Senior Product Designer.</p>
-<!-- <<RAIL_INTRO>> -->
       <p class="me__span">8 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C:</b> PropTech, Streaming&nbsp;TV, дизайн-системы.</p>
-      <p class="me__sum"><b>$7.5M</b> инвестиций и рост аудитории <b>100% YoY</b> — на продуктах, которые я вела.</p>
-<!-- <</RAIL_INTRO>> -->
-    </div>
-
-    <!-- ДЕЙСТВИЕ — сразу после «кто я», на обеих страницах -->
-    <div class="act">
-      <a class="act__cv" href="https://codedesign.ru/CV.pdf" download>
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.6 12.4h10.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Скачать резюме — PDF
-      </a>
+      <p class="me__sum"><b>$7.5M</b> инвестиций и рост аудитории <b>100% YoY</b> — на продуктах, которые я&nbsp;вела.</p>
     </div>
 <!-- <</RAIL_HEAD>> -->
-<!-- <<RAIL_FOOT>> -->
-    <div class="rail__spacer"></div>
 
-    <!-- НИЗ — одинаково на обеих страницах -->
-    <div class="hire">
-      <div class="hire__links">
-        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram <i>↗</i></a>
-        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">LinkedIn <i>↗</i></a>
+    <!-- КЕЙСЫ — с 2026-10-12 список есть и на главной: «Все» текущий. -->
+<!-- <<CASE_TREE>> -->
+    <nav class="tree" aria-label="Кейсы">
+      <span class="all" aria-current="page"><svg viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="1.5" cy="1.5" r="1.1"/><circle cx="6" cy="1.5" r="1.1"/><circle cx="10.5" cy="1.5" r="1.1"/><circle cx="1.5" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="10.5" cy="6" r="1.1"/><circle cx="1.5" cy="10.5" r="1.1"/><circle cx="6" cy="10.5" r="1.1"/><circle cx="10.5" cy="10.5" r="1.1"/></svg>Все</span>
+      <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+      <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
+    </nav>
+<!-- <</CASE_TREE>> -->
+
+<!-- <<RAIL_FOOT>> -->
+    <!-- НИЗ — резюме и контакты одной группой, одинаково на обеих страницах.
+         Подпись «Linkedin» — как на макете 2026-10-12. -->
+    <div class="rail__foot">
+      <div class="act">
+        <a class="act__cv" href="https://codedesign.ru/CV.pdf" download>Резюме — PDF</a>
+      </div>
+      <div class="hire">
+        <div class="hire__links">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        </div>
       </div>
     </div>
 <!-- <</RAIL_FOOT>> -->
@@ -814,15 +712,13 @@ body{
       </dl>
       <!-- Макеты: файл приходит с собственной пропорцией, плашка берёт её
            из файла (aspect-ratio инлайном, width/height у <img> — те же числа).
-           Кадр с картой — одним файлом с обложкой кейса. Поля у карты и
-           карточки нет; у калькулятора поле прозрачное, цвет даёт .frame--field. -->
+           С 2026-10-12 на главной только пара: калькулятор и карточка; кадра
+           с картой в ленте больше нет (он остался обложкой страницы кейса).
+           Поля у карточки нет; у калькулятора поле прозрачное, цвет даёт .frame--field. -->
       <a class="case__shots" href="/realdeal" data-tip="Подробнее о RealDeal" aria-hidden="true" tabindex="-1">
-      <div class="shots">
-        <div class="frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Аналитическая карта Дубая: выбран сектор, рядом панель показателей" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
-        <div class="shots__pair">
-          <div class="frame frame--field" style="aspect-ratio: 1604 / 1200"><picture><source srcset="/img/home/rd_hero_ROI.webp 1604w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_ROI.png" width="1604" height="1200" alt="Калькулятор доходности в карточке объекта" loading="lazy" decoding="async"></picture></div>
-          <div class="frame" style="aspect-ratio: 1200 / 898"><picture><source srcset="/img/home/960/rd_hero_card.webp 960w, /img/home/rd_hero_card.webp 1200w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_card.png" width="1200" height="898" alt="Карточка объекта в каталоге на фоне панорамы города" loading="lazy" decoding="async"></picture></div>
-        </div>
+      <div class="shots__pair">
+        <div class="frame frame--field" style="aspect-ratio: 1604 / 1200"><picture><source srcset="/img/home/rd_hero_ROI.webp 1604w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_ROI.png" width="1604" height="1200" alt="Калькулятор доходности в карточке объекта" loading="lazy" decoding="async"></picture></div>
+        <div class="frame" style="aspect-ratio: 1200 / 898"><picture><source srcset="/img/home/960/rd_hero_card.webp 960w, /img/home/rd_hero_card.webp 1200w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_card.png" width="1200" height="898" alt="Карточка объекта в каталоге на фоне панорамы города" loading="lazy" decoding="async"></picture></div>
       </div>
       </a>
     </article>
@@ -830,7 +726,7 @@ body{
     <article class="case">
       <div class="case__head">
         <p class="case__role">B2C <span class="sep">·</span> Streaming TV</p>
-        <span class="mark" data-brand="kino-i-tv"><img src="/img/logo/Cinema%202.svg" alt="Триколор Кино и ТВ" width="86" height="22"></span>
+        <span class="mark" data-brand="kino-i-tv"><img src="/img/logo/Cinema%203.svg" alt="Триколор" width="63" height="16"></span>
       </div>
       <h2 class="case__title"><a href="/kino-i-tv" data-tip="Подробнее о Кино и ТВ">95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн</a></h2>
       <dl class="metrics">
@@ -839,9 +735,9 @@ body{
         <div><dt>14%</dt><dd>абонентов в стриминг</dd></div>
       </dl>
       <a class="case__shots" href="/kino-i-tv" data-tip="Подробнее о Кино и ТВ" aria-hidden="true" tabindex="-1">
-      <div class="shots">
-        <div class="frame"></div>
-        <div class="shots__pair"><div class="frame frame--43"></div><div class="frame frame--43"></div></div>
+      <div class="shots__pair">
+        <div class="frame" style="aspect-ratio: 498 / 269"></div>
+        <div class="frame" style="aspect-ratio: 498 / 269"></div>
       </div>
       </a>
     </article>
@@ -851,16 +747,16 @@ body{
         <p class="case__role">B2B SaaS <span class="sep">·</span> Design system</p>
         <span class="mark" data-brand="design-system"><img src="/img/logo/DRM%202.svg" alt="DREAMPlatform" width="142" height="24"></span>
       </div>
-      <h2 class="case__title"><a href="/design-system" data-tip="Подробнее о Дизайн-системе">Дизайн-система, вычистившая 10 лет легаси</a></h2>
+      <h2 class="case__title"><a href="/design-system" data-tip="Подробнее о Дизайн-системе">Дизайн-система, вычистившая<br>10 лет легаси</a></h2>
       <dl class="metrics">
         <div><dt>×2</dt><dd>ускорила релизы</dd></div>
         <div><dt>6</dt><dd>сервисов покрыто</dd></div>
         <div><dt>40+</dt><dd>компонентов</dd></div>
       </dl>
       <a class="case__shots" href="/design-system" data-tip="Подробнее о Дизайн-системе" aria-hidden="true" tabindex="-1">
-      <div class="shots">
-        <div class="shots__pair shots__pair--uneven"><div class="frame frame--43"></div><div class="frame frame--43"></div></div>
-        <div class="frame"></div>
+      <div class="shots__pair">
+        <div class="frame" style="aspect-ratio: 498 / 450"></div>
+        <div class="frame" style="aspect-ratio: 498 / 450"></div>
       </div>
       </a>
     </article>
@@ -878,26 +774,25 @@ body{
       </dl>
       <a class="case__shots" href="/second-screen" data-tip="Подробнее о Втором экране" aria-hidden="true" tabindex="-1">
       <div class="shots__mob">
-        <div class="frame frame--mob"></div>
-        <div class="frame frame--mob"></div>
-        <div class="frame frame--mob"></div>
-        <div class="frame frame--mob"></div>
+        <div class="frame" style="aspect-ratio: 237 / 380"></div>
+        <div class="frame" style="aspect-ratio: 237 / 380"></div>
+        <div class="frame" style="aspect-ratio: 237 / 380"></div>
+        <div class="frame" style="aspect-ratio: 237 / 380"></div>
       </div>
       </a>
     </article>
 
     <!-- КОНЕЦ ЛЕНТЫ — только там, где колонка не липкая.
-         Ниже 1140 колонка уходит наверх страницы: дочитавший
+         Ниже 800 колонка уходит наверх страницы: дочитавший
          упирается в конец ленты, а контакты остались за 5000px
          скролла. На десктопе блок не нужен — контакты всё время
-         на экране, и повтор был бы шумом. Статуса «открыта
-         к предложениям» здесь нет по тому же правилу, что и
-         в колонке: портфолио приносят вместе с откликом. -->
+         на экране. Статуса «открыта к предложениям» здесь нет по тому
+         же правилу, что и в колонке: портфолио приносят вместе с откликом. -->
     <div class="end">
       <div class="hire__links">
-        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram <i>↗</i></a>
-        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">LinkedIn <i>↗</i></a>
-        <a href="https://codedesign.ru/CV.pdf" download>Резюме — PDF <i>↓</i></a>
+        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        <a href="https://codedesign.ru/CV.pdf" download>Резюме — PDF</a>
       </div>
     </div>
 
