@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Вклеивает общие части в index.html и realdeal.html.
+Вклеивает общие части в index.html, realdeal.html и kino-i-tv.html.
 
 Левая колонка живёт в одном месте — parts/. Раньше она существовала
 в двух копиях и разъехалась сама: на главной оказалась чёрная кнопка
@@ -25,11 +25,15 @@ PARTS = [
     ('BASE',       'css',  'parts/base.css'),
     ('RAIL_HEAD',  'html', 'parts/rail_head.html', True),
     ('RAIL_FOOT',  'html', 'parts/rail_foot.html'),
+    # правила и скрипт страницы кейса — общие для всех внутренних страниц
+    # (realdeal, kino-i-tv…); на главной маркеров нет, там часть пропускается
+    ('CASE',       'css',  'parts/case.css'),
+    ('CASE_JS',    'html', 'parts/case.js'),
     # собираются кодом из CASES, файла нет: содержимое зависит от страницы
     ('CASE_TREE',  'html', None),
     ('CASE_MORE',  'html', None),
 ]
-PAGES = ['index.html', 'realdeal.html']
+PAGES = ['index.html', 'realdeal.html', 'kino-i-tv.html']
 
 # Порядок — как в ленте на главной: по силе кейса, не по дате.
 # brand: значение атрибута data-brand, по нему CSS берёт цвет продукта.
@@ -74,6 +78,19 @@ META = {
         og_description='Кейс RealDeal. Lead Product Designer: стратегия, карта на данных '
                        'DLD, онлайн-сделка на UAE PASS.',
         og_image='og-realdeal.png',
+    ),
+    'kino-i-tv.html': dict(
+        who=f'<a href="/">{WHO}</a>',
+        title='Триколор Кино и ТВ — Екатерина Задорожная',
+        description='Кейс «Триколор Кино и ТВ»: редизайн онлайн-кинотеатра для базы 12 млн '
+                    'абонентов. Product Designer: доступ к контенту, вход, навигация, '
+                    'единые принципы Smart TV и Apple TV. Аудитория выросла до 1,7 млн.',
+        url='https://codedesign.ru/kino-i-tv',
+        og_type='article',
+        og_title='95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн',
+        og_description='Кейс «Триколор Кино и ТВ». Product Designer: доступ, вход, навигация, '
+                       'единые принципы Smart TV и Apple TV.',
+        og_image='og.png',   # отдельной картинки для кейса нет — общая
     ),
 }
 
