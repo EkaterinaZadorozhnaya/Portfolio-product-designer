@@ -107,6 +107,12 @@
      синий, но темнее: #0C1B35 (запрос автора 2026-10-12). Один потребитель
      (.frame--navy-dark). */
   --brand-kino-i-tv-field-dark: #0C1B35;
+  /* Подложка кадров DREAMPlatform — зелёный #57B035, акцентный цвет самой
+     системы (запрос автора 2026-10-15). Сплошной: кадры главной
+     (.frame--green) и страницы кейса — мультиселект, мультиселект 2,
+     DREPLUS (.shot__frame--green). От темы не зависит; в семантику
+     не заводить. */
+  --brand-design-system-field: #57B035;
 
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
@@ -531,6 +537,8 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
 /* подложка кадров Кино и ТВ — тёмно-синяя, как на макете главной 2026-10-12 и у кадров 16:9 на странице кейса */
 .frame--navy{ background: var(--brand-kino-i-tv-field); }
 .frame--navy-dark{ background: var(--brand-kino-i-tv-field-dark); }   /* кадр с лентами: #0C1B35 */
+/* подложка кадров DREAMPlatform — сплошной #57B035 (запрос автора 2026-10-15) */
+.frame--green{ background: var(--brand-design-system-field); }
 /* Макет во всю плашку: ни поля, ни тени, ни своего радиуса, ни кадрирования.
    fill, а не contain/cover: пропорция плашки уже равна пропорции файла,
    а contain оставил бы щель в полпикселя по краю.
@@ -767,8 +775,8 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
       </dl>
       <a class="case__shots" href="/design-system" data-tip="Подробнее о Дизайн-системе" aria-hidden="true" tabindex="-1">
       <div class="shots__pair">
-        <div class="frame" style="aspect-ratio: 498 / 450"></div>
-        <div class="frame" style="aspect-ratio: 498 / 450"></div>
+        <div class="frame frame--green" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/home/ds_hero_2.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/ds_hero_2.png" width="2406" height="1800" alt="Список услуг в админке DREPLUS с панелью фильтров" loading="lazy" decoding="async"></picture></div>
+        <div class="frame frame--green" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/home/ds_hero.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/ds_hero.png" width="2406" height="1800" alt="Сетка компонентов дизайн-системы: Button, Combobox, Status, Filter, Calendar, Search" loading="lazy" decoding="async"></picture></div>
       </div>
       </a>
     </article>

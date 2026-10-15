@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Вклеивает общие части в index.html, realdeal.html и kino-i-tv.html.
+Вклеивает общие части в index.html, realdeal.html, kino-i-tv.html и design-system.html.
 
 Левая колонка живёт в одном месте — parts/. Раньше она существовала
 в двух копиях и разъехалась сама: на главной оказалась чёрная кнопка
@@ -33,7 +33,7 @@ PARTS = [
     ('CASE_TREE',  'html', None),
     ('CASE_MORE',  'html', None),
 ]
-PAGES = ['index.html', 'realdeal.html', 'kino-i-tv.html']
+PAGES = ['index.html', 'realdeal.html', 'kino-i-tv.html', 'design-system.html']
 
 # Порядок — как в ленте на главной: по силе кейса, не по дате.
 # brand: значение атрибута data-brand, по нему CSS берёт цвет продукта.
@@ -90,6 +90,19 @@ META = {
         og_title='95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн',
         og_description='Кейс «Триколор Кино и ТВ». Product Designer: доступ, вход, навигация, '
                        'единые принципы Smart TV и Apple TV.',
+        og_image='og.png',   # отдельной картинки для кейса нет — общая
+    ),
+    'design-system.html': dict(
+        who=f'<a href="/">{WHO}</a>',
+        title='Дизайн-система DREAMPlatform — Екатерина Задорожная',
+        description='Кейс «Дизайн-система DREAMPlatform»: первая в платформе цифрового ТВ '
+                    'дизайн-система для шести сервисов. Senior Product Designer: чистка '
+                    'десятилетнего легаси, процесс согласования, 40+ компонентов с документацией.',
+        url='https://codedesign.ru/design-system',
+        og_type='article',
+        og_title='Дизайн-система, вычистившая 10 лет легаси',
+        og_description='Кейс DREAMPlatform. Senior Product Designer: единый интерфейс '
+                       'шести сервисов, процесс согласования, 40+ компонентов.',
         og_image='og.png',   # отдельной картинки для кейса нет — общая
     ),
 }
