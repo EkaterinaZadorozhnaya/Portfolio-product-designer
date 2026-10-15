@@ -127,6 +127,12 @@
      синий, но темнее: #0C1B35 (запрос автора 2026-10-12). Один потребитель
      (.frame--navy-dark). */
   --brand-kino-i-tv-field-dark: #0C1B35;
+  /* Подложка кадров DREAMPlatform — зелёный #57B035, акцентный цвет самой
+     системы (запрос автора 2026-10-15). Сплошной: кадры главной
+     (.frame--green) и страницы кейса — мультиселект, мультиселект 2,
+     DREPLUS (.shot__frame--green). От темы не зависит; в семантику
+     не заводить. */
+  --brand-design-system-field: #57B035;
 
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
@@ -1009,6 +1015,32 @@ ul.list li::marker{ color: var(--text-secondary); }
   .tbl--find > div{ grid-template-columns: minmax(0,1fr); }
   .tbl--find p + p::before{ content: '→ '; color: var(--text-secondary); }
 }
+
+
+/* ═══ ОБЩЕЕ ДЛЯ КЕЙСОВ С «ДО / ПОСЛЕ» (из kino-i-tv.html, 2026-10-13) ═══ */
+
+/* ДО И ПОСЛЕ — таблица, как у RealDeal («Шаг / Боль / Гипотеза»): общий
+   компонент .tbl (860 по центру, шапка, линии между строками), здесь две
+   равные колонки без ключевого столбца. Правая («после») — чернила, левая
+   серая: как «Гипотеза» против «Боли». Числа внутри — гарнитура прозы,
+   вес 400, чернила. На ≤620 шапка скрыта, и каждая ячейка получает свою
+   метку (data-l) над текстом: колонки встают друг под друга. */
+.tbl--cmp > div, .tbl.tbl--cmp > div{ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.tbl--cmp p + p{ color: var(--text-primary); }
+.tbl--cmp p b{ font-weight: 400; color: var(--text-primary); }
+@media (max-width: 620px){
+  .tbl--cmp > div, .tbl.tbl--cmp > div{ grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .tbl--cmp p::before{
+    content: attr(data-l); display: block; margin-bottom: 2px;
+    font-family: var(--sans); font-size: 12px; line-height: 16px; letter-spacing: 0;
+    color: var(--text-secondary);
+  }
+}
+
+/* ГРУППА С ОДНОЙ МЕТКОЙ — «До» / «После» в блоке «Регистрация и вход».
+   Группа — один блок ритма листа (32 до и после); внутри метка отстоит
+   от кадров на 8, как у одиночных кадров, а лишних 16 в конце нет. */
+.paper .grp > *:last-child{ margin-bottom: 0; }
 
 
 
