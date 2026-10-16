@@ -121,8 +121,7 @@
   --brand-kino-i-tv-field-dark: #0C1B35;
   /* Подложка кадров DREAMPlatform — зелёный #57B035, акцентный цвет самой
      системы (запрос автора 2026-10-15). Сплошной: кадры главной
-     (.frame--green) и страницы кейса — мультиселект, мультиселект 2,
-     DREPLUS (.shot__frame--green). От темы не зависит; в семантику
+     (.frame--green) и DREPLUS на странице кейса (.shot__frame--green). От темы не зависит; в семантику
      не заводить. */
   --brand-design-system-field: #57B035;
 
@@ -1156,11 +1155,15 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 .tbl--refs > div, .tbl.tbl--refs > div{ grid-template-columns: minmax(0, 1fr); }
 .tbl--refs p b{ font-weight: 400; color: var(--text-primary); }
 
-/* ПОДЛОЖКА КАДРОВ — зелёная #57B035 (токен), сплошная: прозрачное поле
-   в файлах окрашивает плашка. Только у мультиселекта, мультиселекта 2
-   и DREPLUS; остальные кадры кейса, в том числе иконки и типографика
-   (запрос автора 2026-10-15), на серой F0F0F0. */
+/* ПОДЛОЖКА КАДРОВ — сплошная, от темы не зависит: прозрачное поле в
+   файлах окрашивает плашка. Зелёная #57B035 (токен) — только DREPLUS;
+   серая F0F0F0 — мультиселект, мультиселект 2 и scrambler; белая с
+   внутренней рамкой 2px F0F0F0 — обложка (запрос автора 2026-10-16).
+   Остальные кадры кейса на --bg-page. */
 .shot__frame--green{ background: var(--brand-design-system-field); }
+.shot__frame--gray{ background: #F0F0F0; }
+.shot__frame--white{ position: relative; background: #fff; }
+.shot__frame--white::after{ content: ""; position: absolute; inset: 0; border: 2px solid #F0F0F0; border-radius: inherit; pointer-events: none; }
 
 /* Слово с дефисом не рвётся на «дизайн-» / «система» (то же, что .nw у RealDeal). */
 .nw{ white-space: nowrap; }
@@ -1269,7 +1272,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
          даёт плашка (--bg-page). Подпись обложке не нужна: она
          показывает, а не доказывает. -->
     <figure class="shot shot--cover">
-      <div class="shot__frame" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/ds/960/ds_cover.webp 960w, /img/ds/ds_cover.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ds/ds_cover.png" width="3200" height="1800" alt="Сетка компонентов библиотеки DREAMPlatform: Button, Combobox, Status, Toast, Filter, Tag, Search, Calendar" fetchpriority="high"></picture></div>
+      <div class="shot__frame shot__frame--white" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/ds/960/ds_cover.webp 960w, /img/ds/ds_cover.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ds/ds_cover.png" width="3200" height="1800" alt="Сетка компонентов библиотеки DREAMPlatform: Button, Combobox, Status, Toast, Filter, Tag, Search, Calendar" fetchpriority="high"></picture></div>
     </figure>
 
     <!-- ── ПРОБЛЕМА И КОНТЕКСТ ── -->
@@ -1369,10 +1372,10 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <div class="grp">
         <div class="shots2">
           <figure class="shot">
-            <div class="shot__frame shot__frame--green" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/ds/multiselect.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/multiselect.png" width="2800" height="2094" alt="Multiselect: четыре размера компонента в состояниях Default, Hover, Expanded, Filled и Disabled" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame shot__frame--gray" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/ds/multiselect.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/multiselect.png" width="2800" height="2094" alt="Multiselect: четыре размера компонента в состояниях Default, Hover, Expanded, Filled и Disabled" loading="lazy" decoding="async"></picture></div>
           </figure>
           <figure class="shot">
-            <div class="shot__frame shot__frame--green" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/ds/multiselect_2.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/multiselect_2.png" width="2800" height="2094" alt="Multiselect: дополнительные варианты использования — много значений, вспомогательный текст, ошибка" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame shot__frame--gray" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/ds/multiselect_2.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/multiselect_2.png" width="2800" height="2094" alt="Multiselect: дополнительные варианты использования — много значений, вспомогательный текст, ошибка" loading="lazy" decoding="async"></picture></div>
           </figure>
         </div>
         <figure class="shot">
@@ -1441,7 +1444,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <div class="grp">
         <div class="shots-lead">
           <figure class="shot">
-            <div class="shot__frame" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/ds/960/scrambler.webp 960w, /img/ds/scrambler.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ds/scrambler.png" width="3200" height="1800" alt="DREAMPlatform Scrambler в интерфейсе платформы" loading="lazy" decoding="async"></picture></div>
+            <div class="shot__frame shot__frame--gray" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/ds/960/scrambler.webp 960w, /img/ds/scrambler.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ds/scrambler.png" width="3200" height="1800" alt="DREAMPlatform Scrambler в интерфейсе платформы" loading="lazy" decoding="async"></picture></div>
             <figcaption class="shot__cap">DREAMPlatform Scrambler</figcaption>
           </figure>
           <figure class="shot">
