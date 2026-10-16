@@ -640,10 +640,10 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
 .case .metrics{ margin-bottom: var(--space-24); }
 .case .metrics div{ max-width: 240px; }
 
-/* макеты: пара или четыре кадра, зазор 24 (макет 2026-10-12; было 20) */
+/* макеты: пара или четыре кадра, зазор 20 (запрос автора 2026-10-16) */
 .feed > *{ min-width: 0; }
-.shots__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.shots__mob{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.shots__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.shots__mob{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
 /* заголовок ленты и метрика уже на 24 — спускать нечего,
    на пороге меняется только плотность блока */
@@ -660,7 +660,7 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
    .shots__pair объявлен с display:grid выше, и медиазапрос, поставленный
    до него, проиграл бы по порядку каскада. */
 @media (max-width: 620px){
-  .shots__pair{ grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .shots__pair{ grid-template-columns: minmax(0,1fr); gap: 20px; }
 }
 </style>
 </head>

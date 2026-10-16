@@ -921,13 +921,13 @@ ul.list li::marker{ color: var(--text-secondary); }
   font-size: 12px; font-weight: 400; line-height: 16px; color: var(--text-secondary);
   margin: 8px 0 0; letter-spacing: 0;
 }
-.shots2{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.shots2{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
 /* ТРИ ЭКРАНА В РЯД — по 293px на штуку: десктопный интерфейс
    в таком размере превращается в пятно. Стало: главный экран
    во всю полосу, два сопутствующих парой под ним. */
-.shots-lead{ display: grid; gap: 10px; }
-.shots-lead__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.shots-lead{ display: grid; gap: 20px; }
+.shots-lead__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .shots-lead .shot{ margin: 0; }
 .shots-lead > .shot .shot__frame{ aspect-ratio: 16/9; }
 .shots-lead__pair .shot__frame{ aspect-ratio: 4/3; }
@@ -1169,12 +1169,12 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 .nw{ white-space: nowrap; }
 
 /* Кадры внутри пары, стопки и сетки не несут своего нижнего отступа:
-   зазор между ними задаёт сетка (10), иначе ряды разъезжаются на 16. */
+   зазор между ними задаёт сетка (20), иначе ряды разъезжаются на 16. */
 .shots2 .shot, .shots-lead .shot{ margin: 0; }
-/* Внутри группы кадры стоят друг под другом с тем же зазором 10, что
+/* Внутри группы кадры стоят друг под другом с тем же зазором 20, что
    между кадрами пары; нижний отступ группе даёт ритм листа. */
 .paper .grp > .shots2, .paper .grp > .shots-lead{ margin-bottom: 0; }
-.paper .grp > .shots2 + .shot{ margin-top: 10px; }
+.paper .grp > .shots2 + .shot, .paper .grp > .shot + .shots2{ margin-top: 20px; }
 
 /* ЧЕТЫРЕ МЕТРИКИ — как у «Кино и ТВ»: на ≤768 сетка 2×2, а не «три и одна».
    Ширина подписи общая, 112 из общего CSS (запрос автора 2026-10-15:
@@ -1381,16 +1381,16 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
         <figure class="shot">
           <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/ds/960/doc_multiselect.webp 960w, /img/ds/doc_multiselect.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ds/doc_multiselect.png" width="4000" height="2250" alt="Multiselect: страница спецификации в Confluence" loading="lazy" decoding="async"></picture></div>
         </figure>
-      </div>
 
-      <!-- Пара 4:3: фрагменты листа ДС. -->
-      <div class="shots2">
-        <figure class="shot">
-          <div class="shot__frame" style="aspect-ratio: 1240 / 928"><picture><source srcset="/img/ds/icons.webp 1240w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/icons.png" width="1240" height="928" alt="Иконки дизайн-системы одной сеткой" loading="lazy" decoding="async"></picture></div>
-        </figure>
-        <figure class="shot">
-          <div class="shot__frame" style="aspect-ratio: 4370 / 3268"><picture><source srcset="/img/ds/960/typography.webp 960w, /img/ds/typography.webp 4370w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/typography.png" width="4370" height="3268" alt="Типографика: шрифт Open Sans, шкала Title от 48 до 12 пикселей с высотой строки" loading="lazy" decoding="async"></picture></div>
-        </figure>
+        <!-- Пара 4:3: фрагменты листа ДС. -->
+        <div class="shots2">
+          <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 1240 / 928"><picture><source srcset="/img/ds/icons.webp 1240w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/icons.png" width="1240" height="928" alt="Иконки дизайн-системы одной сеткой" loading="lazy" decoding="async"></picture></div>
+          </figure>
+          <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 4370 / 3268"><picture><source srcset="/img/ds/960/typography.webp 960w, /img/ds/typography.webp 4370w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ds/typography.png" width="4370" height="3268" alt="Типографика: шрифт Open Sans, шкала Title от 48 до 12 пикселей с высотой строки" loading="lazy" decoding="async"></picture></div>
+          </figure>
+        </div>
       </div>
 
       <!-- РОЛЬ — кадра в блоке нет -->
