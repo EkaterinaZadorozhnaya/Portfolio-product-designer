@@ -123,6 +123,14 @@
      (.frame--green) и DREPLUS на странице кейса (.shot__frame--green). От темы не зависит; в семантику
      не заводить. */
   --brand-design-system-field: #57B035;
+  /* Подложки кадров «Второго экрана» (запрос автора 2026-10-20), сплошные,
+     от темы не зависят; в семантику не заводить:
+       -field      #668CFF — обложки (кейс и два кадра главной) и кадр тёмной темы;
+       -field-soft #E9EEFB — светлые Android-экраны: MVP и «до» редизайна;
+       -field-deep #3366FF — «после» редизайна и два кадра iOS-телегида. */
+  --brand-second-screen-field: #668CFF;
+  --brand-second-screen-field-soft: #E9EEFB;
+  --brand-second-screen-field-deep: #3366FF;
 
   /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
      примитив или литерал в правиле компонента не переключается темой.
@@ -306,7 +314,7 @@ body{
    при этом дублировала Telegram и LinkedIn внизу колонки.
    Поэтому чёрное пятно снова на резюме, а контакты внизу
    остаются единственным местом, где живут адреса. */
-.act{ display: flex; flex-wrap: wrap; gap: 8px; }
+.act{ display: flex; flex-wrap: wrap; gap: 8px; max-width: 320px; }   /* ширина колонки текста, как у .me и списка кейсов */
 /* кнопка стоит внизу колонки над контактами (макет 2026-10-12) */
 .act a{
   display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
@@ -315,7 +323,7 @@ body{
   text-decoration: none; border-radius: var(--radius-4); padding: 8px 12px; min-height: 32px;
   transition: background .18s ease-out;
 }
-.act__cv{ background: var(--bg-inverse); color: var(--text-inverse); }
+.act__cv{ background: var(--bg-inverse); color: var(--text-inverse); flex: 1 1 100%; justify-content: center; }   /* на всю ширину колонки, как интро */
 .act__cv:hover{ background: var(--bg-inverse-hover); }
 .act a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
 
@@ -821,7 +829,7 @@ h3{
 /* выделение внутри антиквенной прозы — той же гарнитурой:
    гротеск в 15 кегле посреди антиквы читался как вставка из
    другого документа, а это просто ударное слово. */
-.t b{
+.t b, ul.list b{
   font-family: var(--serif); font-weight: 400; color: var(--text-primary);
 }
 
@@ -1265,8 +1273,8 @@ ul.list b{ font-family: var(--serif); font-weight: 400; color: var(--text-primar
         <span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span>
         <span class="toc"><a href="#problem">Проблема</a><a href="#work">Мой вклад</a><a href="#result">Результат</a></span>
       </div>
-      <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
       <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
       <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
     </nav>
 <!-- <</CASE_TREE>> -->
@@ -1522,8 +1530,8 @@ ul.list b{ font-family: var(--serif); font-weight: 400; color: var(--text-primar
       <p class="more__t">Другие кейсы</p>
       <div class="tree">
         <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
-        <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
         <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+        <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
         <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
       </div>
     </nav>

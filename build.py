@@ -33,7 +33,7 @@ PARTS = [
     ('CASE_TREE',  'html', None),
     ('CASE_MORE',  'html', None),
 ]
-PAGES = ['index.html', 'realdeal.html', 'kino-i-tv.html', 'design-system.html']
+PAGES = ['index.html', 'realdeal.html', 'kino-i-tv.html', 'design-system.html', 'second-screen.html']
 
 # Порядок — как в ленте на главной: по силе кейса, не по дате.
 # brand: значение атрибута data-brand, по нему CSS берёт цвет продукта.
@@ -41,8 +41,8 @@ PAGES = ['index.html', 'realdeal.html', 'kino-i-tv.html', 'design-system.html']
 CASES = [
     dict(slug='realdeal',      name='RealDeal',           domain='B2B SaaS · PropTech',        brand='realdeal'),
     dict(slug='kino-i-tv',     name='Кино и ТВ',          domain='B2C · Streaming TV',         brand='kino-i-tv'),
-    dict(slug='design-system', name='DREAMPlatform',      domain='B2B SaaS · Design system',   brand='design-system'),
     dict(slug='second-screen', name='Второй экран',       domain='B2C · TV &amp; Media',       brand='second-screen'),
+    dict(slug='design-system', name='DREAMPlatform',      domain='B2B SaaS · Design system',   brand='design-system'),
     # в работе: карточка без ссылки на 30% (soon=True), страницы нет
     dict(slug='smart-home',    name='Умный дом',          domain='B2C · TV',                   brand='smart-home', soon=True),
 ]
@@ -103,6 +103,20 @@ META = {
         og_title='Дизайн-система, вычистившая 10 лет легаси',
         og_description='Кейс DREAMPlatform. Senior Product Designer: единый интерфейс '
                        'шести сервисов, процесс согласования, 40+ компонентов.',
+        og_image='og.png',   # отдельной картинки для кейса нет — общая
+    ),
+    'second-screen.html': dict(
+        who=f'<a href="/">{WHO}</a>',
+        title='Второй экран — Екатерина Задорожная',
+        description='Кейс «Второй экран»: мобильное приложение Триколора для управления ТВ '
+                    'с телефона. Senior Product Designer: MVP за 4 месяца, '
+                    'редизайн по решению заказчика, второй релиз с пультом и трансляцией ТВ. '
+                    '330K активных пользователей.',
+        url='https://codedesign.ru/second-screen',
+        og_type='article',
+        og_title='12,3 млн абонентов не могли управлять ТВ с телефона. MVP за 4 месяца',
+        og_description='Кейс «Второй экран». Senior Product Designer: приложение Триколора '
+                       'для управления ТВ с телефона, два релиза за год, 330K пользователей.',
         og_image='og.png',   # отдельной картинки для кейса нет — общая
     ),
 }

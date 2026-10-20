@@ -1,397 +1,1544 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- <<HEAD>> -->
 <title>Второй экран — Екатерина Задорожная</title>
-<link rel="icon" type="image/jpeg" href="images/avatar.jpg">
-<link rel="apple-touch-icon" href="images/avatar.jpg">
+<meta name="description" content="Кейс «Второй экран»: мобильное приложение Триколора для управления ТВ с телефона. Senior Product Designer: MVP за 4 месяца, редизайн по решению заказчика, второй релиз с пультом и трансляцией ТВ. 330K активных пользователей.">
+<link rel="canonical" href="https://codedesign.ru/second-screen">
+
+<meta property="og:type"         content="article">
+<meta property="og:url"          content="https://codedesign.ru/second-screen">
+<meta property="og:title"        content="12,3 млн абонентов не могли управлять ТВ с телефона. MVP за 4 месяца">
+<meta property="og:description"  content="Кейс «Второй экран». Senior Product Designer: приложение Триколора для управления ТВ с телефона, два релиза за год, 330K пользователей.">
+<meta property="og:image"        content="https://codedesign.ru/og.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"       content="ru_RU">
+<meta name="twitter:card"        content="summary_large_image">
+
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Literata:opsz,wght@7..72,400&display=swap">
+<!-- <</HEAD>> -->
+
+
 <style>
-  .cs-metric {
-    flex: 1 1 calc(50% - 8px);
-    min-width: calc(50% - 8px);
-    max-width: calc(50% - 8px);
+/* ═══════════════════════════════════════════════════════════════
+   КЕЙС «ВТОРОЙ ЭКРАН»
+
+   Каркас, типографика и ритм листа — общие для внутренних страниц:
+   BASE (колонка, токены) и CASE (лист кейса) вклеивает build.py.
+   Здесь только то, чего нет у соседних кейсов: два ряда итоговых
+   метрик, справка по опросу, пара «До / После» разной высоты. Текст — по
+   «второй-экран-контент.md», кадры — img/ss/ и img/home/ss_cover.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* <<BASE>> */
+/* ═══════════════════════════════════════════════════════════════
+   ОБЩАЯ ОСНОВА ДВУХ СТРАНИЦ
+   Вклеивается в index.html и realdeal.html скриптом build.py.
+   Править её внутри самих страниц нельзя — перезапишется.
+
+   Раскладка — с макетов 2026-10-12: колонка слева, белый лист справа
+   (лента на главной, текст на странице кейса). Правки совета внесены
+   поверх, каждая помечена в комментарии. Здесь только то, чем пользуются
+   обе страницы; правила одной страницы лежат в её <style>.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  color-scheme: light;
+
+  /* ИМЕНА: группа = свойство, которое токен задаёт;
+     имя = значение (у примитивов) или роль (у семантики).
+     Совпадают с переменными в Figma один в один — сверка макета
+     с вёрсткой идёт по одному словарю. Подробно: spec-tokens.md. */
+
+  /* ШКАЛА НЕЙТРАЛЬНЫХ, названа по воспринимаемой светлоте L*.
+     Шкала расширяется вставкой без переименования соседей.
+     neutral-6 и neutral-90 работают в обеих темах, меняясь ролями.
+     Тёплая нота R ≥ G ≥ B на 12, 14, 22, 25, 44, 63, 85;
+     чистый серый на 6, 18, 78, 90, 95, 98, 100. */
+
+  /* примитивы светлой темы */
+  --neutral-6:   #131313;   /* L*  5.9  текст, заливка кнопки          */
+  --neutral-18:  #2C2C2C;   /* L* 18.0  кнопка в наведении             */
+  --neutral-44:  #696764;   /* L* 43.7  вторичный и проза              */
+  --neutral-85:  #D5D5D4;   /* L* 85.2  линейка                        */
+  --neutral-90:  #E1E1E1;   /* L* 89.5  заглушка                       */
+  --neutral-95:  #F0F0F0;   /* L* 94.8  фон                            */
+  --neutral-100: #FFFFFF;   /* L*100.0  лист, текст на кнопке          */
+
+  /* примитивы тёмной темы — объявлены заранее, чтобы ссылки
+     в закомментированных блоках не висели в пустоту */
+  --neutral-12:  #20201E;   /* L* 12.2  лист                           */
+  --neutral-22:  #343433;   /* L* 21.7  заглушка                       */
+  --neutral-25:  #3C3B3A;   /* L* 24.9  линейка                        */
+  --neutral-63:  #999795;   /* L* 62.6  вторичный и проза              */
+  --neutral-78:  #C0C0C0;   /* L* 77.7  кнопка в наведении             */
+
+  /* ЦВЕТА ПРОДУКТОВ — правка совета №4.
+     Было: тёмно-синий, почти чёрно-синий, зелёный, голубой —
+     три оттенка одного цвета из четырёх. При размытии
+     различался только зелёный, то есть система работала
+     на одном элементе из четырёх.
+
+     Стало: четыре разных семейства, разведённые и по тону,
+     и по светлоте — чтобы набор читался и в оттенках серого,
+     и при дальтонизме, где цвет один не справляется.
+     Светлота специально разная: 31 / 44 / 52 / 58.
+
+     Одинаковы в обеих темах: это временные плашки под настоящие
+     логотипы, которые от темы не зависят. В семантический слой
+     не заводить — иначе их потянет развести по режимам. */
+  --brand-realdeal:      #2F5AD9;   /* RealDeal      — синий,     L44 */
+  --brand-kino-i-tv:     #B0308C;   /* Кино и ТВ     — маджента,  L52 */
+  --brand-design-system: #14532D;   /* DREAMPlatform — зелёный,   L31 */
+  --brand-second-screen: #DE5B1C;   /* Второй экран  — оранжевый, L58 */
+
+  /* ПОЛЕ КАДРА С КАЛЬКУЛЯТОРОМ на главной — ТЗ вставки макетов, 2026-10-10:
+     Accent/Info #1268EC на 15% поверх белого. Файл макета приходит
+     с прозрачным полем, цвет даёт плашка. Один потребитель
+     (.frame--field), от темы не зависит; в семантику не заводить. */
+  --brand-realdeal-field: #DBE8FC;
+  /* Сплошная подложка кадра с графиками на странице кейса — макет
+     2026-10-10: Accent/Info #1268EC. Один потребитель (.shot__frame--accent). */
+  --brand-realdeal-accent: #1268EC;
+  /* Подложка кадров 16:9 на странице «Кино и ТВ» — тёмно-синий #0C2653,
+     тон самого интерфейса ТВ-приложения (запрос автора 2026-10-12): поля
+     вокруг кадров и шторок сливаются с экраном. Два потребителя
+     (.shot__frame--navy, .cmpx), от темы не зависит; в семантику не заводить. */
+  --brand-kino-i-tv-field: #0C2653;
+  /* Подложка кадра «ленты» (kino_hero_lines) в карточке на главной — тот же
+     синий, но темнее: #0C1B35 (запрос автора 2026-10-12). Один потребитель
+     (.frame--navy-dark). */
+  --brand-kino-i-tv-field-dark: #0C1B35;
+  /* Подложка кадров DREAMPlatform — зелёный #57B035, акцентный цвет самой
+     системы (запрос автора 2026-10-15). Сплошной: кадры главной
+     (.frame--green) и DREPLUS на странице кейса (.shot__frame--green). От темы не зависит; в семантику
+     не заводить. */
+  --brand-design-system-field: #57B035;
+  /* Подложки кадров «Второго экрана» (запрос автора 2026-10-20), сплошные,
+     от темы не зависят; в семантику не заводить:
+       -field      #668CFF — обложки (кейс и два кадра главной) и кадр тёмной темы;
+       -field-soft #E9EEFB — светлые Android-экраны: MVP и «до» редизайна;
+       -field-deep #3366FF — «после» редизайна и два кадра iOS-телегида. */
+  --brand-second-screen-field: #668CFF;
+  --brand-second-screen-field-soft: #E9EEFB;
+  --brand-second-screen-field-deep: #3366FF;
+
+  /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
+     примитив или литерал в правиле компонента не переключается темой.
+     --text-primary и --bg-inverse сегодня совпадают по значению,
+     но это два независимых решения: цвет текста и заливка кнопки.
+     Наведение сдвигает заливку к середине шкалы: кнопка на 12
+     пунктов L*, карточка на 2. */
+  --text-primary:      var(--neutral-6);    /* заголовки, числа, активный якорь, выделение в прозе */
+  --text-secondary:    var(--neutral-44);   /* проза, подписи, метастроки, шапки таблиц */
+  --text-inverse:      var(--neutral-100);  /* текст на заливке --bg-inverse */
+  --bg-page:           var(--neutral-95);   /* фон страницы */
+  --bg-surface:        var(--neutral-100);  /* лист кейса, карточки кейсов в колонке */
+  --bg-inverse:        var(--neutral-6);    /* заливка кнопки резюме */
+  --bg-inverse-hover:  var(--neutral-18);   /* кнопка резюме при наведении */
+  --bg-placeholder:    var(--neutral-90);   /* место под макет, аватар, чипы схемы пути */
+  --border-default:    var(--neutral-85);   /* разделители, строки таблиц, рамка ленты */
+
+  --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --serif: 'Literata', Georgia, 'Times New Roman', serif;
+
+  /* СКРУГЛЕНИЯ — четыре токена, все кратны четырём.
+     Было восемь литералов (1, 3, 4, 6, 7, 8, 10, 50%): 3 против 4 —
+     одно фокус-кольцо, 6 против 7 — соседние элементы с разницей
+     в пиксель. Следы правок, а не решения.
+     999px, а не 50%: на квадрате даёт круг, на узкой полосе —
+     скруглённые торцы, и его можно хранить числом в Figma. */
+  --radius-4:    4px;     /* марка 12×12, кольца :focus-visible */
+  --radius-8:    8px;     /* кнопка, чип, skip-link, лист, кадры, врезка */
+  --radius-full: 999px;   /* аватар, торцы рельса активного якоря */
+
+  --width-cover: 760px;   /* полоса: обложка, метрики, макеты во всю ширину */
+  /* Колонка прозы считается от знаков, а не от пикселей.
+     Цель — 68–72 знака в строке. При Literata 16 это 570.
+     (При Golos 16 то же правило давало 640 — поэтому при смене
+     гарнитуры число пересчитывается, а не переносится.) */
+  --width-prose: 640px;   /* было 570; макет кейса 2026-10-10 */
+  --width-wide:  860px;   /* таблица и схема пути — по центру листа */
+  --width-rail:  clamp(248px, 25vw, 360px);   /* левая колонка; резиновая (ТЗ адаптив 2026-10-10), 360 с 1440 */
+
+  /* РИТМ СТРАНИЦЫ — четыре ступени, все кратны 16. Шкала закрыта.
+     Внутренние поля компонентов ей не подчиняются и токенов
+     не получают: токен с одним потребителем бесполезен. */
+  --space-16: 16px;    /* 1×   между любыми соседними блоками */
+  --space-24: 24px;    /* 1.5× после выноса и цитаты */
+  --space-32: 32px;    /* 2×   до и после линейки между кейсами в ленте (2026-10-10) */
+  --space-48: 48px;    /* 3×   внутри обложки и после лида */
+  --space-64: 64px;    /* 4×   между разделами и между кейсами */
+
+  /* ПОЛЯ СТРАНИЦЫ — плавные, а не ступенчатые.
+     Модель снята с rafaelcespedes.com: там ширина контейнера —
+     фиксированное число (800px), а всё, что вокруг, выведено
+     из него через clamp(мин, доля, макс). Скачок поля с 30 на 16
+     на пороге заметен глазом; clamp убирает сам скачок. */
+  --page-gutter: clamp(16px, 3.75vw, 60px);   /* 60 с 1600 и шире (макет главной 2026-10-10) */
+}
+
+/* ═══ ТЁМНАЯ ТЕМА — НЕ АКТИВИРОВАНА ═══
+   Значения посчитаны и проверены: контрасты пар совпадают со светлой
+   темой до сотых. Блоки намеренно закомментированы — тёмная тема
+   не проверена на настоящих макетах и логотипах, а на заглушках
+   она даёт серое на сером. Включать только после того, как встанут
+   реальные изображения; тогда раскомментировать оба блока разом,
+   иначе ручной переключатель перебьёт системную настройку только
+   в одну сторону. Подробности в spec-tokens.md.
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --text-primary:     var(--neutral-90);
+    --text-secondary:   var(--neutral-63);
+    --text-inverse:     var(--neutral-6);
+    --bg-page:          var(--neutral-6);
+    --bg-surface:       var(--neutral-12);
+    --bg-inverse:       var(--neutral-90);
+    --bg-inverse-hover: var(--neutral-78);
+    --bg-placeholder:   var(--neutral-22);
+    --border-default:   var(--neutral-25);
+    color-scheme: dark;
   }
-  @media (min-width: 1601px) {
-    .cs-metric {
-      flex: 1 1 0;
-      min-width: 0;
-      max-width: none;
+}
+:root[data-theme="dark"]{
+  --text-primary:     var(--neutral-90);
+  --text-secondary:   var(--neutral-63);
+  --text-inverse:     var(--neutral-6);
+  --bg-page:          var(--neutral-6);
+  --bg-surface:       var(--neutral-12);
+  --bg-inverse:       var(--neutral-90);
+  --bg-inverse-hover: var(--neutral-78);
+  --bg-placeholder:   var(--neutral-22);
+  --border-default:   var(--neutral-25);
+  color-scheme: dark;
+}
+*/
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 20px;   /* интерфейсная ступень; проза и заголовки задают свой */
+  /* ТРЕКИНГА НА BODY НЕТ НАМЕРЕННО. -.012em здесь вычислялся от 14px
+     в −0.168px и наследовался абсолютным числом: 18 элементов на 12px
+     получали −1.4% там, где по правилу ноль. Трекинг задаётся
+     на каждом элементе своим стилем, по наследству не приходит. */
+  -webkit-font-smoothing: antialiased;
+}
+
+.app{
+  /* Макет 2026-10-12 при 1600: поля 60, колонка 360, зазор 60, лист
+     начинается с x=480. Зазор и верхнее поле плавные, как и поля
+     страницы. */
+  max-width: 1680px; margin: 0 auto;
+  padding: max(24px, var(--page-gutter)) var(--page-gutter) 80px;
+  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr);
+  gap: 0 clamp(24px, 3.75vw, 60px);
+  align-items: start;
+}
+
+.skip{
+  position: absolute; left: -9999px; top: 0;
+  background: var(--bg-inverse); color: var(--text-inverse);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  padding: 10px 16px; border-radius: var(--radius-8); z-index: 9; text-decoration: none;
+}
+.skip:focus{ left: 12px; top: 12px; }
+
+/* ═══════════════════ ЛЕВАЯ КОЛОНКА ═══════════════════
+   Порядок один на обеих страницах (макеты 2026-10-12):
+     кто я  →  список кейсов (по центру)  →  резюме и контакты.
+   Колонка липкая, занимает высоту экрана за вычетом полей; резюме
+   и контакты прижаты к нижнему полю. Если контент выше экрана —
+   прокрутка внутри колонки (см. сжатие по высоте в конце файла). */
+.rail{
+  position: sticky; top: max(24px, var(--page-gutter));
+  height: calc(100vh - 2 * max(24px, var(--page-gutter)));
+  height: calc(100dvh - 2 * max(24px, var(--page-gutter)));   /* 100vh на мобильных — не высота экрана */
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 24px;
+  padding: 0;   /* макеты 2026-10-12: аватар на верхнем поле страницы, контакты на нижнем */
+  scrollbar-width: thin;
+}
+
+/* ── кто я ── */
+/* Макеты 2026-10-12: на обеих страницах колонка одинакова — аватар слева,
+   имя и роль справа 16/22 (вес 400), ниже серой строкой сфера и строка
+   про инвестиции. Прежний вариант главной (аватар над именем 24/30) заменён. */
+.me{
+  display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 0 16px;
+  align-items: center; max-width: 320px;   /* ширина текста колонки по макету */
+}
+.me__ava{
+  width: 40px; height: 40px; border-radius: var(--radius-full);
+  background: var(--bg-placeholder); overflow: hidden;
+  display: block;
+}
+.me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
+.me__who{
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-primary); margin: 0;
+}
+.me__who a{ color: inherit; text-decoration: none; display: inline-block; transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.me__who a:hover{ color: var(--text-secondary); }
+/* Сфера и строка про инвестиции — 16/22, серым; акценты «B2B SaaS», «B2C:»,
+   «$7.5M», «100% YoY» — вес 500 и чернила (правка 2026-10-10). */
+.me__span, .me__sum{
+  grid-column: 1 / -1; margin: 16px 0 0;
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-secondary);
+}
+.me__span b, .me__sum b{ font-weight: 500; color: var(--text-primary); }
+
+/* ── действие (резюме) ──
+   Правка совета №3 отменена, и вот почему.
+   Совет исходил из холодного трафика: человек пришёл из поиска,
+   у него нет твоих контактов, поэтому чёрное пятно обязано вести
+   в переписку. Но портфолио уходит вместе с откликом — адресат
+   уже может ответить одним нажатием в своей почте. Ему нужно
+   не «написать», а быстро забрать резюме. Кнопка «Написать»
+   при этом дублировала Telegram и LinkedIn внизу колонки.
+   Поэтому чёрное пятно снова на резюме, а контакты внизу
+   остаются единственным местом, где живут адреса. */
+.act{ display: flex; flex-wrap: wrap; gap: 8px; max-width: 320px; }   /* ширина колонки текста, как у .me и списка кейсов */
+/* кнопка стоит внизу колонки над контактами (макет 2026-10-12) */
+.act a{
+  display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
+  font-size: 14px; font-weight: 400; letter-spacing: -.012em; line-height: 16px;
+  /* макет: высота 32 (8+16+8), радиус 4, поля по бокам 12, без значка */
+  text-decoration: none; border-radius: var(--radius-4); padding: 8px 12px; min-height: 32px;
+  transition: background .18s ease-out;
+}
+.act__cv{ background: var(--bg-inverse); color: var(--text-inverse); flex: 1 1 100%; justify-content: center; }   /* на всю ширину колонки, как интро */
+.act__cv:hover{ background: var(--bg-inverse-hover); }
+.act a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+/* ── низ: контакты ──
+   Строки «Открыта к предложениям» нет: портфолио уходит вместе
+   с откликом, и адресату это уже известно. Статус нужен сайту,
+   который ищут сами; этот — приносят. */
+/* Низ колонки (макеты 2026-10-12): кнопка резюме и контакты одной группой,
+   прижатой к нижнему полю; список кейсов между «кто я» и этой группой
+   стоит по центру (.rail .tree). */
+.rail__foot{ display: grid; gap: 20px; }
+.hire{ display: grid; gap: 8px; }
+.hire__links{ display: grid; gap: 2px; }
+.hire__links a{
+  font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
+  color: var(--text-primary); text-decoration: none;
+  display: inline-flex; gap: 6px; align-items: center; width: fit-content;
+  min-height: 26px;
+}
+.hire__links a{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-11): чернила → приглушённый тон */
+.hire__links a:hover{ color: var(--text-secondary); }
+.hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* неразрывное сочетание в заголовках: «онлайн-сделок» не рвётся по дефису */
+.nw{ white-space: nowrap; }
+/* ЗНАК КЕЙСА В КОЛОНКЕ — квадрат из SVG (в колонке различить четыре кейса
+   нужно до чтения, поэтому он крупный); цвет плашки остаётся запасным,
+   пока файл не загрузился. Вордмарк на главной — `.mark` в index.html. */
+.logo{
+  width: 40px; height: 40px; border-radius: var(--radius-4); flex: none;   /* радиус 4 — макет 2026-10-10, было 12 */
+  background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
+}
+
+[data-brand="design-system"]{ --brand: var(--brand-design-system); --sign: url("/img/logo/DRM.svg"); }
+[data-brand="realdeal"]{ --brand: var(--brand-realdeal); --sign: url("/img/logo/RD.svg"); }
+[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); --sign: url("/img/logo/Cinema.svg"); }
+[data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
+[data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
+
+/* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (обе страницы) ═══
+   ОДНО СОСТОЯНИЕ — ОДНА ПОДЛОЖКА (решение автора 2026-10-12).
+   Карточки кейса и плашка «Все» в покое белые (--bg-surface). При наведении
+   и у текущего пункта подложка — тон страницы (--bg-page, #F0F0F0): карточка
+   «уходит» в фон. Цвет текста не меняется. Так «где я сейчас» и «куда
+   нажму» читаются одним сигналом — подложкой, а не цветом строки. */
+.tree{ display: grid; gap: 8px; }
+/* «Все» — первый пункт списка (макеты 2026-10-12). Белая плашка; при наведении
+   и на главной, где это текущая страница, — тон страницы. Как карточки кейсов. */
+.all{
+  display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+  min-height: 32px; padding: 0 9px 0 10px; border-radius: var(--radius-4);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none;
+  background: var(--bg-surface);
+  transition: background .18s ease-out;
+}
+a.all:hover, .all[aria-current="page"]{ background: var(--bg-page); }
+a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
+.all svg{ width: 12px; height: 12px; flex: none; }
+
+/* свёрнутые — карточки */
+.row--flat{
+  display: block; text-decoration: none;
+  background: var(--bg-surface); border-radius: var(--radius-4); padding: 8px;   /* макет 2026-10-10: радиус 4, карточка 56 */
+  transition: background .18s ease-out;
+}
+/* Четвёртый кейс «Умный дом» — в работе: та же карточка без ссылки,
+   весь блок на 30% (макет 2026-10-10). Нажимать не на что. */
+.row--soon{ opacity: .3; cursor: default; }
+/* разделитель в строках «роль · сфера» — шире пробела, как на макете */
+.sep{ margin: 0 5px; }
+
+/* шапка строки: знак 40 слева, имя и сфера столбиком справа */
+.row__id{
+  display: grid; grid-template-columns: 40px minmax(0,1fr);
+  align-items: center; gap: 12px;
+}
+.row__name{
+  font-size: 16px; font-weight: 400; line-height: 18px;
+  letter-spacing: -.012em; color: var(--text-primary);
+}
+.row--flat{ color: var(--text-primary); }
+/* наведение на карточку — подложка в тон страницы (2026-10-12), текст не
+   меняется. «В работе» не нажимается — подложка остаётся белой. */
+.row--flat:hover{ background: var(--bg-page); }
+.row--soon:hover{ background: var(--bg-surface); }
+.row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
+.row em{
+  display: block; font-style: normal; font-size: 12px; line-height: 16px;
+  letter-spacing: 0; color: var(--text-secondary);
+}
+
+/* ═══ МЕТРИКИ — один компонент на обе страницы ═══ */
+.metrics{
+  display: flex; flex-wrap: wrap; gap: 16px 56px;
+  margin: 0; padding: 0; list-style: none;
+}
+.metrics div{ display: grid; gap: 4px; min-width: 0; }
+.metrics dt{
+  font-size: 24px; font-weight: 400; line-height: 30px;
+  letter-spacing: -.03em; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.metrics dd{
+  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
+}
+
+/* СПИСОК КЕЙСОВ — по центру между «кто я» и низом колонки, карточки до 320
+   (на обеих страницах, макеты 2026-10-12). */
+.rail .tree{ margin-block: auto; max-width: 320px; }
+
+/* ПОРОГ СХЛОПЫВАНИЯ — 800 (ТЗ адаптив 2026-10-10; прежний 1140 заменён).
+   Колонка резиновая, clamp(248, 25vw, 360), и отдаёт пиксели вместе
+   с листом, поэтому сворачивать её раньше 800 незачем: ниже 800
+   колонка оставляла бы листу меньше, чем он получает без неё.
+   Четыре режима: 1141+ — колонка полная; 801–960 — сжатая;
+   800 и ниже — горизонтальная над контентом, в ней только
+   аватар, имя с ролью и кнопка резюме. */
+@media (min-width: 801px) and (max-width: 960px){
+  :root{ --width-rail: clamp(200px, 22vw, 248px); }
+  .app{ gap: 0 24px; }
+  .rail .row__id em{ display: none; }   /* подзаголовки кейсов не влезают */
+  .me__sum{ display: none; }            /* строка про $7.5M не влезает */
+}
+@media (max-width: 800px){
+  .app{ grid-template-columns: 1fr; gap: 28px; }
+  /* горизонтальная колонка не растягивается на всю ширину:
+     строка в 1020px нечитаема, а контента в ней на 426 */
+  /* relative, а не static: метка шапки в конце колонки позиционируется от неё */
+  .rail{ position: relative; top: auto; height: auto; max-height: none; overflow: visible;
+         gap: 20px; max-width: 760px; }
+  .rail__foot{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки 32 */
+  /* уходят: список кейсов с якорями, контакты, строки интро. Другие кейсы
+     и контакты есть внизу страницы (.more, .end, .foot--hire). */
+  .rail .tree, .rail .hire, .me__span, .me__sum{ display: none; }
+}
+/* ЛИПКАЯ ШАПКА — 768 и ниже. Появляется, когда колонка ушла за верхний
+   край; без гамбургера, кнопки «наверх» и зума (решения автора). */
+.topbar{ display: none; }
+@media (max-width: 768px){
+  .topbar{
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; height: 48px; padding: 0 16px;
+    background: color-mix(in srgb, var(--bg-surface) 86%, transparent);
+    backdrop-filter: saturate(1.5) blur(12px);
+    -webkit-backdrop-filter: saturate(1.5) blur(12px);
+    border-bottom: 1px solid var(--border-default);
+    opacity: 0; transform: translateY(-100%); pointer-events: none; visibility: hidden;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .topbar.is-on{ opacity: 1; transform: none; pointer-events: auto; visibility: visible; }
+  .topbar a{
+    font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+    color: var(--text-primary); text-decoration: none; min-height: 26px;
+    display: inline-flex; align-items: center;
+  }
+  .topbar a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
+}
+@media (prefers-reduced-motion: reduce){ .topbar{ transition: none; } }
+/* ТЕЛЕФОН — 480.
+   Лист идёт во всю ширину экрана: поля страницы съедали 32px
+   из 390, то есть десятую часть строки. Замер: с полями проза
+   держит 38 знаков, без них — 44. Норма строки на телефоне
+   35–45 знаков, и 38 — её нижний край.
+   Приём снят с oimachi: на 390 у них боковое поле 7.2px. */
+@media (max-width: 480px){
+  .app{ padding-inline: 0; }
+  /* поля страницы сняты ради ширины строки в листе — значит
+     колонка обязана держать своё поле сама, иначе её карточки
+     и контакты упираются в край экрана */
+  .rail{ padding-inline: 16px; }
+  /* метрики сеткой 2×2: три во flex-wrap ложились «две и одна» (ТЗ адаптив) */
+  .metrics{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
+  /* Кегль метрики здесь не трогается: в ленте он изначально 24,
+     а в кейсе спустился до 24 ещё на пороге 768. Правило, которое
+     стояло на этом месте, ничего не меняло — осталось от прежней
+     шкалы, где метрика была 28. */
+}
+/* КОЛОНКА ПО ВЫСОТЕ ЭКРАНА (2026-10-12). Макет рассчитан на экран ≈1084:
+   «кто я» с интро, список кейсов (на странице кейса с якорями) и резюме
+   с контактами занимают 680–760. Ниже колонка не помещается, и резюме
+   с контактами уезжают за край — это главное действие, его не прячем.
+   Поэтому сначала уходит строка про инвестиции, потом сфера; замер:
+   главная помещается с 805, кейс — с 880 (со строкой сферы). */
+@media (min-width: 801px) and (max-height: 880px){
+  .me__sum{ display: none; }
+}
+@media (min-width: 801px) and (max-height: 800px){
+  .me__span{ display: none; }
+}
+/* порог по высоте — только с 801: ниже колонка уже не липкая */
+@media (min-width: 801px) and (max-height: 720px){
+  .rail{ gap: 18px; }   /* колонка плотнее: прокрутка внутри нужна реже */
+  .rail__foot{ gap: 16px; }
+  .row--flat{ padding-block: 4px; }   /* карточка 48 вместо 56 */
+}
+@media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
+/* <</BASE>> */
+
+/* <<CASE>> */
+/* ═══════════════════════════════════════════════════════════════
+   ТОЛЬКО СТРАНИЦА КЕЙСА — якоря в колонке и зачёркнутые метрики
+   Общее лежит в BASE.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ТЕКУЩИЙ КЕЙС В СПИСКЕ — карточка в тоне страницы (--bg-page), как при
+   наведении на соседние, и с якорями разделов под именем (решение автора
+   2026-10-12). Сверху 8: от плашки «Все» до знака 16; снизу 5 — до следующей
+   карточки ≈ 20 от текста последнего якоря (макет 2026-10-12). */
+.row--open{ padding: 8px 8px 5px; background: var(--bg-page); border-radius: var(--radius-4); }
+
+/* ЯКОРИ ТЕКУЩЕГО КЕЙСА.
+   ПРАВКА СОВЕТА №1: порядок 01 → 02 → 03 — как на странице. На макете
+   2026-10-12 «Мой вклад» стоит первым; оставлен порядок страницы
+   (решение автора). */
+.toc{
+  margin-top: 11px; padding-left: 52px;   /* 40 знак + 12 отбивка = по имени */
+  display: grid; gap: 0;
+}
+.toc a{
+  position: relative; min-height: 22px;   /* шаг 22 по макету 2026-10-12 */
+  display: flex; align-items: center;
+  font-size: 16px; line-height: 22px; letter-spacing: -.012em;
+  color: var(--text-secondary); text-decoration: none;
+  transition: color .18s ease-out;
+}
+/* область нажатия 26, а шаг строк 22: невидимое поле по 2 сверху и снизу */
+.toc a::after{ content: ''; position: absolute; inset: -2px -8px; }
+/* наведение — цвет, без подчёркивания (2026-10-11): серый якорь темнеет */
+.toc a:hover{ color: var(--text-primary); }
+/* активный якорь метится тоном, не весом: весов на сайте два, и 500 занят
+   двумя заголовками. Рельса слева нет (макеты 2026-10-12): активный —
+   чернила, остальные серые. */
+.toc a[aria-current="true"]{ color: var(--text-primary); }
+.toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
+.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
+
+/* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
+   читалась как «60 18» — два числа без отношения между ними. */
+.metrics s{ color: var(--text-secondary); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
+/* зачёркнутое число в текстовом слое читалось слитно:
+   стрелка есть для скринридера и для копирования, но не видна */
+.sr{
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ═══ ПОВЕРХНОСТЬ КЕЙСА ═══ */
+.paper{
+  background: var(--bg-surface); border-radius: var(--radius-8);
+  /* поля листа выведены из ширины экрана так же, как поля страницы */
+  /* макет кейса 2026-10-10: поля листа 20 (было до 40), кадры во всю ширину */
+  padding: 20px 20px 56px;
+}
+
+/* метастрока — самая верхняя строка листа */
+.meta{
+  margin: 0 0 var(--space-32); font-size: 12px; line-height: 16px;
+  letter-spacing: 0; color: var(--text-secondary);
+}
+
+/* логотип продукта и выход к нему.
+   ПРАВКА СОВЕТА №6: до этого в шапке стоял только текст «RealDeal»,
+   и переход по цветному квадрату приводил на страницу без цвета. */
+.top{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px;
+  margin: 0 0 var(--space-32);
+}
+/* вордмарк продукта вместо набранного имени (макет 2026-10-10) */
+.top__logo{ display: block; height: 16px; width: auto; }
+.top__link{
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em; color: var(--text-secondary); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 26px;
+}
+/* стрелка — в сером квадрате 16×16, как на макете */
+.top__link i{
+  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0;
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4); color: var(--text-primary);
+}
+.top__link{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.top__link:hover{ color: var(--text-primary); }
+
+h1.title{
+  font-size: 34px; font-weight: 500; letter-spacing: -.03em; line-height: 38px;
+  color: var(--text-primary); margin: 0 0 var(--space-32); max-width: 620px; text-wrap: balance;
+}
+
+/* ЛИД — АНТИКВА. Засечки в шапке ставятся сюда, а не в заголовок:
+   заголовок обязан совпадать с заголовком того же кейса на главной,
+   иначе один объект получает два лица. Лид в паре с ним свободен
+   и по референсу именно он несёт первую засечку страницы.
+   24 кегль, а не 30: он стоит под заголовком и не должен его перекричать. */
+/* ═══ ВЫДЕЛЕНИЕ В ПРОЗЕ ═══
+   ЧЕРНИЛА, а не цвет продукта. В своде записано: два тона текста и
+   ни одного третьего — чернила для того, что должно выскочить,
+   приглушённый для прозы. Синий был бы третьим тоном и сломал бы
+   правило, которое держит всю страницу.
+
+   У цвета продукта уже есть работа: он метит сам продукт — знак
+   в колонке и подсветку активного якоря. Если тем же цветом метить
+   ещё и результаты, один цвет получает два значения.
+
+   Выделяется только РЕЗУЛЬТАТ — то, что изменилось благодаря решению.
+   Не объём работы (11 интервью, 20+ презентаций, 25+ компонентов),
+   не параметры системы (5 слоёв, 3D, 15 инвесторов) и не «было»
+   (45–60 дней). Иначе выделение перестаёт что-либо значить.
+
+   Жирного нет: вес держит структуру (заголовки, ключи), тон держит
+   смысл. Подчёркивание остаётся признаком ссылки — поэтому выделение
+   никогда не подчёркнуто. */
+.hl{ color: var(--text-primary); }
+
+.lede a{
+  color: inherit; text-decoration: underline; text-decoration-thickness: 1px;
+  text-underline-offset: 5px; text-decoration-color: var(--border-default);
+}
+.lede a:hover{ text-decoration-color: currentColor; }
+.lede{
+  font-family: var(--serif); font-size: 24px; font-weight: 400;
+  line-height: 30px; letter-spacing: -.01em; color: var(--text-primary);
+  margin: 0 0 var(--space-32); text-wrap: pretty;
+}
+
+.paper .metrics{
+  margin: 0 0 var(--space-32); padding: var(--space-32) 0 0;
+  border-top: 1px solid var(--border-default);
+}
+/* РАЗДЕЛЕНИЕ МЕТРИК ПО ТОМУ, НУЖЕН ЛИ ИМ КОНТЕКСТ.
+   Наверху — то, что понятно без чтения: сумма раунда и «первая
+   в стране». Внизу — то, что понятно только после кейса: срок,
+   комиссии, физические шаги. «12+ → 0 шагов» в шапке занимала
+   четверть самого дорогого места и ничего не сообщала.
+
+   Срок повторяется намеренно: наверху сжат до «×3», внизу
+   развёрнут в «45–60 → 12–18». Наверху обещание, внизу откуда оно.
+   ×3 защищается при любой паре: 45→12 это ×3,75, 60→18 это ×3,33.
+
+   Три колонки по 240, а не четыре по 172: на 172 подпись «первая
+   онлайн-сделка с коммерческой недвижимостью в ОАЭ» занимала три
+   строки против двух у соседей, и ряд был рваным по низу. */
+.metrics--top{
+  /* макет 2026-10-10: колонки по содержимому, зазор 84, подпись уже числа */
+  display: flex; flex-wrap: wrap; gap: 20px 84px;
+}
+/* Число и подпись — столбик от верхней линии. Ячейка метрики растягивается
+   на высоту ряда, и без align-content строки сетки делили лишнюю высоту
+   поровну: однострочная подпись уезжала ниже двухстрочных соседей. */
+.paper .metrics > div{ align-content: start; }
+.metrics--top dt{ white-space: nowrap; }
+.metrics--top dd{ max-width: 112px; }
+/* Внутри кейса число крупнее, чем в ленте: на главной метрика стоит
+   в списке из четырёх, здесь — одна. Тот же принцип, по которому
+   заголовок кейса в ленте 24, а на своей странице 34. */
+.paper .metrics dt{ font-size: 34px; line-height: 38px; }
+
+.paper .shot--cover{ margin: 0; }   /* 32 до следующего раздела даёт сам раздел */
+
+/* ИТОГОВЫЕ МЕТРИКИ — тот же компонент, что в шапке.
+   Кейс открывается результатом и закрывается результатом:
+   наверху — чем всё кончилось для бизнеса, внизу — что
+   изменилось в самой сделке. Пересечение одно (срок),
+   и внизу оно дано полным диапазоном.
+   Два в ряд, а не четыре: «45–60 → 12–18» на 26 кегле
+   в четверти полосы разрывается по строкам. */
+.metrics--out{
+  /* макет кейса 2026-10-10: четыре в ряд на 860, колонки по содержимому */
+  display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between;
+  gap: 28px 32px;
+  padding: var(--space-24) 0 0; border-top: 1px solid var(--border-default);
+}
+.metrics--out dt{ white-space: nowrap; }   /* четыре в ряд: число не рвётся (макет 2026-10-10) */
+.metrics--out dd{ max-width: 150px; }
+.metrics--out div:first-child dd{ max-width: none; }
+
+/* ═══ РАСКЛАДКА КОНТЕНТА (мерка снята с oimachi/posts) ═══
+   Два класса блоков, без третьего:
+     проза — колонка 570, выровнена по центру полосы;
+     медиа — во всю ширину полосы.
+   Центрирование, а не прижатие влево: тогда кадр и текст
+   делят одну ось, а не два разных правых края. */
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .sec__label, .paper .tag, .paper .res{
+  max-width: var(--width-prose);
+  margin-left: auto; margin-right: auto;
+}
+
+/* ОБЛОЖКА — по левому краю и шире колонки.
+   Две оси на странице не случайность: верх — это витрина,
+   её читают сканируя слева; всё, что ниже кадра, читают
+   подряд — и там включается центрированная колонка. */
+.paper .top, .paper .meta, .paper .metrics, .paper .metrics--top, .paper .metrics--out, .paper .title{
+  max-width: var(--width-cover); margin-left: 0; margin-right: 0;
+}
+/* макет кейса 2026-10-10: линия и метрики шапки — на всю ширину листа,
+   таблица — 860 по центру */
+.paper .metrics.metrics--top{ max-width: none; }
+.paper .metrics.metrics--out{
+  max-width: var(--width-wide); margin-left: auto; margin-right: auto;
+  /* линии над итоговыми метриками на макете нет — над ними уже линия
+     последней строки таблицы (макет кейса 2026-10-10) */
+  border-top: 0; padding-top: var(--space-16);
+}
+.paper .tbl{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+/* ВЫНОС ЖИВЁТ В КОЛОНКЕ ПРОЗЫ, а не в полосе.
+   Пробовали полосу 760: там Literata 34 даёт 37 знаков в строке
+   против 28 в колонке. Но вынос при этом заводил третий левый
+   край на странице и вопрос «почему этот блок шире соседних».
+   Решение: вынос — тот же текст, набранный крупнее, а не другой
+   блок. Одна ширина с прозой, отличие несёт только кегль. */
+/* лид держит ширину полосы: на 24 кегле Literata это 56 знаков
+   в строке — внутри нормы для крупного кегля. Отдельного числа
+   под лид нет, ширин на странице три, а не четыре. */
+.paper .lede{ max-width: 800px; margin-left: 0; margin-right: 0; }   .paper .lede{ margin-left: 0; margin-right: 0; }
+.paper .top{ max-width: none; }
+
+/* единый ритм: один и тот же промежуток между всеми блоками.
+   Над заголовком не больше, чем под ним — иерархию держат
+   кегль, вес и цвет, а не пустота. */
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .res, .paper .shot, .paper .shots2, .paper .shots-lead, .paper .tbl{
+  margin-top: 0; margin-bottom: var(--space-16);
+}
+/* 1.5r после выноса — единственное исключение в ритме */
+.paper .quote, .paper .res{ margin-bottom: var(--space-24); }
+
+/* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
+   Замер oimachi: 54 блока, антиквой набраны 7 — 13%.
+   Акцент работает потому, что это чужая гарнитура среди своей:
+   крупная антиква посреди антиквы остаётся той же фактурой.
+   Здесь вынос несёт суждение — фразу, где принято решение;
+   результаты уже стоят в заголовках. */
+
+.paper .sec > *:last-child{ margin-bottom: 0; }
+
+/* РИТМ ВНУТРИ ЛИСТА — правило автора 2026-10-10:
+   между блоками 32, внутри текста 16. Делается отступом сверху от
+   предыдущего соседа, а не снизу у каждого блока: так не бывает
+   двойных промежутков и не надо помнить исключения.
+   Исключения только два: ярлык «Решение N» и его заголовок — одна
+   пара (6), и заголовок с его текстом — 16, как строки внутри текста. */
+.paper .shot--cover{ margin-bottom: 0; }   /* до первого раздела 32 даёт сам раздел */
+.paper .sec > *{ margin-top: 0; margin-bottom: 0; }
+.paper .sec > * + *{ margin-top: var(--space-32); }
+.paper .sec > .tag + h3{ margin-top: 6px; }
+.paper .sec > h3 + .t, .paper .sec > h3 + ul.list, .paper .sec > .t + .t{ margin-top: var(--space-16); }
+
+/* ═══ РАЗДЕЛЫ ═══ */
+.sec{ padding-top: var(--space-32); scroll-margin-top: 24px; }   /* макет 2026-10-10: между разделами 32, было 64 */
+.sec__label{
+  font-size: 12px; font-weight: 400; letter-spacing: 0; line-height: 16px;
+  color: var(--text-secondary); margin: 0 auto var(--space-16);
+  padding-bottom: 10px; border-bottom: 1px solid var(--border-default);
+}
+/* Метка раздела — теперь <h2>: структура документа должна
+   совпадать с тем, что видит глаз. Общий стиль h2 перебиваем. */
+.paper h2.sec__label{
+  font-size: 12px; line-height: 16px; font-weight: 400;
+  letter-spacing: 0; color: var(--text-secondary); text-wrap: wrap;
+}
+
+/* Ярлык решения — та же ступень, что метка раздела, но без линейки:
+   четыре слова дают структуру раздела с одного взгляда.
+   В оригинале это была нумерация «1. Стратегия», и она работала. */
+.paper .tag{ margin-bottom: 6px; }
+.tag{
+  font-size: 12px; font-weight: 400; letter-spacing: 0; line-height: 16px;
+  color: var(--text-secondary); margin: 0 auto 6px;
+}
+
+h2{
+  font-size: 24px; font-weight: 500; letter-spacing: -.03em; line-height: 30px;
+  text-wrap: balance;
+}
+h3{
+  /* вес и тон на одном кегле с прозой не держат разницу:
+     заголовки решений стоят на 24 — ступень выше тела */
+  font-family: var(--sans); font-size: 24px; font-weight: 500;
+  letter-spacing: -.03em; line-height: 30px; color: var(--text-primary);
+}
+
+.t{
+  /* ТЕЛО — АНТИКВА. Замер rafaelcespedes.com/Nucleus:
+     тело модалки Newsreader 15.12/19.66 вес 300, сто процентов
+     блоков антиквой; гротеск живёт только на главной.
+     То есть у него не «антиква как акцент», а два регистра:
+     главная сканируется гротеском, кейс читается антиквой.
+
+     Здесь взят тот же принцип, но проза и структура разведены:
+     всё, на что падает глаз при сканировании — заголовки, метки,
+     метрики, подписи, трейдоффы — осталось гротеском. Антиквой
+     набрано только то, что читают подряд. Рекрутер сканирует
+     гротеск, дизайн-лид читает антикву, и им не мешает друг другу. */
+  font-family: var(--serif); font-size: 16px; font-weight: 400;
+  line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
+}
+.t:last-child{ margin-bottom: 0; }
+/* «Контекст.», «Решение.», «Результат.» и выводы в списках —
+   это структура внутри прозы, а не сама проза. Поэтому гротеск
+   и вес 500, а не заливка: маркер поверх строки резал верхние
+   выносные и читался как след маркера на бумаге. */
+/* выделение внутри антиквенной прозы — той же гарнитурой:
+   гротеск в 15 кегле посреди антиквы читался как вставка из
+   другого документа, а это просто ударное слово. */
+.t b, ul.list b{
+  font-family: var(--serif); font-weight: 400; color: var(--text-primary);
+}
+
+ul.list{
+  font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
+  padding-left: 22px;
+}
+ul.list li{ margin-bottom: 4px; }
+ul.list li::marker{ color: var(--text-secondary); }
+
+
+/* цитата */
+/* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
+   У oimachi крупная антиква — не один лид, а приём, который
+   возвращается по тексту. Здесь он несёт суждение — фразу,
+   где принято решение. Результаты уже стоят в заголовках,
+   поэтому вынос не дублирует их, а добавляет то, что может
+   сказать только автор. */
+.quote{
+  font-family: var(--serif); font-size: 34px; font-style: normal; line-height: 38px;
+  letter-spacing: -.01em; color: var(--text-primary); padding: 8px 0; border: 0; text-wrap: pretty;
+}
+.quote footer{
+  font-family: var(--sans); font-style: normal; font-size: 12px; line-height: 16px;
+  color: var(--text-secondary); margin-top: 12px; letter-spacing: 0;
+}
+
+/* путь пользователя */
+.flow{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+}
+.flow span{
+  /* чип 8+16+8 = 32: ровно 4× и 25% к --radius-8. Поле по горизонтали
+     12, а не 16: пять чипов со стрелками держатся в колонке 570 одной
+     строкой, 16 добавляет 40px и ломает строку */
+  padding: 8px 12px; background: var(--bg-placeholder); border-radius: var(--radius-8); white-space: nowrap;
+}
+.flow i{ font-style: normal; color: var(--text-secondary); font-size: 12px; line-height: 16px; letter-spacing: 0; }
+
+/* ДРУГИЕ КЕЙСЫ В КОНЦЕ — только там, где колонка не липкая.
+   Ниже 800 список кейсов уезжает на самый верх страницы (и из колонки
+   убирается совсем): дочитавший до рефлексии оказывается в 11 000
+   пикселей от него. Пока колонка сбоку, блок не нужен. */
+.more{ display: none; }
+@media (max-width: 800px){
+  .more{ display: block; margin-top: var(--space-64); }
+  .more__t{
+    margin: 0 0 12px; font-size: 12px; line-height: 16px;
+    letter-spacing: 0; color: var(--text-secondary);
+  }
+  .more .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+}
+
+/* ═══ МАКЕТЫ ═══ */
+.shot{ margin: 0; }
+.shot__frame{
+  /* СОСТОЯНИЕ ЗАГРУЗКИ — полноценное состояние, его видит каждый.
+     Заливка без рамки: два сигнала одной границы — грязь.
+     Тон 90, а не 95: на белом листе 95 читается как пустота,
+     а место под картинку должно читаться как занятое. */
+  border-radius: var(--radius-8); aspect-ratio: 16/9;
+  width: 100%;
+  /* МАКЕТЫ ПОСТАВЛЕНЫ (ТЗ вставки, 2026-10-10). Файл приходит с прозрачным
+     полем нужной пропорции, и цвет поля даёт плашка: --bg-page = #F0F0F0.
+     Поэтому состояние загрузки теперь тот же тон, что поле готового
+     кадра — вспышки другого серого при загрузке нет. Пропорция —
+     из файла, инлайном на элементе; класс-модификаторы остались
+     запасными. Ни поля страницы, ни тени, ни кадрирования. */
+  background: var(--bg-page); overflow: hidden;
+}
+/* Подпись «Демо» / «MVP» стоит НАД кадром (2026-10-11), не под ним. */
+.shot__cap.shot__cap--top{ margin: 0 0 8px; }   /* 8, как от схемы до её подписи; .shot__cap объявлен ниже — поэтому двойной класс */
+.shot__frame picture{ display: block; width: 100%; height: 100%; }
+.shot__frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
+/* сплошная подложка кадров-полос с графиками, запросом на сделку и
+   дашбордом — #1268EC по макету кейса 2026-10-10; карты и пары — серые */
+.shot__frame--accent{ background: var(--brand-realdeal-accent); }
+
+/* схема пути: 860 по центру листа (макет 2026-10-10) */
+.paper .shot--wide{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+.paper .shot--wide .shot__cap{ margin-left: 0; }
+.flow--text{ display: none; }
+.flow span small{
+  display: block; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
+}
+@media (max-width: 620px){
+  .flow-img{ display: none; }
+  .flow--text{ display: flex; }
+}
+/* Подписи несут смысл, а не служебную роль: когда макеты станут
+   настоящими, подпись — единственное, что объясняет кадр.
+   Кегль 12 — общий для всех служебных строк страницы; отличие
+   подписи несут отбивка 8px и положение под кадром, а не свой размер. */
+.shot__cap{
+  font-size: 12px; font-weight: 400; line-height: 16px; color: var(--text-secondary);
+  margin: 8px 0 0; letter-spacing: 0;
+}
+.shots2{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* ТРИ ЭКРАНА В РЯД — по 293px на штуку: десктопный интерфейс
+   в таком размере превращается в пятно. Стало: главный экран
+   во всю полосу, два сопутствующих парой под ним. */
+.shots-lead{ display: grid; gap: 20px; }
+.shots-lead__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.shots-lead .shot{ margin: 0; }
+.shots-lead > .shot .shot__frame{ aspect-ratio: 16/9; }
+.shots-lead__pair .shot__frame{ aspect-ratio: 4/3; }
+
+.shots2 .shot__frame{ aspect-ratio: 4/3; }
+
+
+/* ВЫНОС НЕСЁТ РЕЗУЛЬТАТ
+   Прежде крупной антиквой был набран трейдофф. Теперь — результат
+   решения, и это смена адресата: трейдофф читает дизайн-лид,
+   результат читают оба. Самое крупное в прозе достаётся тому,
+   что должно дойти и до того, кто не дочитает.
+
+   Трейдофф при этом не исчез — он стал рядовым абзацем
+   с чернильным ярлыком. Это честно: он остаётся в тексте
+   для того, кто читает подряд, и не отнимает внимания у того,
+   кто сканирует.
+
+   Ярлык набран как метка раздела: структура гротеском,
+   высказывание антиквой. Кавычек нет — они признак цитаты. */
+.res{
+  display: grid; grid-template-columns: minmax(0,1fr); gap: 8px;
+  align-items: start; padding: 0; border: 0;
+}
+.res b{
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
+  text-transform: none; white-space: normal;
+}
+.res span{
+  font-family: var(--serif); font-size: 34px; font-weight: 400;
+  line-height: 38px; letter-spacing: -.01em; color: var(--text-primary);
+  text-wrap: pretty;
+}
+
+/* Зачёркивание — визуальный слой. В текстовом слое метрика
+   читалась как «6018»: так её получал скринридер, поисковик
+   и любой, кто копирует цифру в письмо. Стрелка живёт рядом,
+   но не видна глазу. */
+/* .sr объявлен в общей основе — здесь не повторяется */
+
+
+/* ═══ ТАБЛИЦА ЭТАПОВ ═══
+   Три колонки в строку, как в оригинале на codedesign.ru.
+   Карточками было хуже: три равных прямоугольника читаются как
+   три равнозначных блока, а здесь есть порядок — демо, раунд A,
+   сейчас. Строка задаёт последовательность, карточка нет.
+   Живёт в полосе 760: три колонки в 570 не помещаются. */
+.tbl{ display: grid; gap: 0; border-top: 1px solid var(--border-default); }
+.tbl > div{
+  display: grid; grid-template-columns: 116px 84px minmax(0,1fr); gap: 20px;
+  padding: 14px 0; border-bottom: 1px solid var(--border-default); align-items: baseline;
+}
+.tbl__head{ color: var(--text-secondary); font-size: 16px; line-height: 18px; letter-spacing: -.012em;
+            padding-bottom: 12px !important; }   /* макет 2026-10-10: линия под шапкой — обычная, шапка 16 */
+.tbl{ border-top: 0; }
+.tbl .k{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary); }
+.tbl .v{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary);
+         font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* таблица результата: 860 = 140+20+220+20+460, макет кейса 2026-10-10.
+   Колонки в долях, а не в пикселях (2026-10-12): с зазорами 20 доли 140:220:460
+   дают ровно эти числа на 860, а на узком листе сжимаются все три вместе —
+   раньше сжималась одна «резиновая», фиксированные стояли как были. */
+.tbl:not(.tbl--find) > div{ grid-template-columns: minmax(0,140fr) minmax(136px,220fr) minmax(0,460fr); }   /* 136 — ширина «Спроектировано» (nowrap): общий пол одинаков во всех строках, колонки не расходятся */
+.tbl p{ font-family: var(--serif); font-size: 16px; line-height: 24px;
+        letter-spacing: 0; color: var(--text-secondary); margin: 0; }
+/* Находки: три шага пути, что мешает, что я сделала.
+   Две колонки прозы равны — барьер и ответ читаются парой. */
+.tbl--find{ border-top: 0; }
+.tbl--find > div{ grid-template-columns: minmax(0,150fr) minmax(0,370fr) minmax(0,300fr); }   /* 860 = 150+20+370+20+300, макет 2026-10-10; доли — см. выше */
+.tbl--find p + p{ color: var(--text-primary); }
+@media (max-width: 620px){
+  .tbl > div, .tbl:not(.tbl--find) > div{ grid-template-columns: minmax(0,1fr) auto; gap: 4px 16px; }
+  .tbl p{ grid-column: 1 / -1; }
+  .tbl > .tbl__head{ display: none; }
+  .tbl--find > div{ grid-template-columns: minmax(0,1fr); }
+  .tbl--find p + p::before{ content: '→ '; color: var(--text-secondary); }
+}
+
+
+/* ═══ ОБЩЕЕ ДЛЯ КЕЙСОВ С «ДО / ПОСЛЕ» (из kino-i-tv.html, 2026-10-13) ═══ */
+
+/* ДО И ПОСЛЕ — таблица, как у RealDeal («Шаг / Боль / Гипотеза»): общий
+   компонент .tbl (860 по центру, шапка, линии между строками), здесь две
+   равные колонки без ключевого столбца. Правая («после») — чернила, левая
+   серая: как «Гипотеза» против «Боли». Числа внутри — гарнитура прозы,
+   вес 400, чернила. На ≤620 шапка скрыта, и каждая ячейка получает свою
+   метку (data-l) над текстом: колонки встают друг под друга. */
+.tbl--cmp > div, .tbl.tbl--cmp > div{ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.tbl--cmp p + p{ color: var(--text-primary); }
+.tbl--cmp p b{ font-weight: 400; color: var(--text-primary); }
+@media (max-width: 620px){
+  .tbl--cmp > div, .tbl.tbl--cmp > div{ grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .tbl--cmp p::before{
+    content: attr(data-l); display: block; margin-bottom: 2px;
+    font-family: var(--sans); font-size: 12px; line-height: 16px; letter-spacing: 0;
+    color: var(--text-secondary);
+  }
+}
+
+/* ГРУППА С ОДНОЙ МЕТКОЙ — «До» / «После» в блоке «Регистрация и вход».
+   Группа — один блок ритма листа (32 до и после); внутри метка отстоит
+   от кадров на 8, как у одиночных кадров, а лишних 16 в конце нет. */
+.paper .grp > *:last-child{ margin-bottom: 0; }
+
+
+
+/* низ */
+/* ═══ КОНЕЦ КЕЙСА ═══
+   ПОКАЗЫВАЕТСЯ ТОЛЬКО ТАМ, ГДЕ КОЛОНКА НЕ ЛИПКАЯ.
+   На широком экране Telegram и LinkedIn видны в левой колонке
+   ровно в тот момент, когда человек дочитал, — блок внизу был
+   бы их точной копией. На узком колонка статична и давно уехала
+   вверх, и тогда это единственный выход со страницы.
+   Один и тот же блок бывает дубликатом и единственным выходом —
+   зависит не от него, а от того, виден ли сейчас сайдбар.
+
+   ССЫЛКА НА ПРОДУКТ видна всегда: кто дочитал до конца, не должен
+   возвращаться за ней в шапку. Это не дубликат, а второй вход
+   в один продукт с разных концов текста.
+
+   КОНТАКТЫ показываются только там, где колонка не липкая.
+   На широком экране Telegram и LinkedIn видны слева ровно в тот
+   момент, когда человек дочитал, — блок внизу был бы их копией.
+   На узком колонка статична и давно уехала вверх, и тогда это
+   единственный выход со страницы. */
+.foot{
+  display: grid;
+  margin-top: var(--space-32); padding-top: var(--space-32);   /* 32 до линии и после (правило ритма 2026-10-10) */
+  border-top: 1px solid var(--border-default);
+  max-width: var(--width-prose); margin-left: auto; margin-right: auto;
+  gap: var(--space-16);
+}
+.foot__site{
+  font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-secondary); text-decoration: none;   /* в покое серая, как в шапке: так велела автор 2026-10-11 (на макете была чёрной) */
+  display: inline-flex; gap: 8px; align-items: center;
+  min-height: 26px; width: fit-content;
+}
+.foot__site{ transition: color .18s ease-out; }
+.foot__site:hover{ color: var(--text-primary); }   /* серый → чёрный, как «Сайт продукта» в шапке (2026-10-11) */
+.foot__site i{
+  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4);   /* как в шапке, макет 2026-10-10 */
+}
+.foot--hire{ display: none; margin-top: var(--space-48); }
+/* порог см. ниже: 1140 */
+.foot__ask{ margin: 0; font-size: 24px; font-weight: 500; line-height: 30px;
+            letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
+.foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
+.foot__row a{
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;   /* контакты 16/22, как в колонке */
+  color: var(--text-primary); text-decoration: none;
+  display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
+}
+.foot__row a{ transition: color .18s ease-out; }
+.foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
+.foot__row i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
+.foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
+
+a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* С клавиатуры до текста кейса было десять табов по сайдбару */
+
+
+/* Контакты внизу появляются ровно там, где колонка перестаёт
+   быть липкой, — на 1140, а не на 1080. Прежний разрыв в 60px
+   оставлял полосу, где сайдбар уже уехал вверх, а выхода
+   со страницы внизу ещё не было. */
+@media (max-width: 800px){
+  .foot--hire{ display: grid; }
+}
+/* ═══ УЗКИЙ ЭКРАН — 768 ═══
+   Здесь меняются кегли, а не раскладка. На узкой полосе заголовок
+   на 34 кегле занимает три строки, а вынос даёт рваные 19–24 знака
+   в строке. Одно правило на весь порог: всё, что набрано 34,
+   спускается на 24 — следующую ступень той же шкалы. Новых чисел нет. */
+@media (max-width: 768px){
+  h1.title{ font-size: 24px; line-height: 30px; }
+  .quote, .res span{ font-size: 24px; line-height: 30px; }
+  .paper .metrics dt{ font-size: 24px; line-height: 30px; }
+  .metrics--top{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .sec{ scroll-margin-top: 60px; }   /* ниже 768 сверху липкая шапка 48 — якорь не уезжает под неё */
+}
+
+/* ═══ ТЕЛЕФОН — 480 ═══
+   Здесь меняется раскладка: всё, что стояло в два и три столбца,
+   встаёт в один. Лист теряет поля страницы и радиус: на 390
+   рамка вокруг листа съедала десятую часть строки и ничего
+   не сообщала. */
+@media (max-width: 480px){
+  .paper{ border-radius: 0; padding: 24px 16px 40px; }
+  /* balance выравнивает строки по длине и на узком экране растягивает
+     заголовок с трёх строк до четырёх по 16 знаков. Здесь важнее
+     набить строки, чем выровнять их. */
+  h1.title{ text-wrap: pretty; }
+  /* метрики 2×2 (ТЗ адаптив): три во flex-wrap ложились «две и одна» */
+  .metrics--top, .metrics--out{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
     }
+
+/* Пары кадров — в столбец с 620 (ТЗ адаптив 2026-10-10); полосы остаются полосами. */
+@media (max-width: 620px){
+  .shots2, .shots-lead__pair{ grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
+/* <</CASE>> */
+
+/* ═══ ТОЛЬКО ВТОРОЙ ЭКРАН ═══ */
+
+/* ВОРДМАРК В ШАПКЕ. Файл SS 2.svg 151×17 без полей: высота 17 даёт
+   видимый знак ≈ 16–17, как у вордмарка RealDeal; полей гасить не нужно. */
+.top__logo{ height: 17px; width: auto; }
+
+/* СПРАВКА ПО ОПРОСУ — общий компонент .tbl--refs из кейса дизайн-системы:
+   одна строка — «число — расшифровка», без шапки. Число — чернила, как
+   имя сервиса там. */
+.paper .tbl--refs{ max-width: var(--width-prose); border-top: 1px solid var(--border-default); }
+.tbl--refs > div, .tbl.tbl--refs > div{ grid-template-columns: minmax(0, 1fr); }
+.tbl--refs p b{ font-weight: 400; color: var(--text-primary); }
+
+/* Слово с дефисом не рвётся. */
+.nw{ white-space: nowrap; }
+
+/* Кадры внутри пары и группы не несут своего нижнего отступа: зазор
+   между ними задаёт сетка (20), нижний отступ группе даёт ритм листа. */
+.shots2 .shot, .shots-lead .shot{ margin: 0; }
+.paper .grp > .shots2, .paper .grp > .shots-lead{ margin-bottom: 0; }
+.paper .grp > .shots2 + .shot, .paper .grp > .shot + .shots2{ margin-top: 20px; }
+
+/* ПОДЛОЖКА КАДРОВ — сплошная, от темы не зависит: прозрачное поле в файлах
+   окрашивает плашка (запрос автора 2026-10-20). #668CFF — обложка и тёмная
+   тема; #E9EEFB — светлые Android-экраны (MVP, «до»); #3366FF — «после»
+   и два кадра iOS-телегида. Остальные (в т.ч. «Сервисы») — на --bg-page, #F0F0F0. */
+.shot__frame--ss{ background: var(--brand-second-screen-field); }
+.shot__frame--ss-soft{ background: var(--brand-second-screen-field-soft); }
+.shot__frame--ss-deep{ background: var(--brand-second-screen-field-deep); }
+
+/* ДО / ПОСЛЕ — файлы разной высоты (2140×3120 и 2140×3364): каждая плашка
+   держит пропорцию своего файла, пара стоит по верхней линии. */
+.shots2--ba{ align-items: start; }
+
+/* ЧЕТЫРЕ МЕТРИКИ В ШАПКЕ — как у «Кино и ТВ»: на ≤768 сетка 2×2. */
+.metrics--top dd{ text-wrap: balance; }
+@media (max-width: 768px){
+  .metrics--top{
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px;
   }
-  @media (max-width: 760px) {
-    .cs-metric {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-  }
+}
+
+/* ИТОГОВЫЕ МЕТРИКИ — два ряда: бизнес и опрос. Общий .metrics--out
+   рассчитан на четыре колонки; два и три значения занимают столько
+   колонок, сколько есть. Ниже 608 общая сетка 2×N уже подходит. */
+.metrics--n2{ grid-template-columns: repeat(2, auto); justify-content: start; gap: 28px 84px; }
+.metrics--n3{ grid-template-columns: repeat(3, auto); }
+.metrics--out + .t{ margin-top: var(--space-32); }
+.metrics--out + .tbl, .metrics--out + .metrics--out{ margin-top: var(--space-32); }
+@media (max-width: 608px){
+  .metrics--n2, .metrics--n3{ grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
+}
+
+/* ПОДВАЛ — три ссылки на сторы в строку, как у «Кино и ТВ». */
+.foot--links{ display: flex; flex-wrap: wrap; gap: 10px 24px; }
 </style>
 </head>
+
+
 <body>
 
-<a href="index.html" class="cs-close">Закрыть</a>
+<a class="skip" href="#case">К тексту кейса</a>
 
-<div class="page">
+<header class="topbar">
+  <a href="/">Задорожная Екатерина</a>
+  <a href="/CV.pdf" download>Резюме ↓</a>
+</header>
 
-  <!-- LEFT — case nav -->
-  <aside class="left">
-    <div class="cs-left">
-      <a href="index.html" class="cs-left__identity" id="heroText">
-        <div class="cs-left__name">Задорожная Екатерина</div>
-        <div class="cs-left__role">Senior Product Designer</div>
-      </a>
-      <nav class="cs-left__nav" aria-label="Разделы">
-        <a href="#problem" class="cs-nav__link">Проблема и&nbsp;контекст</a>
-        <a href="#contribution" class="cs-nav__link">Мой вклад</a>
-        <a href="#result" class="cs-nav__link">Результат и&nbsp;рефлексия</a>
-      </nav>
-      <div class="intro__social">
-        <span class="intro__social-label">Связаться</span>
-        <div class="intro__social-btns">
-          <a href="https://t.me/zador_ka" target="_blank" rel="noopener" class="btn-icon" aria-label="Telegram"><img src="images/icons/telegram.svg" width="24" height="24" alt=""></a>
-          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener" class="btn-icon" aria-label="LinkedIn"><img src="images/icons/linkedin.svg" width="24" height="24" alt=""></a>
+<div class="app app--case">
+
+  <!-- ═══ ЛИПКАЯ КОЛОНКА ═══ -->
+  <aside class="rail">
+<!-- <<RAIL_HEAD>> -->
+    <!-- КТО Я — одинаково на главной и внутренней (макеты 2026-10-12) -->
+    <div class="me">
+      <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
+      <p class="me__who"><a href="/">Задорожная Екатерина —<br>Senior Product Designer.</a></p>
+      <p class="me__span">8 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C:</b> PropTech, Streaming&nbsp;TV, дизайн-системы.</p>
+      <p class="me__sum"><b>$7.5M</b> инвестиций и рост аудитории <b>100% YoY</b> — на продуктах, которые я&nbsp;вела.</p>
+    </div>
+<!-- <</RAIL_HEAD>> -->
+
+<!-- <<CASE_TREE>> -->
+    <nav class="tree" aria-label="Кейсы">
+      <a class="all" href="/"><svg viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="1.5" cy="1.5" r="1.1"/><circle cx="6" cy="1.5" r="1.1"/><circle cx="10.5" cy="1.5" r="1.1"/><circle cx="1.5" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="10.5" cy="6" r="1.1"/><circle cx="1.5" cy="10.5" r="1.1"/><circle cx="6" cy="10.5" r="1.1"/><circle cx="10.5" cy="10.5" r="1.1"/></svg>Все</a>
+      <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <div class="row row--open" data-brand="second-screen" aria-current="page">
+        <span class="row__id"><span class="logo" aria-hidden="true"></span>
+        <span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span>
+        <span class="toc"><a href="#problem">Проблема</a><a href="#work">Мой вклад</a><a href="#result">Результат</a></span>
+      </div>
+      <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+      <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
+    </nav>
+<!-- <</CASE_TREE>> -->
+
+<!-- <<RAIL_FOOT>> -->
+    <!-- НИЗ — резюме и контакты одной группой, одинаково на обеих страницах.
+         Подпись «Linkedin» — как на макете 2026-10-12. -->
+    <div class="rail__foot">
+      <div class="act">
+        <a class="act__cv" href="https://codedesign.ru/CV.pdf" download>Резюме — PDF</a>
+      </div>
+      <div class="hire">
+        <div class="hire__links">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
         </div>
       </div>
     </div>
+<!-- <</RAIL_FOOT>> -->
   </aside>
 
-  <!-- RIGHT — case study -->
-  <main class="right">
+  <!-- ═══ ПОВЕРХНОСТЬ КЕЙСА ═══ -->
+  <main class="paper" id="case" tabindex="-1">
 
-    <!-- Title, tags, intro — max 800px -->
-    <div class="cs-content">
-      <h1 class="cs-title">MVP за&nbsp;4 месяца:<br>цена скорости<br>и&nbsp;чужого видения</h1>
+    <p class="meta">Senior Product Designer <span class="sep">·</span> B2C <span class="sep">·</span> Mobile iOS + Android <span class="sep">·</span> Цифровое ТВ <span class="sep">·</span> С нуля до двух релизов</p>
 
-      <div class="cs-tags">
-        <span class="cs-tag--dark">Senior Product Designer</span>
-        <span>B2C</span>
-        <span>Mobile iOS&nbsp;+&nbsp;Android</span>
-        <span>Цифровое ТВ</span>
-        <span>с&nbsp;нуля до&nbsp;MVP</span>
-      </div>
-
-      <p class="cs-intro">Триколор, один из&nbsp;крупнейших спутниковых операторов России (12,3 млн абонентов), заказал у&nbsp;GS Labs мобильное приложение <a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&hl=ru" target="_blank" rel="noopener" class="cs-intro__link">«Второй экран»</a>: персональное управление ТВ с&nbsp;телефона. Я&nbsp;спроектировала продукт с&nbsp;нуля: расписание передач, трансляцию спутникового ТВ на&nbsp;телефон, запись, напоминания, голосовое управление, офлайн-режим.</p>
+    <div class="top">
+      <img class="top__logo" src="/img/logo/SS%202.svg" alt="Второй экран" width="151" height="17">
+      <a class="top__link" href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&amp;hl=ru" target="_blank" rel="noopener">Google Play <i>↗</i></a>
     </div>
 
-    <!-- Metrics — wider than 800px -->
-    <div class="cs-metrics">
-      <div class="cs-metric">
-        <div class="cs-metric__value">330K+</div>
-        <div class="cs-metric__label">активных<br>пользователей</div>
+    <h1 class="title">12,3&nbsp;млн абонентов не могли управлять ТВ с&nbsp;телефона. MVP за&nbsp;4&nbsp;месяца</h1>
+
+    <p class="lede">Триколор, один из крупнейших спутниковых операторов России (12,3&nbsp;млн абонентов), заказал у GS&nbsp;Labs мобильное приложение <a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&amp;hl=ru" target="_blank" rel="noopener">«Второй экран»</a>: персональное управление ТВ с телефона. Я проектировала продукт с нуля: расписание передач, трансляцию спутникового ТВ на телефон, запись, напоминания, голосовое управление, офлайн-режим.</p>
+
+    <dl class="metrics metrics--top">
+      <div><dt>330K+</dt><dd>активных пользователей</dd></div>
+      <div><dt>188K</dt><dd>подписчиков</dd></div>
+      <div><dt>4 мес.</dt><dd>Android MVP в сторе</dd></div>
+      <div><dt>TV</dt><dd>на базе мобайла начали ТВ-приложение</dd></div>
+    </dl>
+
+    <!-- КАДРЫ — img/ss/ и img/home/ss_cover (PNG из Figma + WebP без потерь + 960/1920).
+         Пропорция — по файлу, инлайном на плашке; поле в файлах прозрачное,
+         цвет даёт плашка (--bg-page). Подпись обложке не нужна: она
+         показывает, а не доказывает. -->
+    <figure class="shot shot--cover">
+      <div class="shot__frame shot__frame--ss" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/home/960/ss_cover.webp 960w, /img/home/1920/ss_cover.webp 1920w, /img/home/ss_cover.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/home/ss_cover.png" width="3200" height="1800" alt="Телевизор с идущей передачей и телефон с карточкой той же передачи" fetchpriority="high"></picture></div>
+    </figure>
+
+    <!-- ── ПРОБЛЕМА И КОНТЕКСТ ── -->
+    <section class="sec" id="problem">
+      <h2 class="sec__label">Проблема</h2>
+
+      <h3>У абонентов была приставка, но не было способа управлять ТВ с телефона</h3>
+
+      <p class="t">В 2022 году у НТВ-Плюс, МТС и Телекарты уже были мобильные приложения для управления ТВ. У Триколора — нет. Телефон не был связан с приставкой, персонализация не работала на общем телевизоре, абоненты пропускали нужные передачи. Триколор проигрывал конкурентам и терял точку контакта между сеансами у телевизора.</p>
+
+      <p class="t">Триколор передал данные своего исследования: чем абоненты заняты у телевизора и чего им не хватает.</p>
+
+      <!-- СПРАВКА — тот же компонент, что список сервисов в кейсе
+           дизайн-системы: четыре числа сканируют, а не читают. -->
+      <div class="tbl tbl--refs">
+        <div><p><b>63%</b> регулярно проверяют расписание на телефоне</p></div>
+        <div><p><b>51%</b> не хватало удобного поиска по программе передач</p></div>
+        <div><p><b>44%</b> хотели составлять списки и ставить напоминания</p></div>
+        <div><p><b>40%</b> ждали персональных рекомендаций</p></div>
       </div>
-      <div class="cs-metric">
-        <div class="cs-metric__value">4 мес.</div>
-        <div class="cs-metric__label">Android MVP<br>в&nbsp;сторе</div>
-      </div>
-      <div class="cs-metric">
-        <div class="cs-metric__value">~1 год</div>
-        <div class="cs-metric__label">от&nbsp;идеи до&nbsp;второго<br>релиза</div>
-      </div>
-      <div class="cs-metric">
-        <div class="cs-metric__value">TV</div>
-        <div class="cs-metric__label">мобайл лёг<br>в&nbsp;основу ТВ-приложения</div>
-      </div>
-    </div>
 
-    <!-- Cover image — wider than 800px -->
-    <div class="cs-imgs">
-      <img src="images/ss-cover.webp" alt="Второй экран — мобильное приложение Триколор">
-    </div>
+      <p class="t"><b>Задача.</b> Удержать абонентов, которых нельзя было удержать через телевизор: связать телефон с приставкой и дать каждому то, чего нет на общем экране. Срок на первый релиз задал заказчик — 4&nbsp;месяца до стора.</p>
+    </section>
 
-    <!-- ПРОБЛЕМА И КОНТЕКСТ -->
-    <div class="cs-content">
-
-      <section id="problem" class="cs-section">
-        <div class="cs-section__label">Проблема и&nbsp;контекст</div>
-        <h2 class="cs-section__heading">У&nbsp;абонентов была приставка, но&nbsp;не&nbsp;было способа управлять ТВ&nbsp;с&nbsp;телефона</h2>
-        <div class="cs-body">
-          <p>В&nbsp;2022 году у&nbsp;НТВ-Плюс, МТС и&nbsp;Телекарты уже были мобильные приложения для&nbsp;управления ТВ. У&nbsp;Триколора с&nbsp;12,3 млн абонентами — нет. Телефон не&nbsp;был связан с&nbsp;приставкой, персонализация не&nbsp;работала на&nbsp;общем телевизоре, абоненты пропускали нужные передачи. Триколор проигрывал конкурентам и&nbsp;терял точку контакта между сеансами у&nbsp;телевизора.</p>
-          <p>Триколор провёл исследование аудитории, изучил поведение пользователей существующих ТВ-приложений. Данные говорили сами за&nbsp;себя:</p>
-          <ul>
-            <li>63% регулярно проверяют расписание на&nbsp;телефоне,</li>
-            <li>51% не&nbsp;хватало удобного поиска по&nbsp;программе передач,</li>
-            <li>44% хотели составлять списки и&nbsp;ставить напоминания,</li>
-            <li>40% ждали персональных рекомендаций. На&nbsp;общем телевизоре персонализации нет.</li>
-          </ul>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- МОЙ ВКЛАД — заголовок + решение 1 -->
-    <div class="cs-content">
-
-      <section id="contribution" class="cs-section">
-        <div class="cs-section__label">Мой вклад</div>
-        <h2 class="cs-section__heading">Ключевые решения из&nbsp;десятков принятых за&nbsp;год</h2>
-      </section>
+    <!-- ── МОЙ ВКЛАД ── -->
+    <section class="sec" id="work">
+      <h2 class="sec__label">Мой вклад — три решения за год работы</h2>
 
       <!-- 1. MVP -->
-      <section class="cs-section cs-section--has-img cs-section--gap-sm">
-        <h3 class="cs-decision-num">1. MVP (замена исследования)</h3>
-        <h2 class="cs-section__heading">Когда полевых тестов нет, чем закрывать дыру</h2>
-        <div class="cs-body">
-          <p><span class="cs-label-ctx">Контекст.</span> Триколор передал данные исследования, мы знали что болит. Но&nbsp;как пользователи ведут себя в&nbsp;интерфейсе, не&nbsp;знали: полевых интервью не&nbsp;было. Нужно было выйти в&nbsp;стор за&nbsp;4 месяца. Аудитория возрастная, часто вне&nbsp;крупных городов, с&nbsp;низкой вовлечённостью в&nbsp;онлайн-видеосервисы.</p>
-          <p><span class="cs-label-ctx">Решение.</span> Рассматривала вариант провести экспресс-интервью с&nbsp;5–7 пользователями за&nbsp;2 недели: отвергла, не&nbsp;помещалось в&nbsp;таймлайн. Дополнила данные заказчика своим конкурентным анализом: изучила приложения НТВ-Плюс, МТС, открытые отзывы пользователей похожих продуктов.</p>
-          <p>Каждый сценарий и&nbsp;флоу согласовывала с&nbsp;заказчиком до&nbsp;детального дизайна. Это заменяло итеративный тест с&nbsp;реальными пользователями. Для&nbsp;возрастной аудитории намеренно убирала лишние шаги: короткий онбординг, персонализация ленты с&nbsp;первого экрана.</p>
-          <p><span class="cs-label-res">Результат.</span> Android MVP появился в&nbsp;Google Play через 4 месяца, следом iOS. В&nbsp;обеих платформах светлая и&nbsp;тёмная темы. Но&nbsp;скорость обошлась дорого: жалобы на&nbsp;подключение к&nbsp;приёмнику, рост нагрузки на&nbsp;техподдержку. Продукт работал и&nbsp;требовал доработки.</p>
-        </div>
-      </section>
+      <p class="tag">Решение 1. MVP</p>
+      <h3>Чем заменить данные, которых нет</h3>
+      <p class="t"><b>Контекст.</b> Что болит, мы знали из данных заказчика. Как люди ведут себя в интерфейсе — нет: таких данных у нас не было. Аудитория закрытая: только действующие абоненты Триколора. Это люди 35–55 лет, за пределами крупных городов, где дом не всегда охвачен даже 3G, и почти без опыта онлайн-видеосервисов.</p>
+      <p class="t"><b>Решение.</b> Скоуп первого релиза урезали сознательно: MVP был инструментом проверки, а не уменьшенной копией продукта — в нём оставили то, что работает сразу после входа по Триколор&nbsp;ID, без привязки оборудования. Данных о поведении это не давало, и я закрывала их тем, что было: конкурентным анализом приложений НТВ-Плюс и МТС и открытыми отзывами на похожие продукты. Каждый сценарий и флоу согласовывала с заказчиком до детального дизайна.</p>
+      <p class="res"><b>Результат</b><span>Android MVP в Google&nbsp;Play через 4&nbsp;месяца, следом iOS. Чего не дал анализ, показал релиз: абоненты ждали управления телевизором, не находили его и шли в поддержку — нагрузка на неё выросла.</span></p>
 
-    </div>
-
-    <!-- 1. MVP — ключевые экраны Android -->
-    <div class="cs-imgs">
-      <img src="images/ss/telegid-efir-mvp.webp" alt="Телегид и «В эфире». MVP (Android)">
-      <p class="cs-caption">Телегид и «В&nbsp;эфире». MVP (Android)</p>
-    </div>
-
-    <!-- 2. Второй релиз — текст -->
-    <div class="cs-content">
-
-      <section class="cs-section cs-section--has-img cs-section--gap-sm">
-        <h3 class="cs-decision-num">2. Второй релиз (редизайн)</h3>
-        <h2 class="cs-section__heading">Новый функционал и&nbsp;редизайн, который пришлось принять</h2>
-        <div class="cs-body">
-          <p><span class="cs-label-ctx">Контекст.</span> После первого релиза заказчик поставил задачу: редизайн на&nbsp;неоморфизм. MVP был в&nbsp;плоском дизайне, заказчику показалось слишком просто, захотелось визуально выделиться. Параллельно пора было наращивать функционал: MVP закрывал базовые сценарии, но&nbsp;половины возможностей в&nbsp;нём ещё не&nbsp;было.</p>
-          <p><span class="cs-label-ctx">Решение. Редизайн.</span> На&nbsp;неоморфизм я&nbsp;аргументировала против: аудитория возрастная, контрастность критична, стиль выбивался из&nbsp;экосистемы Триколора. Заказчик настоял. Спорить дальше смысла не&nbsp;было, поэтому сосредоточилась на&nbsp;том, что могла контролировать. Предложила поэтапное внедрение, от&nbsp;базовых элементов к&nbsp;сложным: так риски в&nbsp;разработке оставались управляемыми, а&nbsp;сроки реальными.</p>
-          <p><span class="cs-label-ctx">Решение. Функционал.</span> Спроектировала с&nbsp;нуля видеоплеер — в&nbsp;MVP контент вообще нельзя было смотреть на&nbsp;телефоне, приложение оставалось только программой передач. Добавила голосовой ассистент, пульт для&nbsp;управления приставкой, трансляцию контента на&nbsp;ТВ, офлайн-режим.</p>
-          <p>В&nbsp;телегиде переработала навигацию по&nbsp;обратной связи от&nbsp;первого релиза. Главное правило, которое держала: не&nbsp;сломать привычные пути. Аудитория возрастная, для&nbsp;неё каждая новая фича — это риск растеряться.</p>
-          <p><span class="cs-label-res">Результат.</span> Второй релиз вышел в&nbsp;срок. Новые сценарии, то, чего в&nbsp;MVP не&nbsp;было вообще: теперь телефон стал полноценным пультом и&nbsp;экраном, а&nbsp;не&nbsp;просто программой передач.</p>
-          <p>По&nbsp;неоморфизму — в&nbsp;процессе разработки выяснилось, что реализация теней на&nbsp;Android значительно сложнее, чем на&nbsp;iOS, что замедлило команду. Читаемость на&nbsp;возрастной аудитории пострадала. Оба риска проявились уже после того, как решение было принято.</p>
-          <div class="cs-callout">
-            <div class="cs-callout__label">Осознанный компромисс</div>
-            <p>С&nbsp;неоморфизмом ограничились тем, что могли контролировать: процессом, не&nbsp;решением. Словесный аргумент проигрывает данным. Сейчас бы настояла на&nbsp;показе прототипа с&nbsp;тестом контрастности абонентам до&nbsp;принятия решения.</p>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- 2. Редизайн — до / после (Android) -->
-    <div class="cs-imgs">
-      <img src="images/ss/redesign-before-after.webp" alt="До и после: плоский дизайн → неоморфизм (Android)">
-      <p class="cs-caption">До&nbsp;→&nbsp;После: плоский дизайн&nbsp;→&nbsp;неоморфизм (Android)</p>
-    </div>
-
-    <!-- Новый функционал — телегид + EPG -->
-    <div class="cs-imgs">
-      <img src="images/ss/telegid-epg-v2.webp" alt="Телегид и текущее событие EPG. Второй релиз (Android)">
-      <p class="cs-caption">Телегид и&nbsp;текущее событие EPG. Второй релиз (Android)</p>
-    </div>
-
-    <!-- Новый функционал — пульт + голосовой -->
-    <div class="cs-imgs">
-      <img src="images/ss/remote-voice.webp" alt="Пульт и голосовой ассистент. Второй релиз (Android)">
-      <p class="cs-caption">Пульт и&nbsp;голосовой ассистент. Второй релиз (Android)</p>
-    </div>
-
-    <!-- Новый функционал — видеоплеер -->
-    <div class="cs-imgs">
-      <img src="images/ss/player.webp" alt="Видеоплеер. Второй релиз (Android)">
-      <p class="cs-caption">Видеоплеер. Второй релиз (Android)</p>
-    </div>
-
-    <!-- Как Senior Product Designer -->
-    <div class="cs-content">
-
-      <section class="cs-section cs-section--no-label">
-        <h2 class="cs-section__heading">Как Senior Product Designer на&nbsp;проекте</h2>
-        <div class="cs-body">
-          <ul>
-            <li>Команда из&nbsp;3 дизайнеров: 2 сеньора и&nbsp;1 джуниор. UI Kit, весь iOS и&nbsp;тёмная тема — это моя работа. Второй сеньор закрывал параллельно свою часть задач.</li>
-            <li>На&nbsp;каждом этапе одновременно прорабатывала сценарии, флоу, архитектуру навигации и&nbsp;подбирала цветовую палитру, тени, скругления, форму элементов. Это помогало согласовывать с&nbsp;заказчиком цельный продукт и&nbsp;не&nbsp;возвращаться назад на&nbsp;поздних этапах.</li>
-            <li>На&nbsp;втором релизе выстроила работу с&nbsp;джуниор-дизайнером: она адаптировала мои iOS-экраны под&nbsp;Android и&nbsp;собирала Android UI Kit. Первые месяцы работали вплотную, к&nbsp;концу третьего она закрывала задачи самостоятельно.</li>
-          </ul>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- iOS тёмная тема -->
-    <div class="cs-imgs cs-imgs--col">
-      <div>
-        <img src="images/ss/ios-dark-actor-foryou.webp" alt="Карточка актёра и раздел «Для вас». Тёмная тема (iOS)">
-        <p class="cs-caption">Карточка актёра и&nbsp;раздел «Для вас». Тёмная тема (iOS)</p>
+      <!-- Пара 4:3 — Android: в тексте «Android MVP в Google Play, следом iOS». -->
+      <div class="shots2">
+          <figure class="shot">
+            <div class="shot__frame shot__frame--ss-soft" style="aspect-ratio: 2140 / 1600"><picture><source srcset="/img/ss/mvp_telegid.webp 2140w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ss/mvp_telegid.png" width="2140" height="1600" alt="Телегид, MVP на Android" loading="lazy" decoding="async"></picture></div>
+          </figure>
+          <figure class="shot">
+            <div class="shot__frame shot__frame--ss-soft" style="aspect-ratio: 2140 / 1600"><picture><source srcset="/img/ss/960/mvp_on_air.webp 960w, /img/ss/mvp_on_air.webp 2140w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ss/mvp_on_air.png" width="2140" height="1600" alt="Раздел «В эфире», MVP на Android" loading="lazy" decoding="async"></picture></div>
+          </figure>
       </div>
-      <div>
-        <img src="images/ss/ios-dark-services.webp" alt="Сервисы. Тёмная тема (iOS)">
-        <p class="cs-caption">Сервисы. Тёмная тема (iOS)</p>
+
+      <!-- 2. РЕДИЗАЙН -->
+      <p class="tag">Решение 2. Редизайн</p>
+      <h3>Решение заказчика, внедрение — моё</h3>
+      <p class="t"><b>Контекст.</b> После первого релиза заказчик поставил задачу: редизайн на неоморфизм. MVP был в плоском дизайне, заказчику показалось слишком просто, захотелось визуально выделиться. При этом второй релиз нёс и новый функционал — переделывать предстояло всё сразу.</p>
+      <p class="t"><b>Решение.</b> Аргументировала против: на нашей аудитории контрастность критична, стиль выбивался из экосистемы Триколора. Решение заказчик не изменил. Тогда я перестала спорить о том, делать ли это, и занялась тем, как это сделать, не сорвав релиз: разложила переход на шесть этапов по слоям — типографика и интервалы, затем тени и объём, затем цвет. Разработка получала изменения порциями, новые разделы входили в те же этапы.</p>
+      <p class="res"><b>Результат</b><span>Второй релиз вышел в срок: все разделы переработаны, и их стало вдвое больше — на двух платформах. Тени на Android дались тяжелее, чем на iOS, и замедлили команду. Контраст пострадал — ровно то, о чём я предупреждала.</span></p>
+      <p class="t"><b>Осознанный компромисс.</b> Решение я не изменила, но изменила способ его внедрения — и это сохранило сроки команде. Против вкуса заказчика работают не аргументы, а данные: сейчас бы вынесла на обсуждение прототип с тестом контрастности на абонентах.</p>
+
+      <!-- Порядок в группе: сначала метод (этапы), потом результат (до/после).
+           Подписей нет (решение автора 2026-10-20), как у других кейсов:
+           остались только метки «До» / «После» над кадрами. -->
+      <div class="grp">
+        <figure class="shot">
+          <div class="shot__frame" style="aspect-ratio: 6858 / 3856"><picture><source srcset="/img/ss/960/redesign_stages.webp 960w, /img/ss/1920/redesign_stages.webp 1920w, /img/ss/redesign_stages.webp 6858w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ss/redesign_stages.png" width="6858" height="3856" alt="Шесть этапов миграции на неоморфизм на примере телегида" loading="lazy" decoding="async"></picture></div>
+        </figure>
+        <div class="shots2 shots2--ba">
+          <figure class="shot">
+            <figcaption class="shot__cap shot__cap--top">До</figcaption>
+            <div class="shot__frame shot__frame--ss-soft" style="aspect-ratio: 2140 / 3364"><picture><source srcset="/img/ss/960/redesign_before.webp 960w, /img/ss/redesign_before.webp 2140w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ss/redesign_before.png" width="2140" height="3364" alt="До: плоский дизайн, Android" loading="lazy" decoding="async"></picture></div>
+          </figure>
+          <figure class="shot">
+            <figcaption class="shot__cap shot__cap--top">После</figcaption>
+            <div class="shot__frame shot__frame--ss-deep" style="aspect-ratio: 2140 / 3364"><picture><source srcset="/img/ss/960/redesign_after.webp 960w, /img/ss/redesign_after.webp 2140w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ss/redesign_after.png" width="2140" height="3364" alt="После: неоморфизм, Android" loading="lazy" decoding="async"></picture></div>
+          </figure>
+        </div>
       </div>
+
+      <!-- 3. ФУНКЦИИ ВТОРОГО ЭКРАНА -->
+      <p class="tag">Решение 3. Функции второго экрана</p>
+      <h3>Связать телефон с приставкой, не сломав привычные пути</h3>
+      <p class="t"><b>Контекст.</b> Связи с приёмником в MVP не было: телефон не управлял приставкой и не показывал ТВ, то есть вторым экраном ещё не был. Этого и ждали абоненты. Закрывал это второй релиз — одновременно с редизайном.</p>
+      <p class="t"><b>Решение.</b> Связала телефон с приставкой: подключение к приёмнику собрала в отдельный раздел — он и открывал вторую половину продукта. Спроектировала с нуля плеер и просмотр без интернета — для домов, где с мобильной связью плохо. Управление — пульт и голос — не стала разводить по отдельным пунктам навигации и свела в «Сервисы», чтобы навигация не росла с каждым новым сервисом.</p>
+      <p class="res"><b>Результат</b><span>Телефон начал управлять приставкой и показывать ТВ. Связь, с отсутствия которой начинался проект, появилась.</span></p>
+
+      <div class="grp">
+        <div class="shots2">
+          <figure class="shot">
+            <div class="shot__frame shot__frame--ss-deep" style="aspect-ratio: 2212 / 1654"><picture><source srcset="/img/ss/960/r2_telegid.webp 960w, /img/ss/r2_telegid.webp 2212w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ss/r2_telegid.png" width="2212" height="1654" alt="Телегид после переработки навигации, iOS" loading="lazy" decoding="async"></picture></div>
+          </figure>
+          <figure class="shot">
+            <div class="shot__frame shot__frame--ss-deep" style="aspect-ratio: 2212 / 1654"><picture><source srcset="/img/ss/960/r2_program_card.webp 960w, /img/ss/r2_program_card.webp 2212w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/ss/r2_program_card.png" width="2212" height="1654" alt="Карточка передачи и фильтры, iOS" loading="lazy" decoding="async"></picture></div>
+          </figure>
+        </div>
+        <figure class="shot">
+          <div class="shot__frame" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/ss/960/r2_services.webp 960w, /img/ss/1920/r2_services.webp 1920w, /img/ss/r2_services.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ss/r2_services.png" width="3200" height="1800" alt="Раздел «Сервисы», пульт и голосовое управление, iOS" loading="lazy" decoding="async"></picture></div>
+        </figure>
+      </div>
+
+      <!-- РОЛЬ -->
+      <h3>Как Senior Product Designer на проекте</h3>
+      <ul class="list">
+        <li>Дизайнеров на продукте было двое: моя зона — весь iOS и тёмная тема, флоу проектировали общими для обеих платформ.</li>
+        <li>На редизайне вела неоморфизм: дорабатывала стиль и раскатывала по всем разделам iOS.</li>
+        <li>Взяла под крыло джуниор-дизайнера — Android-экраны и Android UI&nbsp;Kit. Первые месяцы работали вплотную, к концу третьего она закрывала задачи самостоятельно.</li>
+      </ul>
+      <figure class="shot">
+        <div class="shot__frame shot__frame--ss" style="aspect-ratio: 3308 / 1860"><picture><source srcset="/img/ss/960/dark_theme.webp 960w, /img/ss/1920/dark_theme.webp 1920w, /img/ss/dark_theme.webp 3308w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ss/dark_theme.png" width="3308" height="1860" alt="Разделы iOS в тёмной теме" loading="lazy" decoding="async"></picture></div>
+      </figure>
+    </section>
+
+    <!-- ── РЕЗУЛЬТАТ И РЕФЛЕКСИЯ ── -->
+    <section class="sec" id="result">
+      <h2 class="sec__label">Результат и рефлексия</h2>
+
+      <h3>Два релиза за год и ТВ-приложение следующим шагом</h3>
+
+      <p class="t">Точки контакта с абонентом между сеансами у телевизора до этого не было вообще.</p>
+
+      <!-- Два ряда, а не один: первый — что получил бизнес, второй — что
+           сказали люди в опросе. В одной сетке слабая метрика съедала бы вес сильной. -->
+      <dl class="metrics metrics--out metrics--n2">
+        <div><dt><s>0</s><span class="sr"> → </span>330K</dt><dd>активных пользователей</dd></div>
+        <div><dt><s>0</s><span class="sr"> → </span>188K</dt><dd>подписчиков</dd></div>
+      </dl>
+
+      <p class="t">Результаты опроса абонентов после второго релиза:</p>
+
+      <dl class="metrics metrics--out metrics--n3">
+        <div><dt>68%</dt><dd>отметили, что просмотр ТВ изменился к лучшему</dd></div>
+        <div><dt>54%</dt><dd>открывают приложение три раза в неделю и чаще</dd></div>
+        <div><dt>50%</dt><dd>назвали приложение полезным для себя</dd></div>
+      </dl>
+
+      <div class="tbl">
+        <div class="tbl__head"><span>Этап</span><span>Когда</span><span>Содержание</span></div>
+        <div>
+          <span class="k">MVP</span><span class="v">Осень 2022</span>
+          <p>MVP на Android и iOS, светлая и тёмная темы. Вход по Триколор&nbsp;ID: телегид, избранное, персональная лента «Для вас», карточки сущностей, онбординг, профиль.</p>
+        </div>
+        <div>
+          <span class="k">Релиз 2</span><span class="v">Зима 2023</span>
+          <p>Редизайн всех разделов и новый функционал: подключение приёмника, плеер с трансляцией ТВ на телефон, запись передач, пульт, голосовое управление, просмотр без интернета, шаблоны историй и статей.</p>
+        </div>
+        <div>
+          <span class="k">Дальше</span><span class="v">Конец 2023</span>
+          <p>Началось проектирование ТВ-приложения на базе мобильного. Для меня это подтверждение: продукт закрыл реальную потребность и заслужил доверие для следующего шага.</p>
+        </div>
+      </div>
+
+      <h3>Что я бы сделала иначе</h3>
+      <ul class="list">
+        <li><b>Формат продукта.</b> Часть фич можно было встроить в существующий продукт Триколора, но вопрос на обсуждение не вышел. Теперь я ставлю его сама, до проектирования: отдельное приложение или фича в существующем продукте — это продуктовое решение, а не технический выбор.</li>
+        <li><b>Данные о поведении.</b> Мы знали, что болит, но не знали, как люди ведут себя в интерфейсе — это било по каждому спору, не только по неоморфизму. Теперь закладываю хотя бы один контур проверки с пользователями даже в сжатый таймлайн.</li>
+      </ul>
+    </section>
+
+    <div class="foot foot--links">
+      <a class="foot__site" href="https://apps.apple.com/ru/app/%D1%82%D1%80%D0%B8%D0%BA%D0%BE%D0%BB%D0%BE%D1%80-%D0%B2%D1%82%D0%BE%D1%80%D0%BE%D0%B9-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD/id6444063415" target="_blank" rel="noopener">App Store <i>↗</i></a>
+      <a class="foot__site" href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&amp;hl=ru" target="_blank" rel="noopener">Google Play <i>↗</i></a>
+      <a class="foot__site" href="https://www.rustore.ru/catalog/app/com.gsgroup.secondscreen" target="_blank" rel="noopener">RuStore <i>↗</i></a>
     </div>
 
-    <!-- РЕЗУЛЬТАТ И РЕФЛЕКСИЯ -->
-    <div class="cs-content">
-
-      <section id="result" class="cs-section">
-        <div class="cs-section__label">Результат и&nbsp;рефлексия</div>
-        <h2 class="cs-section__heading">Два релиза и&nbsp;запрос на&nbsp;TV-приложение</h2>
-        <div class="cs-rtable">
-          <div class="cs-rtable__row">
-            <div class="cs-rtable__stage">Осень 2022<br>Релиз&nbsp;1</div>
-            <div class="cs-rtable__body">
-              <p><strong>MVP: Android&nbsp;+&nbsp;iOS&nbsp;+&nbsp;тёмная тема</strong></p>
-              <p>Телегид, трансляция ТВ на&nbsp;телефон, запись передач, напоминания, персонализация ленты.</p>
-            </div>
-          </div>
-          <div class="cs-rtable__row">
-            <div class="cs-rtable__stage">Зима 2023<br>Релиз&nbsp;2</div>
-            <div class="cs-rtable__body">
-              <p><strong>Редизайн&nbsp;+&nbsp;новый функционал</strong></p>
-              <p>Полноценный видеоплеер, голосовой поиск, дистанционное управление ТВ-приставкой, офлайн-режим просмотра.</p>
-              <p>330K активных пользователей, 188K подписчиков.</p>
-            </div>
-          </div>
-          <div class="cs-rtable__row">
-            <div class="cs-rtable__stage">Сейчас</div>
-            <div class="cs-rtable__body">
-              <p>Триколор инициировал разработку ТВ-приложения на&nbsp;базе мобильного. Для&nbsp;меня это подтверждение: продукт закрыл реальную потребность и&nbsp;заслужил доверие для&nbsp;следующего шага.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Что бы я сделала иначе -->
-      <section class="cs-section cs-section--no-label">
-        <h2 class="cs-section__heading">Что я&nbsp;бы сделала иначе</h2>
-        <div class="cs-body">
-          <ul>
-            <li>Вопрос о&nbsp;формате продукта стоило поднять на&nbsp;старте. Часть фич можно было интегрировать в&nbsp;существующий продукт Триколора. Команда это понимала, но&nbsp;никто не&nbsp;вынес на&nbsp;обсуждение. Сейчас бы сделала это сама.</li>
-            <li>Данные исследования показывали что болит, но&nbsp;не&nbsp;как пользователи ведут себя в&nbsp;интерфейсе. Юзабилити-тест до&nbsp;редизайна дал бы конкретные факты вместо мнения. Именно поэтому аргументы по&nbsp;неоморфизму не&nbsp;убедили.</li>
-            <li>Скорость выхода стоила качества технической реализации. Жалобы на&nbsp;подключение к&nbsp;приёмнику были предсказуемы, но&nbsp;никто не&nbsp;поднял этот риск заранее. Сейчас бы настояла на&nbsp;техническом буфере перед&nbsp;релизом.</li>
-          </ul>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- Ссылки на продукт -->
-    <div class="cs-content">
-      <div class="cs-product-btns">
-        <a href="https://apps.apple.com/ru/app/%D1%82%D1%80%D0%B8%D0%BA%D0%BE%D0%BB%D0%BE%D1%80-%D0%B2%D1%82%D0%BE%D1%80%D0%BE%D0%B9-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD/id6444063415" target="_blank" rel="noopener" class="btn-cv">App Store<img src="images/icons/arrow-right-up.svg" width="24" height="24" alt="">
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&hl=ru" target="_blank" rel="noopener" class="btn-cv">Google Play<img src="images/icons/arrow-right-up.svg" width="24" height="24" alt="">
-        </a>
-        <a href="https://www.rustore.ru/catalog/app/com.gsgroup.secondscreen" target="_blank" rel="noopener" class="btn-cv">RuStore<img src="images/icons/arrow-right-up.svg" width="24" height="24" alt="">
-        </a>
+<!-- <<CASE_MORE>> -->
+    <nav class="more" aria-label="Другие кейсы">
+      <p class="more__t">Другие кейсы</p>
+      <div class="tree">
+        <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+        <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+        <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+        <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
       </div>
-    </div>
+    </nav>
+<!-- <</CASE_MORE>> -->
 
-    <!-- Следующий кейс — RealDeal -->
-    <div class="cs-next-case-section">
-      <div class="cs-next-case-label">Следующий кейс</div>
-      <a href="realdeal.html" class="cs-next-case">
-      <div class="cs-next-case__cover">
-        <img src="images/rd-cover.webp" alt="RealDeal">
+    <div class="foot foot--hire">
+      <p class="foot__ask">Написать мне</p>
+      <div class="foot__row">
+        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        <a class="muted" href="https://codedesign.ru/CV.pdf" download>Резюме — PDF</a>
       </div>
-      <div class="cs-next-case__body">
-        <div class="cs-tags">
-          <span>B2B SaaS</span>
-          <span>PropTech</span>
-        </div>
-        <h2 class="cs-next-case__title">Первая в&nbsp;ОАЭ платформа<br>CRE-сделок без&nbsp;агентов</h2>
-      </div>
-    </a>
     </div>
 
   </main>
-
 </div>
 
+<!-- <<CASE_JS>> -->
 <script>
-(() => {
-  // Active anchor nav
-  const navLinks = document.querySelectorAll('.cs-nav__link');
-  if (navLinks.length) {
-    const sections = ['problem', 'contribution', 'result']
-      .map(id => document.getElementById(id)).filter(Boolean);
+/* ПОДСВЕТКА АКТИВНОГО РАЗДЕЛА — слушатель прокрутки, а не
+   IntersectionObserver. Наблюдатель стоял здесь первым, и у него
+   был изъян: когда ни одна секция не попадала в полосу наблюдения,
+   последнее состояние замирало — на самом верху страницы оставался
+   подсвечен последний раздел. Слушатель считает положение явно
+   и знает края: выше первой секции активна первая, у низа страницы —
+   последняя. Расчёт убран в requestAnimationFrame, поэтому на кадр
+   приходится одно вычисление, а не одно на событие. */
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var secs  = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  if (!secs.length || !secs[0]) return;
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const target = document.getElementById(link.getAttribute('href').slice(1));
-        if (target) {
-          const y = target.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.35;
-          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-        }
-      });
+  function setCurrent(i){
+    links.forEach(function(a, n){
+      if (n === i) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
     });
-
-    const setActive = () => {
-      const trigger = window.innerHeight * 0.65;
-      let active = sections[0];
-      for (const s of sections) {
-        if (s.getBoundingClientRect().top < trigger) active = s;
-      }
-      navLinks.forEach(l => l.classList.remove('is-active'));
-      const link = document.querySelector(`.cs-nav__link[href="#${active.id}"]`);
-      if (link) link.classList.add('is-active');
-    };
-
-    window.addEventListener('scroll', setActive, { passive: true });
-    setActive();
   }
 
-  // Cursor bubble on next-case hover
-  const nextCase = document.querySelector('.cs-next-case');
-  if (nextCase) {
-    const bubble = document.createElement('div');
-    bubble.className = 'cursor-bubble';
-    bubble.textContent = 'Подробнее';
-    document.body.appendChild(bubble);
-    document.addEventListener('mousemove', e => {
-      bubble.style.left = e.clientX + 'px';
-      bubble.style.top  = e.clientY + 'px';
-    }, { passive: true });
-    nextCase.addEventListener('mouseenter', () => bubble.classList.add('is-visible'));
-    nextCase.addEventListener('mouseleave', () => bubble.classList.remove('is-visible'));
+  function recalc(){
+    var y = window.scrollY + window.innerHeight * 0.18;
+    var best = 0;
+    for (var i = 0; i < secs.length; i++){
+      if (!secs[i]) continue;
+      if (secs[i].getBoundingClientRect().top + window.scrollY <= y) best = i;
+    }
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) best = secs.length - 1;
+    setCurrent(best);
   }
 
-  // Reveal animation
-  const reveals = document.querySelectorAll('.r');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ recalc(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  recalc();
+
+  links.forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      history.replaceState(null, '', a.getAttribute('href'));
     });
-  }, { threshold: 0.12 });
-  reveals.forEach(el => obs.observe(el));
-
-
-  // Scroll to top button
-  const scrollBtn = document.createElement('button');
-  scrollBtn.className = 'btn-scroll-top';
-  scrollBtn.setAttribute('aria-label', 'Наверх');
-  scrollBtn.innerHTML = '<img src="images/icons/arrow-up.svg" width="24" height="24" alt="">';
-  document.body.appendChild(scrollBtn);
-  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-  const scrollTrigger = document.getElementById('contribution');
-  window.addEventListener('scroll', () => {
-    const triggered = scrollTrigger && scrollTrigger.getBoundingClientRect().top < window.innerHeight * 0.8;
-    scrollBtn.classList.toggle('is-visible', triggered);
-  }, { passive: true });
-
-  // Hero avatar on name hover
-  const heroText = document.getElementById('heroText');
-  if (heroText) {
-    const avatar = document.createElement('img');
-    avatar.className = 'hover-avatar';
-    avatar.src = 'images/avatar.jpg';
-    avatar.alt = '';
-    document.body.appendChild(avatar);
-    document.addEventListener('mousemove', (e) => {
-      avatar.style.left = e.clientX + 'px';
-      avatar.style.top  = e.clientY + 'px';
-    }, { passive: true });
-    heroText.addEventListener('mouseenter', () => avatar.classList.add('is-visible'));
-    heroText.addEventListener('mouseleave', () => avatar.classList.remove('is-visible'));
-  }
+  });
 })();
 </script>
+
+
+<script>
+/* Шапка включается, когда колонка ушла за верхний край. Метка в конце
+   колонки, а не сама колонка: наблюдение за колонкой включало бы
+   шапку в самом верху страницы, когда она ещё не нужна. */
+(function(){
+  var bar = document.querySelector('.topbar'), rail = document.querySelector('.rail');
+  if (!bar || !rail || !('IntersectionObserver' in window)) return;
+  var mark = document.createElement('span');
+  mark.setAttribute('aria-hidden', 'true');
+  mark.style.cssText = 'position:absolute;left:0;bottom:0;width:1px;height:1px;pointer-events:none';
+  rail.appendChild(mark);
+  new IntersectionObserver(function(e){
+    bar.classList.toggle('is-on', e[e.length - 1].boundingClientRect.top < 0);   /* последняя запись — актуальная */
+  }, { threshold: 0 }).observe(mark);
+})();
+</script>
+<!-- <</CASE_JS>> -->
 
 </body>
 </html>
