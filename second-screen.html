@@ -338,7 +338,7 @@ body{
 .hire{ display: grid; gap: 8px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
-  font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;   /* 14/16 (стиль «Link») по просьбе автора 2026-10-20; 2026-10-11 было 16/22 */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: center; width: fit-content;
   min-height: 26px;
@@ -1087,13 +1087,12 @@ ul.list li::marker{ color: var(--text-secondary); }
             letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
 .foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
 .foot__row a{
-  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;   /* контакты 16/22, как в колонке */
+  font-size: 14px; line-height: 16px; font-weight: 400; letter-spacing: -.012em;   /* контакты 14/16, как в колонке (2026-10-20; было 16/22) */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
 }
 .foot__row a{ transition: color .18s ease-out; }
 .foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
-.foot__row i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
 .foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
 
 a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
@@ -1191,8 +1190,11 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
    колонок, сколько есть. Ниже 608 общая сетка 2×N уже подходит. */
 .metrics--n2{ grid-template-columns: repeat(2, auto); justify-content: start; gap: 28px 84px; }
 .metrics--n3{ grid-template-columns: repeat(3, auto); }
+/* Подписи опроса — в две строки (запрос автора 2026-10-20): у первой общий
+   .metrics--out не ограничивает ширину, у остальных 150 даёт три строки. */
+.metrics--out.metrics--n3 dd, .metrics--out.metrics--n3 div:first-child dd{ max-width: 176px; text-wrap: balance; }
 .metrics--out + .t{ margin-top: var(--space-32); }
-.metrics--out + .tbl, .metrics--out + .metrics--out{ margin-top: var(--space-32); }
+.metrics--out + .tbl{ margin-top: var(--space-32); }
 @media (max-width: 608px){
   .metrics--n2, .metrics--n3{ grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
 }
@@ -1334,7 +1336,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <p class="tag">Решение 2. Редизайн</p>
       <h3>Решение заказчика, внедрение — моё</h3>
       <p class="t"><b>Контекст.</b> После первого релиза заказчик поставил задачу: редизайн на неоморфизм. MVP был в плоском дизайне, заказчику показалось слишком просто, захотелось визуально выделиться. При этом второй релиз нёс и новый функционал — переделывать предстояло всё сразу.</p>
-      <p class="t"><b>Решение.</b> Аргументировала против: на нашей аудитории контрастность критична, стиль выбивался из экосистемы Триколора. Решение заказчик не изменил. Тогда я перестала спорить о том, делать ли это, и занялась тем, как это сделать, не сорвав релиз: разложила переход на шесть этапов по слоям — типографика и интервалы, затем тени и объём, затем цвет. Разработка получала изменения порциями, новые разделы входили в те же этапы.</p>
+      <p class="t"><b>Решение.</b> Аргументировала против: на нашей аудитории контрастность критична, стиль выбивался из экосистемы Триколора. Решение заказчик не изменил. Тогда я перестала спорить о том, делать ли это, и занялась тем, как это сделать, не сорвав релиз: разложила переход на пять этапов по слоям — типографика и интервалы, затем тени и объём, затем цвет. Разработка получала изменения порциями, новые разделы входили в те же этапы.</p>
       <p class="res"><b>Результат</b><span>Второй релиз вышел в срок: все разделы переработаны, и их стало вдвое больше — на двух платформах. Тени на Android дались тяжелее, чем на iOS, и замедлили команду. Контраст пострадал — ровно то, о чём я предупреждала.</span></p>
       <p class="t"><b>Осознанный компромисс.</b> Решение я не изменила, но изменила способ его внедрения — и это сохранило сроки команде. Против вкуса заказчика работают не аргументы, а данные: сейчас бы вынесла на обсуждение прототип с тестом контрастности на абонентах.</p>
 
@@ -1343,7 +1345,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
            остались только метки «До» / «После» над кадрами. -->
       <div class="grp">
         <figure class="shot">
-          <div class="shot__frame" style="aspect-ratio: 6858 / 3856"><picture><source srcset="/img/ss/960/redesign_stages.webp 960w, /img/ss/1920/redesign_stages.webp 1920w, /img/ss/redesign_stages.webp 6858w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ss/redesign_stages.png" width="6858" height="3856" alt="Шесть этапов миграции на неоморфизм на примере телегида" loading="lazy" decoding="async"></picture></div>
+          <div class="shot__frame" style="aspect-ratio: 6858 / 3856"><picture><source srcset="/img/ss/960/redesign_stages.webp 960w, /img/ss/1920/redesign_stages.webp 1920w, /img/ss/redesign_stages.webp 6858w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ss/redesign_stages.png" width="6858" height="3856" alt="Пять этапов миграции на неоморфизм на примере телегида" loading="lazy" decoding="async"></picture></div>
         </figure>
         <div class="shots2 shots2--ba">
           <figure class="shot">
@@ -1379,7 +1381,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       </div>
 
       <!-- РОЛЬ -->
-      <h3>Как Senior Product Designer на проекте</h3>
+      <h3>Роль Senior Product Designer: iOS, неоморфизм, менторство</h3>
       <ul class="list">
         <li>Дизайнеров на продукте было двое: моя зона — весь iOS и тёмная тема, флоу проектировали общими для обеих платформ.</li>
         <li>На редизайне вела неоморфизм: дорабатывала стиль и раскатывала по всем разделам iOS.</li>

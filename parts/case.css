@@ -559,13 +559,12 @@ ul.list li::marker{ color: var(--text-secondary); }
             letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
 .foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
 .foot__row a{
-  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;   /* контакты 16/22, как в колонке */
+  font-size: 14px; line-height: 16px; font-weight: 400; letter-spacing: -.012em;   /* контакты 14/16, как в колонке (2026-10-20; было 16/22) */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
 }
 .foot__row a{ transition: color .18s ease-out; }
 .foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
-.foot__row i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
 .foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
 
 a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }

@@ -338,7 +338,7 @@ body{
 .hire{ display: grid; gap: 8px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
-  font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;   /* 14/16 (стиль «Link») по просьбе автора 2026-10-20; 2026-10-11 было 16/22 */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: center; width: fit-content;
   min-height: 26px;
@@ -1087,13 +1087,12 @@ ul.list li::marker{ color: var(--text-secondary); }
             letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
 .foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
 .foot__row a{
-  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;   /* контакты 16/22, как в колонке */
+  font-size: 14px; line-height: 16px; font-weight: 400; letter-spacing: -.012em;   /* контакты 14/16, как в колонке (2026-10-20; было 16/22) */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
 }
 .foot__row a{ transition: color .18s ease-out; }
 .foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
-.foot__row i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
 .foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
 
 a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
@@ -1441,6 +1440,7 @@ ul.list b{ font-family: var(--serif); font-weight: 400; color: var(--text-primar
       <!-- 4. ПЛАТФОРМЫ -->
       <p class="tag">Решение 4. Платформы</p>
       <h3>Единые принципы вместо независимых платформ</h3>
+      <p class="t"><b>Контекст.</b> Решение надо было принять один раз для двух платформ, которые вели независимые команды разработки и два разных PM.</p>
       <p class="t"><b>Решение.</b> Вариантов было три: взять за основу Smart TV, взять Apple TV или выработать единые UX-принципы и реализовать их на каждой платформе с учётом её особенностей. Первые два означали, что одна платформа будет системно вторичной. Выбрала третье: определила общие принципы, структуру экранов, логику карточек, навигационные паттерны и параллельно отрисовала макеты под каждую платформу.</p>
       <p class="res"><b>Результат</b><span>Продукт начал соответствовать тому, что обещает маркетинг, на обеих платформах одновременно.</span></p>
       <p class="t"><b>Осознанный компромисс.</b> Синхронная работа над двумя платформами замедляла скорость итераций. Изменение нельзя было выкатить на одной и вернуться ко второй позже. Осознанно выбрала скорость системы в ущерб скорости отдельного спринта.</p>
@@ -1475,7 +1475,7 @@ ul.list b{ font-family: var(--serif); font-weight: 400; color: var(--text-primar
       </figure>
 
       <!-- РОЛЬ — кадра в блоке нет -->
-      <h3>Как Product Designer на проекте</h3>
+      <h3>Роль Product Designer: две платформы, два PM, внешние партнёры</h3>
       <ul class="list">
         <li>Единственный дизайнер на ТВ-платформы: весь дизайн Smart TV и Apple TV.</li>
         <li>Работала параллельно с двумя независимыми командами разработки и согласовывала решения с обоими PM — платформы перестали жить по отдельным правилам.</li>

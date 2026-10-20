@@ -347,7 +347,7 @@ body{
 .hire{ display: grid; gap: 8px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
-  font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;   /* 14/16 (стиль «Link») по просьбе автора 2026-10-20; 2026-10-11 было 16/22 */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: center; width: fit-content;
   min-height: 26px;
@@ -1096,13 +1096,12 @@ ul.list li::marker{ color: var(--text-secondary); }
             letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
 .foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
 .foot__row a{
-  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;   /* контакты 16/22, как в колонке */
+  font-size: 14px; line-height: 16px; font-weight: 400; letter-spacing: -.012em;   /* контакты 14/16, как в колонке (2026-10-20; было 16/22) */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
 }
 .foot__row a{ transition: color .18s ease-out; }
 .foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
-.foot__row i{ font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary); }
 .foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
 
 a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
@@ -1426,7 +1425,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
         <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Дашборд инвестора: AI-ассистент, задачи, объекты, воронка сделок" loading="lazy" decoding="async"></picture></div>
       </figure>
 
-      <h3>Что бы я сделала иначе</h3>
+      <h3>Что я бы сделала иначе</h3>
       <ul class="list">
         <li>Довела бы синхронизацию карты и графиков — идея потеряна из-за дедлайна.</li>
         <li>Сразу пересобрала бы команду — первые полгода она теряла скорость.</li>

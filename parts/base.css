@@ -296,7 +296,7 @@ body{
 .hire{ display: grid; gap: 8px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
-  font-size: 16px; line-height: 22px; letter-spacing: -.012em;   /* 16/22 по просьбе автора 2026-10-11, было 14/16 */
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;   /* 14/16 (стиль «Link») по просьбе автора 2026-10-20; 2026-10-11 было 16/22 */
   color: var(--text-primary); text-decoration: none;
   display: inline-flex; gap: 6px; align-items: center; width: fit-content;
   min-height: 26px;
