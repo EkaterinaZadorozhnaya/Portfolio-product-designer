@@ -25,6 +25,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Literata:opsz,wght@7..72,400&display=swap">
+
+<script>
+(function(){try{var t=localStorage.getItem('theme');
+if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
 <!-- <</HEAD>> -->
 
 
@@ -58,30 +63,29 @@
   /* ИМЕНА: группа = свойство, которое токен задаёт;
      имя = значение (у примитивов) или роль (у семантики).
      Совпадают с переменными в Figma один в один — сверка макета
-     с вёрсткой идёт по одному словарю. Подробно: spec-tokens.md. */
+     с вёрсткой идёт по одному словарю. Подробно: спека-цвет.md. */
 
   /* ШКАЛА НЕЙТРАЛЬНЫХ, названа по воспринимаемой светлоте L*.
      Шкала расширяется вставкой без переименования соседей.
      neutral-6 и neutral-90 работают в обеих темах, меняясь ролями.
-     Тёплая нота R ≥ G ≥ B на 12, 14, 22, 25, 44, 63, 85;
-     чистый серый на 6, 18, 78, 90, 95, 98, 100. */
+     Тёплая нота R ≥ G ≥ B на 8, 12, 22, 44, 63, 85;
+     чистый серый на 6, 18, 78, 90, 95, 100. */
 
   /* примитивы светлой темы */
   --neutral-6:   #131313;   /* L*  5.9  текст, заливка кнопки          */
   --neutral-18:  #2C2C2C;   /* L* 18.0  кнопка в наведении             */
   --neutral-44:  #696764;   /* L* 43.7  вторичный и проза              */
   --neutral-85:  #D5D5D4;   /* L* 85.2  линейка                        */
-  --neutral-90:  #E1E1E1;   /* L* 89.5  заглушка                       */
+  --neutral-90:  #E1E1E1;   /* L* 89.5  светлая: заглушка; тёмная: текст и светлая заливка */
   --neutral-95:  #F0F0F0;   /* L* 94.8  фон                            */
   --neutral-100: #FFFFFF;   /* L*100.0  лист, текст на кнопке          */
 
-  /* примитивы тёмной темы — объявлены заранее, чтобы ссылки
-     в закомментированных блоках не висели в пустоту */
-  --neutral-12:  #20201E;   /* L* 12.2  лист                           */
-  --neutral-22:  #343433;   /* L* 21.7  заглушка                       */
-  --neutral-25:  #3C3B3A;   /* L* 24.9  линейка                        */
+  /* примитивы тёмной темы (спека-цвет.md, 2026-10-21) */
+  --neutral-8:   #1A1818;   /* L*  8.5  фон страницы                   */
+  --neutral-12:  #20201E;   /* L* 12.2  подложка кадра                 */
+  --neutral-22:  #343433;   /* L* 21.7  линейка                        */
   --neutral-63:  #999795;   /* L* 62.6  вторичный и проза              */
-  --neutral-78:  #C0C0C0;   /* L* 77.7  кнопка в наведении             */
+  --neutral-78:  #C0C0C0;   /* L* 77.7  заливка в наведении            */
 
   /* ЦВЕТА ПРОДУКТОВ — правка совета №4.
      Было: тёмно-синий, почти чёрно-синий, зелёный, голубой —
@@ -148,6 +152,7 @@
   --bg-inverse-hover:  var(--neutral-18);   /* кнопка резюме при наведении */
   --bg-placeholder:    var(--neutral-90);   /* место под макет, аватар, чипы схемы пути */
   --border-default:    var(--neutral-85);   /* разделители, строки таблиц, рамка ленты */
+  --shot-plate:        var(--neutral-95);   /* подложка кадра на странице кейса: в светлой совпадает с фоном, в тёмной нет */
 
   --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --serif: 'Literata', Georgia, 'Times New Roman', serif;
@@ -188,42 +193,34 @@
   --page-gutter: clamp(16px, 3.75vw, 60px);   /* 60 с 1600 и шире (макет главной 2026-10-10) */
 }
 
-/* ═══ ТЁМНАЯ ТЕМА — НЕ АКТИВИРОВАНА ═══
-   Значения посчитаны и проверены: контрасты пар совпадают со светлой
-   темой до сотых. Блоки намеренно закомментированы — тёмная тема
-   не проверена на настоящих макетах и логотипах, а на заглушках
-   она даёт серое на сером. Включать только после того, как встанут
-   реальные изображения; тогда раскомментировать оба блока разом,
-   иначе ручной переключатель перебьёт системную настройку только
-   в одну сторону. Подробности в spec-tokens.md.
-
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --text-primary:     var(--neutral-90);
-    --text-secondary:   var(--neutral-63);
-    --text-inverse:     var(--neutral-6);
-    --bg-page:          var(--neutral-6);
-    --bg-surface:       var(--neutral-12);
-    --bg-inverse:       var(--neutral-90);
-    --bg-inverse-hover: var(--neutral-78);
-    --bg-placeholder:   var(--neutral-22);
-    --border-default:   var(--neutral-25);
-    color-scheme: dark;
-  }
-}
+/* ═══ ТЁМНАЯ ТЕМА (включена 2026-10-21, спека-цвет.md) ═══
+   Подобрана под светлую по отношениям, а не выведена зеркально: лист
+   темнее фона (утоплен), текст на листе 14.21 вместо 18.58, проза
+   6.38 вместо 5.64, шаг лист↔фон 1.05. Светлая — по умолчанию;
+   системная настройка не учитывается (решение автора 2026-10-21), тёмная
+   включается только кнопкой и запоминается. Скрипт
+   переключателя — в parts/head.html (выбор до отрисовки) и в
+   parts/rail_foot.html (кнопка). */
 :root[data-theme="dark"]{
-  --text-primary:     var(--neutral-90);
-  --text-secondary:   var(--neutral-63);
-  --text-inverse:     var(--neutral-6);
-  --bg-page:          var(--neutral-6);
-  --bg-surface:       var(--neutral-12);
-  --bg-inverse:       var(--neutral-90);
-  --bg-inverse-hover: var(--neutral-78);
-  --bg-placeholder:   var(--neutral-22);
-  --border-default:   var(--neutral-25);
+  --text-primary:      var(--neutral-90);
+  --text-secondary:    var(--neutral-63);
+  --text-inverse:      var(--neutral-6);
+  --border-default:    var(--neutral-22);
+  --bg-page:           var(--neutral-8);
+  --bg-surface:        var(--neutral-6);
+  --bg-placeholder:    var(--neutral-18);
+  --bg-inverse:        var(--neutral-90);
+  --bg-inverse-hover:  var(--neutral-78);
+  --shot-plate:        var(--neutral-95);   /* решение автора 2026-10-21: как в светлой (#F0F0F0); в спеке neutral-12 */
   color-scheme: dark;
 }
-*/
+/* ВОРДМАРКИ В ТЁМНОЙ ТЕМЕ (2026-10-21): у RealDeal, Триколора и DREAMPlatform рядом
+   со светлым файлом лежит белый *-dark.svg (RealDeal и DREAMPlatform — тёмные части
+   белые, цветные остаются; Триколор — целиком белый). Переключает кнопка темы.
+   Второй экран синий и остаётся как есть. */
+.logo-dark{ display: none !important; }
+:root[data-theme="dark"] .logo-light{ display: none !important; }
+:root[data-theme="dark"] .logo-dark{ display: block !important; }
 *{ box-sizing: border-box; }
 
 body{
@@ -336,6 +333,18 @@ body{
    прижатой к нижнему полю; список кейсов между «кто я» и этой группой
    стоит по центру (.rail .tree). */
 .rail__foot{ display: grid; gap: 20px; }
+/* ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ — внизу колонки под контактами (спека-цвет.md §6).
+   Круг, залитый наполовину; в тёмной теме повёрнут на 180°. */
+.prefs__theme{
+  display: inline-flex; gap: 6px; align-items: center; width: fit-content; min-height: 26px; min-width: 26px;   /* без подписи цель касания не меньше 26×26 */
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-secondary); transition: color .18s ease-out;
+}
+.prefs__theme:hover{ color: var(--text-primary); }
+.prefs__theme:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+.prefs__theme svg{ width: 12px; height: 12px; flex: none; transition: transform .18s ease-out; }
+:root[data-theme="dark"] .prefs__theme svg{ transform: rotate(180deg); }
 .hire{ display: grid; gap: 8px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
@@ -383,7 +392,7 @@ body{
   transition: background .18s ease-out;
 }
 a.all:hover, .all[aria-current="page"]{ background: var(--bg-page); }
-a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
+a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
 .all svg{ width: 12px; height: 12px; flex: none; }
 
 /* свёрнутые — карточки */
@@ -412,7 +421,7 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
    меняется. «В работе» не нажимается — подложка остаётся белой. */
 .row--flat:hover{ background: var(--bg-page); }
 .row--soon:hover{ background: var(--bg-surface); }
-.row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; }
+.row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
 .row em{
   display: block; font-style: normal; font-size: 12px; line-height: 16px;
   letter-spacing: 0; color: var(--text-secondary);
@@ -483,7 +492,7 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
     color: var(--text-primary); text-decoration: none; min-height: 26px;
     display: inline-flex; align-items: center;
   }
-  .topbar a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
+  .topbar a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 }
 @media (prefers-reduced-motion: reduce){ .topbar{ transition: none; } }
 /* ТЕЛЕФОН — 480.
@@ -562,7 +571,7 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
    чернила, остальные серые. */
 .toc a[aria-current="true"]{ color: var(--text-primary); }
 .toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
-.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
+.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 
 /* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
    читалась как «60 18» — два числа без отношения между ними. */
@@ -603,7 +612,7 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px
 }
 /* стрелка — в сером квадрате 16×16, как на макете */
 .top__link i{
-  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0;
+  font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0;
   width: 16px; height: 16px; display: inline-grid; place-items: center;
   background: var(--bg-placeholder); border-radius: var(--radius-4); color: var(--text-primary);
 }
@@ -900,7 +909,7 @@ ul.list li::marker{ color: var(--text-secondary); }
      кадра — вспышки другого серого при загрузке нет. Пропорция —
      из файла, инлайном на элементе; класс-модификаторы остались
      запасными. Ни поля страницы, ни тени, ни кадрирования. */
-  background: var(--bg-page); overflow: hidden;
+  background: var(--shot-plate); overflow: hidden;   /* светлая: neutral-95 = прежний --bg-page; тёмная: neutral-12 */
 }
 /* Подпись «Демо» / «MVP» стоит НАД кадром (2026-10-11), не под ним. */
 .shot__cap.shot__cap--top{ margin: 0 0 8px; }   /* 8, как от схемы до её подписи; .shot__cap объявлен ниже — поэтому двойной класс */
@@ -1078,7 +1087,7 @@ ul.list li::marker{ color: var(--text-secondary); }
 .foot__site{ transition: color .18s ease-out; }
 .foot__site:hover{ color: var(--text-primary); }   /* серый → чёрный, как «Сайт продукта» в шапке (2026-10-11) */
 .foot__site i{
-  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
+  font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
   width: 16px; height: 16px; display: inline-grid; place-items: center;
   background: var(--bg-placeholder); border-radius: var(--radius-4);   /* как в шапке, макет 2026-10-10 */
 }
@@ -1168,9 +1177,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
    внутренней рамкой 2px F0F0F0 — обложка (запрос автора 2026-10-16).
    Остальные кадры кейса на --bg-page. */
 .shot__frame--green{ background: var(--brand-design-system-field); }
-.shot__frame--gray{ background: #F0F0F0; }
+.shot__frame--gray{ background: var(--shot-plate); }
 .shot__frame--white{ position: relative; background: #fff; }
-.shot__frame--white::after{ content: ""; position: absolute; inset: 0; border: 2px solid #F0F0F0; border-radius: inherit; pointer-events: none; }
 
 /* Слово с дефисом не рвётся на «дизайн-» / «система» (то же, что .nw у RealDeal). */
 .nw{ white-space: nowrap; }
@@ -1249,7 +1257,27 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
           <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
         </div>
       </div>
+      <button class="prefs__theme" type="button" aria-pressed="false" aria-label="Тёмная тема">
+        <svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 .75a5.25 5.25 0 0 1 0 10.5z" fill="currentColor"/></svg>
+      </button>
     </div>
+    <script>
+    (function(){
+      var root=document.documentElement, btn=document.querySelector('.prefs__theme');
+      if(!btn) return;
+      function current(){ return root.getAttribute('data-theme')==='dark'?'dark':'light'; }
+      function sync(){ var d=current()==='dark';
+        btn.setAttribute('aria-pressed', d?'true':'false');
+        btn.setAttribute('aria-label', d?'Светлая тема':'Тёмная тема'); }
+      sync();
+      btn.addEventListener('click', function(){
+        var next = current()==='dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try{ localStorage.setItem('theme', next); }catch(e){}
+        sync();
+      });
+    })();
+    </script>
 <!-- <</RAIL_FOOT>> -->
   </aside>
 
@@ -1259,7 +1287,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <p class="meta">Senior Product Designer <span class="sep">·</span> B2B SaaS <span class="sep">·</span> Design system <span class="sep">·</span> Internal tools <span class="sep">·</span> IPTV/OTT</p>
 
     <div class="top">
-      <img class="top__logo" src="/img/logo/DRM%202.svg" alt="DREAMPlatform" width="142" height="24">
+      <img class="top__logo logo-light" src="/img/logo/DRM%202.svg" alt="DREAMPlatform" width="142" height="24"><img class="top__logo logo-dark" src="/img/logo/DRM%202%20dark.svg" alt="" width="142" height="24">
       <a class="top__link" href="https://gs-labs.ru/dreamplatform/" target="_blank" rel="noopener">Смотреть продукт <i>↗</i></a>
     </div>
 

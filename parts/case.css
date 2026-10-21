@@ -33,7 +33,7 @@
    чернила, остальные серые. */
 .toc a[aria-current="true"]{ color: var(--text-primary); }
 .toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
-.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 2px; border-radius: var(--radius-4); }
+.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 
 /* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
    читалась как «60 18» — два числа без отношения между ними. */
@@ -74,7 +74,7 @@
 }
 /* стрелка — в сером квадрате 16×16, как на макете */
 .top__link i{
-  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0;
+  font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0;
   width: 16px; height: 16px; display: inline-grid; place-items: center;
   background: var(--bg-placeholder); border-radius: var(--radius-4); color: var(--text-primary);
 }
@@ -371,7 +371,7 @@ ul.list li::marker{ color: var(--text-secondary); }
      кадра — вспышки другого серого при загрузке нет. Пропорция —
      из файла, инлайном на элементе; класс-модификаторы остались
      запасными. Ни поля страницы, ни тени, ни кадрирования. */
-  background: var(--bg-page); overflow: hidden;
+  background: var(--shot-plate); overflow: hidden;   /* светлая: neutral-95 = прежний --bg-page; тёмная: neutral-12 */
 }
 /* Подпись «Демо» / «MVP» стоит НАД кадром (2026-10-11), не под ним. */
 .shot__cap.shot__cap--top{ margin: 0 0 8px; }   /* 8, как от схемы до её подписи; .shot__cap объявлен ниже — поэтому двойной класс */
@@ -549,7 +549,7 @@ ul.list li::marker{ color: var(--text-secondary); }
 .foot__site{ transition: color .18s ease-out; }
 .foot__site:hover{ color: var(--text-primary); }   /* серый → чёрный, как «Сайт продукта» в шапке (2026-10-11) */
 .foot__site i{
-  font-style: normal; font-size: 10px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
+  font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
   width: 16px; height: 16px; display: inline-grid; place-items: center;
   background: var(--bg-placeholder); border-radius: var(--radius-4);   /* как в шапке, макет 2026-10-10 */
 }
