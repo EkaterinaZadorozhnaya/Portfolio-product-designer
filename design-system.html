@@ -1172,13 +1172,12 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 .tbl--refs p b{ font-weight: 400; color: var(--text-primary); }
 
 /* ПОДЛОЖКА КАДРОВ — сплошная, от темы не зависит: прозрачное поле в
-   файлах окрашивает плашка. Зелёная #57B035 (токен) — только DREPLUS;
-   серая F0F0F0 — мультиселект, мультиселект 2 и scrambler; белая с
-   внутренней рамкой 2px F0F0F0 — обложка (запрос автора 2026-10-16).
+   файлах окрашивает плашка. Зелёная #57B035 (токен) — DREPLUS и обложка;
+   серая F0F0F0 — мультиселект, мультиселект 2 и scrambler; зелёная
+   #57B035 — и обложка (запрос автора 2026-10-21; до этого белая с рамкой 2px F0F0F0, запрос 2026-10-16).
    Остальные кадры кейса на --bg-page. */
 .shot__frame--green{ background: var(--brand-design-system-field); }
 .shot__frame--gray{ background: var(--shot-plate); }
-.shot__frame--white{ position: relative; background: #fff; }
 
 /* Слово с дефисом не рвётся на «дизайн-» / «система» (то же, что .nw у RealDeal). */
 .nw{ white-space: nowrap; }
@@ -1307,7 +1306,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
          даёт плашка (--bg-page). Подпись обложке не нужна: она
          показывает, а не доказывает. -->
     <figure class="shot shot--cover">
-      <div class="shot__frame shot__frame--white" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/ds/960/ds_cover.webp 960w, /img/ds/ds_cover.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ds/ds_cover.png" width="3200" height="1800" alt="Сетка компонентов библиотеки DREAMPlatform: Button, Combobox, Status, Toast, Filter, Tag, Search, Calendar" fetchpriority="high"></picture></div>
+      <div class="shot__frame shot__frame--green" style="aspect-ratio: 3200 / 1800"><picture><source srcset="/img/ds/960/ds_cover.webp 960w, /img/ds/ds_cover.webp 3200w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/ds/ds_cover.png" width="3200" height="1800" alt="Сетка компонентов библиотеки DREAMPlatform: Button, Combobox, Status, Toast, Filter, Tag, Search, Calendar" fetchpriority="high"></picture></div>
     </figure>
 
     <!-- ── ПРОБЛЕМА И КОНТЕКСТ ── -->
