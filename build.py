@@ -64,7 +64,7 @@ META = {
         og_type='profile',
         og_title='Задорожная Екатерина — Senior Product Designer',
         og_description='8 лет в B2B SaaS и B2C: PropTech, Streaming TV, дизайн-системы.',
-        og_image='og.png',
+        og_image='og/og.png',
     ),
     'realdeal.html': dict(
         who=f'<a href="/">{WHO}</a>',
@@ -77,7 +77,7 @@ META = {
         og_title='Первая в ОАЭ платформа онлайн-сделок с коммерческой недвижимостью',
         og_description='Кейс RealDeal. Lead Product Designer: стратегия, карта на данных '
                        'DLD, онлайн-сделка на UAE PASS.',
-        og_image='og-realdeal.png',
+        og_image='og/og_realdeal.png',
     ),
     'kino-i-tv.html': dict(
         who=f'<a href="/">{WHO}</a>',
@@ -90,7 +90,7 @@ META = {
         og_title='95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн',
         og_description='Кейс «Триколор Кино и ТВ». Product Designer: доступ, вход, навигация, '
                        'единые принципы Smart TV и Apple TV.',
-        og_image='og.png',   # отдельной картинки для кейса нет — общая
+        og_image='og/og_kino.png',
     ),
     'design-system.html': dict(
         who=f'<a href="/">{WHO}</a>',
@@ -103,7 +103,7 @@ META = {
         og_title='Дизайн-система, вычистившая 10 лет легаси',
         og_description='Кейс DREAMPlatform. Senior Product Designer: единый интерфейс '
                        'шести сервисов, процесс согласования, 40+ компонентов.',
-        og_image='og.png',   # отдельной картинки для кейса нет — общая
+        og_image='og/og_ds.png',
     ),
     'second-screen.html': dict(
         who=f'<a href="/">{WHO}</a>',
@@ -117,7 +117,7 @@ META = {
         og_title='12,3 млн абонентов не могли управлять ТВ с телефона. MVP за 4 месяца',
         og_description='Кейс «Второй экран». Senior Product Designer: приложение Триколора '
                        'для управления ТВ с телефона, два релиза за год, 330K пользователей.',
-        og_image='og.png',   # отдельной картинки для кейса нет — общая
+        og_image='og/og_ss.png',
     ),
 }
 
