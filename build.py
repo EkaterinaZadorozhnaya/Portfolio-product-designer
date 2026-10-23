@@ -23,6 +23,9 @@ HERE = pathlib.Path(__file__).parent
 PARTS = [
     ('HEAD',       'html', 'parts/head.html', True),
     ('BASE',       'css',  'parts/base.css'),
+    # шапка телефона и меню (≤800): шапка одна для всех, меню — кодом (текущий кейс)
+    ('MBAR',       'html', 'parts/mbar.html'),
+    ('MENU',       'html', None),
     ('RAIL_HEAD',  'html', 'parts/rail_head.html', True),
     ('RAIL_FOOT',  'html', 'parts/rail_foot.html'),
     # правила и скрипт страницы кейса — общие для всех внутренних страниц
@@ -177,7 +180,29 @@ def case_more(page):
             '    </nav>')
 
 
-GENERATED = {'CASE_TREE': case_tree, 'CASE_MORE': case_more}
+def menu(page):
+    """Меню телефона: кейсы карточками, резюме, контакты. Низ берётся из
+    parts/rail_foot.html — контакты живут в одном месте. «В работе» не показываем."""
+    cur = page.replace('.html', '')
+    cards = []
+    for c in CASES:
+        if c.get('soon'):
+            continue
+        r = row(c)
+        if c['slug'] == cur:
+            r = r.replace('<a class="row row--flat"', '<a class="row row--flat" aria-current="page"', 1)
+        cards.append('      ' + r)
+    foot = (HERE / 'parts/rail_foot.html').read_text(encoding='utf8')
+    foot = foot[foot.index('<div class="rail__foot">'):foot.index('<button class="prefs__theme"')].rstrip() + '\n      </div>'
+    foot = foot.replace('rail__foot', 'menu__foot')
+    mod = ' menu--home' if cur == 'index' else ''
+    return (f'<div class="menu{mod}" id="menu">\n'
+            '  <nav class="menu__panel" aria-label="Меню">\n'
+            '    <div class="tree">\n' + '\n'.join(cards) + '\n    </div>\n'
+            f'    {foot}\n  </nav>\n</div>')
+
+
+GENERATED = {'CASE_TREE': case_tree, 'CASE_MORE': case_more, 'MENU': menu}
 
 
 def tags(name, kind):

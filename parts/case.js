@@ -51,21 +51,3 @@
   });
 })();
 </script>
-
-
-<script>
-/* Шапка включается, когда колонка ушла за верхний край. Метка в конце
-   колонки, а не сама колонка: наблюдение за колонкой включало бы
-   шапку в самом верху страницы, когда она ещё не нужна. */
-(function(){
-  var bar = document.querySelector('.topbar'), rail = document.querySelector('.rail');
-  if (!bar || !rail || !('IntersectionObserver' in window)) return;
-  var mark = document.createElement('span');
-  mark.setAttribute('aria-hidden', 'true');
-  mark.style.cssText = 'position:absolute;left:0;bottom:0;width:1px;height:1px;pointer-events:none';
-  rail.appendChild(mark);
-  new IntersectionObserver(function(e){
-    bar.classList.toggle('is-on', e[e.length - 1].boundingClientRect.top < 0);   /* последняя запись — актуальная */
-  }, { threshold: 0 }).observe(mark);
-})();
-</script>

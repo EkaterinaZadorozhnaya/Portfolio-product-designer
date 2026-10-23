@@ -1,0 +1,26 @@
+<header class="mbar">
+  <a class="mbar__ava" href="/" aria-label="На главную"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></a>
+  <div class="mbar__btns">
+    <a class="mbar__btn mbar__cv" href="https://codedesign.ru/CV.pdf" target="_blank" rel="noopener" aria-label="Резюме, PDF">CV</a>
+    <button class="mbar__btn mbar__menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню">
+      <svg class="i-open" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+      <svg class="i-close" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2v12M8 2v12M12 2v12"/></svg>
+    </button>
+  </div>
+</header>
+<script>
+(function(){
+  var root = document.documentElement, btn = document.querySelector('.mbar__menu');
+  if (!btn) return;
+  function set(open){
+    root.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Закрыть меню' : 'Меню');
+  }
+  btn.addEventListener('click', function(){ set(!root.classList.contains('menu-open')); });
+  /* меню в разметке ниже скрипта — слушаем на документе: нажатие мимо панели закрывает */
+  document.addEventListener('click', function(e){ if (e.target.id === 'menu') set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') set(false); });
+  window.matchMedia('(min-width: 801px)').addEventListener('change', function(e){ if (e.matches) set(false); });
+})();
+</script>

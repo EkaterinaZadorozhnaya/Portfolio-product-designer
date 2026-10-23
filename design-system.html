@@ -358,6 +358,9 @@ body{
 .hire__links a:hover{ color: var(--text-secondary); }
 .hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 
+/* перенос строки только на телефоне: переносы интро — как на макете iPhone 17 */
+.br-m{ display: none; }
+
 /* неразрывное сочетание в заголовках: «онлайн-сделок» не рвётся по дефису */
 .nw{ white-space: nowrap; }
 /* ЗНАК КЕЙСА В КОЛОНКЕ — квадрат из SVG (в колонке различить четыре кейса
@@ -444,57 +447,124 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px
 
 /* СПИСОК КЕЙСОВ — по центру между «кто я» и низом колонки, карточки до 320
    (на обеих страницах, макеты 2026-10-12). */
-.rail .tree{ margin-block: auto; max-width: 320px; }
+.rail .tree{ margin: auto -3px; padding: 3px; max-width: 326px; }
+/* Интро и резюме с контактами не прячутся ни на какой высоте экрана:
+   если колонка не помещается, прокручивается список кейсов между ними.
+   Поля 3px — чтобы рамка фокуса карточек не обрезалась. */
+@media (min-width: 801px){
+  .rail .tree{ min-height: 0; overflow-y: auto; scrollbar-width: thin; }
+}
+/* «Умный дом» — карточка без ссылки; на невысоком экране она только отнимает
+   место у настоящих кейсов и выглядит обрезанной, поэтому здесь её нет. */
+@media (min-width: 801px) and (max-height: 940px){
+  .rail .row--soon{ display: none; }
+}
 
 /* ПОРОГ СХЛОПЫВАНИЯ — 800 (ТЗ адаптив 2026-10-10; прежний 1140 заменён).
    Колонка резиновая, clamp(248, 25vw, 360), и отдаёт пиксели вместе
    с листом, поэтому сворачивать её раньше 800 незачем: ниже 800
    колонка оставляла бы листу меньше, чем он получает без неё.
    Четыре режима: 1141+ — колонка полная; 801–960 — сжатая;
-   800 и ниже — горизонтальная над контентом, в ней только
-   аватар, имя с ролью и кнопка резюме. */
+   800 и ниже — шапка с меню, на главной под ней «кто я» с резюме. */
 @media (min-width: 801px) and (max-width: 960px){
   :root{ --width-rail: clamp(200px, 22vw, 248px); }
   .app{ gap: 0 24px; }
   .rail .row__id em{ display: none; }   /* подзаголовки кейсов не влезают */
-  .me__sum{ display: none; }            /* строка про $7.5M не влезает */
+}
+/* Колонка уже ~260 (до 1040): имя с ролью рядом с аватаром ломалось на 3–4 строки.
+   Здесь аватар над именем, текст на всю ширину колонки. */
+@media (min-width: 801px) and (max-width: 1040px){
+  .me{ grid-template-columns: 1fr; }
+  .me__ava{ margin-bottom: 16px; }
+  .me__who{ grid-column: 1 / -1; }
 }
 @media (max-width: 800px){
-  .app{ grid-template-columns: 1fr; gap: 28px; }
-  /* горизонтальная колонка не растягивается на всю ширину:
-     строка в 1020px нечитаема, а контента в ней на 426 */
-  /* relative, а не static: метка шапки в конце колонки позиционируется от неё */
+  .app{ grid-template-columns: 1fr; gap: 24px; padding-top: 0; }
+  /* Ниже 800 колонка сворачивается в «кто я» под липкой шапкой (.mbar):
+     только на главной. На странице кейса её нет — имя и роль не повторяются
+     над каждым кейсом, а кейсы, резюме и контакты лежат в меню (макеты
+     iPhone 17, 2026-10-23). */
   .rail{ position: relative; top: auto; height: auto; max-height: none; overflow: visible;
-         gap: 20px; max-width: 760px; }
-  .rail__foot{ margin-top: 12px; }   /* зазор колонки здесь 20, до кнопки 32 */
-  /* уходят: список кейсов с якорями, контакты, строки интро. Другие кейсы
-     и контакты есть внизу страницы (.more, .end, .foot--hire). */
-  .rail .tree, .rail .hire, .me__span, .me__sum{ display: none; }
+         gap: 0; max-width: 760px; }
+  .app--case .rail{ display: none; }
+  .rail .tree, .rail .hire, .me__ava{ display: none; }   /* аватар живёт в шапке */
+  /* ширина текста фиксирована (макет: 393 минус поля 16), переносы — по макету */
+  .me{ grid-template-columns: 1fr; max-width: 361px; }
+  .br-m{ display: inline; }
+  .me__who{ grid-column: 1 / -1; }
+  /* резюме слева, переключатель темы справа — одной строкой */
+  .rail__foot{ display: flex; align-items: center; justify-content: space-between;
+               gap: 16px; margin-top: 24px; }
+  .rail__foot .act{ flex: none; max-width: none; }
+  .rail__foot .act__cv{ flex: none; }
+  /* переключатель темы — квадрат 32, как кнопки шапки */
+  .prefs__theme{ width: 32px; height: 32px; min-width: 32px; min-height: 32px;
+                 justify-content: center; border-radius: var(--radius-4);
+                 background: var(--bg-placeholder); color: var(--text-primary); }
+  .prefs__theme svg{ width: 14px; height: 14px; }
 }
-/* ЛИПКАЯ ШАПКА — 768 и ниже. Появляется, когда колонка ушла за верхний
-   край; без гамбургера, кнопки «наверх» и зума (решения автора). */
-.topbar{ display: none; }
-@media (max-width: 768px){
-  .topbar{
-    position: fixed; inset: 0 0 auto; z-index: 60;
+
+/* ШАПКА И МЕНЮ ТЕЛЕФОНА — 800 и ниже (макеты iPhone 17, 2026-10-23).
+   Шапка липкая и всегда на экране: аватар слева, справа «CV» и меню.
+   Меню — экран поверх страницы: кейсы карточками, резюме, контакты.
+   В открытом меню в шапке остаётся одна кнопка (значок меняется). */
+.mbar, .menu{ display: none; }
+@media (max-width: 800px){
+  .mbar{
+    position: sticky; top: 0; z-index: 60; height: 72px;
     display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; height: 48px; padding: 0 16px;
-    background: color-mix(in srgb, var(--bg-surface) 86%, transparent);
-    backdrop-filter: saturate(1.5) blur(12px);
-    -webkit-backdrop-filter: saturate(1.5) blur(12px);
-    border-bottom: 1px solid var(--border-default);
-    opacity: 0; transform: translateY(-100%); pointer-events: none; visibility: hidden;
-    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+    padding: 0 max(16px, var(--page-gutter)); background: var(--bg-page);
   }
-  .topbar.is-on{ opacity: 1; transform: none; pointer-events: auto; visibility: visible; }
-  .topbar a{
-    font-size: 14px; line-height: 16px; letter-spacing: -.012em;
-    color: var(--text-primary); text-decoration: none; min-height: 26px;
-    display: inline-flex; align-items: center;
+  .mbar__ava{ display: block; width: 40px; height: 40px; border-radius: var(--radius-full);
+              overflow: hidden; background: var(--bg-placeholder); }
+  .mbar__ava img{ display: block; width: 40px; height: 40px; object-fit: cover; }
+  .mbar__btns{ display: flex; gap: 8px; }
+  .mbar__btn{
+    box-sizing: border-box; width: 32px; height: 32px; padding: 0; border: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-4); background: var(--bg-placeholder);
+    color: var(--text-primary); font: inherit; font-size: 14px; line-height: 16px;
+    letter-spacing: -.012em; text-decoration: none; cursor: pointer;
+    transition: background .18s ease-out;
   }
-  .topbar a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+  .mbar__btn:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+  .mbar__btn svg{ width: 16px; height: 16px; }
+  .mbar__menu .i-close{ display: none; }
+  html.menu-open .mbar__menu .i-open{ display: none; }
+  html.menu-open .mbar__menu .i-close{ display: block; }
+  html.menu-open .mbar__ava, html.menu-open .mbar__cv{ visibility: hidden; }
+  /* шапка 72, а кнопка меню кончается на 48: фон снимаем, чтобы первая карточка (отступ 62) не пряталась под ним */
+  html.menu-open .mbar{ background: transparent; pointer-events: none; }
+  html.menu-open .mbar__menu{ pointer-events: auto; }
+
+  /* Меню — панель по высоте содержимого сверху, а не экран целиком:
+     страница под ней видна, размыта и чуть осветлена. Нажатие мимо панели
+     закрывает меню. */
+  .menu{
+    position: fixed; inset: 0; z-index: 59;
+    background: color-mix(in srgb, var(--bg-page) 35%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .menu__panel{
+    box-sizing: border-box; max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+    display: flex; flex-direction: column;
+    padding: 62px max(16px, var(--page-gutter)) 24px; background: var(--bg-page);
+    border-radius: 0 0 var(--radius-8) var(--radius-8);
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  html.menu-open{ overflow: hidden; }
+  html.menu-open .menu{ display: block; animation: menu-in .18s ease-out; }
+  @keyframes menu-in{ from{ opacity: 0; } to{ opacity: 1; } }
+  .menu .tree{ gap: 8px; max-width: none; }
+  .menu .logo{ width: 36px; height: 36px; }
+  .menu .row__id{ grid-template-columns: 36px minmax(0,1fr); }
+  /* текущий кейс — «в фоне страницы», как в колонке на десктопе */
+  .menu .row--flat[aria-current="page"]{ background: transparent; }
+  .menu__foot{ display: grid; gap: 24px; margin-top: 36px; }
+  .menu .act{ max-width: none; }
+  .menu .hire__links{ gap: 0; }
+  .menu .hire__links a{ min-height: 32px; }
 }
-@media (prefers-reduced-motion: reduce){ .topbar{ transition: none; } }
 /* ТЕЛЕФОН — 480.
    Лист идёт во всю ширину экрана: поля страницы съедали 32px
    из 390, то есть десятую часть строки. Замер: с полями проза
@@ -520,19 +590,13 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px
    с контактами уезжают за край — это главное действие, его не прячем.
    Поэтому сначала уходит строка про инвестиции, потом сфера; замер:
    главная помещается с 805, кейс — с 880 (со строкой сферы). */
-@media (min-width: 801px) and (max-height: 880px){
-  .me__sum{ display: none; }
-}
-@media (min-width: 801px) and (max-height: 800px){
-  .me__span{ display: none; }
-}
 /* порог по высоте — только с 801: ниже колонка уже не липкая */
 @media (min-width: 801px) and (max-height: 720px){
   .rail{ gap: 18px; }   /* колонка плотнее: прокрутка внутри нужна реже */
   .rail__foot{ gap: 16px; }
   .row--flat{ padding-block: 4px; }   /* карточка 48 вместо 56 */
 }
-@media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
+@media (prefers-reduced-motion: reduce){ *{ transition: none !important; animation: none !important; } }
 /* <</BASE>> */
 
 /* <<CASE>> */
@@ -1209,10 +1273,57 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
 <a class="skip" href="#case">К тексту кейса</a>
 
-<header class="topbar">
-  <a href="/">Задорожная Екатерина</a>
-  <a href="/CV.pdf" target="_blank" rel="noopener">Резюме ↓</a>
+<!-- <<MBAR>> -->
+<header class="mbar">
+  <a class="mbar__ava" href="/" aria-label="На главную"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></a>
+  <div class="mbar__btns">
+    <a class="mbar__btn mbar__cv" href="https://codedesign.ru/CV.pdf" target="_blank" rel="noopener" aria-label="Резюме, PDF">CV</a>
+    <button class="mbar__btn mbar__menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню">
+      <svg class="i-open" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+      <svg class="i-close" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2v12M8 2v12M12 2v12"/></svg>
+    </button>
+  </div>
 </header>
+<script>
+(function(){
+  var root = document.documentElement, btn = document.querySelector('.mbar__menu');
+  if (!btn) return;
+  function set(open){
+    root.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Закрыть меню' : 'Меню');
+  }
+  btn.addEventListener('click', function(){ set(!root.classList.contains('menu-open')); });
+  /* меню в разметке ниже скрипта — слушаем на документе: нажатие мимо панели закрывает */
+  document.addEventListener('click', function(e){ if (e.target.id === 'menu') set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') set(false); });
+  window.matchMedia('(min-width: 801px)').addEventListener('change', function(e){ if (e.matches) set(false); });
+})();
+</script>
+<!-- <</MBAR>> -->
+<!-- <<MENU>> -->
+<div class="menu" id="menu">
+  <nav class="menu__panel" aria-label="Меню">
+    <div class="tree">
+      <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" aria-current="page" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+    </div>
+    <div class="menu__foot">
+      <div class="act">
+        <a class="act__cv" href="https://codedesign.ru/CV.pdf" target="_blank" rel="noopener">Резюме — PDF</a>
+      </div>
+      <div class="hire">
+        <div class="hire__links">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        </div>
+      </div>
+      </div>
+  </nav>
+</div>
+<!-- <</MENU>> -->
 
 <div class="app app--case">
 
@@ -1223,8 +1334,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <div class="me">
       <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
       <p class="me__who"><a href="/">Задорожная Екатерина —<br>Senior Product Designer.</a></p>
-      <p class="me__span">8 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C:</b> PropTech, Streaming&nbsp;TV, дизайн-системы.</p>
-      <p class="me__sum"><b>$7.5M</b> инвестиций и рост аудитории <b>100% YoY</b> — на продуктах, которые я&nbsp;вела.</p>
+      <p class="me__span">8 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C:</b> PropTech, <br class="br-m">Streaming&nbsp;TV, дизайн-системы.</p>
+      <p class="me__sum"><b>$7.5M</b> инвестиций и рост аудитории <br class="br-m"><b>100%&nbsp;YoY</b> — на продуктах, которые я&nbsp;вела.</p>
     </div>
 <!-- <</RAIL_HEAD>> -->
 
@@ -1262,19 +1373,20 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     </div>
     <script>
     (function(){
-      var root=document.documentElement, btn=document.querySelector('.prefs__theme');
-      if(!btn) return;
+      var root=document.documentElement, btns=document.querySelectorAll('.prefs__theme');
+      if(!btns.length) return;
       function current(){ return root.getAttribute('data-theme')==='dark'?'dark':'light'; }
       function sync(){ var d=current()==='dark';
-        btn.setAttribute('aria-pressed', d?'true':'false');
-        btn.setAttribute('aria-label', d?'Светлая тема':'Тёмная тема'); }
+        btns.forEach(function(b){
+          b.setAttribute('aria-pressed', d?'true':'false');
+          b.setAttribute('aria-label', d?'Светлая тема':'Тёмная тема'); }); }
       sync();
-      btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.addEventListener('click', function(){
         var next = current()==='dark' ? 'light' : 'dark';
         root.setAttribute('data-theme', next);
         try{ localStorage.setItem('theme', next); }catch(e){}
         sync();
-      });
+      }); });
     })();
     </script>
 <!-- <</RAIL_FOOT>> -->
@@ -1573,24 +1685,6 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       history.replaceState(null, '', a.getAttribute('href'));
     });
   });
-})();
-</script>
-
-
-<script>
-/* Шапка включается, когда колонка ушла за верхний край. Метка в конце
-   колонки, а не сама колонка: наблюдение за колонкой включало бы
-   шапку в самом верху страницы, когда она ещё не нужна. */
-(function(){
-  var bar = document.querySelector('.topbar'), rail = document.querySelector('.rail');
-  if (!bar || !rail || !('IntersectionObserver' in window)) return;
-  var mark = document.createElement('span');
-  mark.setAttribute('aria-hidden', 'true');
-  mark.style.cssText = 'position:absolute;left:0;bottom:0;width:1px;height:1px;pointer-events:none';
-  rail.appendChild(mark);
-  new IntersectionObserver(function(e){
-    bar.classList.toggle('is-on', e[e.length - 1].boundingClientRect.top < 0);   /* последняя запись — актуальная */
-  }, { threshold: 0 }).observe(mark);
 })();
 </script>
 <!-- <</CASE_JS>> -->
