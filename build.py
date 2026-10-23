@@ -63,7 +63,7 @@ META = {
         url='https://codedesign.ru/',
         og_type='profile',
         og_title='Задорожная Екатерина — Senior Product Designer',
-        og_description='8 лет в B2B SaaS и B2C: PropTech, Streaming TV, дизайн-системы.',
+        og_description='8 лет в B2B SaaS и B2C. Сложные интерфейсы, дизайн-системы, запуск продуктов с нуля. $7.5M на MVP, ×2 аудитории на редизайне.',
         og_image='og/og.png',
     ),
     'realdeal.html': dict(
@@ -74,9 +74,8 @@ META = {
                     'демо до коммерческого MVP.',
         url='https://codedesign.ru/realdeal',
         og_type='article',
-        og_title='Первая в ОАЭ платформа онлайн-сделок с коммерческой недвижимостью',
-        og_description='Кейс RealDeal. Lead Product Designer: стратегия, карта на данных '
-                       'DLD, онлайн-сделка на UAE PASS.',
+        og_title='MVP, поднявший $7.5M',
+        og_description='Первая в ОАЭ платформа онлайн-сделок с коммерческой недвижимостью. Аналитика на данных земельного департамента Дубая.',
         og_image='og/og_realdeal.png',
     ),
     'kino-i-tv.html': dict(
@@ -87,9 +86,8 @@ META = {
                     'единые принципы Smart TV и Apple TV. Аудитория выросла до 1,7 млн.',
         url='https://codedesign.ru/kino-i-tv',
         og_type='article',
-        og_title='95% не доходили до подписки. Редизайн, удвоивший аудиторию до 1,7 млн',
-        og_description='Кейс «Триколор Кино и ТВ». Product Designer: доступ, вход, навигация, '
-                       'единые принципы Smart TV и Apple TV.',
+        og_title='×2 аудитории до 1,7 млн',
+        og_description='Онлайн-кинотеатр для базы 12,3 млн абонентов. 95% не доходили до подписки — аудитория удвоилась за год.',
         og_image='og/og_kino.png',
     ),
     'design-system.html': dict(
@@ -100,9 +98,8 @@ META = {
                     'десятилетнего легаси, процесс согласования, 40+ компонентов с документацией.',
         url='https://codedesign.ru/design-system',
         og_type='article',
-        og_title='Дизайн-система, вычистившая 10 лет легаси',
-        og_description='Кейс DREAMPlatform. Senior Product Designer: единый интерфейс '
-                       'шести сервисов, процесс согласования, 40+ компонентов.',
+        og_title='Дизайн-система для 6 сервисов',
+        og_description='Корпоративная дизайн-система для GS Group. 40+ компонентов, ускорила релизы ×2, работает без автора.',
         og_image='og/og_ds.png',
     ),
     'second-screen.html': dict(
@@ -114,9 +111,8 @@ META = {
                     '330K активных пользователей.',
         url='https://codedesign.ru/second-screen',
         og_type='article',
-        og_title='12,3 млн абонентов не могли управлять ТВ с телефона. MVP за 4 месяца',
-        og_description='Кейс «Второй экран». Senior Product Designer: приложение Триколора '
-                       'для управления ТВ с телефона, два релиза за год, 330K пользователей.',
+        og_title='0 → 330K пользователей за год',
+        og_description='Мобильное приложение для 12,3 млн абонентов Триколора. MVP за 4 месяца.',
         og_image='og/og_ss.png',
     ),
 }
