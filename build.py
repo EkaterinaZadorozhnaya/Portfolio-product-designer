@@ -60,13 +60,13 @@ META = {
     'index.html': dict(
         who=WHO,
         title='Задорожная Екатерина — Senior Product Designer',
-        description='Senior Product Designer, 9 лет в B2B SaaS и B2C: PropTech, '
+        description='Senior Product Designer, 9+ лет в B2B SaaS и B2C: PropTech, '
                     'Streaming TV, дизайн-системы. $7.5M инвестиций и рост аудитории '
                     '100% YoY на продуктах, которые я вела.',
         url='https://codedesign.ru/',
         og_type='profile',
         og_title='Задорожная Екатерина — Senior Product Designer',
-        og_description='9 лет в B2B SaaS и B2C. Сложные интерфейсы, дизайн-системы, запуск продуктов с нуля. $7.5M на MVP, ×2 аудитории на редизайне.',
+        og_description='9+ лет в B2B SaaS и B2C. Сложные интерфейсы, дизайн-системы, запуск продуктов с нуля. $7.5M на Демо + MVP, ×2 аудитории на редизайне.',
         og_image='og/og.png',
     ),
     'realdeal.html': dict(
@@ -77,7 +77,7 @@ META = {
                     'демо до коммерческого MVP.',
         url='https://codedesign.ru/realdeal',
         og_type='article',
-        og_title='MVP, поднявший $7.5M',
+        og_title='Демо + MVP, поднявшие $7.5M',
         og_description='Первая в ОАЭ платформа онлайн-сделок с коммерческой недвижимостью. Аналитика на данных земельного департамента Дубая.',
         og_image='og/og_realdeal.png',
     ),
@@ -90,7 +90,7 @@ META = {
         url='https://codedesign.ru/kino-i-tv',
         og_type='article',
         og_title='×2 аудитории до 1,7 млн',
-        og_description='Онлайн-кинотеатр для базы 12,3 млн абонентов. 95% не доходили до подписки — аудитория удвоилась за год.',
+        og_description='Онлайн-кинотеатр для базы 12 млн абонентов. 95% не доходили до подписки — аудитория удвоилась за год.',
         og_image='og/og_kino.png',
     ),
     'design-system.html': dict(
