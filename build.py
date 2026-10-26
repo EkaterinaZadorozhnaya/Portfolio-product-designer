@@ -42,7 +42,7 @@ PAGES = ['index.html', 'realdeal.html', 'kino-i-tv.html', 'design-system.html', 
 # brand: значение атрибута data-brand, по нему CSS берёт цвет продукта.
 # anchors: якоря разделов кейса; у всех внутренних страниц они одинаковы.
 CASES = [
-    dict(slug='realdeal',      name='RealDeal',           domain='B2B SaaS · PropTech',        brand='realdeal'),
+    dict(slug='realdeal',      name='Real Deal',           domain='B2B SaaS · PropTech',        brand='realdeal'),
     dict(slug='kino-i-tv',     name='Кино и ТВ',          domain='B2C · Streaming TV',         brand='kino-i-tv'),
     dict(slug='second-screen', name='Второй экран',       domain='B2C · TV &amp; Media',       brand='second-screen'),
     dict(slug='design-system', name='DREAMPlatform',      domain='B2B SaaS · Design system',   brand='design-system'),
@@ -60,19 +60,19 @@ META = {
     'index.html': dict(
         who=WHO,
         title='Задорожная Екатерина — Senior Product Designer',
-        description='Senior Product Designer, 8 лет в B2B SaaS и B2C: PropTech, '
+        description='Senior Product Designer, 9 лет в B2B SaaS и B2C: PropTech, '
                     'Streaming TV, дизайн-системы. $7.5M инвестиций и рост аудитории '
                     '100% YoY на продуктах, которые я вела.',
         url='https://codedesign.ru/',
         og_type='profile',
         og_title='Задорожная Екатерина — Senior Product Designer',
-        og_description='8 лет в B2B SaaS и B2C. Сложные интерфейсы, дизайн-системы, запуск продуктов с нуля. $7.5M на MVP, ×2 аудитории на редизайне.',
+        og_description='9 лет в B2B SaaS и B2C. Сложные интерфейсы, дизайн-системы, запуск продуктов с нуля. $7.5M на MVP, ×2 аудитории на редизайне.',
         og_image='og/og.png',
     ),
     'realdeal.html': dict(
         who=f'<a href="/">{WHO}</a>',
-        title='RealDeal — Екатерина Задорожная',
-        description='Кейс RealDeal: первая в ОАЭ платформа онлайн-сделок с коммерческой '
+        title='Real Deal — Екатерина Задорожная',
+        description='Кейс Real Deal: первая в ОАЭ платформа онлайн-сделок с коммерческой '
                     'недвижимостью. Роль Lead Product Designer, путь от аналитического '
                     'демо до коммерческого MVP.',
         url='https://codedesign.ru/realdeal',
@@ -108,14 +108,12 @@ META = {
     'second-screen.html': dict(
         who=f'<a href="/">{WHO}</a>',
         title='Второй экран — Екатерина Задорожная',
-        description='Кейс «Второй экран»: мобильное приложение Триколора для управления ТВ '
-                    'с телефона. Senior Product Designer: MVP за 4 месяца, '
-                    'редизайн по решению заказчика, второй релиз с пультом и трансляцией ТВ. '
-                    '330K активных пользователей.',
+        description='Кейс «Второй экран» для Триколора: MVP за 4 месяца, два релиза за год, '
+                    'разворот оттока с 198K до 236K активных пользователей.',
         url='https://codedesign.ru/second-screen',
         og_type='article',
-        og_title='0 → 330K пользователей за год',
-        og_description='Мобильное приложение для 12,3 млн абонентов Триколора. MVP за 4 месяца.',
+        og_title='Триколор терял активных пользователей. Два релиза за год развернули отток в рост',
+        og_description='Кейс «Второй экран». Senior Product Designer: MVP на двух платформах, связь телефона с приставкой, 198K → 236K активных пользователей.',
         og_image='og/og_ss.png',
     ),
 }

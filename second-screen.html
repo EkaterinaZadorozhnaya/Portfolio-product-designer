@@ -6,13 +6,13 @@
 
 <!-- <<HEAD>> -->
 <title>Второй экран — Екатерина Задорожная</title>
-<meta name="description" content="Кейс «Второй экран»: мобильное приложение Триколора для управления ТВ с телефона. Senior Product Designer: MVP за 4 месяца, редизайн по решению заказчика, второй релиз с пультом и трансляцией ТВ. 330K активных пользователей.">
+<meta name="description" content="Кейс «Второй экран» для Триколора: MVP за 4 месяца, два релиза за год, разворот оттока с 198K до 236K активных пользователей.">
 <link rel="canonical" href="https://codedesign.ru/second-screen">
 
 <meta property="og:type"         content="article">
 <meta property="og:url"          content="https://codedesign.ru/second-screen">
-<meta property="og:title"        content="0 → 330K пользователей за год">
-<meta property="og:description"  content="Мобильное приложение для 12,3 млн абонентов Триколора. MVP за 4 месяца.">
+<meta property="og:title"        content="Триколор терял активных пользователей. Два релиза за год развернули отток в рост">
+<meta property="og:description"  content="Кейс «Второй экран». Senior Product Designer: MVP на двух платформах, связь телефона с приставкой, 198K → 236K активных пользователей.">
 <meta property="og:image"        content="https://codedesign.ru/og/og_ss.png">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
@@ -1228,6 +1228,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 .paper .tbl--refs{ max-width: var(--width-prose); border-top: 1px solid var(--border-default); }
 .tbl--refs > div, .tbl.tbl--refs > div{ grid-template-columns: minmax(0, 1fr); }
 .tbl--refs p b{ font-weight: 400; color: var(--text-primary); }
+.tbl p b{ font-weight: 400; color: var(--text-primary); }   /* «Первый релиз:» в таймлайне — чёрным, без жирности */
 
 /* Слово с дефисом не рвётся. */
 .nw{ white-space: nowrap; }
@@ -1252,6 +1253,8 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
 /* ЧЕТЫРЕ МЕТРИКИ В ШАПКЕ — как у «Кино и ТВ»: на ≤768 сетка 2×2. */
 .metrics--top dd{ text-wrap: balance; }
+.metrics--top dd{ max-width: 160px; }        /* подписи в две строки */
+.metrics--top > div{ flex: 0 0 auto; }   /* четыре плитки не сжимают друг друга */
 @media (max-width: 768px){
   .metrics--top{
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px;
@@ -1314,7 +1317,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 <div class="menu" id="menu">
   <nav class="menu__panel" aria-label="Меню">
     <div class="tree">
-      <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Real Deal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
       <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
       <a class="row row--flat" aria-current="page" href="/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Второй экран</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
       <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
@@ -1343,7 +1346,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <div class="me">
       <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
       <p class="me__who"><a href="/">Задорожная Екатерина —<br>Senior Product Designer.</a></p>
-      <p class="me__span">8 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C:</b> PropTech, <br class="br-m">Streaming&nbsp;TV, дизайн-системы.</p>
+      <p class="me__span">9 лет в <b>B2B&nbsp;SaaS</b> и <b>B2C:</b> PropTech, <br class="br-m">Streaming&nbsp;TV, дизайн-системы.</p>
       <p class="me__sum"><b>$7.5M</b> инвестиций и рост аудитории <br class="br-m"><b>100%&nbsp;YoY</b> — на продуктах, которые я&nbsp;вела.</p>
     </div>
 <!-- <</RAIL_HEAD>> -->
@@ -1351,7 +1354,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 <!-- <<CASE_TREE>> -->
     <nav class="tree" aria-label="Кейсы">
       <a class="all" href="/"><svg viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="1.5" cy="1.5" r="1.1"/><circle cx="6" cy="1.5" r="1.1"/><circle cx="10.5" cy="1.5" r="1.1"/><circle cx="1.5" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="10.5" cy="6" r="1.1"/><circle cx="1.5" cy="10.5" r="1.1"/><circle cx="6" cy="10.5" r="1.1"/><circle cx="10.5" cy="10.5" r="1.1"/></svg>Все</a>
-      <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Real Deal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
       <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
       <div class="row row--open" data-brand="second-screen" aria-current="page">
         <span class="row__id"><span class="logo" aria-hidden="true"></span>
@@ -1411,15 +1414,15 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <a class="top__link" href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&amp;hl=ru" target="_blank" rel="noopener">Google Play <i>↗</i></a>
     </div>
 
-    <h1 class="title">12,3&nbsp;млн абонентов не могли управлять ТВ с&nbsp;телефона. MVP за&nbsp;4&nbsp;месяца</h1>
+    <h1 class="title">Триколор терял активных пользователей. Два релиза за&nbsp;год развернули отток в&nbsp;рост</h1>
 
-    <p class="lede">Триколор, один из крупнейших спутниковых операторов России (12,3&nbsp;млн абонентов), заказал у GS&nbsp;Group мобильное приложение <a href="https://play.google.com/store/apps/details?id=com.gsgroup.secondscreen&amp;hl=ru" target="_blank" rel="noopener">«Второй экран»</a>: персональное управление ТВ с телефона. Я проектировала продукт с нуля: расписание передач, трансляцию спутникового ТВ на телефон, запись, напоминания, голосовое управление, офлайн-режим.</p>
+    <p class="lede">«Второй экран» — мобильный ТВ-компаньон для абонентов Триколора, крупнейшего спутникового оператора России. Спроектировала продукт с нуля и провела через два релиза: расписание передач, связь с приставкой, трансляцию ТВ на телефон, голосовое управление, просмотр без интернета.</p>
 
     <dl class="metrics metrics--top">
-      <div><dt>330K+</dt><dd>активных пользователей</dd></div>
-      <div><dt>188K</dt><dd>подписчиков</dd></div>
-      <div><dt>4 мес.</dt><dd>Android MVP в сторе</dd></div>
-      <div><dt>TV</dt><dd>на базе мобайла начали ТВ-приложение</dd></div>
+      <div><dt>236K+</dt><dd>активных<br>пользователей</dd></div>
+      <div><dt>4 мес.</dt><dd>Android MVP<br>в сторе</dd></div>
+      <div><dt>ТВ</dt><dd>мобайл лёг в основу<br>ТВ-приложения</dd></div>
+      <div><dt>68%</dt><dd>ТВ стали<br>смотреть лучше</dd></div>
     </dl>
 
     <!-- КАДРЫ — img/ss/ и img/home/ss_cover (PNG из Figma + WebP без потерь + 960/1920).
@@ -1434,22 +1437,21 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <section class="sec" id="problem">
       <h2 class="sec__label">Проблема</h2>
 
-      <h3>У абонентов была приставка, но не было способа управлять ТВ с телефона</h3>
+      <h3>Устаревшая ТВ-приставка не выходила в сеть — и абонент уходил</h3>
 
-      <p class="t">В 2022 году у НТВ-Плюс, МТС и Телекарты уже были мобильные приложения для управления ТВ. У Триколора — нет. Телефон не был связан с приставкой, персонализация не работала на общем телевизоре, абоненты пропускали нужные передачи. Триколор проигрывал конкурентам и терял точку контакта между сеансами у телевизора.</p>
+      <p class="t">Сотни тысяч абонентов Триколора пользовались устаревшими ТВ-приставками без доступа к интернету. Из-за этого компания теряла активных пользователей: к началу работы их число упало с <b>250&nbsp;000</b> до <b>198&nbsp;000</b> за год.</p>
 
-      <p class="t">Триколор передал данные своего исследования: чем абоненты заняты у телевизора и чего им не хватает.</p>
+      <p class="t"><b>Задача.</b> Удержать клиентов. <b>Метрика</b> — устойчивое и продолжительное снижение оттока. Гипотеза: удержит новая ценность, которая повысит лояльность.</p>
+
+      <p class="t">Триколор передал данные своего исследования: чем абоненты заняты во время просмотра телевизора.</p>
 
       <!-- СПРАВКА — тот же компонент, что список сервисов в кейсе
-           дизайн-системы: четыре числа сканируют, а не читают. -->
+           дизайн-системы: три числа сканируют, а не читают. -->
       <div class="tbl tbl--refs">
-        <div><p><b>63%</b> регулярно проверяют расписание на телефоне</p></div>
-        <div><p><b>51%</b> не хватало удобного поиска по программе передач</p></div>
-        <div><p><b>44%</b> хотели составлять списки и ставить напоминания</p></div>
-        <div><p><b>40%</b> ждали персональных рекомендаций</p></div>
+        <div><p><b>63%</b> пользуются смартфоном, сидя перед экраном</p></div>
+        <div><p><b>48%</b> смотрят расписание передач в приложениях</p></div>
+        <div><p><b>31%</b> ищут забытые названия фильмов и имена актёров</p></div>
       </div>
-
-      <p class="t"><b>Задача.</b> Удержать абонентов, которых нельзя было удержать через телевизор: связать телефон с приставкой и дать каждому то, чего нет на общем экране. Срок на первый релиз задал заказчик — 4&nbsp;месяца до стора.</p>
     </section>
 
     <!-- ── МОЙ ВКЛАД ── -->
@@ -1458,10 +1460,10 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <!-- 1. MVP -->
       <p class="tag">Решение 1. MVP</p>
-      <h3>Чем заменить данные, которых нет</h3>
-      <p class="t"><b>Контекст.</b> Что болит, мы знали из данных заказчика. Как люди ведут себя в интерфейсе — нет: таких данных у нас не было. Аудитория закрытая: только действующие абоненты Триколора. Это люди 35–55 лет, за пределами крупных городов, где дом не всегда охвачен даже 3G, и почти без опыта онлайн-видеосервисов.</p>
-      <p class="t"><b>Решение.</b> Скоуп первого релиза урезали сознательно: MVP был инструментом проверки, а не уменьшенной копией продукта — в нём оставили то, что работает сразу после входа по Триколор&nbsp;ID, без привязки оборудования. Данных о поведении это не давало, и я закрывала их тем, что было: конкурентным анализом приложений НТВ-Плюс и МТС и открытыми отзывами на похожие продукты. Каждый сценарий и флоу согласовывала с заказчиком до детального дизайна.</p>
-      <p class="res"><b>Результат</b><span>Android MVP в Google&nbsp;Play через 4&nbsp;месяца, следом iOS. Чего не дал анализ, показал релиз: абоненты ждали управления телевизором, не находили его и шли в поддержку — нагрузка на неё выросла.</span></p>
+      <h3>Чем пожертвовать, чтобы выйти за 4&nbsp;месяца</h3>
+      <p class="t"><b>Контекст.</b> Срок на первый релиз задал заказчик — 4&nbsp;месяца до стора. Что болит, мы знали из данных Триколора. Как люди ведут себя в интерфейсе — нет, и взять эти данные было негде: аудитория закрытая, только действующие абоненты. Это люди 35–55 лет, за пределами крупных городов, где дом не всегда охвачен даже 3G.</p>
+      <p class="t"><b>Решение.</b> Скоуп резали под срок, и я отвечала за то, что в него войдёт. Взяла один принцип отбора: в MVP входит то, что работает сразу после входа по Триколор&nbsp;ID, без привязки оборудования. MVP был инструментом проверки, а не уменьшенной копией продукта. Нехватку данных о поведении закрывала тем, что было: конкурентным анализом приложений НТВ-Плюс и МТС и открытыми отзывами на похожие продукты.</p>
+      <p class="res"><b>Результат</b><span>Android MVP в Google&nbsp;Play через 4&nbsp;месяца, следом iOS. Цена принципа проявилась сразу: абоненты ждали управления телевизором, не находили его и шли в поддержку — нагрузка на неё выросла. Это и задало скоуп второго релиза.</span></p>
 
       <!-- Пара 4:3 — Android: в тексте «Android MVP в Google Play, следом iOS». -->
       <div class="shots2">
@@ -1475,11 +1477,11 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <!-- 2. РЕДИЗАЙН -->
       <p class="tag">Решение 2. Редизайн</p>
-      <h3>Решение заказчика, внедрение — моё</h3>
-      <p class="t"><b>Контекст.</b> После первого релиза заказчик поставил задачу: редизайн на неоморфизм. MVP был в плоском дизайне, заказчику показалось слишком просто, захотелось визуально выделиться. При этом второй релиз нёс и новый функционал — переделывать предстояло всё сразу.</p>
+      <h3>Как внедрить редизайн, против которого возражала</h3>
+      <p class="t"><b>Контекст.</b> После первого релиза заказчик поставил задачу: редизайн на неоморфизм вместо плоского дизайна MVP. При этом второй релиз нёс и новый функционал — переделывать предстояло всё сразу.</p>
       <p class="t"><b>Решение.</b> Аргументировала против: на нашей аудитории контрастность критична, стиль выбивался из экосистемы Триколора. Решение заказчик не изменил. Тогда я перестала спорить о том, делать ли это, и занялась тем, как это сделать, не сорвав релиз: разложила переход на пять этапов по слоям — типографика и интервалы, затем тени и объём, затем цвет. Разработка получала изменения порциями, новые разделы входили в те же этапы.</p>
       <p class="res"><b>Результат</b><span>Второй релиз вышел в срок: все разделы переработаны, и их стало вдвое больше — на двух платформах. Тени на Android дались тяжелее, чем на iOS, и замедлили команду. Контраст пострадал — ровно то, о чём я предупреждала.</span></p>
-      <p class="t"><b>Осознанный компромисс.</b> Решение я не изменила, но изменила способ его внедрения — и это сохранило сроки команде. Против вкуса заказчика работают не аргументы, а данные: сейчас бы вынесла на обсуждение прототип с тестом контрастности на абонентах.</p>
+      <p class="t"><b>Осознанный компромисс.</b> Я не изменила решение — изменила способ внедрения, и это сохранило команде сроки. Цену знала заранее и приняла осознанно: спор о вкусе выигрывают не аргументы, а данные, которых у нас не было.</p>
 
       <!-- Порядок в группе: сначала метод (этапы), потом результат (до/после).
            Подписей нет (решение автора 2026-10-20), как у других кейсов:
@@ -1502,10 +1504,10 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
 
       <!-- 3. ФУНКЦИИ ВТОРОГО ЭКРАНА -->
       <p class="tag">Решение 3. Функции второго экрана</p>
-      <h3>Связать телефон с приставкой, не сломав привычные пути</h3>
-      <p class="t"><b>Контекст.</b> Связи с приёмником в MVP не было: телефон не управлял приставкой и не показывал ТВ, то есть вторым экраном ещё не был. Этого и ждали абоненты. Закрывал это второй релиз — одновременно с редизайном.</p>
+      <h3>Связать телефон с приставкой</h3>
+      <p class="t"><b>Контекст.</b> Второй релиз должен был сделать телефон вторым экраном — тем, чего абоненты не нашли в MVP. На вопрос, чего не хватает в ТВ-приложении, <b>51%</b> назвали более умный пульт, <b>44%</b> — трансляцию на смартфон. Делать это предстояло одновременно с редизайном.</p>
       <p class="t"><b>Решение.</b> Связала телефон с приставкой: подключение к приёмнику собрала в отдельный раздел — он и открывал вторую половину продукта. Спроектировала с нуля плеер и просмотр без интернета — для домов, где с мобильной связью плохо. Управление — пульт и голос — не стала разводить по отдельным пунктам навигации и свела в «Сервисы», чтобы навигация не росла с каждым новым сервисом.</p>
-      <p class="res"><b>Результат</b><span>Телефон начал управлять приставкой и показывать ТВ. Связь, с отсутствия которой начинался проект, появилась.</span></p>
+      <p class="res"><b>Результат</b><span>Телефон стал тем, чем его ждали, — пультом и экраном.</span></p>
 
       <div class="grp">
         <div class="shots2">
@@ -1522,9 +1524,10 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       </div>
 
       <!-- РОЛЬ -->
-      <h3>Роль Senior Product Designer: iOS, неоморфизм, менторство</h3>
+      <h3>Моя роль: Senior Product Designer</h3>
       <ul class="list">
         <li>Дизайнеров на продукте было двое: моя зона — весь iOS и тёмная тема, флоу проектировали общими для обеих платформ.</li>
+        <li>На каждом этапе одновременно прорабатывала сценарии, флоу, архитектуру навигации и подбирала цветовую палитру, тени, скругления, форму элементов. Это помогало согласовывать с заказчиком цельный продукт и не возвращаться назад на поздних этапах.</li>
         <li>На редизайне вела неоморфизм: дорабатывала стиль и раскатывала по всем разделам iOS.</li>
         <li>Взяла под крыло джуниор-дизайнера — Android-экраны и Android UI&nbsp;Kit. Первые месяцы работали вплотную, к концу третьего она закрывала задачи самостоятельно.</li>
       </ul>
@@ -1537,37 +1540,38 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <section class="sec" id="result">
       <h2 class="sec__label">Результат и рефлексия</h2>
 
-      <h3>Два релиза за год и ТВ-приложение следующим шагом</h3>
+      <h3>Падение остановилось в первый год после второго релиза</h3>
 
-      <p class="t">Точки контакта с абонентом между сеансами у телевизора до этого не было вообще.</p>
-
-      <!-- Два ряда, а не один: первый — что получил бизнес, второй — что
-           сказали люди в опросе. В одной сетке слабая метрика съедала бы вес сильной. -->
-      <dl class="metrics metrics--out metrics--n2">
-        <div><dt><s>0</s><span class="sr"> → </span>330K</dt><dd>активных пользователей</dd></div>
-        <div><dt><s>0</s><span class="sr"> → </span>188K</dt><dd>подписчиков</dd></div>
-      </dl>
-
-      <p class="t">Результаты опроса абонентов после второго релиза:</p>
+      <p class="t">Через два месяца после второго релиза Триколор опросил абонентов:</p>
 
       <dl class="metrics metrics--out metrics--n3">
-        <div><dt>68%</dt><dd>отметили, что просмотр ТВ изменился к лучшему</dd></div>
-        <div><dt>54%</dt><dd>открывают приложение три раза в неделю и чаще</dd></div>
-        <div><dt>50%</dt><dd>назвали приложение полезным для себя</dd></div>
+        <div><dt>68%</dt><dd>отметили, что просмотр<br>ТВ изменился к лучшему</dd></div>
+        <div><dt>54%</dt><dd>открывают приложение<br>три раза в неделю и чаще</dd></div>
+        <div><dt>50%</dt><dd>назвали приложение<br>полезным для себя</dd></div>
       </dl>
+
+      <p class="t">Я пришла на падающую кривую. Через год после второго релиза отток впервые за несколько лет замедлился, ещё через год обернулся ростом.</p>
+
+      <dl class="metrics metrics--out metrics--n3">
+        <div><dt>198K</dt><dd>на старте<br>работы</dd></div>
+        <div><dt>205K</dt><dd>через год,<br>падение остановилось</dd></div>
+        <div><dt>236K</dt><dd>ещё<br>через год</dd></div>
+      </dl>
+
+      <p class="t">Я вела продукт до второго релиза: на цифры следующих лет работали уже не только мои решения. Но точка разворота пришлась на первый год после них.</p>
 
       <div class="tbl">
         <div class="tbl__head"><span>Этап</span><span>Когда</span><span>Содержание</span></div>
         <div>
-          <span class="k">MVP</span><span class="v">Осень 2022</span>
-          <p>MVP на Android и iOS, светлая и тёмная темы. Вход по Триколор&nbsp;ID: телегид, избранное, персональная лента «Для вас», карточки сущностей, онбординг, профиль.</p>
+          <span class="k">MVP</span><span class="v">4 месяца</span>
+          <p><b>Первый релиз:</b> Android и iOS, светлая и тёмная темы. Вход по Триколор&nbsp;ID: телегид, избранное, персональная лента «Для вас», карточки сущностей, онбординг, профиль.</p>
         </div>
         <div>
-          <span class="k">Релиз 2</span><span class="v">Зима 2023</span>
-          <p>Редизайн всех разделов и новый функционал: подключение приёмника, плеер с трансляцией ТВ на телефон, запись передач, пульт, голосовое управление, просмотр без интернета, шаблоны историй и статей.</p>
+          <span class="k">Редизайн</span><span class="v">ещё 8 месяцев</span>
+          <p><b>Второй релиз:</b> переработаны все разделы, плюс новый функционал — подключение приёмника, плеер с трансляцией ТВ на телефон, запись передач, пульт, голосовое управление, просмотр без интернета, шаблоны историй и статей.</p>
         </div>
         <div>
-          <span class="k">Дальше</span><span class="v">Конец 2023</span>
+          <span class="k">Дальше</span><span class="v">после второго релиза</span>
           <p>Началось проектирование ТВ-приложения на базе мобильного. Для меня это подтверждение: продукт закрыл реальную потребность и заслужил доверие для следующего шага.</p>
         </div>
       </div>
@@ -1576,6 +1580,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
       <ul class="list">
         <li><b>Формат продукта.</b> Часть фич можно было встроить в существующий продукт Триколора, но вопрос на обсуждение не вышел. Теперь я ставлю его сама, до проектирования: отдельное приложение или фича в существующем продукте — это продуктовое решение, а не технический выбор.</li>
         <li><b>Данные о поведении.</b> Мы знали, что болит, но не знали, как люди ведут себя в интерфейсе — это било по каждому спору, не только по неоморфизму. Теперь закладываю хотя бы один контур проверки с пользователями даже в сжатый таймлайн.</li>
+        <li>Скорость выхода стоила качества <b>технической реализации</b>. Жалобы на подключение к приёмнику были предсказуемы, но никто не поднял этот риск заранее. Сейчас бы настояла на техническом буфере перед релизом.</li>
       </ul>
     </section>
 
@@ -1589,7 +1594,7 @@ a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; bo
     <nav class="more" aria-label="Другие кейсы">
       <p class="more__t">Другие кейсы</p>
       <div class="tree">
-        <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">RealDeal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+        <a class="row row--flat" href="/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Real Deal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
         <a class="row row--flat" href="/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Кино и ТВ</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
         <a class="row row--flat" href="/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
         <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Умный дом</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
