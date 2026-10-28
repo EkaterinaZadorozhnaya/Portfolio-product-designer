@@ -8,6 +8,9 @@
 <title>Триколор Кино и ТВ — Екатерина Задорожная</title>
 <meta name="description" content="Кейс «Триколор Кино и ТВ»: редизайн онлайн-кинотеатра для базы 12 млн абонентов. Product Designer: доступ к контенту, вход, навигация, единые принципы Smart TV и Apple TV. Аудитория выросла до 1,7 млн.">
 <link rel="canonical" href="https://codedesign.ru/kino-i-tv">
+<link rel="alternate" hreflang="ru" href="https://codedesign.ru/kino-i-tv">
+<link rel="alternate" hreflang="en" href="https://codedesign.ru/en/kino-i-tv">
+<link rel="alternate" hreflang="x-default" href="https://codedesign.ru/kino-i-tv">
 
 <meta property="og:type"         content="article">
 <meta property="og:url"          content="https://codedesign.ru/kino-i-tv">
@@ -344,6 +347,16 @@ body{
 .prefs__theme:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 .prefs__theme svg{ width: 12px; height: 12px; flex: none; transition: transform .18s ease-out; }
 :root[data-theme="dark"] .prefs__theme svg{ transform: rotate(180deg); }
+/* ЯЗЫК — «Eng» / «Рус» слева от темы, одной группой (.prefs). Ссылка на ту же страницу
+   другой версии (/en/…). Начертание как у ссылок контактов. */
+.prefs{ display: flex; align-items: center; gap: 20px; }
+.prefs__lang{
+  display: inline-flex; align-items: center; min-height: 26px;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none; transition: color .18s ease-out;
+}
+.prefs__lang:hover{ color: var(--text-secondary); }
+.prefs__lang:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
 .hire{ display: grid; gap: 8px; }
 .hire__links{ display: grid; gap: 2px; }
 .hire__links a{
@@ -501,6 +514,10 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px
                  justify-content: center; border-radius: var(--radius-4);
                  background: var(--bg-placeholder); color: var(--text-primary); }
   .prefs__theme svg{ width: 14px; height: 14px; }
+  /* язык — плашка той же высоты, слева от переключателя темы */
+  .prefs{ gap: 8px; }
+  .prefs__lang{ height: 32px; min-height: 32px; padding: 0 12px; justify-content: center;
+                border-radius: var(--radius-4); background: var(--bg-placeholder); }
 }
 
 /* ШАПКА И МЕНЮ ТЕЛЕФОНА — 800 и ниже (макеты iPhone 17, 2026-10-23).
@@ -578,6 +595,7 @@ a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px
   .rail{ padding-inline: 16px; }
   /* метрики сеткой 2×2: три во flex-wrap ложились «две и одна» (ТЗ адаптив) */
   .metrics{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
+  .metrics dt{ white-space: normal; }   /* английские значения («#1 in the UAE») длиннее русских и в колонке 2×2 на 320 не помещались */
   /* Кегль метрики здесь не трогается: в ленте он изначально 24,
      а в кейсе спустился до 24 ещё на пороге 768. Правило, которое
      стояло на этом месте, ничего не меняло — осталось от прежней
@@ -1362,6 +1380,7 @@ ul.list b{ font-family: var(--serif); font-weight: 400; color: var(--text-primar
         <div class="hire__links">
           <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
           <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+          <a href="/en/kino-i-tv" hreflang="en" lang="en" aria-label="English version">Eng</a>
         </div>
       </div>
       </div>
@@ -1411,9 +1430,12 @@ ul.list b{ font-family: var(--serif); font-weight: 400; color: var(--text-primar
           <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
         </div>
       </div>
-      <button class="prefs__theme" type="button" aria-pressed="false" aria-label="Тёмная тема">
+      <div class="prefs">
+        <a class="prefs__lang" href="/en/kino-i-tv" hreflang="en" lang="en" aria-label="English version">Eng</a>
+        <button class="prefs__theme" type="button" aria-pressed="false" aria-label="Тёмная тема">
         <svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 .75a5.25 5.25 0 0 1 0 10.5z" fill="currentColor"/></svg>
-      </button>
+        </button>
+      </div>
     </div>
     <script>
     (function(){

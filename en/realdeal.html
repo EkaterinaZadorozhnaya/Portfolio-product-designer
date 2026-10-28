@@ -1,0 +1,1684 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- <<HEAD>> -->
+<title>Real Deal — Ekaterina Zadorozhnaya</title>
+<meta name="description" content="Real Deal case study: the first platform for online commercial real estate deals in the UAE. Lead Product Designer, from an analytics demo to a commercial MVP.">
+<link rel="canonical" href="https://codedesign.ru/en/realdeal">
+<link rel="alternate" hreflang="ru" href="https://codedesign.ru/realdeal">
+<link rel="alternate" hreflang="en" href="https://codedesign.ru/en/realdeal">
+<link rel="alternate" hreflang="x-default" href="https://codedesign.ru/realdeal">
+
+<meta property="og:type"         content="article">
+<meta property="og:url"          content="https://codedesign.ru/en/realdeal">
+<meta property="og:title"        content="The Demo + MVP that raised $7.5M">
+<meta property="og:description"  content="The first platform for online commercial real estate deals in the UAE. Analytics built on Dubai Land Department data.">
+<meta property="og:image"        content="https://codedesign.ru/og/og_realdeal.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"       content="en_US">
+<meta name="twitter:card"        content="summary_large_image">
+
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Literata:opsz,wght@7..72,400&display=swap">
+
+<script>
+(function(){try{var t=localStorage.getItem('theme');
+if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<!-- <</HEAD>> -->
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   ВНУТРЕННЯЯ СТРАНИЦА КЕЙСА
+
+   Роли 95 и 100 меняются местами: кейс лежит на белой поверхности
+   поверх серой страницы, контейнеры под макеты внутри него — серые.
+   Текст всегда на более светлом, изображение — на более тёмном.
+
+   ДВА РЕГИСТРА ГАРНИТУР.
+   Golos Text — структура и интерфейс: заголовки, метастроки, подписи,
+   навигация, метрики, ключи таблиц, кнопки.
+   Literata — проза: лид, абзацы решений, цитаты, выносы результатов,
+   списки, значения таблиц.
+
+   Решение пересматривалось. Первая версия шла по замеру oimachi —
+   тело гротеском, антиква только на выносное утверждение, 13% блоков.
+   От него отказались: кейс читают подряд, а не сканируют, и на длинном
+   чтении антиква в теле работает лучше. Акцент внутри прозы теперь
+   несут кегль и тон, а не смена гарнитуры.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* <<BASE>> */
+/* ═══════════════════════════════════════════════════════════════
+   ОБЩАЯ ОСНОВА ДВУХ СТРАНИЦ
+   Вклеивается в index.html и realdeal.html скриптом build.py.
+   Править её внутри самих страниц нельзя — перезапишется.
+
+   Раскладка — с макетов 2026-10-12: колонка слева, белый лист справа
+   (лента на главной, текст на странице кейса). Правки совета внесены
+   поверх, каждая помечена в комментарии. Здесь только то, чем пользуются
+   обе страницы; правила одной страницы лежат в её <style>.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  color-scheme: light;
+
+  /* ИМЕНА: группа = свойство, которое токен задаёт;
+     имя = значение (у примитивов) или роль (у семантики).
+     Совпадают с переменными в Figma один в один — сверка макета
+     с вёрсткой идёт по одному словарю. Подробно: спека-цвет.md. */
+
+  /* ШКАЛА НЕЙТРАЛЬНЫХ, названа по воспринимаемой светлоте L*.
+     Шкала расширяется вставкой без переименования соседей.
+     neutral-6 и neutral-90 работают в обеих темах, меняясь ролями.
+     Тёплая нота R ≥ G ≥ B на 8, 12, 22, 44, 63, 85;
+     чистый серый на 6, 18, 78, 90, 95, 100. */
+
+  /* примитивы светлой темы */
+  --neutral-6:   #131313;   /* L*  5.9  текст, заливка кнопки          */
+  --neutral-18:  #2C2C2C;   /* L* 18.0  кнопка в наведении             */
+  --neutral-44:  #696764;   /* L* 43.7  вторичный и проза              */
+  --neutral-85:  #D5D5D4;   /* L* 85.2  линейка                        */
+  --neutral-90:  #E1E1E1;   /* L* 89.5  светлая: заглушка; тёмная: текст и светлая заливка */
+  --neutral-95:  #F0F0F0;   /* L* 94.8  фон                            */
+  --neutral-100: #FFFFFF;   /* L*100.0  лист, текст на кнопке          */
+
+  /* примитивы тёмной темы (спека-цвет.md, 2026-10-21) */
+  --neutral-8:   #1A1818;   /* L*  8.5  фон страницы                   */
+  --neutral-12:  #20201E;   /* L* 12.2  подложка кадра                 */
+  --neutral-22:  #343433;   /* L* 21.7  линейка                        */
+  --neutral-63:  #999795;   /* L* 62.6  вторичный и проза              */
+  --neutral-78:  #C0C0C0;   /* L* 77.7  заливка в наведении            */
+
+  /* ЦВЕТА ПРОДУКТОВ — правка совета №4.
+     Было: тёмно-синий, почти чёрно-синий, зелёный, голубой —
+     три оттенка одного цвета из четырёх. При размытии
+     различался только зелёный, то есть система работала
+     на одном элементе из четырёх.
+
+     Стало: четыре разных семейства, разведённые и по тону,
+     и по светлоте — чтобы набор читался и в оттенках серого,
+     и при дальтонизме, где цвет один не справляется.
+     Светлота специально разная: 31 / 44 / 52 / 58.
+
+     Одинаковы в обеих темах: это временные плашки под настоящие
+     логотипы, которые от темы не зависят. В семантический слой
+     не заводить — иначе их потянет развести по режимам. */
+  --brand-realdeal:      #2F5AD9;   /* RealDeal      — синий,     L44 */
+  --brand-kino-i-tv:     #B0308C;   /* Кино и ТВ     — маджента,  L52 */
+  --brand-design-system: #14532D;   /* DREAMPlatform — зелёный,   L31 */
+  --brand-second-screen: #DE5B1C;   /* Второй экран  — оранжевый, L58 */
+
+  /* ПОЛЕ КАДРА С КАЛЬКУЛЯТОРОМ на главной — ТЗ вставки макетов, 2026-10-10:
+     Accent/Info #1268EC на 15% поверх белого. Файл макета приходит
+     с прозрачным полем, цвет даёт плашка. Один потребитель
+     (.frame--field), от темы не зависит; в семантику не заводить. */
+  --brand-realdeal-field: #DBE8FC;
+  /* Сплошная подложка кадра с графиками на странице кейса — макет
+     2026-10-10: Accent/Info #1268EC. Один потребитель (.shot__frame--accent). */
+  --brand-realdeal-accent: #1268EC;
+  /* Подложка кадров 16:9 на странице «Кино и ТВ» — тёмно-синий #0C2653,
+     тон самого интерфейса ТВ-приложения (запрос автора 2026-10-12): поля
+     вокруг кадров и шторок сливаются с экраном. Два потребителя
+     (.shot__frame--navy, .cmpx), от темы не зависит; в семантику не заводить. */
+  --brand-kino-i-tv-field: #0C2653;
+  /* Подложка кадра «ленты» (kino_hero_lines) в карточке на главной — тот же
+     синий, но темнее: #0C1B35 (запрос автора 2026-10-12). Один потребитель
+     (.frame--navy-dark). */
+  --brand-kino-i-tv-field-dark: #0C1B35;
+  /* Подложка кадров DREAMPlatform — зелёный #57B035, акцентный цвет самой
+     системы (запрос автора 2026-10-15). Сплошной: кадры главной
+     (.frame--green) и DREPLUS на странице кейса (.shot__frame--green). От темы не зависит; в семантику
+     не заводить. */
+  --brand-design-system-field: #57B035;
+  /* Подложки кадров «Второго экрана» (запрос автора 2026-10-20), сплошные,
+     от темы не зависят; в семантику не заводить:
+       -field      #668CFF — обложки (кейс и два кадра главной) и кадр тёмной темы;
+       -field-soft #E9EEFB — светлые Android-экраны: MVP и «до» редизайна;
+       -field-deep #3366FF — «после» редизайна и два кадра iOS-телегида. */
+  --brand-second-screen-field: #668CFF;
+  --brand-second-screen-field-soft: #E9EEFB;
+  --brand-second-screen-field-deep: #3366FF;
+
+  /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
+     примитив или литерал в правиле компонента не переключается темой.
+     --text-primary и --bg-inverse сегодня совпадают по значению,
+     но это два независимых решения: цвет текста и заливка кнопки.
+     Наведение сдвигает заливку к середине шкалы: кнопка на 12
+     пунктов L*, карточка на 2. */
+  --text-primary:      var(--neutral-6);    /* заголовки, числа, активный якорь, выделение в прозе */
+  --text-secondary:    var(--neutral-44);   /* проза, подписи, метастроки, шапки таблиц */
+  --text-inverse:      var(--neutral-100);  /* текст на заливке --bg-inverse */
+  --bg-page:           var(--neutral-95);   /* фон страницы */
+  --bg-surface:        var(--neutral-100);  /* лист кейса, карточки кейсов в колонке */
+  --bg-inverse:        var(--neutral-6);    /* заливка кнопки резюме */
+  --bg-inverse-hover:  var(--neutral-18);   /* кнопка резюме при наведении */
+  --bg-placeholder:    var(--neutral-90);   /* место под макет, аватар, чипы схемы пути */
+  --border-default:    var(--neutral-85);   /* разделители, строки таблиц, рамка ленты */
+  --shot-plate:        var(--neutral-95);   /* подложка кадра на странице кейса: в светлой совпадает с фоном, в тёмной нет */
+
+  --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --serif: 'Literata', Georgia, 'Times New Roman', serif;
+
+  /* СКРУГЛЕНИЯ — четыре токена, все кратны четырём.
+     Было восемь литералов (1, 3, 4, 6, 7, 8, 10, 50%): 3 против 4 —
+     одно фокус-кольцо, 6 против 7 — соседние элементы с разницей
+     в пиксель. Следы правок, а не решения.
+     999px, а не 50%: на квадрате даёт круг, на узкой полосе —
+     скруглённые торцы, и его можно хранить числом в Figma. */
+  --radius-4:    4px;     /* марка 12×12, кольца :focus-visible */
+  --radius-8:    8px;     /* кнопка, чип, skip-link, лист, кадры, врезка */
+  --radius-full: 999px;   /* аватар, торцы рельса активного якоря */
+
+  --width-cover: 760px;   /* полоса: обложка, метрики, макеты во всю ширину */
+  /* Колонка прозы считается от знаков, а не от пикселей.
+     Цель — 68–72 знака в строке. При Literata 16 это 570.
+     (При Golos 16 то же правило давало 640 — поэтому при смене
+     гарнитуры число пересчитывается, а не переносится.) */
+  --width-prose: 640px;   /* было 570; макет кейса 2026-10-10 */
+  --width-wide:  860px;   /* таблица и схема пути — по центру листа */
+  --width-rail:  clamp(248px, 25vw, 360px);   /* левая колонка; резиновая (ТЗ адаптив 2026-10-10), 360 с 1440 */
+
+  /* РИТМ СТРАНИЦЫ — четыре ступени, все кратны 16. Шкала закрыта.
+     Внутренние поля компонентов ей не подчиняются и токенов
+     не получают: токен с одним потребителем бесполезен. */
+  --space-16: 16px;    /* 1×   между любыми соседними блоками */
+  --space-24: 24px;    /* 1.5× после выноса и цитаты */
+  --space-32: 32px;    /* 2×   до и после линейки между кейсами в ленте (2026-10-10) */
+  --space-48: 48px;    /* 3×   внутри обложки и после лида */
+  --space-64: 64px;    /* 4×   между разделами и между кейсами */
+
+  /* ПОЛЯ СТРАНИЦЫ — плавные, а не ступенчатые.
+     Модель снята с rafaelcespedes.com: там ширина контейнера —
+     фиксированное число (800px), а всё, что вокруг, выведено
+     из него через clamp(мин, доля, макс). Скачок поля с 30 на 16
+     на пороге заметен глазом; clamp убирает сам скачок. */
+  --page-gutter: clamp(16px, 3.75vw, 60px);   /* 60 с 1600 и шире (макет главной 2026-10-10) */
+}
+
+/* ═══ ТЁМНАЯ ТЕМА (включена 2026-10-21, спека-цвет.md) ═══
+   Подобрана под светлую по отношениям, а не выведена зеркально: лист
+   темнее фона (утоплен), текст на листе 14.21 вместо 18.58, проза
+   6.38 вместо 5.64, шаг лист↔фон 1.05. Светлая — по умолчанию;
+   системная настройка не учитывается (решение автора 2026-10-21), тёмная
+   включается только кнопкой и запоминается. Скрипт
+   переключателя — в parts/head.html (выбор до отрисовки) и в
+   parts/rail_foot.html (кнопка). */
+:root[data-theme="dark"]{
+  --text-primary:      var(--neutral-90);
+  --text-secondary:    var(--neutral-63);
+  --text-inverse:      var(--neutral-6);
+  --border-default:    var(--neutral-22);
+  --bg-page:           var(--neutral-8);
+  --bg-surface:        var(--neutral-6);
+  --bg-placeholder:    var(--neutral-18);
+  --bg-inverse:        var(--neutral-90);
+  --bg-inverse-hover:  var(--neutral-78);
+  --shot-plate:        var(--neutral-95);   /* решение автора 2026-10-21: как в светлой (#F0F0F0); в спеке neutral-12 */
+  color-scheme: dark;
+}
+/* ВОРДМАРКИ В ТЁМНОЙ ТЕМЕ (2026-10-21): у RealDeal, Триколора и DREAMPlatform рядом
+   со светлым файлом лежит белый *-dark.svg (RealDeal и DREAMPlatform — тёмные части
+   белые, цветные остаются; Триколор — целиком белый). Переключает кнопка темы.
+   Второй экран синий и остаётся как есть. */
+.logo-dark{ display: none !important; }
+:root[data-theme="dark"] .logo-light{ display: none !important; }
+:root[data-theme="dark"] .logo-dark{ display: block !important; }
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 20px;   /* интерфейсная ступень; проза и заголовки задают свой */
+  /* ТРЕКИНГА НА BODY НЕТ НАМЕРЕННО. -.012em здесь вычислялся от 14px
+     в −0.168px и наследовался абсолютным числом: 18 элементов на 12px
+     получали −1.4% там, где по правилу ноль. Трекинг задаётся
+     на каждом элементе своим стилем, по наследству не приходит. */
+  -webkit-font-smoothing: antialiased;
+}
+
+.app{
+  /* Макет 2026-10-12 при 1600: поля 60, колонка 360, зазор 60, лист
+     начинается с x=480. Зазор и верхнее поле плавные, как и поля
+     страницы. */
+  max-width: 1680px; margin: 0 auto;
+  padding: max(24px, var(--page-gutter)) var(--page-gutter) 80px;
+  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr);
+  gap: 0 clamp(24px, 3.75vw, 60px);
+  align-items: start;
+}
+
+.skip{
+  position: absolute; left: -9999px; top: 0;
+  background: var(--bg-inverse); color: var(--text-inverse);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  padding: 10px 16px; border-radius: var(--radius-8); z-index: 9; text-decoration: none;
+}
+.skip:focus{ left: 12px; top: 12px; }
+
+/* ═══════════════════ ЛЕВАЯ КОЛОНКА ═══════════════════
+   Порядок один на обеих страницах (макеты 2026-10-12):
+     кто я  →  список кейсов (по центру)  →  резюме и контакты.
+   Колонка липкая, занимает высоту экрана за вычетом полей; резюме
+   и контакты прижаты к нижнему полю. Если контент выше экрана —
+   прокрутка внутри колонки (см. сжатие по высоте в конце файла). */
+.rail{
+  position: sticky; top: max(24px, var(--page-gutter));
+  height: calc(100vh - 2 * max(24px, var(--page-gutter)));
+  height: calc(100dvh - 2 * max(24px, var(--page-gutter)));   /* 100vh на мобильных — не высота экрана */
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 24px;
+  padding: 0;   /* макеты 2026-10-12: аватар на верхнем поле страницы, контакты на нижнем */
+  scrollbar-width: thin;
+}
+
+/* ── кто я ── */
+/* Макеты 2026-10-12: на обеих страницах колонка одинакова — аватар слева,
+   имя и роль справа 16/22 (вес 400), ниже серой строкой сфера и строка
+   про инвестиции. Прежний вариант главной (аватар над именем 24/30) заменён. */
+.me{
+  display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 0 16px;
+  align-items: center; max-width: 320px;   /* ширина текста колонки по макету */
+}
+.me__ava{
+  width: 40px; height: 40px; border-radius: var(--radius-full);
+  background: var(--bg-placeholder); overflow: hidden;
+  display: block;
+}
+.me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
+.me__who{
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-primary); margin: 0;
+}
+.me__who a{ color: inherit; text-decoration: none; display: inline-block; transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.me__who a:hover{ color: var(--text-secondary); }
+/* Сфера и строка про инвестиции — 16/22, серым; акценты «B2B SaaS», «B2C:»,
+   «$7.5M», «100% YoY» — вес 500 и чернила (правка 2026-10-10). */
+.me__span, .me__sum{
+  grid-column: 1 / -1; margin: 16px 0 0;
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-secondary);
+}
+.me__span b, .me__sum b{ font-weight: 500; color: var(--text-primary); }
+
+/* ── действие (резюме) ──
+   Правка совета №3 отменена, и вот почему.
+   Совет исходил из холодного трафика: человек пришёл из поиска,
+   у него нет твоих контактов, поэтому чёрное пятно обязано вести
+   в переписку. Но портфолио уходит вместе с откликом — адресат
+   уже может ответить одним нажатием в своей почте. Ему нужно
+   не «написать», а быстро забрать резюме. Кнопка «Написать»
+   при этом дублировала Telegram и LinkedIn внизу колонки.
+   Поэтому чёрное пятно снова на резюме, а контакты внизу
+   остаются единственным местом, где живут адреса. */
+.act{ display: flex; flex-wrap: wrap; gap: 8px; max-width: 320px; }   /* ширина колонки текста, как у .me и списка кейсов */
+/* кнопка стоит внизу колонки над контактами (макет 2026-10-12) */
+.act a{
+  display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
+  font-size: 14px; font-weight: 400; letter-spacing: -.012em; line-height: 16px;
+  /* макет: высота 32 (8+16+8), радиус 4, поля по бокам 12, без значка */
+  text-decoration: none; border-radius: var(--radius-4); padding: 8px 12px; min-height: 32px;
+  transition: background .18s ease-out;
+}
+.act__cv{ background: var(--bg-inverse); color: var(--text-inverse); flex: 1 1 100%; justify-content: center; }   /* на всю ширину колонки, как интро */
+.act__cv:hover{ background: var(--bg-inverse-hover); }
+.act a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+/* ── низ: контакты ──
+   Строки «Открыта к предложениям» нет: портфолио уходит вместе
+   с откликом, и адресату это уже известно. Статус нужен сайту,
+   который ищут сами; этот — приносят. */
+/* Низ колонки (макеты 2026-10-12): кнопка резюме и контакты одной группой,
+   прижатой к нижнему полю; список кейсов между «кто я» и этой группой
+   стоит по центру (.rail .tree). */
+.rail__foot{ display: grid; gap: 20px; }
+/* ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ — внизу колонки под контактами (спека-цвет.md §6).
+   Круг, залитый наполовину; в тёмной теме повёрнут на 180°. */
+.prefs__theme{
+  display: inline-flex; gap: 6px; align-items: center; width: fit-content; min-height: 26px; min-width: 26px;   /* без подписи цель касания не меньше 26×26 */
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); transition: color .18s ease-out;   /* как ссылки контактов: чернила, на наведение — приглушённый */
+}
+.prefs__theme:hover{ color: var(--text-secondary); }
+.prefs__theme:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+.prefs__theme svg{ width: 12px; height: 12px; flex: none; transition: transform .18s ease-out; }
+:root[data-theme="dark"] .prefs__theme svg{ transform: rotate(180deg); }
+/* ЯЗЫК — «Eng» / «Рус» слева от темы, одной группой (.prefs). Ссылка на ту же страницу
+   другой версии (/en/…). Начертание как у ссылок контактов. */
+.prefs{ display: flex; align-items: center; gap: 20px; }
+.prefs__lang{
+  display: inline-flex; align-items: center; min-height: 26px;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none; transition: color .18s ease-out;
+}
+.prefs__lang:hover{ color: var(--text-secondary); }
+.prefs__lang:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+.hire{ display: grid; gap: 8px; }
+.hire__links{ display: grid; gap: 2px; }
+.hire__links a{
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;   /* 14/16 (стиль «Link») по просьбе автора 2026-10-20; 2026-10-11 было 16/22 */
+  color: var(--text-primary); text-decoration: none;
+  display: inline-flex; gap: 6px; align-items: center; width: fit-content;
+  min-height: 26px;
+}
+.hire__links a{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-11): чернила → приглушённый тон */
+.hire__links a:hover{ color: var(--text-secondary); }
+.hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* перенос строки только на телефоне: переносы интро — как на макете iPhone 17 */
+.br-m{ display: none; }
+
+/* неразрывное сочетание в заголовках: «онлайн-сделок» не рвётся по дефису */
+.nw{ white-space: nowrap; }
+/* ЗНАК КЕЙСА В КОЛОНКЕ — квадрат из SVG (в колонке различить четыре кейса
+   нужно до чтения, поэтому он крупный); цвет плашки остаётся запасным,
+   пока файл не загрузился. Вордмарк на главной — `.mark` в index.html. */
+.logo{
+  width: 40px; height: 40px; border-radius: var(--radius-4); flex: none;   /* радиус 4 — макет 2026-10-10, было 12 */
+  background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
+}
+
+[data-brand="design-system"]{ --brand: var(--brand-design-system); --sign: url("/img/logo/DRM.svg"); }
+[data-brand="realdeal"]{ --brand: var(--brand-realdeal); --sign: url("/img/logo/RD.svg"); }
+[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); --sign: url("/img/logo/Cinema.svg"); }
+[data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
+[data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
+
+/* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (обе страницы) ═══
+   ОДНО СОСТОЯНИЕ — ОДНА ПОДЛОЖКА (решение автора 2026-10-12).
+   Карточки кейса и плашка «Все» в покое белые (--bg-surface). При наведении
+   и у текущего пункта подложка — тон страницы (--bg-page, #F0F0F0): карточка
+   «уходит» в фон. Цвет текста не меняется. Так «где я сейчас» и «куда
+   нажму» читаются одним сигналом — подложкой, а не цветом строки. */
+.tree{ display: grid; gap: 8px; }
+/* «Все» — первый пункт списка (макеты 2026-10-12). Белая плашка; при наведении
+   и на главной, где это текущая страница, — тон страницы. Как карточки кейсов. */
+.all{
+  display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+  min-height: 32px; padding: 0 9px 0 10px; border-radius: var(--radius-4);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none;
+  background: var(--bg-surface);
+  transition: background .18s ease-out;
+}
+a.all:hover, .all[aria-current="page"]{ background: var(--bg-page); }
+a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+.all svg{ width: 12px; height: 12px; flex: none; }
+
+/* свёрнутые — карточки */
+.row--flat{
+  display: block; text-decoration: none;
+  background: var(--bg-surface); border-radius: var(--radius-4); padding: 8px;   /* макет 2026-10-10: радиус 4, карточка 56 */
+  transition: background .18s ease-out;
+}
+/* Четвёртый кейс «Умный дом» — в работе: та же карточка без ссылки,
+   весь блок на 30% (макет 2026-10-10). Нажимать не на что. */
+.row--soon{ opacity: .3; cursor: default; }
+/* разделитель в строках «роль · сфера» — шире пробела, как на макете */
+.sep{ margin: 0 5px; }
+
+/* шапка строки: знак 40 слева, имя и сфера столбиком справа */
+.row__id{
+  display: grid; grid-template-columns: 40px minmax(0,1fr);
+  align-items: center; gap: 12px;
+}
+.row__name{
+  font-size: 16px; font-weight: 400; line-height: 18px;
+  letter-spacing: -.012em; color: var(--text-primary);
+}
+.row--flat{ color: var(--text-primary); }
+/* наведение на карточку — подложка в тон страницы (2026-10-12), текст не
+   меняется. «В работе» не нажимается — подложка остаётся белой. */
+.row--flat:hover{ background: var(--bg-page); }
+.row--soon:hover{ background: var(--bg-surface); }
+.row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+.row em{
+  display: block; font-style: normal; font-size: 12px; line-height: 16px;
+  letter-spacing: 0; color: var(--text-secondary);
+}
+
+/* ═══ МЕТРИКИ — один компонент на обе страницы ═══ */
+.metrics{
+  display: flex; flex-wrap: wrap; gap: 16px 56px;
+  margin: 0; padding: 0; list-style: none;
+}
+.metrics div{ display: grid; gap: 4px; min-width: 0; }
+.metrics dt{
+  font-size: 24px; font-weight: 400; line-height: 30px;
+  letter-spacing: -.03em; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.metrics dd{
+  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
+}
+
+/* СПИСОК КЕЙСОВ — по центру между «кто я» и низом колонки, карточки до 320
+   (на обеих страницах, макеты 2026-10-12). */
+.rail .tree{ margin: auto -3px; padding: 3px; max-width: 326px; }
+/* Интро и резюме с контактами не прячутся ни на какой высоте экрана:
+   если колонка не помещается, прокручивается список кейсов между ними.
+   Поля 3px — чтобы рамка фокуса карточек не обрезалась. */
+@media (min-width: 801px){
+  .rail .tree{ min-height: 0; overflow-y: auto; scrollbar-width: thin; }
+}
+/* «Умный дом» — карточка без ссылки; на невысоком экране она только отнимает
+   место у настоящих кейсов и выглядит обрезанной, поэтому здесь её нет. */
+@media (min-width: 801px) and (max-height: 940px){
+  .rail .row--soon{ display: none; }
+}
+
+/* ПОРОГ СХЛОПЫВАНИЯ — 800 (ТЗ адаптив 2026-10-10; прежний 1140 заменён).
+   Колонка резиновая, clamp(248, 25vw, 360), и отдаёт пиксели вместе
+   с листом, поэтому сворачивать её раньше 800 незачем: ниже 800
+   колонка оставляла бы листу меньше, чем он получает без неё.
+   Четыре режима: 1141+ — колонка полная; 801–960 — сжатая;
+   800 и ниже — шапка с меню, на главной под ней «кто я» с резюме. */
+@media (min-width: 801px) and (max-width: 960px){
+  :root{ --width-rail: clamp(200px, 22vw, 248px); }
+  .app{ gap: 0 24px; }
+  .rail .row__id em{ display: none; }   /* подзаголовки кейсов не влезают */
+}
+/* Колонка уже ~260 (до 1040): имя с ролью рядом с аватаром ломалось на 3–4 строки.
+   Здесь аватар над именем, текст на всю ширину колонки. */
+@media (min-width: 801px) and (max-width: 1040px){
+  .me{ grid-template-columns: 1fr; }
+  .me__ava{ margin-bottom: 16px; }
+  .me__who{ grid-column: 1 / -1; }
+}
+@media (max-width: 800px){
+  .app{ grid-template-columns: 1fr; gap: 24px; padding-top: 0; }
+  /* Ниже 800 колонка сворачивается в «кто я» под липкой шапкой (.mbar):
+     только на главной. На странице кейса её нет — имя и роль не повторяются
+     над каждым кейсом, а кейсы, резюме и контакты лежат в меню (макеты
+     iPhone 17, 2026-10-23). */
+  .rail{ position: relative; top: auto; height: auto; max-height: none; overflow: visible;
+         gap: 0; max-width: 760px; }
+  .app--case .rail{ display: none; }
+  .rail .tree, .rail .hire, .me__ava{ display: none; }   /* аватар живёт в шапке */
+  /* ширина текста фиксирована (макет: 393 минус поля 16), переносы — по макету */
+  .me{ grid-template-columns: 1fr; max-width: 361px; }
+  .br-m{ display: inline; }
+  .me__who{ grid-column: 1 / -1; }
+  /* резюме слева, переключатель темы справа — одной строкой */
+  .rail__foot{ display: flex; align-items: center; justify-content: space-between;
+               gap: 16px; margin-top: 24px; }
+  .rail__foot .act{ flex: none; max-width: none; }
+  .rail__foot .act__cv{ flex: none; }
+  /* переключатель темы — квадрат 32, как кнопки шапки */
+  .prefs__theme{ width: 32px; height: 32px; min-width: 32px; min-height: 32px;
+                 justify-content: center; border-radius: var(--radius-4);
+                 background: var(--bg-placeholder); color: var(--text-primary); }
+  .prefs__theme svg{ width: 14px; height: 14px; }
+  /* язык — плашка той же высоты, слева от переключателя темы */
+  .prefs{ gap: 8px; }
+  .prefs__lang{ height: 32px; min-height: 32px; padding: 0 12px; justify-content: center;
+                border-radius: var(--radius-4); background: var(--bg-placeholder); }
+}
+
+/* ШАПКА И МЕНЮ ТЕЛЕФОНА — 800 и ниже (макеты iPhone 17, 2026-10-23).
+   Шапка липкая и всегда на экране: аватар слева, справа «CV» и меню.
+   Меню — экран поверх страницы: кейсы карточками, резюме, контакты.
+   В открытом меню в шапке остаётся одна кнопка (значок меняется). */
+.mbar, .menu{ display: none; }
+@media (max-width: 800px){
+  .mbar{
+    position: sticky; top: 0; z-index: 60; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 max(16px, var(--page-gutter)); background: var(--bg-page);
+  }
+  .mbar__ava{ display: block; width: 40px; height: 40px; border-radius: var(--radius-full);
+              overflow: hidden; background: var(--bg-placeholder); }
+  .mbar__ava img{ display: block; width: 40px; height: 40px; object-fit: cover; }
+  .mbar__btns{ display: flex; gap: 8px; }
+  .mbar__btn{
+    box-sizing: border-box; width: 32px; height: 32px; padding: 0; border: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-4); background: var(--bg-placeholder);
+    color: var(--text-primary); font: inherit; font-size: 14px; line-height: 16px;
+    letter-spacing: -.012em; text-decoration: none; cursor: pointer;
+    transition: background .18s ease-out;
+  }
+  .mbar__btn:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+  .mbar__btn svg{ width: 16px; height: 16px; }
+  .mbar__menu .i-close{ display: none; }
+  html.menu-open .mbar__menu .i-open{ display: none; }
+  html.menu-open .mbar__menu .i-close{ display: block; }
+  html.menu-open .mbar__ava, html.menu-open .mbar__cv{ visibility: hidden; }
+  /* шапка 72, а кнопка меню кончается на 48: фон снимаем, чтобы первая карточка (отступ 62) не пряталась под ним */
+  html.menu-open .mbar{ background: transparent; pointer-events: none; }
+  html.menu-open .mbar__menu{ pointer-events: auto; }
+
+  /* Меню — панель по высоте содержимого сверху, а не экран целиком:
+     страница под ней видна, размыта и чуть осветлена. Нажатие мимо панели
+     закрывает меню. */
+  .menu{
+    position: fixed; inset: 0; z-index: 59;
+    background: color-mix(in srgb, var(--bg-page) 35%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .menu__panel{
+    box-sizing: border-box; max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+    display: flex; flex-direction: column;
+    padding: 62px max(16px, var(--page-gutter)) 24px; background: var(--bg-page);
+    border-radius: 0 0 var(--radius-8) var(--radius-8);
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  html.menu-open{ overflow: hidden; }
+  html.menu-open .menu{ display: block; animation: menu-in .18s ease-out; }
+  @keyframes menu-in{ from{ opacity: 0; } to{ opacity: 1; } }
+  .menu .tree{ gap: 8px; max-width: none; }
+  .menu .logo{ width: 36px; height: 36px; }
+  .menu .row__id{ grid-template-columns: 36px minmax(0,1fr); }
+  /* текущий кейс — «в фоне страницы», как в колонке на десктопе */
+  .menu .row--flat[aria-current="page"]{ background: transparent; }
+  .menu__foot{ display: grid; gap: 24px; margin-top: 36px; }
+  .menu .act{ max-width: none; }
+  .menu .hire__links{ gap: 0; }
+  .menu .hire__links a{ min-height: 32px; }
+}
+/* ТЕЛЕФОН — 480.
+   Лист идёт во всю ширину экрана: поля страницы съедали 32px
+   из 390, то есть десятую часть строки. Замер: с полями проза
+   держит 38 знаков, без них — 44. Норма строки на телефоне
+   35–45 знаков, и 38 — её нижний край.
+   Приём снят с oimachi: на 390 у них боковое поле 7.2px. */
+@media (max-width: 480px){
+  .app{ padding-inline: 0; }
+  /* поля страницы сняты ради ширины строки в листе — значит
+     колонка обязана держать своё поле сама, иначе её карточки
+     и контакты упираются в край экрана */
+  .rail{ padding-inline: 16px; }
+  /* метрики сеткой 2×2: три во flex-wrap ложились «две и одна» (ТЗ адаптив) */
+  .metrics{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
+  .metrics dt{ white-space: normal; }   /* английские значения («#1 in the UAE») длиннее русских и в колонке 2×2 на 320 не помещались */
+  /* Кегль метрики здесь не трогается: в ленте он изначально 24,
+     а в кейсе спустился до 24 ещё на пороге 768. Правило, которое
+     стояло на этом месте, ничего не меняло — осталось от прежней
+     шкалы, где метрика была 28. */
+}
+/* КОЛОНКА ПО ВЫСОТЕ ЭКРАНА (2026-10-12). Макет рассчитан на экран ≈1084:
+   «кто я» с интро, список кейсов (на странице кейса с якорями) и резюме
+   с контактами занимают 680–760. Ниже колонка не помещается, и резюме
+   с контактами уезжают за край — это главное действие, его не прячем.
+   Поэтому сначала уходит строка про инвестиции, потом сфера; замер:
+   главная помещается с 805, кейс — с 880 (со строкой сферы). */
+/* порог по высоте — только с 801: ниже колонка уже не липкая */
+@media (min-width: 801px) and (max-height: 720px){
+  .rail{ gap: 18px; }   /* колонка плотнее: прокрутка внутри нужна реже */
+  .rail__foot{ gap: 16px; }
+  .row--flat{ padding-block: 4px; }   /* карточка 48 вместо 56 */
+}
+@media (prefers-reduced-motion: reduce){ *{ transition: none !important; animation: none !important; } }
+/* <</BASE>> */
+
+/* <<CASE>> */
+/* ═══════════════════════════════════════════════════════════════
+   ТОЛЬКО СТРАНИЦА КЕЙСА — якоря в колонке и зачёркнутые метрики
+   Общее лежит в BASE.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ТЕКУЩИЙ КЕЙС В СПИСКЕ — карточка в тоне страницы (--bg-page), как при
+   наведении на соседние, и с якорями разделов под именем (решение автора
+   2026-10-12). Сверху 8: от плашки «Все» до знака 16; снизу 5 — до следующей
+   карточки ≈ 20 от текста последнего якоря (макет 2026-10-12). */
+.row--open{ padding: 8px 8px 5px; background: var(--bg-page); border-radius: var(--radius-4); }
+
+/* ЯКОРИ ТЕКУЩЕГО КЕЙСА.
+   ПРАВКА СОВЕТА №1: порядок 01 → 02 → 03 — как на странице. На макете
+   2026-10-12 «Мой вклад» стоит первым; оставлен порядок страницы
+   (решение автора). */
+.toc{
+  margin-top: 11px; padding-left: 52px;   /* 40 знак + 12 отбивка = по имени */
+  display: grid; gap: 0;
+}
+.toc a{
+  position: relative; min-height: 22px;   /* шаг 22 по макету 2026-10-12 */
+  display: flex; align-items: center;
+  font-size: 16px; line-height: 22px; letter-spacing: -.012em;
+  color: var(--text-secondary); text-decoration: none;
+  transition: color .18s ease-out;
+}
+/* область нажатия 26, а шаг строк 22: невидимое поле по 2 сверху и снизу */
+.toc a::after{ content: ''; position: absolute; inset: -2px -8px; }
+/* наведение — цвет, без подчёркивания (2026-10-11): серый якорь темнеет */
+.toc a:hover{ color: var(--text-primary); }
+/* активный якорь метится тоном, не весом: весов на сайте два, и 500 занят
+   двумя заголовками. Рельса слева нет (макеты 2026-10-12): активный —
+   чернила, остальные серые. */
+.toc a[aria-current="true"]{ color: var(--text-primary); }
+.toc a[aria-current="true"]:hover{ color: var(--text-secondary); }   /* активный — наоборот, как все чернильные ссылки */
+.toc a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* ПРАВКА СОВЕТА №1. На главной зачёркивание пропало, и метрика
+   читалась как «60 18» — два числа без отношения между ними. */
+.metrics s{ color: var(--text-secondary); text-decoration-thickness: 2px; margin-right: 10px; font-weight: 400; }
+/* зачёркнутое число в текстовом слое читалось слитно:
+   стрелка есть для скринридера и для копирования, но не видна */
+.sr{
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ═══ ПОВЕРХНОСТЬ КЕЙСА ═══ */
+.paper{
+  background: var(--bg-surface); border-radius: var(--radius-8);
+  /* поля листа выведены из ширины экрана так же, как поля страницы */
+  /* макет кейса 2026-10-10: поля листа 20 (было до 40), кадры во всю ширину */
+  padding: 20px 20px 56px;
+}
+
+/* метастрока — самая верхняя строка листа */
+.meta{
+  margin: 0 0 var(--space-32); font-size: 12px; line-height: 16px;
+  letter-spacing: 0; color: var(--text-secondary);
+}
+
+/* логотип продукта и выход к нему.
+   ПРАВКА СОВЕТА №6: до этого в шапке стоял только текст «RealDeal»,
+   и переход по цветному квадрату приводил на страницу без цвета. */
+.top{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px;
+  margin: 0 0 var(--space-32);
+}
+/* вордмарк продукта вместо набранного имени (макет 2026-10-10) */
+.top__logo{ display: block; height: 16px; width: auto; }
+.top__link{
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em; color: var(--text-secondary); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 26px;
+}
+/* стрелка — в сером квадрате 16×16, как на макете */
+.top__link i{
+  font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0;
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4); color: var(--text-primary);
+}
+.top__link{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.top__link:hover{ color: var(--text-primary); }
+
+h1.title{
+  font-size: 34px; font-weight: 500; letter-spacing: -.03em; line-height: 38px;
+  color: var(--text-primary); margin: 0 0 var(--space-32); max-width: 620px; text-wrap: balance;
+}
+
+/* ЛИД — АНТИКВА. Засечки в шапке ставятся сюда, а не в заголовок:
+   заголовок обязан совпадать с заголовком того же кейса на главной,
+   иначе один объект получает два лица. Лид в паре с ним свободен
+   и по референсу именно он несёт первую засечку страницы.
+   24 кегль, а не 30: он стоит под заголовком и не должен его перекричать. */
+/* ═══ ВЫДЕЛЕНИЕ В ПРОЗЕ ═══
+   ЧЕРНИЛА, а не цвет продукта. В своде записано: два тона текста и
+   ни одного третьего — чернила для того, что должно выскочить,
+   приглушённый для прозы. Синий был бы третьим тоном и сломал бы
+   правило, которое держит всю страницу.
+
+   У цвета продукта уже есть работа: он метит сам продукт — знак
+   в колонке и подсветку активного якоря. Если тем же цветом метить
+   ещё и результаты, один цвет получает два значения.
+
+   Выделяется только РЕЗУЛЬТАТ — то, что изменилось благодаря решению.
+   Не объём работы (11 интервью, 20+ презентаций, 25+ компонентов),
+   не параметры системы (5 слоёв, 3D, 15 инвесторов) и не «было»
+   (45–60 дней). Иначе выделение перестаёт что-либо значить.
+
+   Жирного нет: вес держит структуру (заголовки, ключи), тон держит
+   смысл. Подчёркивание остаётся признаком ссылки — поэтому выделение
+   никогда не подчёркнуто. */
+.hl{ color: var(--text-primary); }
+
+.lede a{
+  color: inherit; text-decoration: underline; text-decoration-thickness: 1px;
+  text-underline-offset: 5px; text-decoration-color: var(--border-default);
+}
+.lede a:hover{ text-decoration-color: currentColor; }
+.lede{
+  font-family: var(--serif); font-size: 24px; font-weight: 400;
+  line-height: 30px; letter-spacing: -.01em; color: var(--text-primary);
+  margin: 0 0 var(--space-32); text-wrap: pretty;
+}
+
+.paper .metrics{
+  margin: 0 0 var(--space-32); padding: var(--space-32) 0 0;
+  border-top: 1px solid var(--border-default);
+}
+/* РАЗДЕЛЕНИЕ МЕТРИК ПО ТОМУ, НУЖЕН ЛИ ИМ КОНТЕКСТ.
+   Наверху — то, что понятно без чтения: сумма раунда и «первая
+   в стране». Внизу — то, что понятно только после кейса: срок,
+   комиссии, физические шаги. «12+ → 0 шагов» в шапке занимала
+   четверть самого дорогого места и ничего не сообщала.
+
+   Срок повторяется намеренно: наверху сжат до «×3», внизу
+   развёрнут в «45–60 → 12–18». Наверху обещание, внизу откуда оно.
+   ×3 защищается при любой паре: 45→12 это ×3,75, 60→18 это ×3,33.
+
+   Три колонки по 240, а не четыре по 172: на 172 подпись «первая
+   онлайн-сделка с коммерческой недвижимостью в ОАЭ» занимала три
+   строки против двух у соседей, и ряд был рваным по низу. */
+.metrics--top{
+  /* макет 2026-10-10: колонки по содержимому, зазор 84, подпись уже числа */
+  display: flex; flex-wrap: wrap; gap: 20px 84px;
+}
+/* Число и подпись — столбик от верхней линии. Ячейка метрики растягивается
+   на высоту ряда, и без align-content строки сетки делили лишнюю высоту
+   поровну: однострочная подпись уезжала ниже двухстрочных соседей. */
+.paper .metrics > div{ align-content: start; }
+.metrics--top dt{ white-space: nowrap; }
+.metrics--top dd{ max-width: 112px; }
+/* Внутри кейса число крупнее, чем в ленте: на главной метрика стоит
+   в списке из четырёх, здесь — одна. Тот же принцип, по которому
+   заголовок кейса в ленте 24, а на своей странице 34. */
+.paper .metrics dt{ font-size: 34px; line-height: 38px; }
+
+.paper .shot--cover{ margin: 0; }   /* 32 до следующего раздела даёт сам раздел */
+
+/* ИТОГОВЫЕ МЕТРИКИ — тот же компонент, что в шапке.
+   Кейс открывается результатом и закрывается результатом:
+   наверху — чем всё кончилось для бизнеса, внизу — что
+   изменилось в самой сделке. Пересечение одно (срок),
+   и внизу оно дано полным диапазоном.
+   Два в ряд, а не четыре: «45–60 → 12–18» на 26 кегле
+   в четверти полосы разрывается по строкам. */
+.metrics--out{
+  /* макет кейса 2026-10-10: четыре в ряд на 860, колонки по содержимому */
+  display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between;
+  gap: 28px 32px;
+  padding: var(--space-24) 0 0; border-top: 1px solid var(--border-default);
+}
+.metrics--out dt{ white-space: nowrap; }   /* четыре в ряд: число не рвётся (макет 2026-10-10) */
+.metrics--out dd{ max-width: 150px; }
+.metrics--out div:first-child dd{ max-width: none; }
+
+/* ═══ РАСКЛАДКА КОНТЕНТА (мерка снята с oimachi/posts) ═══
+   Два класса блоков, без третьего:
+     проза — колонка 570, выровнена по центру полосы;
+     медиа — во всю ширину полосы.
+   Центрирование, а не прижатие влево: тогда кадр и текст
+   делят одну ось, а не два разных правых края. */
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .sec__label, .paper .tag, .paper .res{
+  max-width: var(--width-prose);
+  margin-left: auto; margin-right: auto;
+}
+
+/* ОБЛОЖКА — по левому краю и шире колонки.
+   Две оси на странице не случайность: верх — это витрина,
+   её читают сканируя слева; всё, что ниже кадра, читают
+   подряд — и там включается центрированная колонка. */
+.paper .top, .paper .meta, .paper .metrics, .paper .metrics--top, .paper .metrics--out, .paper .title{
+  max-width: var(--width-cover); margin-left: 0; margin-right: 0;
+}
+/* макет кейса 2026-10-10: линия и метрики шапки — на всю ширину листа,
+   таблица — 860 по центру */
+.paper .metrics.metrics--top{ max-width: none; }
+.paper .metrics.metrics--out{
+  max-width: var(--width-wide); margin-left: auto; margin-right: auto;
+  /* линии над итоговыми метриками на макете нет — над ними уже линия
+     последней строки таблицы (макет кейса 2026-10-10) */
+  border-top: 0; padding-top: var(--space-16);
+}
+.paper .tbl{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+/* ВЫНОС ЖИВЁТ В КОЛОНКЕ ПРОЗЫ, а не в полосе.
+   Пробовали полосу 760: там Literata 34 даёт 37 знаков в строке
+   против 28 в колонке. Но вынос при этом заводил третий левый
+   край на странице и вопрос «почему этот блок шире соседних».
+   Решение: вынос — тот же текст, набранный крупнее, а не другой
+   блок. Одна ширина с прозой, отличие несёт только кегль. */
+/* лид держит ширину полосы: на 24 кегле Literata это 56 знаков
+   в строке — внутри нормы для крупного кегля. Отдельного числа
+   под лид нет, ширин на странице три, а не четыре. */
+.paper .lede{ max-width: 800px; margin-left: 0; margin-right: 0; }   .paper .lede{ margin-left: 0; margin-right: 0; }
+.paper .top{ max-width: none; }
+
+/* единый ритм: один и тот же промежуток между всеми блоками.
+   Над заголовком не больше, чем под ним — иерархию держат
+   кегль, вес и цвет, а не пустота. */
+.paper h2, .paper h3, .paper .t, .paper ul.list, .paper .quote, .paper .flow, .paper .res, .paper .shot, .paper .shots2, .paper .shots-lead, .paper .tbl{
+  margin-top: 0; margin-bottom: var(--space-16);
+}
+/* 1.5r после выноса — единственное исключение в ритме */
+.paper .quote, .paper .res{ margin-bottom: var(--space-24); }
+
+/* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
+   Замер oimachi: 54 блока, антиквой набраны 7 — 13%.
+   Акцент работает потому, что это чужая гарнитура среди своей:
+   крупная антиква посреди антиквы остаётся той же фактурой.
+   Здесь вынос несёт суждение — фразу, где принято решение;
+   результаты уже стоят в заголовках. */
+
+.paper .sec > *:last-child{ margin-bottom: 0; }
+
+/* РИТМ ВНУТРИ ЛИСТА — правило автора 2026-10-10:
+   между блоками 32, внутри текста 16. Делается отступом сверху от
+   предыдущего соседа, а не снизу у каждого блока: так не бывает
+   двойных промежутков и не надо помнить исключения.
+   Исключения только два: ярлык «Решение N» и его заголовок — одна
+   пара (6), и заголовок с его текстом — 16, как строки внутри текста. */
+.paper .shot--cover{ margin-bottom: 0; }   /* до первого раздела 32 даёт сам раздел */
+.paper .sec > *{ margin-top: 0; margin-bottom: 0; }
+.paper .sec > * + *{ margin-top: var(--space-32); }
+.paper .sec > .tag + h3{ margin-top: 6px; }
+.paper .sec > h3 + .t, .paper .sec > h3 + ul.list, .paper .sec > .t + .t{ margin-top: var(--space-16); }
+
+/* ═══ РАЗДЕЛЫ ═══ */
+.sec{ padding-top: var(--space-32); scroll-margin-top: 24px; }   /* макет 2026-10-10: между разделами 32, было 64 */
+.sec__label{
+  font-size: 12px; font-weight: 400; letter-spacing: 0; line-height: 16px;
+  color: var(--text-secondary); margin: 0 auto var(--space-16);
+  padding-bottom: 10px; border-bottom: 1px solid var(--border-default);
+}
+/* Метка раздела — теперь <h2>: структура документа должна
+   совпадать с тем, что видит глаз. Общий стиль h2 перебиваем. */
+.paper h2.sec__label{
+  font-size: 12px; line-height: 16px; font-weight: 400;
+  letter-spacing: 0; color: var(--text-secondary); text-wrap: wrap;
+}
+
+/* Ярлык решения — та же ступень, что метка раздела, но без линейки:
+   четыре слова дают структуру раздела с одного взгляда.
+   В оригинале это была нумерация «1. Стратегия», и она работала. */
+.paper .tag{ margin-bottom: 6px; }
+.tag{
+  font-size: 12px; font-weight: 400; letter-spacing: 0; line-height: 16px;
+  color: var(--text-secondary); margin: 0 auto 6px;
+}
+
+h2{
+  font-size: 24px; font-weight: 500; letter-spacing: -.03em; line-height: 30px;
+  text-wrap: balance;
+}
+h3{
+  /* вес и тон на одном кегле с прозой не держат разницу:
+     заголовки решений стоят на 24 — ступень выше тела */
+  font-family: var(--sans); font-size: 24px; font-weight: 500;
+  letter-spacing: -.03em; line-height: 30px; color: var(--text-primary);
+}
+
+.t{
+  /* ТЕЛО — АНТИКВА. Замер rafaelcespedes.com/Nucleus:
+     тело модалки Newsreader 15.12/19.66 вес 300, сто процентов
+     блоков антиквой; гротеск живёт только на главной.
+     То есть у него не «антиква как акцент», а два регистра:
+     главная сканируется гротеском, кейс читается антиквой.
+
+     Здесь взят тот же принцип, но проза и структура разведены:
+     всё, на что падает глаз при сканировании — заголовки, метки,
+     метрики, подписи, трейдоффы — осталось гротеском. Антиквой
+     набрано только то, что читают подряд. Рекрутер сканирует
+     гротеск, дизайн-лид читает антикву, и им не мешает друг другу. */
+  font-family: var(--serif); font-size: 16px; font-weight: 400;
+  line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
+}
+.t:last-child{ margin-bottom: 0; }
+/* «Контекст.», «Решение.», «Результат.» и выводы в списках —
+   это структура внутри прозы, а не сама проза. Поэтому гротеск
+   и вес 500, а не заливка: маркер поверх строки резал верхние
+   выносные и читался как след маркера на бумаге. */
+/* выделение внутри антиквенной прозы — той же гарнитурой:
+   гротеск в 15 кегле посреди антиквы читался как вставка из
+   другого документа, а это просто ударное слово. */
+.t b, ul.list b{
+  font-family: var(--serif); font-weight: 400; color: var(--text-primary);
+}
+
+ul.list{
+  font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-secondary);
+  padding-left: 22px;
+}
+ul.list li{ margin-bottom: 4px; }
+ul.list li::marker{ color: var(--text-secondary); }
+
+
+/* цитата */
+/* ВЫНОСНОЕ УТВЕРЖДЕНИЕ
+   У oimachi крупная антиква — не один лид, а приём, который
+   возвращается по тексту. Здесь он несёт суждение — фразу,
+   где принято решение. Результаты уже стоят в заголовках,
+   поэтому вынос не дублирует их, а добавляет то, что может
+   сказать только автор. */
+.quote{
+  font-family: var(--serif); font-size: 34px; font-style: normal; line-height: 38px;
+  letter-spacing: -.01em; color: var(--text-primary); padding: 8px 0; border: 0; text-wrap: pretty;
+}
+.quote footer{
+  font-family: var(--sans); font-style: normal; font-size: 12px; line-height: 16px;
+  color: var(--text-secondary); margin-top: 12px; letter-spacing: 0;
+}
+
+/* путь пользователя */
+.flow{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+}
+.flow span{
+  /* чип 8+16+8 = 32: ровно 4× и 25% к --radius-8. Поле по горизонтали
+     12, а не 16: пять чипов со стрелками держатся в колонке 570 одной
+     строкой, 16 добавляет 40px и ломает строку */
+  padding: 8px 12px; background: var(--bg-placeholder); border-radius: var(--radius-8); white-space: nowrap;
+}
+.flow i{ font-style: normal; color: var(--text-secondary); font-size: 12px; line-height: 16px; letter-spacing: 0; }
+
+/* ДРУГИЕ КЕЙСЫ В КОНЦЕ — только там, где колонка не липкая.
+   Ниже 800 список кейсов уезжает на самый верх страницы (и из колонки
+   убирается совсем): дочитавший до рефлексии оказывается в 11 000
+   пикселей от него. Пока колонка сбоку, блок не нужен. */
+.more{ display: none; }
+@media (max-width: 800px){
+  .more{ display: block; margin-top: var(--space-64); }
+  .more__t{
+    margin: 0 0 12px; font-size: 12px; line-height: 16px;
+    letter-spacing: 0; color: var(--text-secondary);
+  }
+  .more .tree{ grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+}
+
+/* ═══ МАКЕТЫ ═══ */
+.shot{ margin: 0; }
+.shot__frame{
+  /* СОСТОЯНИЕ ЗАГРУЗКИ — полноценное состояние, его видит каждый.
+     Заливка без рамки: два сигнала одной границы — грязь.
+     Тон 90, а не 95: на белом листе 95 читается как пустота,
+     а место под картинку должно читаться как занятое. */
+  border-radius: var(--radius-8); aspect-ratio: 16/9;
+  width: 100%;
+  /* МАКЕТЫ ПОСТАВЛЕНЫ (ТЗ вставки, 2026-10-10). Файл приходит с прозрачным
+     полем нужной пропорции, и цвет поля даёт плашка: --bg-page = #F0F0F0.
+     Поэтому состояние загрузки теперь тот же тон, что поле готового
+     кадра — вспышки другого серого при загрузке нет. Пропорция —
+     из файла, инлайном на элементе; класс-модификаторы остались
+     запасными. Ни поля страницы, ни тени, ни кадрирования. */
+  background: var(--shot-plate); overflow: hidden;   /* светлая: neutral-95 = прежний --bg-page; тёмная: neutral-12 */
+}
+/* Подпись «Демо» / «MVP» стоит НАД кадром (2026-10-11), не под ним. */
+.shot__cap.shot__cap--top{ margin: 0 0 8px; }   /* 8, как от схемы до её подписи; .shot__cap объявлен ниже — поэтому двойной класс */
+.shot__frame picture{ display: block; width: 100%; height: 100%; }
+.shot__frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
+/* сплошная подложка кадров-полос с графиками, запросом на сделку и
+   дашбордом — #1268EC по макету кейса 2026-10-10; карты и пары — серые */
+.shot__frame--accent{ background: var(--brand-realdeal-accent); }
+
+/* схема пути: 860 по центру листа (макет 2026-10-10) */
+.paper .shot--wide{ max-width: var(--width-wide); margin-left: auto; margin-right: auto; }
+.paper .shot--wide .shot__cap{ margin-left: 0; }
+.flow--text{ display: none; }
+.flow span small{
+  display: block; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
+}
+@media (max-width: 620px){
+  .flow-img{ display: none; }
+  .flow--text{ display: flex; }
+}
+/* Подписи несут смысл, а не служебную роль: когда макеты станут
+   настоящими, подпись — единственное, что объясняет кадр.
+   Кегль 12 — общий для всех служебных строк страницы; отличие
+   подписи несут отбивка 8px и положение под кадром, а не свой размер. */
+.shot__cap{
+  font-size: 12px; font-weight: 400; line-height: 16px; color: var(--text-secondary);
+  margin: 8px 0 0; letter-spacing: 0;
+}
+.shots2{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* ТРИ ЭКРАНА В РЯД — по 293px на штуку: десктопный интерфейс
+   в таком размере превращается в пятно. Стало: главный экран
+   во всю полосу, два сопутствующих парой под ним. */
+.shots-lead{ display: grid; gap: 20px; }
+.shots-lead__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.shots-lead .shot{ margin: 0; }
+.shots-lead > .shot .shot__frame{ aspect-ratio: 16/9; }
+.shots-lead__pair .shot__frame{ aspect-ratio: 4/3; }
+
+.shots2 .shot__frame{ aspect-ratio: 4/3; }
+
+
+/* ВЫНОС НЕСЁТ РЕЗУЛЬТАТ
+   Прежде крупной антиквой был набран трейдофф. Теперь — результат
+   решения, и это смена адресата: трейдофф читает дизайн-лид,
+   результат читают оба. Самое крупное в прозе достаётся тому,
+   что должно дойти и до того, кто не дочитает.
+
+   Трейдофф при этом не исчез — он стал рядовым абзацем
+   с чернильным ярлыком. Это честно: он остаётся в тексте
+   для того, кто читает подряд, и не отнимает внимания у того,
+   кто сканирует.
+
+   Ярлык набран как метка раздела: структура гротеском,
+   высказывание антиквой. Кавычек нет — они признак цитаты. */
+.res{
+  display: grid; grid-template-columns: minmax(0,1fr); gap: 8px;
+  align-items: start; padding: 0; border: 0;
+}
+.res b{
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  line-height: 16px; letter-spacing: 0; color: var(--text-secondary);
+  text-transform: none; white-space: normal;
+}
+.res span{
+  font-family: var(--serif); font-size: 34px; font-weight: 400;
+  line-height: 38px; letter-spacing: -.01em; color: var(--text-primary);
+  text-wrap: pretty;
+}
+
+/* Зачёркивание — визуальный слой. В текстовом слое метрика
+   читалась как «6018»: так её получал скринридер, поисковик
+   и любой, кто копирует цифру в письмо. Стрелка живёт рядом,
+   но не видна глазу. */
+/* .sr объявлен в общей основе — здесь не повторяется */
+
+
+/* ═══ ТАБЛИЦА ЭТАПОВ ═══
+   Три колонки в строку, как в оригинале на codedesign.ru.
+   Карточками было хуже: три равных прямоугольника читаются как
+   три равнозначных блока, а здесь есть порядок — демо, раунд A,
+   сейчас. Строка задаёт последовательность, карточка нет.
+   Живёт в полосе 760: три колонки в 570 не помещаются. */
+.tbl{ display: grid; gap: 0; border-top: 1px solid var(--border-default); }
+.tbl > div{
+  display: grid; grid-template-columns: 116px 84px minmax(0,1fr); gap: 20px;
+  padding: 14px 0; border-bottom: 1px solid var(--border-default); align-items: baseline;
+}
+.tbl__head{ color: var(--text-secondary); font-size: 16px; line-height: 18px; letter-spacing: -.012em;
+            padding-bottom: 12px !important; }   /* макет 2026-10-10: линия под шапкой — обычная, шапка 16 */
+.tbl{ border-top: 0; }
+.tbl .k{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary); }
+.tbl .v{ font-family: var(--serif); font-size: 16px; line-height: 24px; letter-spacing: 0; color: var(--text-primary);
+         font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* таблица результата: 860 = 140+20+220+20+460, макет кейса 2026-10-10.
+   Колонки в долях, а не в пикселях (2026-10-12): с зазорами 20 доли 140:220:460
+   дают ровно эти числа на 860, а на узком листе сжимаются все три вместе —
+   раньше сжималась одна «резиновая», фиксированные стояли как были. */
+.tbl:not(.tbl--find) > div{ grid-template-columns: minmax(0,140fr) minmax(136px,220fr) minmax(0,460fr); }   /* 136 — ширина «Спроектировано» (nowrap): общий пол одинаков во всех строках, колонки не расходятся */
+.tbl p{ font-family: var(--serif); font-size: 16px; line-height: 24px;
+        letter-spacing: 0; color: var(--text-secondary); margin: 0; }
+/* Находки: три шага пути, что мешает, что я сделала.
+   Две колонки прозы равны — барьер и ответ читаются парой. */
+.tbl--find{ border-top: 0; }
+.tbl--find > div{ grid-template-columns: minmax(0,150fr) minmax(0,370fr) minmax(0,300fr); }   /* 860 = 150+20+370+20+300, макет 2026-10-10; доли — см. выше */
+.tbl--find p + p{ color: var(--text-primary); }
+@media (max-width: 620px){
+  .tbl > div, .tbl:not(.tbl--find) > div{ grid-template-columns: minmax(0,1fr) auto; gap: 4px 16px; }
+  .tbl p{ grid-column: 1 / -1; }
+  .tbl > .tbl__head{ display: none; }
+  .tbl--find > div{ grid-template-columns: minmax(0,1fr); }
+  .tbl--find p + p::before{ content: '→ '; color: var(--text-secondary); }
+}
+
+
+/* ═══ ОБЩЕЕ ДЛЯ КЕЙСОВ С «ДО / ПОСЛЕ» (из kino-i-tv.html, 2026-10-13) ═══ */
+
+/* ДО И ПОСЛЕ — таблица, как у RealDeal («Шаг / Боль / Гипотеза»): общий
+   компонент .tbl (860 по центру, шапка, линии между строками), здесь две
+   равные колонки без ключевого столбца. Правая («после») — чернила, левая
+   серая: как «Гипотеза» против «Боли». Числа внутри — гарнитура прозы,
+   вес 400, чернила. На ≤620 шапка скрыта, и каждая ячейка получает свою
+   метку (data-l) над текстом: колонки встают друг под друга. */
+.tbl--cmp > div, .tbl.tbl--cmp > div{ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.tbl--cmp p + p{ color: var(--text-primary); }
+.tbl--cmp p b{ font-weight: 400; color: var(--text-primary); }
+@media (max-width: 620px){
+  .tbl--cmp > div, .tbl.tbl--cmp > div{ grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .tbl--cmp p::before{
+    content: attr(data-l); display: block; margin-bottom: 2px;
+    font-family: var(--sans); font-size: 12px; line-height: 16px; letter-spacing: 0;
+    color: var(--text-secondary);
+  }
+}
+
+/* ГРУППА С ОДНОЙ МЕТКОЙ — «До» / «После» в блоке «Регистрация и вход».
+   Группа — один блок ритма листа (32 до и после); внутри метка отстоит
+   от кадров на 8, как у одиночных кадров, а лишних 16 в конце нет. */
+.paper .grp > *:last-child{ margin-bottom: 0; }
+
+
+
+/* низ */
+/* ═══ КОНЕЦ КЕЙСА ═══
+   ПОКАЗЫВАЕТСЯ ТОЛЬКО ТАМ, ГДЕ КОЛОНКА НЕ ЛИПКАЯ.
+   На широком экране Telegram и LinkedIn видны в левой колонке
+   ровно в тот момент, когда человек дочитал, — блок внизу был
+   бы их точной копией. На узком колонка статична и давно уехала
+   вверх, и тогда это единственный выход со страницы.
+   Один и тот же блок бывает дубликатом и единственным выходом —
+   зависит не от него, а от того, виден ли сейчас сайдбар.
+
+   ССЫЛКА НА ПРОДУКТ видна всегда: кто дочитал до конца, не должен
+   возвращаться за ней в шапку. Это не дубликат, а второй вход
+   в один продукт с разных концов текста.
+
+   КОНТАКТЫ показываются только там, где колонка не липкая.
+   На широком экране Telegram и LinkedIn видны слева ровно в тот
+   момент, когда человек дочитал, — блок внизу был бы их копией.
+   На узком колонка статична и давно уехала вверх, и тогда это
+   единственный выход со страницы. */
+.foot{
+  display: grid;
+  margin-top: var(--space-32); padding-top: var(--space-32);   /* 32 до линии и после (правило ритма 2026-10-10) */
+  border-top: 1px solid var(--border-default);
+  max-width: var(--width-prose); margin-left: auto; margin-right: auto;
+  gap: var(--space-16);
+}
+.foot__site{
+  font-size: 16px; line-height: 18px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-secondary); text-decoration: none;   /* в покое серая, как в шапке: так велела автор 2026-10-11 (на макете была чёрной) */
+  display: inline-flex; gap: 8px; align-items: center;
+  min-height: 26px; width: fit-content;
+}
+.foot__site{ transition: color .18s ease-out; }
+.foot__site:hover{ color: var(--text-primary); }   /* серый → чёрный, как «Сайт продукта» в шапке (2026-10-11) */
+.foot__site i{
+  font-style: normal; font-size: 12px; line-height: 16px; letter-spacing: 0; color: var(--text-primary);
+  width: 16px; height: 16px; display: inline-grid; place-items: center;
+  background: var(--bg-placeholder); border-radius: var(--radius-4);   /* как в шапке, макет 2026-10-10 */
+}
+.foot--hire{ display: none; margin-top: var(--space-48); }
+/* порог см. ниже: 1140 */
+.foot__ask{ margin: 0; font-size: 24px; font-weight: 500; line-height: 30px;
+            letter-spacing: -.03em; color: var(--text-primary); max-width: 22ch; }
+.foot__row{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 24px; }
+.foot__row a{
+  font-size: 14px; line-height: 16px; font-weight: 400; letter-spacing: -.012em;   /* контакты 14/16, как в колонке (2026-10-20; было 16/22) */
+  color: var(--text-primary); text-decoration: none;
+  display: inline-flex; gap: 6px; align-items: baseline; min-height: 26px;
+}
+.foot__row a{ transition: color .18s ease-out; }
+.foot__row a:hover{ color: var(--text-secondary); }   /* цвет вместо подчёркивания (2026-10-11) */
+.foot__row .muted{ font-weight: 400; color: var(--text-secondary); }
+
+a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* С клавиатуры до текста кейса было десять табов по сайдбару */
+
+
+/* Контакты внизу появляются ровно там, где колонка перестаёт
+   быть липкой, — на 1140, а не на 1080. Прежний разрыв в 60px
+   оставлял полосу, где сайдбар уже уехал вверх, а выхода
+   со страницы внизу ещё не было. */
+@media (max-width: 800px){
+  .foot--hire{ display: grid; }
+}
+/* ═══ УЗКИЙ ЭКРАН — 768 ═══
+   Здесь меняются кегли, а не раскладка. На узкой полосе заголовок
+   на 34 кегле занимает три строки, а вынос даёт рваные 19–24 знака
+   в строке. Одно правило на весь порог: всё, что набрано 34,
+   спускается на 24 — следующую ступень той же шкалы. Новых чисел нет. */
+@media (max-width: 768px){
+  h1.title{ font-size: 24px; line-height: 30px; }
+  .quote, .res span{ font-size: 24px; line-height: 30px; }
+  .paper .metrics dt{ font-size: 24px; line-height: 30px; }
+  .metrics--top{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .sec{ scroll-margin-top: 60px; }   /* ниже 768 сверху липкая шапка 48 — якорь не уезжает под неё */
+}
+
+/* ═══ ТЕЛЕФОН — 480 ═══
+   Здесь меняется раскладка: всё, что стояло в два и три столбца,
+   встаёт в один. Лист теряет поля страницы и радиус: на 390
+   рамка вокруг листа съедала десятую часть строки и ничего
+   не сообщала. */
+@media (max-width: 480px){
+  .paper{ border-radius: 0; padding: 24px 16px 40px; }
+  /* balance выравнивает строки по длине и на узком экране растягивает
+     заголовок с трёх строк до четырёх по 16 знаков. Здесь важнее
+     набить строки, чем выровнять их. */
+  h1.title{ text-wrap: pretty; }
+  /* метрики 2×2 (ТЗ адаптив): три во flex-wrap ложились «две и одна» */
+  .metrics--top, .metrics--out{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
+    }
+
+/* Пары кадров — в столбец с 620 (ТЗ адаптив 2026-10-10); полосы остаются полосами. */
+@media (max-width: 620px){
+  .shots2, .shots-lead__pair{ grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
+/* <</CASE>> */
+</style>
+</head>
+
+<body>
+
+<a class="skip" href="#case">Skip to the case text</a>
+
+<!-- <<MBAR>> -->
+<header class="mbar">
+  <a class="mbar__ava" href="/en/" aria-label="Home"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></a>
+  <div class="mbar__btns">
+    <a class="mbar__btn mbar__cv" href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener" aria-label="Resume, PDF">CV</a>
+    <button class="mbar__btn mbar__menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <svg class="i-open" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+      <svg class="i-close" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2v12M8 2v12M12 2v12"/></svg>
+    </button>
+  </div>
+</header>
+<script>
+(function(){
+  var root = document.documentElement, btn = document.querySelector('.mbar__menu');
+  if (!btn) return;
+  function set(open){
+    root.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+  }
+  btn.addEventListener('click', function(){ set(!root.classList.contains('menu-open')); });
+  /* меню в разметке ниже скрипта — слушаем на документе: нажатие мимо панели закрывает */
+  document.addEventListener('click', function(e){ if (e.target.id === 'menu') set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') set(false); });
+  window.matchMedia('(min-width: 801px)').addEventListener('change', function(e){ if (e.matches) set(false); });
+})();
+</script>
+<!-- <</MBAR>> -->
+<!-- <<MENU>> -->
+<div class="menu" id="menu">
+  <nav class="menu__panel" aria-label="Menu">
+    <div class="tree">
+      <a class="row row--flat" aria-current="page" href="/en/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Real Deal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/en/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Cinema &amp; TV</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/en/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Second Screen</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" href="/en/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+    </div>
+    <div class="menu__foot">
+      <div class="act">
+        <a class="act__cv" href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener">Resume — PDF</a>
+      </div>
+      <div class="hire">
+        <div class="hire__links">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+          <a href="/realdeal" hreflang="ru" lang="ru" aria-label="Русская версия">Рус</a>
+        </div>
+      </div>
+      </div>
+  </nav>
+</div>
+<!-- <</MENU>> -->
+
+<div class="app app--case">
+
+  <!-- ═══ ЛИПКАЯ КОЛОНКА ═══ -->
+  <aside class="rail">
+<!-- <<RAIL_HEAD>> -->
+    <!-- КТО Я — одинаково на главной и внутренней (макеты 2026-10-12) -->
+    <div class="me">
+      <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
+      <p class="me__who"><a href="/en/">Ekaterina Zadorozhnaya —<br>Senior Product Designer.</a></p>
+      <p class="me__span">9+ years in <b>B2B&nbsp;SaaS</b> and <b>B2C:</b> PropTech, <br class="br-m">Streaming&nbsp;TV, design systems.</p>
+      <p class="me__sum"><b>$7.5M</b> raised and <b>100%&nbsp;YoY</b> audience growth <br class="br-m">— on products I&nbsp;led.</p>
+    </div>
+<!-- <</RAIL_HEAD>> -->
+
+    <!-- КЕЙСЫ. На главной здесь ничего нет: там лента и есть список. -->
+<!-- <<CASE_TREE>> -->
+    <nav class="tree" aria-label="Cases">
+      <a class="all" href="/en/"><svg viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="1.5" cy="1.5" r="1.1"/><circle cx="6" cy="1.5" r="1.1"/><circle cx="10.5" cy="1.5" r="1.1"/><circle cx="1.5" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="10.5" cy="6" r="1.1"/><circle cx="1.5" cy="10.5" r="1.1"/><circle cx="6" cy="10.5" r="1.1"/><circle cx="10.5" cy="10.5" r="1.1"/></svg>All</a>
+      <div class="row row--open" data-brand="realdeal" aria-current="page">
+        <span class="row__id"><span class="logo" aria-hidden="true"></span>
+        <span><span class="row__name">Real Deal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span>
+        <span class="toc"><a href="#problem">Problem</a><a href="#work">My contribution</a><a href="#result">Result</a></span>
+      </div>
+      <a class="row row--flat" href="/en/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Cinema &amp; TV</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/en/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Second Screen</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" href="/en/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+      <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Smart Home</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
+    </nav>
+<!-- <</CASE_TREE>> -->
+
+<!-- <<RAIL_FOOT>> -->
+    <!-- НИЗ — резюме и контакты одной группой, одинаково на обеих страницах.
+         Подпись «Linkedin» — как на макете 2026-10-12. -->
+    <div class="rail__foot">
+      <div class="act">
+        <a class="act__cv" href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener">Resume — PDF</a>
+      </div>
+      <div class="hire">
+        <div class="hire__links">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        </div>
+      </div>
+      <div class="prefs">
+        <a class="prefs__lang" href="/realdeal" hreflang="ru" lang="ru" aria-label="Русская версия">Рус</a>
+        <button class="prefs__theme" type="button" aria-pressed="false" aria-label="Dark theme">
+        <svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 .75a5.25 5.25 0 0 1 0 10.5z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var root=document.documentElement, btns=document.querySelectorAll('.prefs__theme');
+      if(!btns.length) return;
+      function current(){ return root.getAttribute('data-theme')==='dark'?'dark':'light'; }
+      function sync(){ var d=current()==='dark';
+        btns.forEach(function(b){
+          b.setAttribute('aria-pressed', d?'true':'false');
+          b.setAttribute('aria-label', d?'Light theme':'Dark theme'); }); }
+      sync();
+      btns.forEach(function(b){ b.addEventListener('click', function(){
+        var next = current()==='dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try{ localStorage.setItem('theme', next); }catch(e){}
+        sync();
+      }); });
+    })();
+    </script>
+<!-- <</RAIL_FOOT>> -->
+  </aside>
+
+  <!-- ═══ ПОВЕРХНОСТЬ КЕЙСА ═══ -->
+  <main class="paper" id="case" tabindex="-1">
+
+    <p class="meta">Lead Product Designer <span class="sep">·</span> B2B SaaS <span class="sep">·</span> PropTech <span class="sep">·</span> CRE <span class="sep">·</span> Data-Heavy <span class="sep">·</span> Zero to MVP</p>
+
+    <div class="top">
+      <img class="top__logo logo-light" src="/img/logo/RD%202.svg" alt="Real Deal" width="100" height="16"><img class="top__logo logo-dark" src="/img/logo/RD%202%20dark.svg" alt="" width="100" height="16">
+      <a class="top__link" href="https://real-deal.ae/" target="_blank" rel="noopener">Product site <i>↗</i></a>
+    </div>
+
+    <h1 class="title">The first online deal platform for <span class="nw">commercial real estate</span> in the&nbsp;UAE</h1>
+
+    <p class="lede">As lead designer, I designed <a href="https://real-deal.ae/" target="_blank" rel="noopener">Real Deal</a> from scratch — a web service for investing in commercial real estate in the UAE. I took the product from an analytics demo to a commercial MVP: an interactive map, a catalog, the first online deal flow in the UAE built on UAE&nbsp;PASS, and a subscription.</p>
+
+    <dl class="metrics metrics--top">
+      <div><dt>+$7.5M</dt><dd>investment raised</dd></div>
+      <div><dt>#1 in the UAE</dt><dd>online CRE deal platform</dd></div>
+      <div><dt>×3</dt><dd>faster deal closing</dd></div>
+    </dl>
+
+    <!-- ОБЛОЖКА БЕЗ ПОДПИСИ.
+         Подпись есть у кадра, который что-то доказывает. Обложке
+         доказывать нечего — она показывает. Любая подпись здесь
+         либо повторяет заголовок, либо вводит деталь, которую
+         читатель ещё не может оценить: про данные DLD он узнает
+         только через полторы тысячи пикселей. -->
+    <figure class="shot shot--cover">
+      <!-- Обложка 16:9, файл 16:10 (2880×1800): единственное место, где
+           макет кадрируется — срезается только низ (180px), верх виден
+           целиком. На главной тот же файл показан целиком в 16:10.
+           Чтобы убрать кадрирование, выгрузить файл 16:9 и вернуть fill. -->
+      <div class="shot__frame" style="aspect-ratio: 16 / 9"><picture><source srcset="/img/home/960/rd_hero_map.webp 960w, /img/home/1920/rd_hero_map.webp 1920w, /img/home/rd_hero_map.webp 2880w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/home/rd_hero_map.png" width="2880" height="1800" alt="Analytics map of Dubai built on DLD data: a sector is selected, with a metrics panel next to it" fetchpriority="high" style="object-fit: cover; object-position: top"></picture></div>
+    </figure>
+
+    <!-- ── ПРОБЛЕМА И КОНТЕКСТ ── -->
+    <section class="sec" id="problem">
+      <h2 class="sec__label">Problem</h2>
+
+      <p class="t">The UAE commercial real estate market is opaque and depends on agents: investors and asset managers decide <b>“by feel”</b>, spend <b>weeks checking</b> properties, and a deal takes <b>45–60 days</b>. Nobody offered a full CRE deal cycle: Property&nbsp;Finder and Bayut work with residential property in the UAE, LoopNet and CREXI with commercial property, but not in the UAE.</p>
+
+      <p class="t"><b>Goal.</b> Turn a mass of market data into a <b>tool for investment decisions</b> and take the user all the way to an <b>online deal</b>. Prove that a platform built on analytics and facts works <b>faster and cheaper</b> than the agent model.</p>
+
+      <p class="t">I ran 11 interviews with investors and asset managers. The investor journey broke in three places — I had a hypothesis for each.</p>
+
+      <div class="tbl tbl--find">
+        <div class="tbl__head"><span>Step</span><span>Pain</span><span>Hypothesis</span></div>
+        <div>
+          <span class="k">Analysis</span>
+          <p>Data is scattered across sources, and there is no single tool for analysis</p>
+          <p>One analytics map built on DLD data (the Dubai Land Department)</p>
+        </div>
+        <div>
+          <span class="k">Valuation</span>
+          <p>Returns are estimated “by eye”, and there is no tool to value a property</p>
+          <p>An ROI calculator in the property card</p>
+        </div>
+        <div>
+          <span class="k">Deal</span>
+          <p>The path from analysis to a deal is broken: an agent, paperwork, a meeting in person</p>
+          <p>One end-to-end flow from the map to an online deal</p>
+        </div>
+      </div>
+
+      <blockquote class="quote">
+        “I want to see the return right away, on the property itself, without Excel or an agent”
+        <footer>asset manager</footer>
+      </blockquote>
+
+      <!-- СХЕМА ПУТИ — файл Flow.png из макета 2026-10-10: прозрачное поле,
+           плашку #F0F0F0 с радиусом 8 даёт страница; 860 по центру листа.
+           Подпись остаётся по ТЗ. На 620 и ниже текст в схеме мельче 5px,
+           поэтому вместо файла показывается тот же путь чипами. -->
+      <figure class="shot shot--wide">
+        <div class="shot__frame flow-img" style="aspect-ratio: 1720 / 504"><picture><source srcset="/img/realdeal/Flow_en.webp" type="image/webp"><img src="/img/realdeal/Flow_en.png" width="1720" height="504" alt="Investor journey: market analysis (data is scattered), property search, return valuation (estimated “by eye”), deal (through an agent), property management" loading="lazy" decoding="async"></picture></div>
+        <div class="flow flow--text" aria-hidden="true">
+          <span>Market analysis<small>data is scattered</small></span><i>→</i><span>Property search</span><i>→</i><span>Return valuation<small>estimated “by eye”</small></span><i>→</i><span>Deal<small>through an agent</small></span><i>→</i><span>Property management</span>
+        </div>
+        <figcaption class="shot__cap">The whole investor journey — and the three steps where it broke</figcaption>
+      </figure>
+    </section>
+
+    <!-- ── МОЙ ВКЛАД ── -->
+    <section class="sec" id="work">
+      <h2 class="sec__label">My contribution — four decisions over a year of work</h2>
+
+      <p class="tag">Decision 1. Strategy</p>
+      <h3>Analytics instead of a wide feature set. Two investment rounds</h3>
+      <p class="t"><b>Context.</b> Management wanted to launch everything at once. I pushed for something else: the goal of the demo was not a complete product but proof of the value of the data. The full product would come second, if the proof worked.</p>
+      <p class="t"><b>Decision.</b> I focused the demo on analytics in two formats — an interactive map and charts built on open Dubai market data. No catalog, no deals, no extra features. After the round, I expanded the product into the full flow: catalog, deal, subscription.</p>
+      <p class="res"><b>Result</b><span>The demo, built in 4–5 months instead of the 9–12 planned for the whole product, brought in $2.5M and access to closed DLD data. The MVP, built in another 6 months, raised $5M in a Series A.</span></p>
+
+      <figure class="shot">
+        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4968 / 2796"><picture><source srcset="/img/realdeal/960/analytic.webp 960w, /img/realdeal/analytic.webp 4968w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/analytic.png" width="4968" height="2796" alt="Analytics in charts: deal volume, rent, price trends, demographics" loading="lazy" decoding="async"></picture></div>
+      </figure>
+
+      <p class="tag">Decision 2. Map</p>
+      <h3>From visual chaos to zone analytics</h3>
+      <p class="t"><b>Context.</b> For the demo, people expected a “wow” map: the maximum number of layers, some of them grouped into folders. I saw two problems — visual chaos from the sheer number of layers, and a trap: if you turned on a layer inside a group and went back, you could not see what was on. I suggested the opposite.</p>
+      <p class="t"><b>Decision.</b> I insisted on testing both options and ran the test with investors. My option did not win: the maximum number of layers stayed, and analytics worked only for ready-made zones — all of Dubai, a community, a sector. In the MVP, they came back to my option. I did not cut the layer catalog — I limited it to five layers on at once and removed the groups: each layer became independent, with its own filters and analytics, and a set of layers can be saved as a preset. I added custom zones — radius, outline, isochrone — which no competitor had. I chose the URBI&nbsp;API: 3D with building heights and map modes.</p>
+      <p class="res"><b>Result</b><span>The map became the main argument of the demo: investors moved faster from analysis to choice.</span></p>
+      <p class="t"><b>A conscious trade-off.</b> I gave up syncing the map with the analytics charts because of technical limits and the deadline. A strong map is better than weak sync.</p>
+
+      <!-- РАСКЛАДКА ПО ТЗ ВСТАВКИ МАКЕТОВ: пара «демо» — слои включены
+           разом и слой внутри группы; затем две полосы одна под другой —
+           объёмная карта с пресетом и слой Ownership отдельной панелью.
+           Две полосы, не пара: на половине колонки панель фильтров
+           превращается в пятно. Подписи несут «Демо:» и «MVP:» сами. -->
+      <div class="shots2">
+        <figure class="shot">
+            <figcaption class="shot__cap shot__cap--top">Demo</figcaption>
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before.webp 960w, /img/realdeal/map_before.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before.png" width="2406" height="1800" alt="Demo: several layers are on at once, with a filter panel on top" loading="lazy" decoding="async"></picture></div>
+          </figure>
+        <figure class="shot">
+            <figcaption class="shot__cap shot__cap--top">Demo</figcaption>
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/map_before2.webp 960w, /img/realdeal/map_before2.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/map_before2.png" width="2406" height="1800" alt="Demo: the Ownership layer is expanded inside a group" loading="lazy" decoding="async"></picture></div>
+          </figure>
+      </div>
+
+      <figure class="shot">
+        <figcaption class="shot__cap shot__cap--top">MVP</figcaption>
+        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after.webp 960w, /img/realdeal/1920/map_after.webp 1920w, /img/realdeal/map_after.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/map_after.png" width="4000" height="2250" alt="MVP: the map in 3D mode, a layers panel with a saved preset" loading="lazy" decoding="async"></picture></div>
+      </figure>
+
+      <figure class="shot">
+        <figcaption class="shot__cap shot__cap--top">MVP</figcaption>
+        <div class="shot__frame" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/map_after2.webp 960w, /img/realdeal/1920/map_after2.webp 1920w, /img/realdeal/map_after2.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/map_after2.png" width="4000" height="2250" alt="MVP: the Ownership layer as a separate panel — filters and analytics for the layer" loading="lazy" decoding="async"></picture></div>
+      </figure>
+
+      <p class="tag">Decision 3. Property card</p>
+      <h3>Trust and returns on one screen</h3>
+
+      <!-- СВЯЗКА МЕЖДУ РАЗДЕЛАМИ. Кейс заявляет сквозной сценарий
+           «от карты до сделки», но до сих пор показывал карту,
+           карточку и сделку как три отдельных экрана. Этот кадр —
+           единственное место, где видно переход. -->
+      <p class="t"><b>Context.</b> Two problems met in the property card. The first came from the interviews: people estimated returns by eye. The second was my own conclusion: a catalog without a way to verify listings would look like one more source nobody trusts.</p>
+      <p class="t"><b>Decision.</b> I solved both in the card. The ROI calculator shows the return right on the property — without Excel or an agent. Verification: the owner attaches documents when publishing, and they stay hidden. The platform checks them against the fields of the listing — the more matches, the higher the percentage the buyer sees.</p>
+      <p class="res"><b>Result</b><span>A buyer verifies a property and calculates the return before buying — without a moderator, Excel or an agent.</span></p>
+
+      <div class="shots2">
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/catalog.webp 960w, /img/realdeal/catalog.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/catalog.png" width="2406" height="1800" alt="Catalog: a list of properties and a map with price tags, with a card open on one point" loading="lazy" decoding="async"></picture></div>
+          </figure>
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/960/object_card.webp 960w, /img/realdeal/object_card.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/object_card.png" width="2406" height="1800" alt="Property card: verification, terms, a return calculator" loading="lazy" decoding="async"></picture></div>
+          </figure>
+      </div>
+
+      <p class="tag">Decision 4. Online deal</p>
+      <h3>From request to signature without leaving the platform</h3>
+      <p class="t"><b>Context.</b> No platform in the UAE had ever run a CRE deal fully online. The barrier was the electronic signature: without it, a document required both parties to be there in person.</p>
+      <p class="t"><b>Decision.</b> The company got access to UAE&nbsp;PASS, the national digital identity system. The signature became legally binding. I built the deal into the existing journey instead of making it a separate section: a request goes from the property card to the Deal&nbsp;Room, and statuses come back to the dashboard. A designer on my team designed the Deal&nbsp;Room in detail, and I led the end-to-end flow.</p>
+      <p class="res"><b>Result</b><span>An investor can close a deal from anywhere in the world.</span></p>
+
+      <div class="shots-lead">
+        <figure class="shot">
+          <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4000 / 2250"><picture><source srcset="/img/realdeal/960/dealroom.webp 960w, /img/realdeal/1920/dealroom.webp 1920w, /img/realdeal/dealroom.webp 4000w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/dealroom.png" width="4000" height="2250" alt="Deal request: choosing a role, step 1 of 3" loading="lazy" decoding="async"></picture></div>
+        </figure>
+        <div class="shots-lead__pair">
+          <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom2.webp 960w, /img/realdeal/dealroom2.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom2.png" width="2800" height="2094" alt="Deal Room: deal stages, due diligence, correspondence between the parties" loading="lazy" decoding="async"></picture></div>
+          </figure>
+          <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2800 / 2094"><picture><source srcset="/img/realdeal/960/dealroom3.webp 960w, /img/realdeal/dealroom3.webp 2800w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/dealroom3.png" width="2800" height="2094" alt="My deals: a table with the counterparty, role and status" loading="lazy" decoding="async"></picture></div>
+          </figure>
+        </div>
+      </div>
+
+      <h3>My role as Lead Product Designer: strategy, C-level, team</h3>
+      <p class="t"><b>Influence on strategy.</b> I set MVP priorities and the roadmap together with the CTO and the PM: the three of us decided what goes into the release and what waits.</p>
+      <p class="t"><b>Work with C-level.</b> I defended product decisions in reviews with the CTO, the PM and stakeholders. I prepared materials for the funding rounds — 20+ presentations for investors at conferences and private meetings in Dubai.</p>
+      <p class="t"><b>Team and processes.</b> I rebuilt the team and replaced juniors with strong specialists — <span class="hl">within a month, the team worked on its own</span>. A design system from scratch: 25+ components, tokens, and standards from the first sprint.</p>
+
+      <div class="shots2">
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2958 / 2212"><picture><source srcset="/img/realdeal/add_object.webp 2958w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/add_object.png" width="2958" height="2212" alt="Property listing form: contacts, passport, Emirates ID, Trakheesi permit" loading="lazy" decoding="async"></picture></div>
+          </figure>
+        <figure class="shot">
+            <div class="shot__frame" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/realdeal/color.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/realdeal/color.png" width="2406" height="1800" alt="The design system palette with values" loading="lazy" decoding="async"></picture></div>
+          </figure>
+      </div>
+    </section>
+
+    <!-- ── РЕЗУЛЬТАТ И РЕФЛЕКСИЯ ── -->
+    <section class="sec" id="result">
+      <h2 class="sec__label">Result and reflection</h2>
+
+      <h3>Two rounds and groundwork for the future</h3>
+      <div class="tbl">
+        <div class="tbl__head"><span>Stage</span><span>Outcome</span><span>Details</span></div>
+        <div>
+          <span class="k">Demo</span><span class="v">$2.5M</span>
+          <p>The focus on analytics showed investors the unique value of the data. A partnership with a sheikh and access to DLD.</p>
+        </div>
+        <div>
+          <span class="k">MVP</span><span class="v">$5M</span>
+          <p>Catalog, online deals, verification, subscription. After a closed beta with 15 investors, the product was getting ready for an open launch.</p>
+        </div>
+        <div>
+          <span class="k">Groundwork</span><span class="v">Designed</span>
+          <p>A dashboard as the center of daily work: deals, shortlist, portfolio, analytics. An AI assistant as the next layer: a chat where the investor asks a question and the right data opens on the screen; next come automated analysis and property matching to the investor’s strategy. The mascot, its character and tone of voice are designed.</p>
+        </div>
+      </div>
+
+      <dl class="metrics metrics--out">
+        <div><dt><s>45–60</s><span class="sr"> → </span>12–18</dt><dd>days to close a deal</dd></div>
+        <div><dt><s>8.33%</s><span class="sr"> → </span>4%</dt><dd>rental commission: agent → platform</dd></div>
+        <div><dt><s>2%</s><span class="sr"> → </span>1%</dt><dd>sales commission: agent → platform</dd></div>
+        <div><dt><s>12+</s><span class="sr"> → </span>0</dt><dd>meetings and visits per deal</dd></div>
+      </dl>
+
+      <figure class="shot">
+        <div class="shot__frame shot__frame--accent" style="aspect-ratio: 4936 / 2776"><picture><source srcset="/img/realdeal/960/dashboard.webp 960w, /img/realdeal/1920/dashboard.webp 1920w, /img/realdeal/dashboard.webp 4936w" sizes="(min-width: 1441px) 1000px, (min-width: 801px) calc(64vw - 40px), 100vw" type="image/webp"><img src="/img/realdeal/dashboard.png" width="4936" height="2776" alt="Investor dashboard: AI assistant, tasks, properties, deal funnel" loading="lazy" decoding="async"></picture></div>
+      </figure>
+
+      <h3>What I would do differently</h3>
+      <ul class="list">
+        <li>I would finish the sync between the map and the charts — the idea was lost because of the deadline.</li>
+        <li>I would rebuild the team right away — for the first six months it was losing speed.</li>
+        <li>From day one, I would work directly with external stakeholders, not through intermediaries.</li>
+      </ul>
+    </section>
+
+    <div class="foot">
+      <a class="foot__site" href="https://real-deal.ae/" target="_blank" rel="noopener">Product site <i>↗</i></a>
+    </div>
+
+<!-- <<CASE_MORE>> -->
+    <nav class="more" aria-label="Other cases">
+      <p class="more__t">Other cases</p>
+      <div class="tree">
+        <a class="row row--flat" href="/en/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Cinema &amp; TV</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+        <a class="row row--flat" href="/en/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Second Screen</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+        <a class="row row--flat" href="/en/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+        <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Smart Home</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
+      </div>
+    </nav>
+<!-- <</CASE_MORE>> -->
+
+    <div class="foot foot--hire">
+      <p class="foot__ask">Contact me</p>
+      <div class="foot__row">
+        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        <a class="muted" href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener">Resume — PDF</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- <<CASE_JS>> -->
+<script>
+/* ПОДСВЕТКА АКТИВНОГО РАЗДЕЛА — слушатель прокрутки, а не
+   IntersectionObserver. Наблюдатель стоял здесь первым, и у него
+   был изъян: когда ни одна секция не попадала в полосу наблюдения,
+   последнее состояние замирало — на самом верху страницы оставался
+   подсвечен последний раздел. Слушатель считает положение явно
+   и знает края: выше первой секции активна первая, у низа страницы —
+   последняя. Расчёт убран в requestAnimationFrame, поэтому на кадр
+   приходится одно вычисление, а не одно на событие. */
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var secs  = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  if (!secs.length || !secs[0]) return;
+
+  function setCurrent(i){
+    links.forEach(function(a, n){
+      if (n === i) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+
+  function recalc(){
+    var y = window.scrollY + window.innerHeight * 0.18;
+    var best = 0;
+    for (var i = 0; i < secs.length; i++){
+      if (!secs[i]) continue;
+      if (secs[i].getBoundingClientRect().top + window.scrollY <= y) best = i;
+    }
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) best = secs.length - 1;
+    setCurrent(best);
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ recalc(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  recalc();
+
+  links.forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  });
+})();
+</script>
+<!-- <</CASE_JS>> -->
+
+</body>
+</html>

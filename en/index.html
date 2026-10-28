@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- <<HEAD>> -->
+<title>Ekaterina Zadorozhnaya — Senior Product Designer</title>
+<meta name="description" content="Senior Product Designer with 9+ years in B2B SaaS and B2C: PropTech, Streaming TV, design systems. $7.5M raised and 100% YoY audience growth on products I led.">
+<link rel="canonical" href="https://codedesign.ru/en/">
+<link rel="alternate" hreflang="ru" href="https://codedesign.ru/">
+<link rel="alternate" hreflang="en" href="https://codedesign.ru/en/">
+<link rel="alternate" hreflang="x-default" href="https://codedesign.ru/">
+
+<meta property="og:type"         content="profile">
+<meta property="og:url"          content="https://codedesign.ru/en/">
+<meta property="og:title"        content="Ekaterina Zadorozhnaya — Senior Product Designer">
+<meta property="og:description"  content="9+ years in B2B SaaS and B2C. Complex interfaces, design systems, products from zero to launch. $7.5M raised on the Demo + MVP, 2× audience on the redesign.">
+<meta property="og:image"        content="https://codedesign.ru/og/og_eng.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale"       content="en_US">
+<meta name="twitter:card"        content="summary_large_image">
+
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Literata:opsz,wght@7..72,400&display=swap">
+
+<script>
+(function(){try{var t=localStorage.getItem('theme');
+if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+<!-- <</HEAD>> -->
+
+<style>
+/* <<BASE>> */
+/* ═══════════════════════════════════════════════════════════════
+   ОБЩАЯ ОСНОВА ДВУХ СТРАНИЦ
+   Вклеивается в index.html и realdeal.html скриптом build.py.
+   Править её внутри самих страниц нельзя — перезапишется.
+
+   Раскладка — с макетов 2026-10-12: колонка слева, белый лист справа
+   (лента на главной, текст на странице кейса). Правки совета внесены
+   поверх, каждая помечена в комментарии. Здесь только то, чем пользуются
+   обе страницы; правила одной страницы лежат в её <style>.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  color-scheme: light;
+
+  /* ИМЕНА: группа = свойство, которое токен задаёт;
+     имя = значение (у примитивов) или роль (у семантики).
+     Совпадают с переменными в Figma один в один — сверка макета
+     с вёрсткой идёт по одному словарю. Подробно: спека-цвет.md. */
+
+  /* ШКАЛА НЕЙТРАЛЬНЫХ, названа по воспринимаемой светлоте L*.
+     Шкала расширяется вставкой без переименования соседей.
+     neutral-6 и neutral-90 работают в обеих темах, меняясь ролями.
+     Тёплая нота R ≥ G ≥ B на 8, 12, 22, 44, 63, 85;
+     чистый серый на 6, 18, 78, 90, 95, 100. */
+
+  /* примитивы светлой темы */
+  --neutral-6:   #131313;   /* L*  5.9  текст, заливка кнопки          */
+  --neutral-18:  #2C2C2C;   /* L* 18.0  кнопка в наведении             */
+  --neutral-44:  #696764;   /* L* 43.7  вторичный и проза              */
+  --neutral-85:  #D5D5D4;   /* L* 85.2  линейка                        */
+  --neutral-90:  #E1E1E1;   /* L* 89.5  светлая: заглушка; тёмная: текст и светлая заливка */
+  --neutral-95:  #F0F0F0;   /* L* 94.8  фон                            */
+  --neutral-100: #FFFFFF;   /* L*100.0  лист, текст на кнопке          */
+
+  /* примитивы тёмной темы (спека-цвет.md, 2026-10-21) */
+  --neutral-8:   #1A1818;   /* L*  8.5  фон страницы                   */
+  --neutral-12:  #20201E;   /* L* 12.2  подложка кадра                 */
+  --neutral-22:  #343433;   /* L* 21.7  линейка                        */
+  --neutral-63:  #999795;   /* L* 62.6  вторичный и проза              */
+  --neutral-78:  #C0C0C0;   /* L* 77.7  заливка в наведении            */
+
+  /* ЦВЕТА ПРОДУКТОВ — правка совета №4.
+     Было: тёмно-синий, почти чёрно-синий, зелёный, голубой —
+     три оттенка одного цвета из четырёх. При размытии
+     различался только зелёный, то есть система работала
+     на одном элементе из четырёх.
+
+     Стало: четыре разных семейства, разведённые и по тону,
+     и по светлоте — чтобы набор читался и в оттенках серого,
+     и при дальтонизме, где цвет один не справляется.
+     Светлота специально разная: 31 / 44 / 52 / 58.
+
+     Одинаковы в обеих темах: это временные плашки под настоящие
+     логотипы, которые от темы не зависят. В семантический слой
+     не заводить — иначе их потянет развести по режимам. */
+  --brand-realdeal:      #2F5AD9;   /* RealDeal      — синий,     L44 */
+  --brand-kino-i-tv:     #B0308C;   /* Кино и ТВ     — маджента,  L52 */
+  --brand-design-system: #14532D;   /* DREAMPlatform — зелёный,   L31 */
+  --brand-second-screen: #DE5B1C;   /* Второй экран  — оранжевый, L58 */
+
+  /* ПОЛЕ КАДРА С КАЛЬКУЛЯТОРОМ на главной — ТЗ вставки макетов, 2026-10-10:
+     Accent/Info #1268EC на 15% поверх белого. Файл макета приходит
+     с прозрачным полем, цвет даёт плашка. Один потребитель
+     (.frame--field), от темы не зависит; в семантику не заводить. */
+  --brand-realdeal-field: #DBE8FC;
+  /* Сплошная подложка кадра с графиками на странице кейса — макет
+     2026-10-10: Accent/Info #1268EC. Один потребитель (.shot__frame--accent). */
+  --brand-realdeal-accent: #1268EC;
+  /* Подложка кадров 16:9 на странице «Кино и ТВ» — тёмно-синий #0C2653,
+     тон самого интерфейса ТВ-приложения (запрос автора 2026-10-12): поля
+     вокруг кадров и шторок сливаются с экраном. Два потребителя
+     (.shot__frame--navy, .cmpx), от темы не зависит; в семантику не заводить. */
+  --brand-kino-i-tv-field: #0C2653;
+  /* Подложка кадра «ленты» (kino_hero_lines) в карточке на главной — тот же
+     синий, но темнее: #0C1B35 (запрос автора 2026-10-12). Один потребитель
+     (.frame--navy-dark). */
+  --brand-kino-i-tv-field-dark: #0C1B35;
+  /* Подложка кадров DREAMPlatform — зелёный #57B035, акцентный цвет самой
+     системы (запрос автора 2026-10-15). Сплошной: кадры главной
+     (.frame--green) и DREPLUS на странице кейса (.shot__frame--green). От темы не зависит; в семантику
+     не заводить. */
+  --brand-design-system-field: #57B035;
+  /* Подложки кадров «Второго экрана» (запрос автора 2026-10-20), сплошные,
+     от темы не зависят; в семантику не заводить:
+       -field      #668CFF — обложки (кейс и два кадра главной) и кадр тёмной темы;
+       -field-soft #E9EEFB — светлые Android-экраны: MVP и «до» редизайна;
+       -field-deep #3366FF — «после» редизайна и два кадра iOS-телегида. */
+  --brand-second-screen-field: #668CFF;
+  --brand-second-screen-field-soft: #E9EEFB;
+  --brand-second-screen-field-deep: #3366FF;
+
+  /* СЕМАНТИКА — десять ролей. Компонент обращается только к ним:
+     примитив или литерал в правиле компонента не переключается темой.
+     --text-primary и --bg-inverse сегодня совпадают по значению,
+     но это два независимых решения: цвет текста и заливка кнопки.
+     Наведение сдвигает заливку к середине шкалы: кнопка на 12
+     пунктов L*, карточка на 2. */
+  --text-primary:      var(--neutral-6);    /* заголовки, числа, активный якорь, выделение в прозе */
+  --text-secondary:    var(--neutral-44);   /* проза, подписи, метастроки, шапки таблиц */
+  --text-inverse:      var(--neutral-100);  /* текст на заливке --bg-inverse */
+  --bg-page:           var(--neutral-95);   /* фон страницы */
+  --bg-surface:        var(--neutral-100);  /* лист кейса, карточки кейсов в колонке */
+  --bg-inverse:        var(--neutral-6);    /* заливка кнопки резюме */
+  --bg-inverse-hover:  var(--neutral-18);   /* кнопка резюме при наведении */
+  --bg-placeholder:    var(--neutral-90);   /* место под макет, аватар, чипы схемы пути */
+  --border-default:    var(--neutral-85);   /* разделители, строки таблиц, рамка ленты */
+  --shot-plate:        var(--neutral-95);   /* подложка кадра на странице кейса: в светлой совпадает с фоном, в тёмной нет */
+
+  --sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --serif: 'Literata', Georgia, 'Times New Roman', serif;
+
+  /* СКРУГЛЕНИЯ — четыре токена, все кратны четырём.
+     Было восемь литералов (1, 3, 4, 6, 7, 8, 10, 50%): 3 против 4 —
+     одно фокус-кольцо, 6 против 7 — соседние элементы с разницей
+     в пиксель. Следы правок, а не решения.
+     999px, а не 50%: на квадрате даёт круг, на узкой полосе —
+     скруглённые торцы, и его можно хранить числом в Figma. */
+  --radius-4:    4px;     /* марка 12×12, кольца :focus-visible */
+  --radius-8:    8px;     /* кнопка, чип, skip-link, лист, кадры, врезка */
+  --radius-full: 999px;   /* аватар, торцы рельса активного якоря */
+
+  --width-cover: 760px;   /* полоса: обложка, метрики, макеты во всю ширину */
+  /* Колонка прозы считается от знаков, а не от пикселей.
+     Цель — 68–72 знака в строке. При Literata 16 это 570.
+     (При Golos 16 то же правило давало 640 — поэтому при смене
+     гарнитуры число пересчитывается, а не переносится.) */
+  --width-prose: 640px;   /* было 570; макет кейса 2026-10-10 */
+  --width-wide:  860px;   /* таблица и схема пути — по центру листа */
+  --width-rail:  clamp(248px, 25vw, 360px);   /* левая колонка; резиновая (ТЗ адаптив 2026-10-10), 360 с 1440 */
+
+  /* РИТМ СТРАНИЦЫ — четыре ступени, все кратны 16. Шкала закрыта.
+     Внутренние поля компонентов ей не подчиняются и токенов
+     не получают: токен с одним потребителем бесполезен. */
+  --space-16: 16px;    /* 1×   между любыми соседними блоками */
+  --space-24: 24px;    /* 1.5× после выноса и цитаты */
+  --space-32: 32px;    /* 2×   до и после линейки между кейсами в ленте (2026-10-10) */
+  --space-48: 48px;    /* 3×   внутри обложки и после лида */
+  --space-64: 64px;    /* 4×   между разделами и между кейсами */
+
+  /* ПОЛЯ СТРАНИЦЫ — плавные, а не ступенчатые.
+     Модель снята с rafaelcespedes.com: там ширина контейнера —
+     фиксированное число (800px), а всё, что вокруг, выведено
+     из него через clamp(мин, доля, макс). Скачок поля с 30 на 16
+     на пороге заметен глазом; clamp убирает сам скачок. */
+  --page-gutter: clamp(16px, 3.75vw, 60px);   /* 60 с 1600 и шире (макет главной 2026-10-10) */
+}
+
+/* ═══ ТЁМНАЯ ТЕМА (включена 2026-10-21, спека-цвет.md) ═══
+   Подобрана под светлую по отношениям, а не выведена зеркально: лист
+   темнее фона (утоплен), текст на листе 14.21 вместо 18.58, проза
+   6.38 вместо 5.64, шаг лист↔фон 1.05. Светлая — по умолчанию;
+   системная настройка не учитывается (решение автора 2026-10-21), тёмная
+   включается только кнопкой и запоминается. Скрипт
+   переключателя — в parts/head.html (выбор до отрисовки) и в
+   parts/rail_foot.html (кнопка). */
+:root[data-theme="dark"]{
+  --text-primary:      var(--neutral-90);
+  --text-secondary:    var(--neutral-63);
+  --text-inverse:      var(--neutral-6);
+  --border-default:    var(--neutral-22);
+  --bg-page:           var(--neutral-8);
+  --bg-surface:        var(--neutral-6);
+  --bg-placeholder:    var(--neutral-18);
+  --bg-inverse:        var(--neutral-90);
+  --bg-inverse-hover:  var(--neutral-78);
+  --shot-plate:        var(--neutral-95);   /* решение автора 2026-10-21: как в светлой (#F0F0F0); в спеке neutral-12 */
+  color-scheme: dark;
+}
+/* ВОРДМАРКИ В ТЁМНОЙ ТЕМЕ (2026-10-21): у RealDeal, Триколора и DREAMPlatform рядом
+   со светлым файлом лежит белый *-dark.svg (RealDeal и DREAMPlatform — тёмные части
+   белые, цветные остаются; Триколор — целиком белый). Переключает кнопка темы.
+   Второй экран синий и остаётся как есть. */
+.logo-dark{ display: none !important; }
+:root[data-theme="dark"] .logo-light{ display: none !important; }
+:root[data-theme="dark"] .logo-dark{ display: block !important; }
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 20px;   /* интерфейсная ступень; проза и заголовки задают свой */
+  /* ТРЕКИНГА НА BODY НЕТ НАМЕРЕННО. -.012em здесь вычислялся от 14px
+     в −0.168px и наследовался абсолютным числом: 18 элементов на 12px
+     получали −1.4% там, где по правилу ноль. Трекинг задаётся
+     на каждом элементе своим стилем, по наследству не приходит. */
+  -webkit-font-smoothing: antialiased;
+}
+
+.app{
+  /* Макет 2026-10-12 при 1600: поля 60, колонка 360, зазор 60, лист
+     начинается с x=480. Зазор и верхнее поле плавные, как и поля
+     страницы. */
+  max-width: 1680px; margin: 0 auto;
+  padding: max(24px, var(--page-gutter)) var(--page-gutter) 80px;
+  display: grid; grid-template-columns: var(--width-rail) minmax(0,1fr);
+  gap: 0 clamp(24px, 3.75vw, 60px);
+  align-items: start;
+}
+
+.skip{
+  position: absolute; left: -9999px; top: 0;
+  background: var(--bg-inverse); color: var(--text-inverse);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  padding: 10px 16px; border-radius: var(--radius-8); z-index: 9; text-decoration: none;
+}
+.skip:focus{ left: 12px; top: 12px; }
+
+/* ═══════════════════ ЛЕВАЯ КОЛОНКА ═══════════════════
+   Порядок один на обеих страницах (макеты 2026-10-12):
+     кто я  →  список кейсов (по центру)  →  резюме и контакты.
+   Колонка липкая, занимает высоту экрана за вычетом полей; резюме
+   и контакты прижаты к нижнему полю. Если контент выше экрана —
+   прокрутка внутри колонки (см. сжатие по высоте в конце файла). */
+.rail{
+  position: sticky; top: max(24px, var(--page-gutter));
+  height: calc(100vh - 2 * max(24px, var(--page-gutter)));
+  height: calc(100dvh - 2 * max(24px, var(--page-gutter)));   /* 100vh на мобильных — не высота экрана */
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 24px;
+  padding: 0;   /* макеты 2026-10-12: аватар на верхнем поле страницы, контакты на нижнем */
+  scrollbar-width: thin;
+}
+
+/* ── кто я ── */
+/* Макеты 2026-10-12: на обеих страницах колонка одинакова — аватар слева,
+   имя и роль справа 16/22 (вес 400), ниже серой строкой сфера и строка
+   про инвестиции. Прежний вариант главной (аватар над именем 24/30) заменён. */
+.me{
+  display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 0 16px;
+  align-items: center; max-width: 320px;   /* ширина текста колонки по макету */
+}
+.me__ava{
+  width: 40px; height: 40px; border-radius: var(--radius-full);
+  background: var(--bg-placeholder); overflow: hidden;
+  display: block;
+}
+.me__ava img{ width: 40px; height: 40px; display: block; object-fit: cover; }
+.me__who{
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-primary); margin: 0;
+}
+.me__who a{ color: inherit; text-decoration: none; display: inline-block; transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-10) */
+.me__who a:hover{ color: var(--text-secondary); }
+/* Сфера и строка про инвестиции — 16/22, серым; акценты «B2B SaaS», «B2C:»,
+   «$7.5M», «100% YoY» — вес 500 и чернила (правка 2026-10-10). */
+.me__span, .me__sum{
+  grid-column: 1 / -1; margin: 16px 0 0;
+  font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: -.012em;
+  color: var(--text-secondary);
+}
+.me__span b, .me__sum b{ font-weight: 500; color: var(--text-primary); }
+
+/* ── действие (резюме) ──
+   Правка совета №3 отменена, и вот почему.
+   Совет исходил из холодного трафика: человек пришёл из поиска,
+   у него нет твоих контактов, поэтому чёрное пятно обязано вести
+   в переписку. Но портфолио уходит вместе с откликом — адресат
+   уже может ответить одним нажатием в своей почте. Ему нужно
+   не «написать», а быстро забрать резюме. Кнопка «Написать»
+   при этом дублировала Telegram и LinkedIn внизу колонки.
+   Поэтому чёрное пятно снова на резюме, а контакты внизу
+   остаются единственным местом, где живут адреса. */
+.act{ display: flex; flex-wrap: wrap; gap: 8px; max-width: 320px; }   /* ширина колонки текста, как у .me и списка кейсов */
+/* кнопка стоит внизу колонки над контактами (макет 2026-10-12) */
+.act a{
+  display: inline-flex; align-items: center; gap: 6px;   /* зазор знака и слова — 6 везде */
+  font-size: 14px; font-weight: 400; letter-spacing: -.012em; line-height: 16px;
+  /* макет: высота 32 (8+16+8), радиус 4, поля по бокам 12, без значка */
+  text-decoration: none; border-radius: var(--radius-4); padding: 8px 12px; min-height: 32px;
+  transition: background .18s ease-out;
+}
+.act__cv{ background: var(--bg-inverse); color: var(--text-inverse); flex: 1 1 100%; justify-content: center; }   /* на всю ширину колонки, как интро */
+.act__cv:hover{ background: var(--bg-inverse-hover); }
+.act a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+/* ── низ: контакты ──
+   Строки «Открыта к предложениям» нет: портфолио уходит вместе
+   с откликом, и адресату это уже известно. Статус нужен сайту,
+   который ищут сами; этот — приносят. */
+/* Низ колонки (макеты 2026-10-12): кнопка резюме и контакты одной группой,
+   прижатой к нижнему полю; список кейсов между «кто я» и этой группой
+   стоит по центру (.rail .tree). */
+.rail__foot{ display: grid; gap: 20px; }
+/* ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ — внизу колонки под контактами (спека-цвет.md §6).
+   Круг, залитый наполовину; в тёмной теме повёрнут на 180°. */
+.prefs__theme{
+  display: inline-flex; gap: 6px; align-items: center; width: fit-content; min-height: 26px; min-width: 26px;   /* без подписи цель касания не меньше 26×26 */
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); transition: color .18s ease-out;   /* как ссылки контактов: чернила, на наведение — приглушённый */
+}
+.prefs__theme:hover{ color: var(--text-secondary); }
+.prefs__theme:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+.prefs__theme svg{ width: 12px; height: 12px; flex: none; transition: transform .18s ease-out; }
+:root[data-theme="dark"] .prefs__theme svg{ transform: rotate(180deg); }
+/* ЯЗЫК — «Eng» / «Рус» слева от темы, одной группой (.prefs). Ссылка на ту же страницу
+   другой версии (/en/…). Начертание как у ссылок контактов. */
+.prefs{ display: flex; align-items: center; gap: 20px; }
+.prefs__lang{
+  display: inline-flex; align-items: center; min-height: 26px;
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none; transition: color .18s ease-out;
+}
+.prefs__lang:hover{ color: var(--text-secondary); }
+.prefs__lang:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+.hire{ display: grid; gap: 8px; }
+.hire__links{ display: grid; gap: 2px; }
+.hire__links a{
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;   /* 14/16 (стиль «Link») по просьбе автора 2026-10-20; 2026-10-11 было 16/22 */
+  color: var(--text-primary); text-decoration: none;
+  display: inline-flex; gap: 6px; align-items: center; width: fit-content;
+  min-height: 26px;
+}
+.hire__links a{ transition: color .18s ease-out; }
+/* наведение — цвет, без подчёркивания (2026-10-11): чернила → приглушённый тон */
+.hire__links a:hover{ color: var(--text-secondary); }
+.hire__links a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* перенос строки только на телефоне: переносы интро — как на макете iPhone 17 */
+.br-m{ display: none; }
+
+/* неразрывное сочетание в заголовках: «онлайн-сделок» не рвётся по дефису */
+.nw{ white-space: nowrap; }
+/* ЗНАК КЕЙСА В КОЛОНКЕ — квадрат из SVG (в колонке различить четыре кейса
+   нужно до чтения, поэтому он крупный); цвет плашки остаётся запасным,
+   пока файл не загрузился. Вордмарк на главной — `.mark` в index.html. */
+.logo{
+  width: 40px; height: 40px; border-radius: var(--radius-4); flex: none;   /* радиус 4 — макет 2026-10-10, было 12 */
+  background: var(--brand, var(--bg-inverse)) var(--sign, none) center / cover no-repeat;
+}
+
+[data-brand="design-system"]{ --brand: var(--brand-design-system); --sign: url("/img/logo/DRM.svg"); }
+[data-brand="realdeal"]{ --brand: var(--brand-realdeal); --sign: url("/img/logo/RD.svg"); }
+[data-brand="kino-i-tv"]{ --brand: var(--brand-kino-i-tv); --sign: url("/img/logo/Cinema.svg"); }
+[data-brand="second-screen"]{ --brand: var(--brand-second-screen); --sign: url("/img/logo/SS.svg"); }
+[data-brand="smart-home"]{ --brand: var(--bg-placeholder); --sign: url("/img/logo/SH.svg"); }
+
+/* ═══ СПИСОК КЕЙСОВ В КОЛОНКЕ (обе страницы) ═══
+   ОДНО СОСТОЯНИЕ — ОДНА ПОДЛОЖКА (решение автора 2026-10-12).
+   Карточки кейса и плашка «Все» в покое белые (--bg-surface). При наведении
+   и у текущего пункта подложка — тон страницы (--bg-page, #F0F0F0): карточка
+   «уходит» в фон. Цвет текста не меняется. Так «где я сейчас» и «куда
+   нажму» читаются одним сигналом — подложкой, а не цветом строки. */
+.tree{ display: grid; gap: 8px; }
+/* «Все» — первый пункт списка (макеты 2026-10-12). Белая плашка; при наведении
+   и на главной, где это текущая страница, — тон страницы. Как карточки кейсов. */
+.all{
+  display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+  min-height: 32px; padding: 0 9px 0 10px; border-radius: var(--radius-4);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em;
+  color: var(--text-primary); text-decoration: none;
+  background: var(--bg-surface);
+  transition: background .18s ease-out;
+}
+a.all:hover, .all[aria-current="page"]{ background: var(--bg-page); }
+a.all:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+.all svg{ width: 12px; height: 12px; flex: none; }
+
+/* свёрнутые — карточки */
+.row--flat{
+  display: block; text-decoration: none;
+  background: var(--bg-surface); border-radius: var(--radius-4); padding: 8px;   /* макет 2026-10-10: радиус 4, карточка 56 */
+  transition: background .18s ease-out;
+}
+/* Четвёртый кейс «Умный дом» — в работе: та же карточка без ссылки,
+   весь блок на 30% (макет 2026-10-10). Нажимать не на что. */
+.row--soon{ opacity: .3; cursor: default; }
+/* разделитель в строках «роль · сфера» — шире пробела, как на макете */
+.sep{ margin: 0 5px; }
+
+/* шапка строки: знак 40 слева, имя и сфера столбиком справа */
+.row__id{
+  display: grid; grid-template-columns: 40px minmax(0,1fr);
+  align-items: center; gap: 12px;
+}
+.row__name{
+  font-size: 16px; font-weight: 400; line-height: 18px;
+  letter-spacing: -.012em; color: var(--text-primary);
+}
+.row--flat{ color: var(--text-primary); }
+/* наведение на карточку — подложка в тон страницы (2026-10-12), текст не
+   меняется. «В работе» не нажимается — подложка остаётся белой. */
+.row--flat:hover{ background: var(--bg-page); }
+.row--soon:hover{ background: var(--bg-surface); }
+.row--flat:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+.row em{
+  display: block; font-style: normal; font-size: 12px; line-height: 16px;
+  letter-spacing: 0; color: var(--text-secondary);
+}
+
+/* ═══ МЕТРИКИ — один компонент на обе страницы ═══ */
+.metrics{
+  display: flex; flex-wrap: wrap; gap: 16px 56px;
+  margin: 0; padding: 0; list-style: none;
+}
+.metrics div{ display: grid; gap: 4px; min-width: 0; }
+.metrics dt{
+  font-size: 24px; font-weight: 400; line-height: 30px;
+  letter-spacing: -.03em; color: var(--text-primary);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.metrics dd{
+  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
+}
+
+/* СПИСОК КЕЙСОВ — по центру между «кто я» и низом колонки, карточки до 320
+   (на обеих страницах, макеты 2026-10-12). */
+.rail .tree{ margin: auto -3px; padding: 3px; max-width: 326px; }
+/* Интро и резюме с контактами не прячутся ни на какой высоте экрана:
+   если колонка не помещается, прокручивается список кейсов между ними.
+   Поля 3px — чтобы рамка фокуса карточек не обрезалась. */
+@media (min-width: 801px){
+  .rail .tree{ min-height: 0; overflow-y: auto; scrollbar-width: thin; }
+}
+/* «Умный дом» — карточка без ссылки; на невысоком экране она только отнимает
+   место у настоящих кейсов и выглядит обрезанной, поэтому здесь её нет. */
+@media (min-width: 801px) and (max-height: 940px){
+  .rail .row--soon{ display: none; }
+}
+
+/* ПОРОГ СХЛОПЫВАНИЯ — 800 (ТЗ адаптив 2026-10-10; прежний 1140 заменён).
+   Колонка резиновая, clamp(248, 25vw, 360), и отдаёт пиксели вместе
+   с листом, поэтому сворачивать её раньше 800 незачем: ниже 800
+   колонка оставляла бы листу меньше, чем он получает без неё.
+   Четыре режима: 1141+ — колонка полная; 801–960 — сжатая;
+   800 и ниже — шапка с меню, на главной под ней «кто я» с резюме. */
+@media (min-width: 801px) and (max-width: 960px){
+  :root{ --width-rail: clamp(200px, 22vw, 248px); }
+  .app{ gap: 0 24px; }
+  .rail .row__id em{ display: none; }   /* подзаголовки кейсов не влезают */
+}
+/* Колонка уже ~260 (до 1040): имя с ролью рядом с аватаром ломалось на 3–4 строки.
+   Здесь аватар над именем, текст на всю ширину колонки. */
+@media (min-width: 801px) and (max-width: 1040px){
+  .me{ grid-template-columns: 1fr; }
+  .me__ava{ margin-bottom: 16px; }
+  .me__who{ grid-column: 1 / -1; }
+}
+@media (max-width: 800px){
+  .app{ grid-template-columns: 1fr; gap: 24px; padding-top: 0; }
+  /* Ниже 800 колонка сворачивается в «кто я» под липкой шапкой (.mbar):
+     только на главной. На странице кейса её нет — имя и роль не повторяются
+     над каждым кейсом, а кейсы, резюме и контакты лежат в меню (макеты
+     iPhone 17, 2026-10-23). */
+  .rail{ position: relative; top: auto; height: auto; max-height: none; overflow: visible;
+         gap: 0; max-width: 760px; }
+  .app--case .rail{ display: none; }
+  .rail .tree, .rail .hire, .me__ava{ display: none; }   /* аватар живёт в шапке */
+  /* ширина текста фиксирована (макет: 393 минус поля 16), переносы — по макету */
+  .me{ grid-template-columns: 1fr; max-width: 361px; }
+  .br-m{ display: inline; }
+  .me__who{ grid-column: 1 / -1; }
+  /* резюме слева, переключатель темы справа — одной строкой */
+  .rail__foot{ display: flex; align-items: center; justify-content: space-between;
+               gap: 16px; margin-top: 24px; }
+  .rail__foot .act{ flex: none; max-width: none; }
+  .rail__foot .act__cv{ flex: none; }
+  /* переключатель темы — квадрат 32, как кнопки шапки */
+  .prefs__theme{ width: 32px; height: 32px; min-width: 32px; min-height: 32px;
+                 justify-content: center; border-radius: var(--radius-4);
+                 background: var(--bg-placeholder); color: var(--text-primary); }
+  .prefs__theme svg{ width: 14px; height: 14px; }
+  /* язык — плашка той же высоты, слева от переключателя темы */
+  .prefs{ gap: 8px; }
+  .prefs__lang{ height: 32px; min-height: 32px; padding: 0 12px; justify-content: center;
+                border-radius: var(--radius-4); background: var(--bg-placeholder); }
+}
+
+/* ШАПКА И МЕНЮ ТЕЛЕФОНА — 800 и ниже (макеты iPhone 17, 2026-10-23).
+   Шапка липкая и всегда на экране: аватар слева, справа «CV» и меню.
+   Меню — экран поверх страницы: кейсы карточками, резюме, контакты.
+   В открытом меню в шапке остаётся одна кнопка (значок меняется). */
+.mbar, .menu{ display: none; }
+@media (max-width: 800px){
+  .mbar{
+    position: sticky; top: 0; z-index: 60; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 max(16px, var(--page-gutter)); background: var(--bg-page);
+  }
+  .mbar__ava{ display: block; width: 40px; height: 40px; border-radius: var(--radius-full);
+              overflow: hidden; background: var(--bg-placeholder); }
+  .mbar__ava img{ display: block; width: 40px; height: 40px; object-fit: cover; }
+  .mbar__btns{ display: flex; gap: 8px; }
+  .mbar__btn{
+    box-sizing: border-box; width: 32px; height: 32px; padding: 0; border: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-4); background: var(--bg-placeholder);
+    color: var(--text-primary); font: inherit; font-size: 14px; line-height: 16px;
+    letter-spacing: -.012em; text-decoration: none; cursor: pointer;
+    transition: background .18s ease-out;
+  }
+  .mbar__btn:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; }
+  .mbar__btn svg{ width: 16px; height: 16px; }
+  .mbar__menu .i-close{ display: none; }
+  html.menu-open .mbar__menu .i-open{ display: none; }
+  html.menu-open .mbar__menu .i-close{ display: block; }
+  html.menu-open .mbar__ava, html.menu-open .mbar__cv{ visibility: hidden; }
+  /* шапка 72, а кнопка меню кончается на 48: фон снимаем, чтобы первая карточка (отступ 62) не пряталась под ним */
+  html.menu-open .mbar{ background: transparent; pointer-events: none; }
+  html.menu-open .mbar__menu{ pointer-events: auto; }
+
+  /* Меню — панель по высоте содержимого сверху, а не экран целиком:
+     страница под ней видна, размыта и чуть осветлена. Нажатие мимо панели
+     закрывает меню. */
+  .menu{
+    position: fixed; inset: 0; z-index: 59;
+    background: color-mix(in srgb, var(--bg-page) 35%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .menu__panel{
+    box-sizing: border-box; max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+    display: flex; flex-direction: column;
+    padding: 62px max(16px, var(--page-gutter)) 24px; background: var(--bg-page);
+    border-radius: 0 0 var(--radius-8) var(--radius-8);
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  html.menu-open{ overflow: hidden; }
+  html.menu-open .menu{ display: block; animation: menu-in .18s ease-out; }
+  @keyframes menu-in{ from{ opacity: 0; } to{ opacity: 1; } }
+  .menu .tree{ gap: 8px; max-width: none; }
+  .menu .logo{ width: 36px; height: 36px; }
+  .menu .row__id{ grid-template-columns: 36px minmax(0,1fr); }
+  /* текущий кейс — «в фоне страницы», как в колонке на десктопе */
+  .menu .row--flat[aria-current="page"]{ background: transparent; }
+  .menu__foot{ display: grid; gap: 24px; margin-top: 36px; }
+  .menu .act{ max-width: none; }
+  .menu .hire__links{ gap: 0; }
+  .menu .hire__links a{ min-height: 32px; }
+}
+/* ТЕЛЕФОН — 480.
+   Лист идёт во всю ширину экрана: поля страницы съедали 32px
+   из 390, то есть десятую часть строки. Замер: с полями проза
+   держит 38 знаков, без них — 44. Норма строки на телефоне
+   35–45 знаков, и 38 — её нижний край.
+   Приём снят с oimachi: на 390 у них боковое поле 7.2px. */
+@media (max-width: 480px){
+  .app{ padding-inline: 0; }
+  /* поля страницы сняты ради ширины строки в листе — значит
+     колонка обязана держать своё поле сама, иначе её карточки
+     и контакты упираются в край экрана */
+  .rail{ padding-inline: 16px; }
+  /* метрики сеткой 2×2: три во flex-wrap ложились «две и одна» (ТЗ адаптив) */
+  .metrics{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 20px; }
+  .metrics dt{ white-space: normal; }   /* английские значения («#1 in the UAE») длиннее русских и в колонке 2×2 на 320 не помещались */
+  /* Кегль метрики здесь не трогается: в ленте он изначально 24,
+     а в кейсе спустился до 24 ещё на пороге 768. Правило, которое
+     стояло на этом месте, ничего не меняло — осталось от прежней
+     шкалы, где метрика была 28. */
+}
+/* КОЛОНКА ПО ВЫСОТЕ ЭКРАНА (2026-10-12). Макет рассчитан на экран ≈1084:
+   «кто я» с интро, список кейсов (на странице кейса с якорями) и резюме
+   с контактами занимают 680–760. Ниже колонка не помещается, и резюме
+   с контактами уезжают за край — это главное действие, его не прячем.
+   Поэтому сначала уходит строка про инвестиции, потом сфера; замер:
+   главная помещается с 805, кейс — с 880 (со строкой сферы). */
+/* порог по высоте — только с 801: ниже колонка уже не липкая */
+@media (min-width: 801px) and (max-height: 720px){
+  .rail{ gap: 18px; }   /* колонка плотнее: прокрутка внутри нужна реже */
+  .rail__foot{ gap: 16px; }
+  .row--flat{ padding-block: 4px; }   /* карточка 48 вместо 56 */
+}
+@media (prefers-reduced-motion: reduce){ *{ transition: none !important; animation: none !important; } }
+/* <</BASE>> */
+
+/* ═══════════════════════════════════════════════════════════════
+   ТОЛЬКО ГЛАВНАЯ — то, чего нет на странице кейса
+   Вордмарк продукта, плашки макетов, конец ленты. Общее лежит в BASE.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ВОРДМАРК ПРОДУКТА в метастроке кейса. Размер идёт от работы знака:
+   рядом стоит заголовок-результат, различение делает он, а знак только
+   отвечает на вопрос «что за продукт», поэтому мелкий. <img> внутри .mark,
+   имя продукта — в alt; ширина по пропорции файла, высота — атрибутом.
+   Высоты как в макете 2026-10-12: RealDeal 14, Триколор 16, DREAMPlatform 24
+   (у файла поля, видимый знак ≈17), Второй экран 14. */
+.mark{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; color: var(--text-primary);
+}
+.mark img{ display: block; width: auto; }
+
+
+/* ПЛАШКИ МАКЕТОВ. Пропорция плашки — из файла, инлайном на элементе. */
+.frame{
+  background: var(--bg-placeholder); border-radius: var(--radius-8); width: 100%;
+  aspect-ratio: 16/9;          /* CLS = 0 ещё до загрузки картинки */
+  min-width: 0;                /* width:100% + aspect-ratio внутри fr-колонки иначе даёт круговое вычисление ширины */
+  overflow: hidden;
+}
+/* Поле макета — подложка плашки, которую даёт страница (файл приходит
+   с прозрачным полем). */
+.frame--field{ background: var(--brand-realdeal-field); }
+/* подложка кадров Кино и ТВ — тёмно-синяя, как на макете главной 2026-10-12 и у кадров 16:9 на странице кейса */
+.frame--navy{ background: var(--brand-kino-i-tv-field); }
+.frame--navy-dark{ background: var(--brand-kino-i-tv-field-dark); }   /* кадр с лентами: #0C1B35 */
+/* подложка кадров DREAMPlatform — сплошной #57B035 (запрос автора 2026-10-15) */
+.frame--green{ background: var(--brand-design-system-field); }
+/* подложка кадров «Второго экрана» на главной — #668CFF (запрос автора 2026-10-20) */
+.frame--ss{ background: var(--brand-second-screen-field); }
+/* Макет во всю плашку: ни поля, ни тени, ни своего радиуса, ни кадрирования.
+   fill, а не contain/cover: пропорция плашки уже равна пропорции файла,
+   а contain оставил бы щель в полпикселя по краю.
+   WebP с запасным PNG: <picture> заполняет плашку, как сам <img>. */
+.frame picture{ display: block; width: 100%; height: 100%; }
+.frame img{ display: block; width: 100%; height: 100%; object-fit: fill; }
+
+/* КОНЕЦ ЛЕНТЫ — контакты, только там, где колонка не липкая (≤800).
+   На десктопе контакты всё время на экране, и повтор был бы шумом. */
+.end{ display: none; }
+@media (max-width: 800px){
+  .end{
+    display: block;
+    border-top: 1px solid var(--border-default);
+    padding-top: var(--space-64);
+  }
+  .end .hire__links{ display: flex; flex-wrap: wrap; gap: 8px 32px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ГЛАВНАЯ — раскладка с макета
+
+   Лента кейсов, каждый разделён линейкой. В метастроке слева
+   роль и сфера, справа — логотип продукта с его именем.
+   Дальше заголовок-результат, три метрики, макеты.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ЛИСТ ЛЕНТЫ (макет 2026-10-12): лента лежит на белом листе, как текст
+   кейса на внутренней странице, — поля 20. Линейки между колонкой
+   и лентой больше нет: край даёт сам лист. Нижнее поле — 20 листа
+   плюс 32 последнего кейса. */
+.feed{
+  display: grid; gap: 0;
+  background: var(--bg-surface); border-radius: var(--radius-8);
+  padding: 20px;
+}
+/* ТЕЛЕФОН. Ниже 480 страница снимает поля ради ширины строки —
+   это правило писалось для листа кейса, где идёт проза. В ленте
+   прозы нет, и лента осталась без поля: заголовок и метрики
+   упирались в край экрана, пока колонка своё поле себе вернула.
+   Лента возвращает его тем же числом. */
+@media (max-width: 480px){
+  .feed{ border-radius: 0; padding: 24px 16px 40px; }
+}
+/* лента кончается тем же разделителем, что делит кейсы */
+.case{ padding: 0 0 var(--space-32); }
+.case + .case{ border-top: 1px solid var(--border-default); padding-top: var(--space-32); }
+
+/* метастрока: роль и сфера слева, логотип справа.
+   Сетка, а не флекс: на узком экране левая часть переносится,
+   а логотип остаётся прижатым к правому краю. */
+.case__head{
+  display: grid; grid-template-columns: minmax(0,1fr) auto;
+  align-items: center; gap: 6px 16px; margin: 0 0 var(--space-16);   /* center, а не baseline: знак по центру строки, как на макете 2026-10-12 */
+}
+.case__role{
+  margin: 0; font-size: 12px; line-height: 16px; color: var(--text-secondary); letter-spacing: 0;
+}
+/* У файла DREAMPlatform поля по 3–4 сверху и снизу (видимый знак ≈ 17 при 24):
+   без этого строка метастроки выше макета на 8 (макет 2026-10-12). */
+.mark[data-brand="design-system"] img{ margin-block: -4px; }
+/* Знак Триколора двустрочный (слово + «КИНО И ТВ»), поэтому при ширине
+   86 — как у вордмарка RealDeal (87) — он выше строки на 6: те же
+   3 сверху и снизу уходят в отрицательный отступ, строка остаётся 16. */
+.mark[data-brand="kino-i-tv"] img{ margin-block: -3px; }
+
+.case__title{
+  margin: 0 0 var(--space-24); max-width: 520px;   /* 2026-10-10: ширина заголовка по макету главной */
+  /* 24, а не 34: в ленте четыре заголовка подряд. Замер — на 24
+     каждый влезает в одну строку (120px на все четыре), на 32 они
+     занимали две (288px). Кегль идёт от плотности контекста:
+     в списке тише, на своей странице громче. */
+  font-size: 24px; font-weight: 500; line-height: 30px;
+  letter-spacing: -.03em; text-wrap: balance;
+}
+.case__title a{ color: var(--text-primary); text-decoration: none; }
+.case__shots{ display: block; color: inherit; text-decoration: none; }
+/* Наведение на заголовок или макеты кейса (2026-10-11): цвет заголовка не
+   меняется, вместо этого у курсора облачко «Подробнее о …» — текст берётся
+   из data-tip ссылки. Рука — от самой ссылки. Облачко ведёт скрипт ниже
+   и только там, где есть наведение (мышь, тачпад). */
+.tip{
+  position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
+  opacity: 0; transform: translate3d(-200px, -200px, 0);
+  padding: 6px 10px; border-radius: var(--radius-8);
+  background: var(--bg-surface); color: var(--text-primary);
+  font-size: 14px; line-height: 16px; letter-spacing: -.012em; white-space: nowrap;
+  transition: opacity .12s ease-out;
+}
+.tip.is-on{ opacity: 1; }
+@media (hover: none){ .tip{ display: none; } }
+.case__title a:focus-visible{ outline: 2px solid var(--text-primary); outline-offset: 3px; border-radius: var(--radius-4); }
+
+/* ПОДПИСЬ МЕТРИКИ ПЕРЕНОСИТСЯ, А НЕ РАСТЯГИВАЕТ РЯД.
+   Лента набрана флексом, и длинная подпись раздувала ячейку
+   до 383px — на 1200 ряд рвался на две строки, и три метрики
+   переставали читаться как три. На внутренней странице это
+   уже решено сеткой; здесь ту же работу делает потолок ширины. */
+.case .metrics{ margin-bottom: var(--space-24); }
+.case .metrics div{ max-width: 240px; }
+
+/* макеты: пара кадров, зазор 20 (запрос автора 2026-10-16) */
+.feed > *{ min-width: 0; }
+.shots__pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* заголовок ленты и метрика уже на 24 — спускать нечего,
+   на пороге меняется только плотность блока */
+@media (max-width: 768px){
+  .case .metrics{ gap: 20px 32px; }
+}
+/* [ИЗМЕНЕНО 2026-10-12] В ленте на 620 и ниже пара скрывалась — оставалась
+   одна обложка на кейс (ТЗ адаптив 2026-10-10). Обложки в ленте больше нет,
+   пара — единственное, что показывает кейс, поэтому теперь она встаёт
+   в один столбец. ДОЛЖНО СТОЯТЬ ПОСЛЕДНИМ в таблице стилей:
+   .shots__pair объявлен с display:grid выше, и медиазапрос, поставленный
+   до него, проиграл бы по порядку каскада. */
+@media (max-width: 620px){
+  .shots__pair{ grid-template-columns: minmax(0,1fr); gap: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<a class="skip" href="#feed">Skip to cases</a>
+
+<!-- <<MBAR>> -->
+<header class="mbar">
+  <a class="mbar__ava" href="/en/" aria-label="Home"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></a>
+  <div class="mbar__btns">
+    <a class="mbar__btn mbar__cv" href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener" aria-label="Resume, PDF">CV</a>
+    <button class="mbar__btn mbar__menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <svg class="i-open" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+      <svg class="i-close" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2v12M8 2v12M12 2v12"/></svg>
+    </button>
+  </div>
+</header>
+<script>
+(function(){
+  var root = document.documentElement, btn = document.querySelector('.mbar__menu');
+  if (!btn) return;
+  function set(open){
+    root.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+  }
+  btn.addEventListener('click', function(){ set(!root.classList.contains('menu-open')); });
+  /* меню в разметке ниже скрипта — слушаем на документе: нажатие мимо панели закрывает */
+  document.addEventListener('click', function(e){ if (e.target.id === 'menu') set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') set(false); });
+  window.matchMedia('(min-width: 801px)').addEventListener('change', function(e){ if (e.matches) set(false); });
+})();
+</script>
+<!-- <</MBAR>> -->
+<!-- <<MENU>> -->
+<div class="menu menu--home" id="menu">
+  <nav class="menu__panel" aria-label="Menu">
+    <div class="tree">
+      <a class="row row--flat" href="/en/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Real Deal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/en/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Cinema &amp; TV</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/en/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Second Screen</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" href="/en/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+    </div>
+    <div class="menu__foot">
+      <div class="act">
+        <a class="act__cv" href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener">Resume — PDF</a>
+      </div>
+      <div class="hire">
+        <div class="hire__links">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+          <a href="/" hreflang="ru" lang="ru" aria-label="Русская версия">Рус</a>
+        </div>
+      </div>
+      </div>
+  </nav>
+</div>
+<!-- <</MENU>> -->
+
+<div class="app">
+
+  <aside class="rail">
+<!-- <<RAIL_HEAD>> -->
+    <!-- КТО Я — одинаково на главной и внутренней (макеты 2026-10-12) -->
+    <div class="me">
+      <span class="me__ava" aria-hidden="true"><img src="/img/avatar-120.jpg" width="40" height="40" alt=""></span>
+      <p class="me__who">Ekaterina Zadorozhnaya —<br>Senior Product Designer.</p>
+      <p class="me__span">9+ years in <b>B2B&nbsp;SaaS</b> and <b>B2C:</b> PropTech, <br class="br-m">Streaming&nbsp;TV, design systems.</p>
+      <p class="me__sum"><b>$7.5M</b> raised and <b>100%&nbsp;YoY</b> audience growth <br class="br-m">— on products I&nbsp;led.</p>
+    </div>
+<!-- <</RAIL_HEAD>> -->
+
+    <!-- КЕЙСЫ — с 2026-10-12 список есть и на главной: «Все» текущий. -->
+<!-- <<CASE_TREE>> -->
+    <nav class="tree" aria-label="Cases">
+      <span class="all" aria-current="page"><svg viewBox="0 0 12 12" aria-hidden="true" fill="currentColor"><circle cx="1.5" cy="1.5" r="1.1"/><circle cx="6" cy="1.5" r="1.1"/><circle cx="10.5" cy="1.5" r="1.1"/><circle cx="1.5" cy="6" r="1.1"/><circle cx="6" cy="6" r="1.1"/><circle cx="10.5" cy="6" r="1.1"/><circle cx="1.5" cy="10.5" r="1.1"/><circle cx="6" cy="10.5" r="1.1"/><circle cx="10.5" cy="10.5" r="1.1"/></svg>All</span>
+      <a class="row row--flat" href="/en/realdeal" data-brand="realdeal"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Real Deal</span><em>B2B SaaS <span class="sep">·</span> PropTech</em></span></span></a>
+      <a class="row row--flat" href="/en/kino-i-tv" data-brand="kino-i-tv"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Cinema &amp; TV</span><em>B2C <span class="sep">·</span> Streaming TV</em></span></span></a>
+      <a class="row row--flat" href="/en/second-screen" data-brand="second-screen"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Second Screen</span><em>B2C <span class="sep">·</span> TV &amp; Media</em></span></span></a>
+      <a class="row row--flat" href="/en/design-system" data-brand="design-system"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">DREAMPlatform</span><em>B2B SaaS <span class="sep">·</span> Design system</em></span></span></a>
+      <div class="row row--flat row--soon" data-brand="smart-home" aria-disabled="true"><span class="row__id"><span class="logo" aria-hidden="true"></span><span><span class="row__name">Smart Home</span><em>B2C <span class="sep">·</span> TV</em></span></span></div>
+    </nav>
+<!-- <</CASE_TREE>> -->
+
+<!-- <<RAIL_FOOT>> -->
+    <!-- НИЗ — резюме и контакты одной группой, одинаково на обеих страницах.
+         Подпись «Linkedin» — как на макете 2026-10-12. -->
+    <div class="rail__foot">
+      <div class="act">
+        <a class="act__cv" href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener">Resume — PDF</a>
+      </div>
+      <div class="hire">
+        <div class="hire__links">
+          <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        </div>
+      </div>
+      <div class="prefs">
+        <a class="prefs__lang" href="/" hreflang="ru" lang="ru" aria-label="Русская версия">Рус</a>
+        <button class="prefs__theme" type="button" aria-pressed="false" aria-label="Dark theme">
+        <svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 .75a5.25 5.25 0 0 1 0 10.5z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var root=document.documentElement, btns=document.querySelectorAll('.prefs__theme');
+      if(!btns.length) return;
+      function current(){ return root.getAttribute('data-theme')==='dark'?'dark':'light'; }
+      function sync(){ var d=current()==='dark';
+        btns.forEach(function(b){
+          b.setAttribute('aria-pressed', d?'true':'false');
+          b.setAttribute('aria-label', d?'Light theme':'Dark theme'); }); }
+      sync();
+      btns.forEach(function(b){ b.addEventListener('click', function(){
+        var next = current()==='dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try{ localStorage.setItem('theme', next); }catch(e){}
+        sync();
+      }); });
+    })();
+    </script>
+<!-- <</RAIL_FOOT>> -->
+  </aside>
+
+  <main class="feed" id="feed">
+
+    <article class="case">
+      <div class="case__head">
+        <p class="case__role">B2B SaaS <span class="sep">·</span> PropTech</p>
+        <span class="mark" data-brand="realdeal"><img class="logo-light" src="/img/logo/RD%202.svg" alt="Real Deal" width="88" height="14"><img class="logo-dark" src="/img/logo/RD%202%20dark.svg" alt="" width="88" height="14"></span>
+      </div>
+      <h2 class="case__title"><a href="/en/realdeal" data-tip="More about Real Deal">The first online deal platform for <span class="nw">commercial real estate</span> in the&nbsp;UAE</a></h2>
+      <dl class="metrics">
+        <div><dt>+$7.5M</dt><dd>investment raised</dd></div>
+        <div><dt>#1 in the UAE</dt><dd>online CRE deal platform</dd></div>
+        <div><dt>×3</dt><dd>faster deal closing</dd></div>
+      </dl>
+      <!-- Макеты: файл приходит с собственной пропорцией, плашка берёт её
+           из файла (aspect-ratio инлайном, width/height у <img> — те же числа).
+           С 2026-10-12 на главной только пара: калькулятор и карточка; кадра
+           с картой в ленте больше нет (он остался обложкой страницы кейса).
+           Поля у карточки нет; у калькулятора поле прозрачное, цвет даёт .frame--field. -->
+      <a class="case__shots" href="/en/realdeal" data-tip="More about Real Deal" aria-hidden="true" tabindex="-1">
+      <div class="shots__pair">
+        <div class="frame frame--field" style="aspect-ratio: 1604 / 1200"><picture><source srcset="/img/home/rd_hero_ROI.webp 1604w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_ROI.png" width="1604" height="1200" alt="Калькулятор доходности в карточке объекта" loading="lazy" decoding="async"></picture></div>
+        <div class="frame" style="aspect-ratio: 1200 / 898"><picture><source srcset="/img/home/960/rd_hero_card.webp 960w, /img/home/rd_hero_card.webp 1200w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/rd_hero_card.png" width="1200" height="898" alt="Карточка объекта в каталоге на фоне панорамы города" loading="lazy" decoding="async"></picture></div>
+      </div>
+      </a>
+    </article>
+
+    <article class="case">
+      <div class="case__head">
+        <p class="case__role">B2C <span class="sep">·</span> Streaming TV</p>
+        <span class="mark" data-brand="kino-i-tv"><img class="logo-light" src="/img/logo/Cinema%202.svg" alt="Tricolor Cinema &amp; TV" width="86" height="22"><img class="logo-dark" src="/img/logo/Cinema%202%20dark.svg" alt="" width="86" height="22"></span>
+      </div>
+      <h2 class="case__title"><a href="/en/kino-i-tv" data-tip="More about Cinema &amp; TV">95% never reached a subscription. A redesign that doubled the audience to 1.7M</a></h2>
+      <dl class="metrics">
+        <div><dt>1.7M</dt><dd>users</dd></div>
+        <div><dt>+100%</dt><dd>YoY audience growth</dd></div>
+        <div><dt>14%</dt><dd>of subscribers use streaming</dd></div>
+      </dl>
+      <a class="case__shots" href="/en/kino-i-tv" data-tip="More about Cinema &amp; TV" aria-hidden="true" tabindex="-1">
+      <div class="shots__pair">
+        <div class="frame frame--navy-dark" style="aspect-ratio: 2888 / 2160"><picture><source srcset="/img/home/960/kino_hero_lines.webp 960w, /img/home/1920/kino_hero_lines.webp 1920w, /img/home/kino_hero_lines.webp 2888w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/kino_hero_lines.png" width="2888" height="2160" alt="Раздел «Кино» в приложении: ленты «Продолжить просмотр» и «Передачи»" loading="lazy" decoding="async"></picture></div>
+        <div class="frame frame--navy" style="aspect-ratio: 3444 / 2576"><picture><source srcset="/img/home/960/kino_hero_vod.webp 960w, /img/home/kino_hero_vod.webp 3444w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/kino_hero_vod.png" width="3444" height="2576" alt="Плеер телеканала «Кинопоказ HD-1»: программа передачи и кнопки управления" loading="lazy" decoding="async"></picture></div>
+      </div>
+      </a>
+    </article>
+
+    <article class="case">
+      <div class="case__head">
+        <p class="case__role">B2C <span class="sep">·</span> TV &amp; Media</p>
+        <span class="mark" data-brand="second-screen"><img src="/img/logo/SS%202.svg" alt="Second Screen" width="124" height="14"></span>
+      </div>
+      <h2 class="case__title"><a href="/en/second-screen" data-tip="More about Second Screen">Tricolor was losing active users. Two releases in a&nbsp;year turned the decline into growth</a></h2>
+      <dl class="metrics">
+        <div><dt>236K+</dt><dd>users</dd></div>
+        <div><dt>4 mo.</dt><dd>Android MVP in the store</dd></div>
+        <div><dt>TV</dt><dd>mobile became the base of the TV app</dd></div>
+      </dl>
+      <a class="case__shots" href="/en/second-screen" data-tip="More about Second Screen" aria-hidden="true" tabindex="-1">
+      <div class="shots__pair">
+        <div class="frame frame--ss" style="aspect-ratio: 2212 / 1654"><picture><source srcset="/img/home/960/ss_hero.webp 960w, /img/home/ss_hero.webp 2212w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/ss_hero.png" width="2212" height="1654" alt="Телегид «Второго экрана» на телефоне поверх трансляции на телевизоре" loading="lazy" decoding="async"></picture></div>
+        <div class="frame frame--ss" style="aspect-ratio: 2212 / 1654"><picture><source srcset="/img/home/960/ss_hero_2.webp 960w, /img/home/ss_hero_2.webp 2212w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/ss_hero_2.png" width="2212" height="1654" alt="Выбор оператора и любимых каналов в приложении «Второй экран»" loading="lazy" decoding="async"></picture></div>
+      </div>
+      </a>
+    </article>
+
+    <article class="case">
+      <div class="case__head">
+        <p class="case__role">B2B SaaS <span class="sep">·</span> Design system</p>
+        <span class="mark" data-brand="design-system"><img class="logo-light" src="/img/logo/DRM%202.svg" alt="DREAMPlatform" width="142" height="24"><img class="logo-dark" src="/img/logo/DRM%202%20dark.svg" alt="" width="142" height="24"></span>
+      </div>
+      <h2 class="case__title"><a href="/en/design-system" data-tip="More about the Design System">A design system that cleaned up<br>10 years of legacy</a></h2>
+      <dl class="metrics">
+        <div><dt>×2</dt><dd>faster releases</dd></div>
+        <div><dt>6</dt><dd>services covered</dd></div>
+        <div><dt>40+</dt><dd>components</dd></div>
+      </dl>
+      <a class="case__shots" href="/en/design-system" data-tip="More about the Design System" aria-hidden="true" tabindex="-1">
+      <div class="shots__pair">
+        <div class="frame frame--green" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/home/ds_hero_2.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/ds_hero_2.png" width="2406" height="1800" alt="Список услуг в админке DREPLUS с панелью фильтров" loading="lazy" decoding="async"></picture></div>
+        <div class="frame frame--green" style="aspect-ratio: 2406 / 1800"><picture><source srcset="/img/home/ds_hero.webp 2406w" sizes="(min-width: 1441px) 500px, (min-width: 801px) calc(32vw - 25px), (min-width: 621px) 50vw, 100vw" type="image/webp"><img src="/img/home/ds_hero.png" width="2406" height="1800" alt="Сетка компонентов дизайн-системы: Button, Combobox, Status, Filter, Calendar, Search" loading="lazy" decoding="async"></picture></div>
+      </div>
+      </a>
+    </article>
+
+    <!-- КОНЕЦ ЛЕНТЫ — только там, где колонка не липкая.
+         Ниже 800 колонка уходит наверх страницы: дочитавший
+         упирается в конец ленты, а контакты остались за 5000px
+         скролла. На десктопе блок не нужен — контакты всё время
+         на экране. Статуса «открыта к предложениям» здесь нет по тому
+         же правилу, что и в колонке: портфолио приносят вместе с откликом. -->
+    <div class="end">
+      <div class="hire__links">
+        <a href="https://t.me/zador_ka" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://www.linkedin.com/in/zadorozhnayaekaterina/" target="_blank" rel="noopener">Linkedin</a>
+        <a href="https://codedesign.ru/Zadorozhnaya_Ekaterina_Product_Designer.pdf" target="_blank" rel="noopener">Resume — PDF</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="tip" aria-hidden="true"></div>
+<script>
+/* Облачко «Подробнее о …» ходит за курсором над заголовком и макетами кейса. */
+(function(){
+  var tip = document.querySelector('.tip');
+  if (!tip || !window.matchMedia('(hover: hover)').matches) return;
+  var x = 0, y = 0, queued = false;
+  function draw(){ queued = false; tip.style.transform = 'translate3d(' + (x + 16) + 'px,' + (y + 18) + 'px,0)'; }
+  document.addEventListener('mousemove', function(e){
+    var el = e.target.closest && e.target.closest('[data-tip]');
+    tip.classList.toggle('is-on', !!el);
+    if (!el) return;
+    if (tip.textContent !== el.getAttribute('data-tip')) tip.textContent = el.getAttribute('data-tip');
+    x = e.clientX; y = e.clientY;
+    if (!queued){ queued = true; requestAnimationFrame(draw); }
+  });
+  document.documentElement.addEventListener('mouseleave', function(){ tip.classList.remove('is-on'); });
+})();
+</script>
+
+</body>
+</html>
